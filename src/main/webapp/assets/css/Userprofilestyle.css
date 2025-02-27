@@ -1,0 +1,36 @@
+.anhdaidien{
+    width: 70px;
+    border-radius: 70px;
+}
+.button{
+    background-color: orange;
+    float: right;
+    width: fit-content;
+}
+.link{
+    text-decoration: none;
+}
+.button2{
+    background-color: orange;
+    width: fit-content;
+}
+.button2:hover, .button:hover{
+    background-color: #e19104a3;
+    color:black;
+}
+.huybtn{
+    background-color: red;
+    color: white;
+    font-size: 10px;
+}
+.anhhang{
+    width:fit-content;
+}
+.head{
+    font-weight: bold;
+}
+.cardmaybom{
+    width: 18rem;
+}
+
+
