@@ -21,10 +21,10 @@
             crossorigin="anonymous"
     />
     <link rel="stylesheet" href="assets/css/index.css">
+    <link rel="stylesheet" href="assets/css/header.css">
 </head>
 <body style="background-color: rgb(242 244 247)">
 <header id="header"></header>
-<div id="header2"></div>
 <nav id="nav"></nav>
 <div class="container">
     <div class="row">
