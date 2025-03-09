@@ -16,9 +16,9 @@
 	</div>
 	<div class=" d-flex justify-content-between align-items-center bg-dark-blue ">
 		<div class="container list-display-none  text-light" >
-			<ul class="list-head2 mb-0 d-flex ">
+			<ul class="list-head2 mb-0 d-flex justify-content-between px-0">
 				<li class="list-item-head2 "><a href="HomeController"
-					class="nav-link text-light">Home</a></li>
+					class="nav-link text-light">Trang chủ</a></li>
 
 				<li class="list-item-head2 shop-active position-relative"><a
 					class="nav-link shop text-light">Hãng sản xuất <i class="bi-caret-down-fill"></i></a>
@@ -33,10 +33,10 @@
 				<li class="list-item-head2"><a href="new.jsp" class="nav-link text-light">Tin
 						tức</a></li>
 				<li class="list-item-head2"><a href="lienhe.jsp"
-					class="nav-link text-light">Contact</a></li>
+					class="nav-link text-light">Liên hệ</a></li>
 
 				<li class="list-item-head2"><a href="giohang.jsp"
-					class="nav-link icon-cart text-light"> <i class="bi-cart-fill"></i>
+					class="nav-link icon-cart text-light"> <i class="bi-cart 	"></i>
 				</a></li>
 
 				<%-- <!-- Trường hợp nếu đã đăng nhập -->
@@ -60,7 +60,7 @@
 				<!-- Trường hợp nếu chưa đăng nhập -->
 				<c:if test="${sessionScope.user == null}">
 					<li class="list-item-head2"><a href="LoginController"
-						class="nav-link text-light">LogIn</a></li>
+						class="nav-link text-light">Đăng nhập</a></li>
 				</c:if>
 
 			</ul>

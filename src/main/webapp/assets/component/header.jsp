@@ -11,12 +11,12 @@
             <!-- Thông tin email -->
             <div class="inf col d-flex align-items-center justify-content-center">
                 <i class="head1-icon bi-cursor-fill"></i>
-                <p class="mb-0">BROFOOD@EMAIL.COM</p>
+                <p class="mb-0">aquatech@gmail.com</p>
             </div>
 
             <!-- Thông tin giao hàng -->
             <div class="inf col d-flex align-items-end justify-content-end">
-                <p class="mb-0">3-5 BUSINESS DAYS DELIVERY & FREE RETURNS</p>
+                <p class="mb-0">Giao hàng hỏa tốc trong 2 - 3 ngày làm việc</p>
             </div>
 
         </div>

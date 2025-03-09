@@ -1,6 +1,11 @@
 .bg-dark-blue{
     background-color: #162e5c !important;
 }
+html, body {
+    margin: 0;
+    padding: 0;
+}
+
 
 /* topbar */
 .container {
@@ -296,4 +301,151 @@
 #header .list-item-head2 .js-login .bi-person-fill {
     font-size: 15px;
     line-height: 15px;
+}
+
+#footer {
+	padding: 0 0 1px 0;
+	background-color: #fff;
+	position: relative;
+	bottom: 0;
+}
+
+#footer .scoll-btn-wrapper {
+	position: absolute;
+	background-color: #162e5c;
+	height: 60px;
+	width: 60px;
+	top: -30px;
+	left: 50%;
+	transform: translateX(-50%);
+	border-radius: 50%;
+	transition-delay: 0.3s;
+}
+
+#footer .scoll-icon {
+	color: #fff;
+	font-size: 20px;
+	padding: 0 20px;
+	line-height: 60px;
+}
+
+#footer .scoll-icon-wheel {
+	animation: 1.6s ease infinite wheel-up-down;
+}
+
+@keyframes wheel-up-down { 100% {
+	margin-top: -8px;
+	opacity: 1;
+}
+
+30%{opacity:1;}
+0%{margin-top:10px;
+opacity:0;}
+}
+#footer .footer-container {
+	margin: 0 100px;
+}
+
+#footer .footer-content-wrapper {
+	justify-content: space-evenly;
+	margin: 0 0 50px 0;
+	padding-top: 80px;
+}
+
+#footer .footer-discription {
+	flex-basis: 250px;
+}
+
+
+#footer .footer-help {
+	flex-basis: 300px;
+}
+
+#footer .footer-question {
+	flex-basis: 240px;
+}
+
+#footer .help-content .help-left-content {
+	flex-basis: 170px;
+	flex-wrap: nowrap;
+}
+
+#footer .dsc-content, #footer .menu-content, #footer .help-content,
+	#footer .question-content, #footer .footer-copyright {
+	font-weight: 500;
+	line-height: 1.8;
+	font-size: 1rem;
+}
+
+#footer .dsc-content p {
+	margin-bottom: 16px;
+}
+
+#footer .menu-content a {
+	padding: 8px 0;
+	display: block;
+}
+
+#footer .help-content a {
+	display: block;
+}
+
+#footer h2 {
+	margin-bottom: 20px;
+	font-weight: 550;
+	font-size: 1rem;
+	line-height: 1.5;
+	letter-spacing: 1px;
+}
+
+#footer li, #footer a {
+	text-decoration: none;
+	list-style: none;
+	color: black;
+}
+
+#footer .footer-social-icon {
+	margin: 48px 0 16px -60px;
+}
+
+#footer .fb-icon-wrapper, #footer .tw-icon-wrapper, #footer .ins-icon-wrapper
+	{
+	height: 50px;
+	width: 50px;
+	background: rgba(0, 0, 0, 0.02);
+	border-radius: 50%;
+	margin-right: 16px;
+}
+
+#footer .fb-icon-wrapper span {
+	line-height: 50px;
+	font-size: 1.625rem;
+	padding: 0 16px;
+}
+
+#footer .tw-icon-wrapper span, #footer .ins-icon-wrapper span {
+	line-height: 50px;
+	font-size: 1.625rem;
+	padding: 0 13px;
+}
+
+#footer .question-address {
+	display: flex;
+}
+
+#footer .question-address span, #footer .question-mail span, #footer .question-phone span
+	{
+	margin-right: 8px;
+}
+
+#footer .footer-copyright {
+	margin-top: 60px;
+	letter-spacing: 1px;
+}
+
+.offset-right-50 {
+    margin-right: -50px;
+}
+.offset-bottom-5 {
+    margin-bottom: -50px;
 }
