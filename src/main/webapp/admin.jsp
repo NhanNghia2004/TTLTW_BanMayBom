@@ -8,29 +8,55 @@
     <meta charset="UTF-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet"/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
-    <link rel="stylesheet" href="assets/css/admin.css"/>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.min.js"
-            integrity="sha512-ykZ1QQr0Jy/4ZkvKuqWn4iF3lqPZyij9iRv6sGqLRdTPkY69YX6+7wvVGmsdBbiIfN/8OdsI7HABjvEok6ZopQ=="
-            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/js/all.min.js"
-            integrity="sha512-1JkMy1LR9bTo3psH+H4SV5bO2dFylgOy+UJhMus1zF4VEFuZVu5lsi4I6iIndE4N9p01z1554ZDcvMSjMaqCBQ=="
-            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <%--    datatable--%>
-    <!-- Thêm jQuery -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-    <!-- Thêm DataTable CSS -->
+
+<%--    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css">--%>
+<%--    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>--%>
+<%--    <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>--%>
+<%--    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet"/>--%>
+<%--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>--%>
+<%--    <link rel="stylesheet" href="assets/css/admin.css"/>--%>
+<%--    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.min.js"--%>
+<%--            integrity="sha512-ykZ1QQr0Jy/4ZkvKuqWn4iF3lqPZyij9iRv6sGqLRdTPkY69YX6+7wvVGmsdBbiIfN/8OdsI7HABjvEok6ZopQ=="--%>
+<%--            crossorigin="anonymous" referrerpolicy="no-referrer"></script>--%>
+<%--    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/js/all.min.js"--%>
+<%--            integrity="sha512-1JkMy1LR9bTo3psH+H4SV5bO2dFylgOy+UJhMus1zF4VEFuZVu5lsi4I6iIndE4N9p01z1554ZDcvMSjMaqCBQ=="--%>
+<%--            crossorigin="anonymous" referrerpolicy="no-referrer"></script>--%>
+<%--    &lt;%&ndash;    datatable&ndash;%&gt;--%>
+<%--    <!-- Thêm jQuery -->--%>
+<%--    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>--%>
+
+<%--    <!-- Thêm DataTable CSS -->--%>
+<%--    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">--%>
+
+<%--    <!-- Thêm DataTable JS -->--%>
+<%--    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>--%>
+
+<%--    &lt;%&ndash;ajax&ndash;%&gt;--%>
+<%--    <script src="assets/js/admin.js"></script>--%>
+
+    <!-- FontAwesome (Chỉ tải một phiên bản) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css"/>
+
+    <!-- Bootstrap (Chỉ tải một phiên bản mới nhất) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+
+    <!-- DataTables (Chỉ tải phiên bản mới nhất) -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
 
-    <!-- Thêm DataTable JS -->
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="assets/css/admin.css"/>
+
+    <!-- jQuery (Chỉ tải một lần) -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- DataTables JS -->
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
 
-    <%--ajax--%>
+    <!-- Custom JS -->
     <script src="assets/js/admin.js"></script>
 
 
@@ -157,73 +183,26 @@
                     </div>
                 </div>
             </div>
+<%-------------------quan li san pham-------------------------%>
 
-
-            <%--            <div class="tab-pane fade" id="id2">--%>
-            <%--                <div class="d-flex align-items-center m-4">--%>
-            <%--                    <i class="fas fa-align-left primary-text fs-4 me-3"></i>--%>
-            <%--                    <h2 class="fs-2 m-0">Quản lý sản phẩm</h2>--%>
-            <%--                </div>--%>
-            <%--                <div class="input-group w-25 m-4">--%>
-            <%--                    <input type="text" class="form-control " placeholder="Tìm kiếm sản phẩm...">--%>
-            <%--                </div>--%>
-            <%--                <div class="px-4">--%>
-            <%--                        <h3>Hiển thị sản phẩm</h3>--%>
-
-
-            <%--                    <table id="productTable" class="display">--%>
-            <%--                        <thead>--%>
-            <%--                        <tr>--%>
-            <%--                            <th>ID</th>--%>
-            <%--                            <th>Name</th>--%>
-            <%--                            <th>Description</th>--%>
-            <%--                            <th>Price</th>--%>
-            <%--                            <th>Stock</th>--%>
-            <%--                            <th>Actions</th>--%>
-            <%--                        </tr>--%>
-            <%--                        </thead>--%>
-            <%--                        <tbody>--%>
-            <%--                        <c:forEach var="product" items="${products}">--%>
-            <%--                            <tr>--%>
-            <%--                                <td>${product.id}</td>--%>
-            <%--                                <td>${product.nameProduct}</td>--%>
-            <%--                                <td>${product.description}</td>--%>
-            <%--                                <td>${product.priceProduct}</td>--%>
-            <%--                                <td>${product.stock}</td>--%>
-            <%--                                <td>--%>
-            <%--                                    <form action="" method="POST" style="display:inline-block;">--%>
-            <%--                                        <input type="hidden" name="productId" value="${product.id}" />--%>
-            <%--                                        <button type="submit" name="action" value="delete">Delete</button>--%>
-            <%--                                    </form>--%>
-            <%--                                    <a href="">Edit</a>--%>
-            <%--                                </td>--%>
-            <%--                            </tr>--%>
-            <%--                        </c:forEach>--%>
-            <%--                        </tbody>--%>
-            <%--                    </table>--%>
-            <%--&lt;%&ndash;&ndash;%&gt;--%>
-
-            <%--                </div>--%>
-            <%--            </div>--%>
             <div class="tab-pane fade" id="id2">
                 <div class="d-flex align-items-center m-4">
                     <i class="fas fa-box primary-text fs-4 me-3"></i>
                     <h2 class="fs-2 m-0">Quản lý sản phẩm</h2>
                 </div>
 
-                <!-- Thanh tìm kiếm và nút thêm sản phẩm -->
-                <div class="d-flex justify-content-between align-items-center m-4">
-                    <div class="input-group w-50">
-                        <input type="text" class="form-control" placeholder="Tìm kiếm sản phẩm...">
-                        <button class="btn btn-primary">
-                            <i class="fas fa-search"></i> Tìm
-                        </button>
-                    </div>
+                <!-- Nút thêm sản phẩm ở giữa -->
+                <div class="d-flex justify-content-center align-items-center m-4">
                     <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addProductModal">
                         <i class="fas fa-plus"></i> Thêm sản phẩm
                     </button>
                 </div>
 
+                <!-- Tùy chỉnh vị trí "Show entries" và "Search" -->
+                <div class="d-flex justify-content-between align-items-center px-4 mb-3">
+                    <div id="productTable_length" class="dataTables_length"></div>
+                    <div id="productTable_filter" class="dataTables_filter"></div>
+                </div>
 
                 <!-- Danh sách sản phẩm -->
                 <div class="px-4">
@@ -252,7 +231,6 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <!-- Dữ liệu sản phẩm sẽ được hiển thị ở đây -->
                             <tr>
                                 <td>1</td>
                                 <td>Sản phẩm A</td>
@@ -286,24 +264,97 @@
                         </table>
                     </div>
                 </div>
+            </div>
 
+            <!-- Modal Thêm Sản Phẩm -->
+            <div class="modal fade" id="addProductModal" tabindex="-1" aria-labelledby="addProductModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="addProductModalLabel">Thêm Sản Phẩm</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="#" method="POST" >
+                                <div class="mb-3">
+                                    <label for="productName" class="form-label">Tên sản phẩm</label>
+                                    <input type="text" class="form-control" id="productName" name="productName" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="productImage" class="form-label">Hình ảnh</label>
+                                    <input type="file" class="form-control" id="productImage" name="productImage" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="productPrice" class="form-label">Giá</label>
+                                    <input type="number" class="form-control" id="productPrice" name="productPrice" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="productDescription" class="form-label">Mô tả</label>
+                                    <textarea class="form-control" id="productDescription" name="productDescription" rows="3" required></textarea>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="productManufactureDate" class="form-label">Ngày sản xuất</label>
+                                    <input type="date" class="form-control" id="productManufactureDate" name="productManufactureDate" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="productPower" class="form-label">Công suất</label>
+                                    <input type="text" class="form-control" id="productPower" name="productPower" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="productPressure" class="form-label">Áp suất</label>
+                                    <input type="text" class="form-control" id="productPressure" name="productPressure" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="productFlowRate" class="form-label">Lưu lượng</label>
+                                    <input type="text" class="form-control" id="productFlowRate" name="productFlowRate" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="productPipeDiameter" class="form-label">Đường kính ống</label>
+                                    <input type="text" class="form-control" id="productPipeDiameter" name="productPipeDiameter" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="productVoltage" class="form-label">Điện áp</label>
+                                    <input type="text" class="form-control" id="productVoltage" name="productVoltage" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="productBrand" class="form-label">Thương hiệu</label>
+                                    <input type="text" class="form-control" id="productBrand" name="productBrand" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="productWarranty" class="form-label">Bảo hành (tháng)</label>
+                                    <input type="number" class="form-control" id="productWarranty" name="productWarranty" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="productStock" class="form-label">Tồn kho</label>
+                                    <input type="number" class="form-control" id="productStock" name="productStock" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="productCategory" class="form-label">Danh mục</label>
+                                    <select class="form-select" id="productCategory" name="productCategory" required>
+                                        <option value="Máy bơm">may bom</option>
 
-                <!-- Phân trang -->
-                    <nav class="mt-3">
-                        <ul class="pagination justify-content-center">
-                            <li class="page-item"><a class="page-link" href="#">Trước</a></li>
-                            <li class="page-item"><a class="page-link" href="#">1</a></li>
-                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item"><a class="page-link" href="#">Sau</a></li>
-                        </ul>
-                    </nav>
+                                        <!-- Add more categories as needed -->
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="productSupplier" class="form-label">Nhà cung cấp</label>
+                                    <input type="text" class="form-control" id="productSupplier" name="productSupplier" required>
+                                </div>
+                                <div class="mb-3">
+                                    <button type="submit" class="btn btn-primary">Thêm sản phẩm</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
                 </div>
             </div>
 
 
 
+
         <%--------------------------------------------------%>
+<%--     user--%>
+
             <div class="tab-pane fade" id="id3">
                 <div class="m-4">
                     <div class="d-flex align-items-center">
@@ -356,8 +407,13 @@
                     </div>
                 </div>
 
+
+
+
             </div>
-            <div class="tab-pane fade" id="id4">
+    <%--        ------------------------------------------------------%>
+
+    <div class="tab-pane fade" id="id4">
                 <div class="m-4">
                     <div class="d-flex align-items-center">
                         <i class="fas fa-align-left primary-text fs-4 me-3"></i>
@@ -480,6 +536,28 @@
 </div>
 <!-- /#page-content-wrapper -->
 </div>
+
+<%--<script>--%>
+<%--    $(document).ready(function () {--%>
+<%--        var table = $('#productTable').DataTable({--%>
+<%--            "language": {--%>
+<%--                "lengthMenu": "Hiển thị _MENU_ sản phẩm",--%>
+<%--                "search": "Tìm kiếm:"--%>
+<%--            }--%>
+<%--        });--%>
+
+<%--        // Chuyển phần "Show entries" vào div tùy chỉnh--%>
+<%--        $('#productTable_length').html($('div.dataTables_length').html());--%>
+
+<%--        // Chuyển phần "Search" vào div tùy chỉnh--%>
+<%--        $('#productTable_filter').html($('div.dataTables_filter').html());--%>
+
+<%--        // Xóa div cũ để tránh trùng lặp--%>
+<%--        $('div.dataTables_length, div.dataTables_filter').remove();--%>
+<%--    });--%>
+
+
+<%--</script>--%>
 </body>
 
 </html>
