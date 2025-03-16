@@ -143,8 +143,8 @@
             </div>
             <!--tin tức-->
             <div class="row my-1">
-                <div class="col">
-                    <h4>Tin tức nổi bật</h4>
+                <div class="d-flex justify-content-center">
+                    <span class="text-center fs-4 fw-bold border-bottom border-black m-5 pb-2" style="border-bottom-width: 2 px !important;">Tin tức nổi bật</span>
                 </div>
             </div>
             <div class="row">
@@ -194,10 +194,10 @@
         </div>
     </div>
 </div>
-</div>
-<footer id="footer"></footer>
-<script>
 
+<footer id="footer"></footer>
+
+<script>
     const header = document.getElementById("header");
     const footer = document.getElementById("footer");
     const header2 = document.getElementById("header2");
@@ -214,19 +214,12 @@
     fetch("./assets/component/footer2.jsp")
         .then((response) => response.text())
         .then((html) => (footer2.innerHTML = html));
-    fetch("./assets/component/header2.jsp")
-        .then((response) => response.text())
-        .then((html) => (header2.innerHTML = html));
     fetch("./assets/component/nav.jsp")
         .then((response) => response.text())
         .then((html) => (nav.innerHTML = html));
-    fetch("./assets/component/tintuc.jsp")
-        .then((response) => response.text())
-        .then((html) => (tintuc.innerHTML = html));
-    fetch("./assets/component/chonmaybom.jsp")
-        .then((response) => response.text())
-        .then((html) => (chonmaybom.innerHTML = html));
+
 
 </script>
+<script src="assets/js/nav.js"></script>
 </body>
 </html>
