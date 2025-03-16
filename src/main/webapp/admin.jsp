@@ -5,30 +5,58 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
-    <link rel="stylesheet" href="assets/css/admin.css" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.min.js"
-            integrity="sha512-ykZ1QQr0Jy/4ZkvKuqWn4iF3lqPZyij9iRv6sGqLRdTPkY69YX6+7wvVGmsdBbiIfN/8OdsI7HABjvEok6ZopQ=="
-            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/js/all.min.js" integrity="sha512-1JkMy1LR9bTo3psH+H4SV5bO2dFylgOy+UJhMus1zF4VEFuZVu5lsi4I6iIndE4N9p01z1554ZDcvMSjMaqCBQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<%--    datatable--%>
-    <!-- Thêm jQuery -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-    <!-- Thêm DataTable CSS -->
+
+<%--    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css">--%>
+<%--    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>--%>
+<%--    <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>--%>
+<%--    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet"/>--%>
+<%--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>--%>
+<%--    <link rel="stylesheet" href="assets/css/admin.css"/>--%>
+<%--    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.min.js"--%>
+<%--            integrity="sha512-ykZ1QQr0Jy/4ZkvKuqWn4iF3lqPZyij9iRv6sGqLRdTPkY69YX6+7wvVGmsdBbiIfN/8OdsI7HABjvEok6ZopQ=="--%>
+<%--            crossorigin="anonymous" referrerpolicy="no-referrer"></script>--%>
+<%--    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/js/all.min.js"--%>
+<%--            integrity="sha512-1JkMy1LR9bTo3psH+H4SV5bO2dFylgOy+UJhMus1zF4VEFuZVu5lsi4I6iIndE4N9p01z1554ZDcvMSjMaqCBQ=="--%>
+<%--            crossorigin="anonymous" referrerpolicy="no-referrer"></script>--%>
+<%--    &lt;%&ndash;    datatable&ndash;%&gt;--%>
+<%--    <!-- Thêm jQuery -->--%>
+<%--    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>--%>
+
+<%--    <!-- Thêm DataTable CSS -->--%>
+<%--    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">--%>
+
+<%--    <!-- Thêm DataTable JS -->--%>
+<%--    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>--%>
+
+<%--    &lt;%&ndash;ajax&ndash;%&gt;--%>
+<%--    <script src="assets/js/admin.js"></script>--%>
+
+    <!-- FontAwesome (Chỉ tải một phiên bản) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css"/>
+
+    <!-- Bootstrap (Chỉ tải một phiên bản mới nhất) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+
+    <!-- DataTables (Chỉ tải phiên bản mới nhất) -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
 
-    <!-- Thêm DataTable JS -->
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="assets/css/admin.css"/>
+
+    <!-- jQuery (Chỉ tải một lần) -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- DataTables JS -->
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
 
-<%--ajax--%>
+    <!-- Custom JS -->
     <script src="assets/js/admin.js"></script>
 
 
@@ -40,14 +68,15 @@
     <!-- Sidebar -->
     <div class="bg-white" id="sidebar-wrapper">
         <div class="sidebar-heading text-center py-4 primary-text fs-4 fw-bold text-uppercase border-bottom"><i
-                class="fas fa-user-secret me-2"></i>Quản Lý</div>
+                class="fas fa-user-secret me-2"></i>Quản Lý
+        </div>
         <div class="list-group list-group-flush my-3">
             <a href="#id1" class="list-group-item list-group-item-action bg-transparent second-text active"
                data-bs-toggle="tab" role="tab" aria-controls="home" aria-selected="true"><i
                     class="fas fa-tachometer-alt me-2"></i>Quản lý mua bán</a>
             <a href="#id2" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"
                data-bs-toggle="tab" role="tab" aria-controls="home" aria-selected="true"><i
-                    class="fas fa-project-diagram me-2"></i>Quản lý máy bơm</a>
+                    class="fas fa-project-diagram me-2"></i>Quản lý sản phẩm</a>
             <a href="#id3" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"
                data-bs-toggle="tab" role="tab" aria-controls="home" aria-selected="true"><i
                     class="fas fa-chart-line me-2"></i>Quản lý người dùng</a>
@@ -55,7 +84,8 @@
                data-bs-toggle="tab" role="tab" aria-controls="home" aria-selected="true"><i
                     class="fas fa-paperclip me-2"></i>Báo Cáo</a>
             <a href="#id5" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"
-               data-bs-toggle="tab" role="tab" aria-controls="home" aria-selected="true"><i class="fa-solid fa-gift"></i> Bảo Hành </a>
+               data-bs-toggle="tab" role="tab" aria-controls="home" aria-selected="true"><i
+                    class="fa-solid fa-gift"></i> Bảo Hành </a>
             <a href="index.jsp" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"
                aria-selected="true"><i class="fa-solid fa-power-off"></i> Thoát</a>
         </div>
@@ -153,49 +183,334 @@
                     </div>
                 </div>
             </div>
+<%-------------------quan li san pham-------------------------%>
+
             <div class="tab-pane fade" id="id2">
                 <div class="d-flex align-items-center m-4">
-                    <i class="fas fa-align-left primary-text fs-4 me-3"></i>
-                    <h2 class="fs-2 m-0">Quản lý máy bơm</h2>
+                    <i class="fas fa-box primary-text fs-4 me-3"></i>
+                    <h2 class="fs-2 m-0">Quản lý sản phẩm</h2>
                 </div>
-                <div class="input-group w-25 m-4">
-                    <input type="text" class="form-control " placeholder="Tìm kiếm sản phẩm...">
-                </div>
-                <div class="px-4">
-                        <h3>Hiển thị sản phẩm</h3>
-<%--                    <table id="productTable" class="display">--%>
-<%--                        <thead>--%>
-<%--                        <tr>--%>
-<%--                            <th>ID</th>--%>
-<%--                            <th>Name</th>--%>
-<%--                            <th>Description</th>--%>
-<%--                            <th>Price</th>--%>
-<%--                            <th>Stock</th>--%>
-<%--                            <th>Actions</th>--%>
-<%--                        </tr>--%>
-<%--                        </thead>--%>
-<%--                        <tbody>--%>
-<%--                        <c:forEach var="product" items="${products}">--%>
-<%--                            <tr>--%>
-<%--                                <td>${product.id}</td>--%>
-<%--                                <td>${product.nameProduct}</td>--%>
-<%--                                <td>${product.description}</td>--%>
-<%--                                <td>${product.priceProduct}</td>--%>
-<%--                                <td>${product.stock}</td>--%>
-<%--                                <td>--%>
-<%--                                    <form action="" method="POST" style="display:inline-block;">--%>
-<%--                                        <input type="hidden" name="productId" value="${product.id}" />--%>
-<%--                                        <button type="submit" name="action" value="delete">Delete</button>--%>
-<%--                                    </form>--%>
-<%--                                    <a href="">Edit</a>--%>
-<%--                                </td>--%>
-<%--                            </tr>--%>
-<%--                        </c:forEach>--%>
-<%--                        </tbody>--%>
-<%--                    </table>--%>
 
+                <!-- Nút thêm sản phẩm ở giữa -->
+                <div class="d-flex justify-content-center align-items-center m-4">
+                    <button type="submit" class="btn btn-success w-100 btn-lg" data-bs-toggle="modal" data-bs-target="#addProductModal">
+                         Thêm sản phẩm </button>
+                </div>
+
+                <!-- Tùy chỉnh vị trí "Show entries" và "Search" -->
+                <div class="d-flex justify-content-between align-items-center px-4 mb-3">
+                    <div id="productTable_length" class="dataTables_length"></div>
+                    <div id="productTable_filter" class="dataTables_filter"></div>
+                </div>
+
+                <!-- Danh sách sản phẩm -->
+                <div class="px-4">
+                    <h3 class="mb-3">Danh sách sản phẩm</h3>
+                    <div class="table-responsive">
+                        <table id="productTable" class="table table-striped table-bordered text-center bg-white">
+                            <thead class="bg-white text-dark fw-bold">
+                            <tr>
+                                <th>ID</th>
+                                <th>Tên</th>
+                                <th>Hình ảnh</th>
+                                <th>Giá</th>
+                                <th>Mô tả</th>
+                                <th>Ngày sản xuất</th>
+                                <th>Công suất</th>
+                                <th>Áp suất</th>
+                                <th>Lưu lượng</th>
+                                <th>Đường kính ống</th>
+                                <th>Điện áp</th>
+                                <th>Thương hiệu</th>
+                                <th>Bảo hành (tháng)</th>
+                                <th>Tồn kho</th>
+                                <th>Danh mục</th>
+                                <th>Nhà cung cấp</th>
+                                <th>Hành động</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>Sản phẩm A</td>
+                                <td><img src="img.jpg" alt="Hình ảnh" width="50"></td>
+                                <td>1.000.000₫</td>
+                                <td>Mô tả ngắn...</td>
+                                <td>01/01/2024</td>
+                                <td>100W</td>
+                                <td>10 bar</td>
+                                <td>5 L/min</td>
+                                <td>50mm</td>
+                                <td>220V</td>
+                                <td>Thương hiệu X</td>
+                                <td>12</td>
+                                <td>20</td>
+                                <td>Máy bơm</td>
+                                <td>Nhà cung cấp A</td>
+                                <td>
+                                    <button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editProductModal">
+                                        <i class="fas fa-edit"></i> Sửa
+                                    </button>
+                                    <form action="" method="POST" class="d-inline">
+                                        <input type="hidden" name="productId" value="1">
+                                        <button type="submit" name="action" value="delete" class="btn btn-danger btn-sm">
+                                            <i class="fas fa-trash-alt"></i> Xóa
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
+
+
+            <!-- Modal Thêm Sản Phẩm -->
+            <div class="modal fade" id="addProductModal" tabindex="-1" aria-labelledby="addProductModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="addProductModalLabel">Thêm Sản Phẩm</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="#" method="POST">
+                                <div class="mb-3 row">
+                                    <label for="productName" class="col-form-label col-sm-3">Tên sản phẩm</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="productName" name="productName" required>
+                                    </div>
+                                </div>
+                                <div class="mb-3 row">
+                                    <label for="productImage" class="col-form-label col-sm-3">Hình ảnh</label>
+                                    <div class="col-sm-9">
+                                        <input type="file" class="form-control" id="productImage" name="productImage" required>
+                                    </div>
+                                </div>
+                                <div class="mb-3 row">
+                                    <label for="productPrice" class="col-form-label col-sm-3">Giá</label>
+                                    <div class="col-sm-9">
+                                        <input type="number" class="form-control" id="productPrice" name="productPrice" required>
+                                    </div>
+                                </div>
+                                <div class="mb-3 row">
+                                    <label for="productDescription" class="col-form-label col-sm-3">Mô tả</label>
+                                    <div class="col-sm-9">
+                                        <textarea class="form-control" id="productDescription" name="productDescription" rows="3" required></textarea>
+                                    </div>
+                                </div>
+                                <div class="mb-3 row">
+                                    <label for="productManufactureDate" class="col-form-label col-sm-3">Ngày sản xuất</label>
+                                    <div class="col-sm-9">
+                                        <input type="date" class="form-control" id="productManufactureDate" name="productManufactureDate" required>
+                                    </div>
+                                </div>
+                                <div class="mb-3 row">
+                                    <label for="productPower" class="col-form-label col-sm-3">Công suất</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="productPower" name="productPower" required>
+                                    </div>
+                                </div>
+                                <div class="mb-3 row">
+                                    <label for="productPressure" class="col-form-label col-sm-3">Áp suất</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="productPressure" name="productPressure" required>
+                                    </div>
+                                </div>
+                                <div class="mb-3 row">
+                                    <label for="productFlowRate" class="col-form-label col-sm-3">Lưu lượng</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="productFlowRate" name="productFlowRate" required>
+                                    </div>
+                                </div>
+                                <div class="mb-3 row">
+                                    <label for="productPipeDiameter" class="col-form-label col-sm-3">Đường kính ống</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="productPipeDiameter" name="productPipeDiameter" required>
+                                    </div>
+                                </div>
+                                <div class="mb-3 row">
+                                    <label for="productVoltage" class="col-form-label col-sm-3">Điện áp</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="productVoltage" name="productVoltage" required>
+                                    </div>
+                                </div>
+                                <div class="mb-3 row">
+                                    <label for="productBrand" class="col-form-label col-sm-3">Thương hiệu</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="productBrand" name="productBrand" required>
+                                    </div>
+                                </div>
+                                <div class="mb-3 row">
+                                    <label for="productWarranty" class="col-form-label col-sm-3">Bảo hành (tháng)</label>
+                                    <div class="col-sm-9">
+                                        <input type="number" class="form-control" id="productWarranty" name="productWarranty" required>
+                                    </div>
+                                </div>
+                                <div class="mb-3 row">
+                                    <label for="productStock" class="col-form-label col-sm-3">Tồn kho</label>
+                                    <div class="col-sm-9">
+                                        <input type="number" class="form-control" id="productStock" name="productStock" required>
+                                    </div>
+                                </div>
+                                <div class="mb-3 row">
+                                    <label for="productCategory" class="col-form-label col-sm-3">Danh mục</label>
+                                    <div class="col-sm-9">
+                                        <select class="form-select" id="productCategory" name="productCategory" required>
+                                            <option value="Máy bơm">Máy bơm</option>
+                                            <!-- Add more categories as needed -->
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="mb-3 row">
+                                    <label for="productSupplier" class="col-form-label col-sm-3">Nhà cung cấp</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="productSupplier" name="productSupplier" required>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <button type="submit" class="btn btn-dark w-100 btn-lg">Thêm sản phẩm</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Modal Sửa Sản Phẩm -->
+            <div class="modal fade" id="editProductModal" tabindex="-1" aria-labelledby="editProductModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header text-center w-100 d-flex justify-content-center">
+                            <h5 class="modal-title" id="editProductModalLabel">Sửa Sản Phẩm</h5>
+                            <button type="button" class="btn-close position-absolute end-0 me-3" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="#" method="POST">
+                                <input type="hidden" id="editProductId" name="productId">
+
+                                <div class="row mb-3">
+                                    <label for="editProductName" class="col-sm-4 col-form-label">Tên sản phẩm</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="editProductName" name="productName" required>
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <label for="editProductImage" class="col-sm-4 col-form-label">Hình ảnh</label>
+                                    <div class="col-sm-8">
+                                        <input type="file" class="form-control" id="editProductImage" name="productImage">
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <label for="editProductPrice" class="col-sm-4 col-form-label">Giá</label>
+                                    <div class="col-sm-8">
+                                        <input type="number" class="form-control" id="editProductPrice" name="productPrice" required>
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <label for="editProductDescription" class="col-sm-4 col-form-label">Mô tả</label>
+                                    <div class="col-sm-8">
+                                        <textarea class="form-control" id="editProductDescription" name="productDescription" rows="3" required></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <label for="editProductManufactureDate" class="col-sm-4 col-form-label">Ngày sản xuất</label>
+                                    <div class="col-sm-8">
+                                        <input type="date" class="form-control" id="editProductManufactureDate" name="productManufactureDate" required>
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <label for="editProductPower" class="col-sm-4 col-form-label">Công suất</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="editProductPower" name="productPower" required>
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <label for="editProductPressure" class="col-sm-4 col-form-label">Áp suất</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="editProductPressure" name="productPressure" required>
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <label for="editProductFlowRate" class="col-sm-4 col-form-label">Lưu lượng</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="editProductFlowRate" name="productFlowRate" required>
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <label for="editProductPipeDiameter" class="col-sm-4 col-form-label">Đường kính ống</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="editProductPipeDiameter" name="productPipeDiameter" required>
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <label for="editProductVoltage" class="col-sm-4 col-form-label">Điện áp</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="editProductVoltage" name="productVoltage" required>
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <label for="editProductBrand" class="col-sm-4 col-form-label">Thương hiệu</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="editProductBrand" name="productBrand" required>
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <label for="editProductWarranty" class="col-sm-4 col-form-label">Bảo hành (tháng)</label>
+                                    <div class="col-sm-8">
+                                        <input type="number" class="form-control" id="editProductWarranty" name="productWarranty" required>
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <label for="editProductStock" class="col-sm-4 col-form-label">Tồn kho</label>
+                                    <div class="col-sm-8">
+                                        <input type="number" class="form-control" id="editProductStock" name="productStock" required>
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <label for="editProductCategory" class="col-sm-4 col-form-label">Danh mục</label>
+                                    <div class="col-sm-8">
+                                        <select class="form-select" id="editProductCategory" name="productCategory" required>
+                                            <option value="Máy bơm">Máy bơm</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <label for="editProductSupplier" class="col-sm-4 col-form-label">Nhà cung cấp</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="editProductSupplier" name="productSupplier" required>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3 text-center">
+                                    <button type="submit" class="btn btn-dark w-100 btn-lg">Lưu thay đổi</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        <%--------------------------------------------------%>
+<%--     user--%>
+
             <div class="tab-pane fade" id="id3">
                 <div class="m-4">
                     <div class="d-flex align-items-center">
@@ -236,7 +551,7 @@
                                         <td>${user.address}</td>
                                         <td>
                                             <form action="${pageContext.request.contextPath}/admin" method="POST">
-                                                <input type="hidden" name="userId" value="${user.id}" />
+                                                <input type="hidden" name="userId" value="${user.id}"/>
                                                 <button type="submit">Delete</button>
                                             </form>
                                         </td>
@@ -248,8 +563,13 @@
                     </div>
                 </div>
 
+
+
+
             </div>
-            <div class="tab-pane fade" id="id4">
+    <%--        ------------------------------------------------------%>
+
+    <div class="tab-pane fade" id="id4">
                 <div class="m-4">
                     <div class="d-flex align-items-center">
                         <i class="fas fa-align-left primary-text fs-4 me-3"></i>
@@ -280,9 +600,9 @@
                                         <td>Vấn đề về đăng nhập</td>
                                         <td>
                                             <select class="form-control">
-                                                <option class="badge bg-warning" >Đang xử lý</option>
+                                                <option class="badge bg-warning">Đang xử lý</option>
                                                 <option class="badge bg-success" selected>Hoàn thành</option>
-                                                <option class="badge bg-danger" >Cần xử lý ngay</option>
+                                                <option class="badge bg-danger">Cần xử lý ngay</option>
                                             </select></td>
                                     </tr>
                                     <tr>
@@ -293,8 +613,8 @@
                                         <td>
                                             <select class="form-control">
                                                 <option class="badge bg-warning" selected>Đang xử lý</option>
-                                                <option class="badge bg-success" >Hoàn thành</option>
-                                                <option class="badge bg-danger" >Cần xử lý ngay</option>
+                                                <option class="badge bg-success">Hoàn thành</option>
+                                                <option class="badge bg-danger">Cần xử lý ngay</option>
                                             </select></td>
                                     </tr>
                                     <tr>
@@ -304,8 +624,8 @@
                                         <td>Lỗi giao diện người dùng</td>
                                         <td>
                                             <select class="form-control">
-                                                <option class="badge bg-warning" >Đang xử lý</option>
-                                                <option class="badge bg-success" >Hoàn thành</option>
+                                                <option class="badge bg-warning">Đang xử lý</option>
+                                                <option class="badge bg-success">Hoàn thành</option>
                                                 <option class="badge bg-danger" selected>Cần xử lý ngay</option>
                                             </select></td>
                                     </tr>
@@ -332,32 +652,32 @@
                                 <h1>Danh Sách Sản Phẩm</h1>
                                 <table class="table table-bordered table-striped bg-white mt-3">
                                     <thead class="thead-dark">
-                                        <tr>
-                                            <th>ID Sản Phẩm</th>
-                                            <th>Tên Sản Phẩm</th>
-                                            <th>Ngày Bảo Hành</th>
-                                            <th>Ngày Hết Hạn Bảo Hành</th>
-                                        </tr>
+                                    <tr>
+                                        <th>ID Sản Phẩm</th>
+                                        <th>Tên Sản Phẩm</th>
+                                        <th>Ngày Bảo Hành</th>
+                                        <th>Ngày Hết Hạn Bảo Hành</th>
+                                    </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td>SP001</td>
-                                            <td>Máy Bơm Nước Biển</td>
-                                            <td>01/01/2024</td>
-                                            <td>01/01/2025</td>
-                                        </tr>
-                                        <tr>
-                                            <td>SP002</td>
-                                            <td>Máy Lọc Nước</td>
-                                            <td>15/02/2024</td>
-                                            <td>15/02/2025</td>
-                                        </tr>
-                                        <tr>
-                                            <td>SP003</td>
-                                            <td>Máy Nén Khí</td>
-                                            <td>10/03/2024</td>
-                                            <td>10/03/2025</td>
-                                        </tr>
+                                    <tr>
+                                        <td>SP001</td>
+                                        <td>Máy Bơm Nước Biển</td>
+                                        <td>01/01/2024</td>
+                                        <td>01/01/2025</td>
+                                    </tr>
+                                    <tr>
+                                        <td>SP002</td>
+                                        <td>Máy Lọc Nước</td>
+                                        <td>15/02/2024</td>
+                                        <td>15/02/2025</td>
+                                    </tr>
+                                    <tr>
+                                        <td>SP003</td>
+                                        <td>Máy Nén Khí</td>
+                                        <td>10/03/2024</td>
+                                        <td>10/03/2025</td>
+                                    </tr>
                                     </tbody>
                                 </table>
                             </div>
@@ -370,7 +690,7 @@
     </div>
 
 </div>
-<!-- /#page-content-wrapper -->
+
 </div>
 </body>
 

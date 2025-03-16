@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="assets/css/card.css"/>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
             crossorigin="anonymous"></script>
@@ -21,10 +22,10 @@
             crossorigin="anonymous"
     />
     <link rel="stylesheet" href="assets/css/index.css">
+    <link rel="stylesheet" href="assets/css/headerAndFooter.css">
 </head>
 <body style="background-color: rgb(242 244 247)">
 <header id="header"></header>
-<div id="header2"></div>
 <nav id="nav"></nav>
 <div class="container">
     <div class="row">
@@ -142,8 +143,8 @@
             </div>
             <!--tin tức-->
             <div class="row my-1">
-                <div class="col">
-                    <h4>Tin tức nổi bật</h4>
+                <div class="d-flex justify-content-center">
+                    <span class="text-center fs-4 fw-bold border-bottom border-black m-5 pb-2" style="border-bottom-width: 2 px !important;">Tin tức nổi bật</span>
                 </div>
             </div>
             <div class="row">
@@ -193,10 +194,10 @@
         </div>
     </div>
 </div>
-</div>
-<footer id="footer"></footer>
-<script>
 
+<footer id="footer"></footer>
+
+<script>
     const header = document.getElementById("header");
     const footer = document.getElementById("footer");
     const header2 = document.getElementById("header2");
@@ -213,19 +214,12 @@
     fetch("./assets/component/footer2.jsp")
         .then((response) => response.text())
         .then((html) => (footer2.innerHTML = html));
-    fetch("./assets/component/header2.jsp")
-        .then((response) => response.text())
-        .then((html) => (header2.innerHTML = html));
     fetch("./assets/component/nav.jsp")
         .then((response) => response.text())
         .then((html) => (nav.innerHTML = html));
-    fetch("./assets/component/tintuc.jsp")
-        .then((response) => response.text())
-        .then((html) => (tintuc.innerHTML = html));
-    fetch("./assets/component/chonmaybom.jsp")
-        .then((response) => response.text())
-        .then((html) => (chonmaybom.innerHTML = html));
+
 
 </script>
+<script src="assets/js/nav.js"></script>
 </body>
 </html>
