@@ -71,6 +71,38 @@ public class UserDao {
         }
     }
 
+    public User getUserByEmail(String email) {
+        Jdbi jdbi = new JDBIConnect().get(); // Kết nối Jdbi
+        return jdbi.withHandle(handle ->
+                handle.createQuery("SELECT * FROM user WHERE email = :email")
+                        .bind("email", email)
+                        .mapToBean(User.class) // Ánh xạ kết quả vào class User
+                        .findOne() // Trả về Optional<User>
+                        .orElse(null) // Nếu không tìm thấy, trả về null
+        );
+    }
+
+    public User getUserById(int userId) {
+        Jdbi jdbi = new JDBIConnect().get(); // Lấy kết nối Jdbi
+        return jdbi.withHandle(handle ->
+                handle.createQuery("SELECT * FROM user WHERE id = :userId")
+                        .bind("userId", userId)
+                        .mapToBean(User.class) // Ánh xạ dữ liệu vào class User
+                        .findOne() // Trả về Optional<User>
+                        .orElse(null) // Nếu không tìm thấy, trả về null
+        );
+    }
+
+    public void updatePassword(String email, String password) {
+        Jdbi jdbi = new JDBIConnect().get(); // Kết nối Jdbi
+        jdbi.useHandle(handle ->
+                handle.createUpdate("UPDATE user SET password = :password WHERE email = :email")
+                        .bind("password", password) // Gán giá trị password
+                        .bind("email", email) // Gán giá trị email
+                        .execute() // Thực thi lệnh SQL
+        );
+    }
+
     public static void main(String[] args) {
         UserDao userDao = new UserDao();
         List<User> users = userDao.getAllUsers();
