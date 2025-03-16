@@ -19,10 +19,11 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
           integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
           crossorigin="anonymous" referrerpolicy="no-referrer"/>
+   	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="assets/css/headerAndFooter.css">
 </head>
 <body style="background-color: rgb(242 244 247)">
 <header id="header"></header>
-<div id="header2"></div>
 <nav id="nav"></nav>
 <div class="container">
     <div class="row">
@@ -35,7 +36,7 @@
                         <p>Bạn đã có tài khoản ? <a href="dangnhap.jsp">Đăng nhập</a> tại đây</p>
                         <div class="text-center">
                             <h2 class="text-primary">Đăng Kí</h2>
-                            <p class="text-muted ">Hãy đăng kí để nhận được nhiều thông báo về khuyến mãi và nhiều hơn
+                            <p class="text-muted mb-5">Hãy đăng kí để nhận được nhiều thông báo về khuyến mãi và nhiều hơn
                                 nữa</p>
                         </div>
                         <% String errorMessage = (String) request.getAttribute("errorMessage"); %>
@@ -109,25 +110,17 @@
                             <!-- Nút đăng ký -->
                             <div class="row justify-content-center">
                                 <div class="col-3">
-                                    <button type="submit" class="btn btn-primary w-100 mb-3">Đăng ký</button>
+                                    <button type="submit" class="btn  w-100 mb-3 text-light bg-dark-blue">Đăng ký</button>
                                 </div>
                             </div>
                         </form>
 
                     </div>
                 </div>
-                <div class="text-center">
-                    <button type="button" class="btn btn-light btn-social"><i class="fa-brands fa-square-facebook"></i>
-                    </button>
-                    <button type="button" class="btn btn-light btn-social"><i class="fa-brands fa-google"></i></button>
-                    <button type="button" class="btn btn-light btn-social"><i class="fa-brands fa-apple"></i></button>
-                </div>
-            </div>
             <footer id="footer2"></footer>
+            </div>
         </div>
     </div>
-</div>
-</div>
 </div>
 <footer id="footer"></footer>
 <script>
@@ -160,5 +153,6 @@
         .then((response) => response.text())
         .then((html) => (chonmaybom.innerHTML = html));
 </script>
+<script src="assets/js/nav.js"></script>
 </body>
 </html>

@@ -15,19 +15,19 @@ public class UserDao {
 
     public List<User> getAllUsers() {
         Jdbi jdbi = JDBIConnect.get();
-        return jdbi.withHandle(handle -> handle.createQuery("SELECT * FROM USER").mapToBean(User.class).list());
+        return jdbi.withHandle(handle -> handle.createQuery("SELECT * FROM user").mapToBean(User.class).list());
     }
 
     public User getUserbyid(int id) {
         Jdbi jdbi = JDBIConnect.get();
-        return jdbi.withHandle(handle -> handle.createQuery("SELECT * FROM User where id_user= :id").bind("id_user", id)
+        return jdbi.withHandle(handle -> handle.createQuery("SELECT * FROM user where id_user= :id").bind("id_user", id)
                 .mapToBean(User.class).findOne().orElse(null));
     }
 
     public User login(String username, String password) {
         Jdbi jdbi = JDBIConnect.get();
         try {
-            return jdbi.withHandle(handle -> handle.createQuery("SELECT * FROM User WHERE username = :username AND password = :password")
+            return jdbi.withHandle(handle -> handle.createQuery("SELECT * FROM user WHERE username = :username AND password = :password")
                     .bind("username", username)
                     .bind("password", password)
                     .mapToBean(User.class)
@@ -47,7 +47,7 @@ public class UserDao {
                        String address,
                        int idPermission) {
         Jdbi jdbi = JDBIConnect.get();
-        jdbi.useHandle(handle -> handle.createUpdate("INSERT INTO User (username, password, fullname, email, phone, address, idPermission) VALUES (:username, :password, :fullname, :email, :phone, :address, :idPermission)")
+        jdbi.useHandle(handle -> handle.createUpdate("INSERT INTO user (username, password, fullname, email, phone, address, idPermission) VALUES (:username, :password, :fullname, :email, :phone, :address, :idPermission)")
                 .bind("username", username)
                 .bind("password", password) // Ensure password is properly hashed/salted
                 .bind("fullname", fullname)
@@ -61,7 +61,7 @@ public class UserDao {
     public boolean delete(int id) {
         Jdbi jdbi = JDBIConnect.get();
         try {
-            jdbi.useHandle(handle -> handle.createUpdate("DELETE FROM User WHERE id = :id")
+            jdbi.useHandle(handle -> handle.createUpdate("DELETE FROM user WHERE id = :id")
                     .bind("id", id)
                     .execute());
             return true; // Xóa thành công
