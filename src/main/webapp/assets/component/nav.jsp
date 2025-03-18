@@ -44,7 +44,7 @@
 				</li>
 
 				<li class="list-item-head2">
-					<a href="giohang.jsp" class="nav-link icon-cart text-light"> <i class="bi-cart 	"></i></a>
+					<a href="/DoAnLTWeb/CartServlet" class="nav-link icon-cart text-light"> <i class="bi-cart 	"></i></a>
 				</li>
 
 				<c:if test="${not empty sessionScope.auth}">

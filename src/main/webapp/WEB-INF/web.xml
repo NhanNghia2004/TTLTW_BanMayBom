@@ -35,6 +35,16 @@
     <servlet-class>com.example.doanltweb.controller.CategoryServlet</servlet-class>
   </servlet>
   <servlet-mapping>
+    <servlet-name>CartServlet</servlet-name>
+    <url-pattern>/CartServlet</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>CartServlet</display-name>
+    <servlet-name>CartServlet</servlet-name>
+    <servlet-class>com.example.doanltweb.controller.CartController.CartServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
     <servlet-name>CategoryServlet</servlet-name>
     <url-pattern>/CategoryServlet</url-pattern>
   </servlet-mapping>

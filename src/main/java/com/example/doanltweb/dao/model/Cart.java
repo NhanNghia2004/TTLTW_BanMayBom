@@ -7,45 +7,48 @@ public class Cart {
 	private int id;
 	private int userId;
 	private double totalPrice;
-    private List<CartItem> items;
+	private int totalAmount;
+	public Cart(int id, int userId, double totalPrice, int totalAmount) {
+		super();
+		this.id = id;
+		this.userId = userId;
+		this.totalPrice = totalPrice;
+		this.totalAmount = totalAmount;
+	}
+	public Cart() {
+		super();
+	}
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	public int getUserId() {
+		return userId;
+	}
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
+	public double getTotalPrice() {
+		return totalPrice;
+	}
+	public void setTotalPrice(double totalPrice) {
+		this.totalPrice = totalPrice;
+	}
+	
+	public int getTotalAmount() {
+		return totalAmount;
+	}
+	public void setTotalAmount(int totalAmount) {
+		this.totalAmount = totalAmount;
+	}
+	@Override
+	public String toString() {
+		return "Cart [id=" + id + ", userId=" + userId + ", totalPrice=" + totalPrice + ", totalAmount=" + totalAmount
+				+ "]";
+	}
+	
 
-    public Cart() {
-        this.items = new ArrayList<>();
-    }
-
-    public List<CartItem> getItems() {
-        return items;
-    }
-
-    public void addItem(Product product, int quantity) {
-        CartItem cartItem = new CartItem(product, quantity);
-        items.add(cartItem);
-    }
-
-    public void updateItem(int productId, int quantity) {
-        for (CartItem item : items) {
-            if (item.getProduct().getId() == productId) {
-                item.setQuantity(quantity);
-                break;
-            }
-        }
-    }
-    public void removeItem(int productId) {
-        items.removeIf(item -> item.getProduct().getId() == productId);
-    }
-
-    public double getTotalPrice() {
-        double total = 0;
-        for (CartItem item : items) {
-            total += item.getProduct().getPriceProduct() * item.getQuantity();
-        }
-        return total;
-    }
-    public int getTotalQuantity() {
-        int totalQuantity = 0;
-        for (CartItem item : items) {
-            totalQuantity += item.getQuantity();
-        }
-        return totalQuantity;
-    }
+   
 }
