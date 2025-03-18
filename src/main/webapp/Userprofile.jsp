@@ -22,7 +22,7 @@
 <link rel="stylesheet"
 	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 <link rel="stylesheet" href="assets/css/Userprofilestyle.css">
-<link rel="stylesheet" href="assets/css/chitietmaybomStyle.css">
+
 <link rel="stylesheet" href="assets/css/headerAndFooter.css">
 </head>
 
@@ -50,42 +50,52 @@
 											<p class="text-muted">${auth.email}</p>
 										</div>
 
-										<!-- Form chi tiết người dùng -->
-										<form action=DetailUserController method="post">
-
+									<!-- Form chi tiết người dùng -->
+										<form id="userForm" action="DetailUserController"
+											method="post">
 											<div class="mb-3">
 												<label class="form-label fw-bold">Họ và tên</label> <input
-													type="text" class="form-control" name="firstName"
-													value="${auth.fullname}" readonly>
+													type="text" class="form-control" name="fullname"
+													id="fullname" value="${auth.fullname}" readonly>
 											</div>
 
 											<div class="mb-3">
 												<label class="form-label fw-bold">Email</label> <input
-													type="email" class="form-control" name="email"
+													type="email" class="form-control" name="email" id="email"
 													value="${auth.email}" readonly>
 											</div>
 
 											<div class="mb-3">
 												<label class="form-label fw-bold">Địa chỉ</label> <input
 													type="text" class="form-control" name="address"
-													value="${auth.address}" readonly>
+													id="address" value="${auth.address}" readonly>
 											</div>
 
 											<div class="mb-3">
 												<label class="form-label fw-bold">Số điện thoại</label> <input
-													type="text" class="form-control" name="phone"
+													type="text" class="form-control" name="phone" id="phone"
 													value="${auth.phone}" readonly>
 											</div>
 
 											<!-- Nút hành động -->
 											<div class="d-flex justify-content-between mt-4">
-												<a href="EditUserController"
-													class="btn btn-outline-danger px-4"> Logout </a> <a
-													href="EditUserController"
-													class="btn  bg-dark-blue px-4 text-light"> Edit profile
-												</a>
+												<a href="LogoutController"
+													class="btn btn-outline-danger px-4">Logout</a>
+
+												<!-- Nút Edit -->
+												<button type="button" id="editBtn"
+													class="btn bg-dark-blue px-4 text-light">Edit
+													profile</button>
+
+												<!-- Nút Submit (Ẩn ban đầu) -->
+												<button type="submit" id="submitBtn"
+													class="btn btn-success px-4" style="display: none;">Submit</button>
 											</div>
 										</form>
+
+										<!-- Hiển thị thông báo -->
+										<div id="message" class="mt-3"></div>
+
 									</div>
 								</div>
 							</div>
@@ -97,30 +107,25 @@
 								<table class="table table-bordered text-center align-middle">
 									<thead class="table-light">
 										<tr>
-											<th class="bg-dark-blue text-light">Hình ảnh</th>
-											<th class="bg-dark-blue text-light">Thông tin và ngày
-												giao</th>
-											<th class="bg-dark-blue text-light">Đơn giá</th>
-											<th class="bg-dark-blue text-light">Số lượng</th>
-											<th class="bg-dark-blue text-light">Tổng</th>
+											<th class="bg-dark-blue text-light">Ngày đặt hàng</th>
+											<th class="bg-dark-blue text-light">Tổng số lượng</th>
+											<th class="bg-dark-blue text-light">Tổng tiền</th>
 											<th class="bg-dark-blue text-light"></th>
 										</tr>
 									</thead>
 									<tbody>
 										<c:forEach items="${orders}" var="order">
 											<tr>
-												<td><img src="assets/imgs/maybom/app10.jpg"
-													class="img-fluid anhhang"
-													style="width: 80px; height: auto;"></td>
 												<td>
-													<h5 class="mb-1">Máy bơm cao áp mini Pamtex 110</h5>
-													<p class="mb-0">Ngày giao: 19/12/2024</p>
+													<p class="mb-0">${order.ordeDate }</p>
 												</td>
-												<td>650.000 đ</td>
-												<td>10</td>
-												<td>6.500.000 đ</td>
+												<td>${order.quantity }</td>
+												<td>${order.totalPrice }</td>
 												<td>
 													<button class="btn btn-danger btn-sm">Hủy đơn hàng</button>
+													<a href="#" class="btn  bg-dark-blue btn-sm text-light"> 
+														Xem chi tiết
+													</a>
 												</td>
 											</tr>
 										</c:forEach>
@@ -128,25 +133,7 @@
 								</table>
 							</div>
 						</div>
-
-						<div class="container mt-2">
-							<div class="row">
-								<h4>Sản phẩm bạn đã mua</h4>
-								<c:forEach items="${items}" var="item">
-								<div class="col-md-3 col-sm-6 mb-4">
-									<div class="card">
-										<img src="assets\imgs\maybom\shizuko1.jpg"
-											class="card-img-top" alt="Sản phẩm 1">
-										<div class="card-body text-center">
-											<h6 class="card-title">Silstar SKD 100</h6>
-											<p class="text-danger">800.000 đ</p>
-										</div>
-									</div>
-								</div>
-								</c:forEach>
-
-							</div>
-						</div>
+				
 					</div>
 					<footer id="footer2"></footer>
 
@@ -177,6 +164,53 @@
   fetch("./assets/component/nav.jsp")
           .then((response) => response.text())
           .then((html) => (nav.innerHTML = html));
+</script>
+<script >
+document.addEventListener("DOMContentLoaded", function () {
+    const editBtn = document.getElementById("editBtn");
+    const submitBtn = document.getElementById("submitBtn");
+    const formInputs = document.querySelectorAll("#userForm input");
+    const messageDiv = document.getElementById("message");
+    const form = document.getElementById("userForm");
+
+    // Khi nhấn "Edit"
+    editBtn.addEventListener("click", function () {
+        formInputs.forEach(input => input.removeAttribute("readonly"));
+        editBtn.style.display = "none";   // Ẩn nút Edit
+        submitBtn.style.display = "block"; // Hiện nút Submit
+    });
+
+    // Khi nhấn "Submit"
+    form.addEventListener("submit", function (event) {
+        event.preventDefault(); // Ngăn chặn reload trang
+
+        // Lấy dữ liệu từ form
+        const formData = new FormData(form);
+
+        // Gửi dữ liệu qua AJAX
+        fetch("http://localhost:8080/DoAnLTWeb/UserProfileServlet", {
+            method: "POST",
+            body: formData
+        })
+        .then(response => response.json()) // Đọc phản hồi JSON từ server
+        .then(data => {
+            if (data.success) {
+                messageDiv.innerHTML = '<div class="alert alert-success">'+data.message+'</div>';
+                
+                // Chuyển form về trạng thái chỉ đọc
+                formInputs.forEach(input => input.setAttribute("readonly", "true"));
+                editBtn.style.display = "block";
+                submitBtn.style.display = "none";
+            } else {
+                messageDiv.innerHTML = '<div class="alert alert-danger">'+data.message+'</div>';
+            }
+        })
+        .catch(error => {
+            console.error("Lỗi khi gửi AJAX:", error);
+            messageDiv.innerHTML = `<div class="alert alert-danger">Có lỗi xảy ra!</div>`;
+        });
+    });
+});
 </script>
 </body>
 </html>

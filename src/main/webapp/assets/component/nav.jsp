@@ -55,7 +55,7 @@
 						</c:when>
 						<c:otherwise>
 							<li class="list-item-head2"><a
-								href="Userprofile.jsp"
+								href="/DoAnLTWeb/UserProfileServlet"
 								class="nav-link text-light"> ${sessionScope.auth.username} </a></li>
 						</c:otherwise>
 					</c:choose>
