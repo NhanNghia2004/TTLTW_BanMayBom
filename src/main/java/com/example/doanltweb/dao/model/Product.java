@@ -3,23 +3,23 @@ package com.example.doanltweb.dao.model;
 import java.math.BigDecimal;
 import java.sql.Date;
 
-public class Product implements java.io.Serializable {
-    private int id;
-    private String nameProduct;
-    private String image;
-    private double priceProduct;
-    private String description;
-    private String manufactureDate;
-    private String power;
-    private double pressure;
-    private double flowRate;
-    private double pipeDiameter;
-    private int voltage;
-    private String brand;
-    private int warrantyMonths;
-    private int stock;
-    private String idCategory;
-    private String idSupplier;
+    public class Product implements java.io.Serializable {
+        private int id;
+        private String nameProduct;
+        private String image;
+        private double priceProduct;
+        private String description;
+        private String manufactureDate;
+        private String power;
+        private double pressure;
+        private double flowRate;
+        private double pipeDiameter;
+        private int voltage;
+        private String brand;
+        private int warrantyMonths;
+        private int stock;
+        private String idCategory;
+        private String idSupplier;
 
     public Product() {
     }
@@ -169,6 +169,28 @@ public class Product implements java.io.Serializable {
 
     public void setIdSupplier(String idSupplier) {
         this.idSupplier = idSupplier;
+    }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "id=" + id +
+                ", nameProduct='" + nameProduct + '\'' +
+                ", image='" + image + '\'' +
+                ", priceProduct=" + priceProduct +
+                ", description='" + description + '\'' +
+                ", manufactureDate='" + manufactureDate + '\'' +
+                ", power='" + power + '\'' +
+                ", pressure=" + pressure +
+                ", flowRate=" + flowRate +
+                ", pipeDiameter=" + pipeDiameter +
+                ", voltage=" + voltage +
+                ", brand='" + brand + '\'' +
+                ", warrantyMonths=" + warrantyMonths +
+                ", stock=" + stock +
+                ", idCategory='" + idCategory + '\'' +
+                ", idSupplier='" + idSupplier + '\'' +
+                '}';
     }
 }
 
