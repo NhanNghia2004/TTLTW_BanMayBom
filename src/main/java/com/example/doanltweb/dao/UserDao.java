@@ -15,19 +15,19 @@ public class UserDao {
 
     public List<User> getAllUsers() {
         Jdbi jdbi = JDBIConnect.get();
-        return jdbi.withHandle(handle -> handle.createQuery("SELECT * FROM USER").mapToBean(User.class).list());
+        return jdbi.withHandle(handle -> handle.createQuery("SELECT * FROM user").mapToBean(User.class).list());
     }
 
     public User getUserbyid(int id) {
         Jdbi jdbi = JDBIConnect.get();
-        return jdbi.withHandle(handle -> handle.createQuery("SELECT * FROM User where id_user= :id").bind("id_user", id)
+        return jdbi.withHandle(handle -> handle.createQuery("SELECT * FROM user where id_user= :id").bind("id_user", id)
                 .mapToBean(User.class).findOne().orElse(null));
     }
 
     public User login(String username, String password) {
         Jdbi jdbi = JDBIConnect.get();
         try {
-            return jdbi.withHandle(handle -> handle.createQuery("SELECT * FROM User WHERE username = :username AND password = :password")
+            return jdbi.withHandle(handle -> handle.createQuery("SELECT * FROM user WHERE username = :username AND password = :password")
                     .bind("username", username)
                     .bind("password", password)
                     .mapToBean(User.class)
@@ -47,7 +47,7 @@ public class UserDao {
                        String address,
                        int idPermission) {
         Jdbi jdbi = JDBIConnect.get();
-        jdbi.useHandle(handle -> handle.createUpdate("INSERT INTO User (username, password, fullname, email, phone, address, idPermission) VALUES (:username, :password, :fullname, :email, :phone, :address, :idPermission)")
+        jdbi.useHandle(handle -> handle.createUpdate("INSERT INTO user (username, password, fullname, email, phone, address, idPermission) VALUES (:username, :password, :fullname, :email, :phone, :address, :idPermission)")
                 .bind("username", username)
                 .bind("password", password) // Ensure password is properly hashed/salted
                 .bind("fullname", fullname)
@@ -61,7 +61,7 @@ public class UserDao {
     public boolean delete(int id) {
         Jdbi jdbi = JDBIConnect.get();
         try {
-            jdbi.useHandle(handle -> handle.createUpdate("DELETE FROM User WHERE id = :id")
+            jdbi.useHandle(handle -> handle.createUpdate("DELETE FROM user WHERE id = :id")
                     .bind("id", id)
                     .execute());
             return true; // Xóa thành công
@@ -69,6 +69,53 @@ public class UserDao {
             e.printStackTrace(); // In thông tin lỗi
             return false; // Xóa thất bại
         }
+    }
+    
+    public boolean updateUser(String firstName, String email, String address, String phone,int id) {
+        String sql = "UPDATE `user` SET fullname = :fullname, address = :address, phone = :phone , email = :email WHERE id =:id";
+        Jdbi jdbi = JDBIConnect.get();
+        int updatedRows = jdbi.withHandle(handle ->
+            handle.createUpdate(sql)
+                .bind("fullname", firstName)
+                .bind("address", address)
+                .bind("phone", phone)
+                .bind("email", email)
+                .bind("id", id)
+                .execute()
+        );
+        return updatedRows > 0;
+    }
+    
+    public User getUserByEmail(String email) {
+        Jdbi jdbi = new JDBIConnect().get(); // Kết nối Jdbi
+        return jdbi.withHandle(handle ->
+                handle.createQuery("SELECT * FROM user WHERE email = :email")
+                        .bind("email", email)
+                        .mapToBean(User.class) // Ánh xạ kết quả vào class User
+                        .findOne() // Trả về Optional<User>
+                        .orElse(null) // Nếu không tìm thấy, trả về null
+        );
+    }
+
+    public User getUserById(int userId) {
+        Jdbi jdbi = new JDBIConnect().get(); // Lấy kết nối Jdbi
+        return jdbi.withHandle(handle ->
+                handle.createQuery("SELECT * FROM user WHERE id = :userId")
+                        .bind("userId", userId)
+                        .mapToBean(User.class) // Ánh xạ dữ liệu vào class User
+                        .findOne() // Trả về Optional<User>
+                        .orElse(null) // Nếu không tìm thấy, trả về null
+        );
+    }
+
+    public void updatePassword(String email, String password) {
+        Jdbi jdbi = new JDBIConnect().get(); // Kết nối Jdbi
+        jdbi.useHandle(handle ->
+                handle.createUpdate("UPDATE user SET password = :password WHERE email = :email")
+                        .bind("password", password) // Gán giá trị password
+                        .bind("email", email) // Gán giá trị email
+                        .execute() // Thực thi lệnh SQL
+        );
     }
 
     public static void main(String[] args) {

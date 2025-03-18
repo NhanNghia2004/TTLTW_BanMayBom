@@ -1,213 +1,154 @@
-<%@ page contentType="text/html; charset=UTF-8" language="java" %>
+<%@ page contentType="text/html; charset=UTF-8" language="java"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="sql" uri="http://java.sun.com/jsp/jstl/sql"%>
+<%@ taglib prefix="x" uri="http://java.sun.com/jsp/jstl/xml"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Document</title>
-  <link rel="stylesheet" href="assets/css/style.css" />
-  <link
-          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
-          rel="stylesheet"
-  />
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-  <link
-          rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
-          crossorigin="anonymous"
-  />
-  <link rel="stylesheet" href="assets/css/Userprofilestyle.css">
-  <link rel="stylesheet" href="assets/css/chitietmaybomStyle.css">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Document</title>
+<link rel="stylesheet" href="assets/css/style.css" />
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+	rel="stylesheet" />
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+	crossorigin="anonymous" />
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+<link rel="stylesheet" href="assets/css/Userprofilestyle.css">
+
+<link rel="stylesheet" href="assets/css/headerAndFooter.css">
 </head>
 
-<body style="background-color: rgb(242 244 247)">
-<header id="header"></header>
-<div id="header2"></div>
-<nav id="nav"></nav>
+<body style="background-color: rgb(242, 244, 247)">
+	<header id="header"></header>
+	<nav id="nav"></nav>
 
-<div class="container">
-  <div class="row">
-    <div class="col-md-12">
-      <div class="border p-3">
-        <div class="row pt-2">
-          <!-- phan thay doi -->
-          <div class="col-md">
-            <div class="container my-4">
-              <div class="border border-2 p-2 m-2">
-              <div class="row">
-                <div class="col-2">
-                  <img src="assets/imgs/khac/anhdaidien.png" class="anhdaidien" >
-                </div>
-                <div class="col">
-                  <h3>Chào mừng bạn đã trở lại, Nguoidung</h3>
-                </div>
-                <div class="col align-self-center">
-                  <button class="form-control btn button">Đăng xuất</button>
-                </div>
-              </div>
-              </div>
-              <!--cập nhật thông tin cá nhân-->
-              <div class="row">
-                <div class="col">
-                  <h5 class="m-2">Thông tin cá nhân</h5>
-                </div>
-              </div>
-             <div class="row">
-               <div class="col">
-                 <p class="m-2">Họ và tên : Nguyễn Văn A</p>
-                 <p class="m-2">Địa chỉ : số 123 đường ABC thành phố XYZ</p>
-                 <p class="m-2">Email : Email@gmail.com</p>
-                 <p class="m-2">Số điện thoại : 0123 456 789</p>
-                 <a href="profile.jsp" class="link"><button class="btn button2 form-control">Thay đổi thông tin cá nhân</button></a>
-               </div>
-             </div>
-              <br>
-              <div class="container mt-2">
-                <h2 class="mb-2">Đơn hàng của bạn</h2>
-                <div class="row">
-                  <div class="col-2">
-                    <p class="head">Hình ảnh</p>
-                  </div>
-                  <div class="col-3">
-                    <p class="head">Thông tin và ngày giao</p>
-                  </div>
-                  <div class="col-2 ">
-                    <p class="head">Đơn giá</p>
-                  </div>
-                  <div class="col-auto">
-                    <p class="head">Số lượng</p>
-                  </div>
-                  <div class="col-2">
-                    <p class="head">Tổng</p>
-                  </div>
-                </div>
-                <!--thẻ máy bơm-->
-                <div class="card mt-2">
-                  <div class="card-body">
-                    <div class="row align-items-center">
-                      <div class="col-md-1">
-                        <img src="assets/imgs/maybom/app10.jpg" class="img-fluid anhhang">
-                      </div>
-                      <div class="col-md-4">
-                        <h5 class="card-title">Máy bơm cao áp mini Pamtex 110</h5>
-                        <p class="card-text">Ngày giao : 19/12/2024</p>
-                      </div>
-                      <div class="col-md-2 align-items-center">
-                        <p class="card-text">650.000 đ</p>
-                      </div>
-                      <div class="col-md-1 text-center">
-                        <p>10</p>
-                      </div>
-                      <div class="col-md-2">
-                        <p>6.500.000</p>
-                      </div>
-                      <div class="col-md-2 text-end">
-                        <button class="btn btn-danger btn-sm">Hủy đơn hàng</button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <!--maybom2-->
-                <div class="card mt-2">
-                  <div class="card-body">
-                    <div class="row align-items-center">
-                      <div class="col-md-1">
-                        <img src="assets/imgs/maybom/sealand3.jpg" class="img-fluid anhhang">
-                      </div>
-                      <div class="col-md-4">
-                        <h5 class="card-title">Máy bơm Sealand Jet Xi</h5>
-                        <p class="card-text">Ngày giao : 04/12/2024</p>
-                      </div>
-                      <div class="col-md-2 align-items-center">
-                        <p class="card-text">450.000 đ</p>
-                      </div>
-                      <div class="col-md-1 text-center">
-                        <p>10</p>
-                      </div>
-                      <div class="col-md-2">
-                        <p>4.500.000</p>
-                      </div>
-                      <div class="col-md-2 text-end">
-                        <button class="btn btn-danger btn-sm">Hủy đơn hàng</button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-<div class="border p-2">
-                <div class="row">
-                  <h5>Sản phẩm bạn đã mua</h5>
-                  <div class="col-md-3 col-sm-6 mb-4">
-                    <div class="card">
-                      <img src="assets\imgs\maybom\shizuko1.jpg" class="card-img-top" alt="Sản phẩm 1">
-                      <div class="card-body text-center">
-                        <h6 class="card-title">Silstar SKD 100</h6>
-                        <p class="text-danger">800.000 đ</p>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-3 col-sm-6 mb-4">
-                    <div class="card">
-                      <img src="assets\imgs\maybom\shizuko1.jpg" class="card-img-top" alt="Sản phẩm 2">
-                      <div class="card-body text-center">
-                        <h6 class="card-title">Bơm tăng áp Seahan 150</h6>
-                        <p class="text-danger">950.000 đ</p>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-3 col-sm-6 mb-4">
-                    <div class="card">
-                      <img src="assets\imgs\maybom\shizuko1.jpg" class="card-img-top" alt="Sản phẩm 3">
-                      <div class="card-body text-center">
-                        <h6 class="card-title">Bơm tăng áp mini Kangaroo KG 150A</h6>
-                        <p class="text-danger">750.000 đ</p>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-3 col-sm-6 mb-4">
-                    <div class="card">
-                      <img src="assets\imgs\maybom\shizuko1.jpg" class="card-img-top" alt="Sản phẩm 4">
-                      <div class="card-body text-center">
-                        <h6 class="card-title">Silstar Luva 200A</h6>
-                        <p class="text-danger">850.000 đ</p>
-                      </div>
-                    </div>
-                  </div>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="border p-3">
+					<div class="row pt-2">
+						<!-- Container chính -->
+						<div class="container py-5">
+							<div class="row justify-content-center">
+								<div class="col-lg-8">
+									<!-- Card chứa thông tin người dùng -->
+									<div class="card p-4">
+										<!-- Avatar và tên người dùng -->
+										<div class="text-center mb-4">
+											<div class="avatar mx-auto mb-3">
+												<img src="data:image/jpeg;base64," alt="User Avatar">
+											</div>
+											<h3 class="fw-bold">${auth.fullname}</h3>
+											<p class="text-muted">${auth.email}</p>
+										</div>
 
-                </div>
-              </div>
-              <div class="row">
-                <div class="col border-top">
-                  <h5 class="text-bold mt-2">Nhắn tin riêng với chúng tôi</h5>
-                  <div class="container border rating">
-                    <p class="p-comment">Bạn muốn nói gì ? </p>
-                    <textarea class="form-control comment-area" rows="5" placeholder="Vui lòng nhập tiếng Việt có dấu. Nhập tối đa 255 kí tự"></textarea>
-                    <button class="form-control btn-right com-btn justify-content-center"> Gửi đánh giá</button>
-                  </div>
-                </div>
-                <div class="col-3 mt-2">
-                  <div id="tintuc"></div>
-                </div>
-                 </div>
-            </div>
+									<!-- Form chi tiết người dùng -->
+										<form id="userForm" action="DetailUserController"
+											method="post">
+											<div class="mb-3">
+												<label class="form-label fw-bold">Họ và tên</label> <input
+													type="text" class="form-control" name="fullname"
+													id="fullname" value="${auth.fullname}" readonly>
+											</div>
 
-          </div>
-        </div>
+											<div class="mb-3">
+												<label class="form-label fw-bold">Email</label> <input
+													type="email" class="form-control" name="email" id="email"
+													value="${auth.email}" readonly>
+											</div>
 
-        <footer id="footer2"></footer>
-      </div>
-    </div>
-  </div>
-</div>
-<footer id="footer"></footer>
-<script>
+											<div class="mb-3">
+												<label class="form-label fw-bold">Địa chỉ</label> <input
+													type="text" class="form-control" name="address"
+													id="address" value="${auth.address}" readonly>
+											</div>
+
+											<div class="mb-3">
+												<label class="form-label fw-bold">Số điện thoại</label> <input
+													type="text" class="form-control" name="phone" id="phone"
+													value="${auth.phone}" readonly>
+											</div>
+
+											<!-- Nút hành động -->
+											<div class="d-flex justify-content-between mt-4">
+												<a href="LogoutController"
+													class="btn btn-outline-danger px-4">Logout</a>
+
+												<!-- Nút Edit -->
+												<button type="button" id="editBtn"
+													class="btn bg-dark-blue px-4 text-light">Edit
+													profile</button>
+
+												<!-- Nút Submit (Ẩn ban đầu) -->
+												<button type="submit" id="submitBtn"
+													class="btn btn-success px-4" style="display: none;">Submit</button>
+											</div>
+										</form>
+
+										<!-- Hiển thị thông báo -->
+										<div id="message" class="mt-3"></div>
+
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="container mt-2">
+							<h2 class="mb-2">Đơn hàng của bạn</h2>
+							<div class="table-responsive">
+								<table class="table table-bordered text-center align-middle">
+									<thead class="table-light">
+										<tr>
+											<th class="bg-dark-blue text-light">Ngày đặt hàng</th>
+											<th class="bg-dark-blue text-light">Tổng số lượng</th>
+											<th class="bg-dark-blue text-light">Tổng tiền</th>
+											<th class="bg-dark-blue text-light"></th>
+										</tr>
+									</thead>
+									<tbody>
+										<c:forEach items="${orders}" var="order">
+											<tr>
+												<td>
+													<p class="mb-0">${order.ordeDate }</p>
+												</td>
+												<td>${order.quantity }</td>
+												<td>${order.totalPrice }</td>
+												<td>
+													<button class="btn btn-danger btn-sm">Hủy đơn hàng</button>
+													<a href="#" class="btn  bg-dark-blue btn-sm text-light"> 
+														Xem chi tiết
+													</a>
+												</td>
+											</tr>
+										</c:forEach>
+									</tbody>
+								</table>
+							</div>
+						</div>
+				
+					</div>
+					<footer id="footer2"></footer>
+
+				</div>
+			</div>
+
+		</div>
+	</div>
+	<footer id="footer"></footer>
+	<script>
   const header = document.getElementById("header");
   const footer = document.getElementById("footer");
   const header2 = document.getElementById("header2");
   const footer2 = document.getElementById("footer2");
   const nav = document.getElementById("nav");
-  const tintuc = document.getElementById("tintuc");
-  const chonmaybom = document.getElementById("chonmaybom");
   fetch("./assets/component/header.jsp")
           .then((response) => response.text())
           .then((html) => (header.innerHTML = html));
@@ -223,12 +164,53 @@
   fetch("./assets/component/nav.jsp")
           .then((response) => response.text())
           .then((html) => (nav.innerHTML = html));
-  fetch("./assets/component/tintuc.jsp")
-          .then((response) => response.text())
-          .then((html) => (tintuc.innerHTML = html));
-  fetch("./assets/component/chonmaybom.jsp")
-          .then((response) => response.text())
-          .then((html) => (chonmaybom.innerHTML = html));
+</script>
+<script >
+document.addEventListener("DOMContentLoaded", function () {
+    const editBtn = document.getElementById("editBtn");
+    const submitBtn = document.getElementById("submitBtn");
+    const formInputs = document.querySelectorAll("#userForm input");
+    const messageDiv = document.getElementById("message");
+    const form = document.getElementById("userForm");
+
+    // Khi nhấn "Edit"
+    editBtn.addEventListener("click", function () {
+        formInputs.forEach(input => input.removeAttribute("readonly"));
+        editBtn.style.display = "none";   // Ẩn nút Edit
+        submitBtn.style.display = "block"; // Hiện nút Submit
+    });
+
+    // Khi nhấn "Submit"
+    form.addEventListener("submit", function (event) {
+        event.preventDefault(); // Ngăn chặn reload trang
+
+        // Lấy dữ liệu từ form
+        const formData = new FormData(form);
+
+        // Gửi dữ liệu qua AJAX
+        fetch("http://localhost:8080/DoAnLTWeb/UserProfileServlet", {
+            method: "POST",
+            body: formData
+        })
+        .then(response => response.json()) // Đọc phản hồi JSON từ server
+        .then(data => {
+            if (data.success) {
+                messageDiv.innerHTML = '<div class="alert alert-success">'+data.message+'</div>';
+                
+                // Chuyển form về trạng thái chỉ đọc
+                formInputs.forEach(input => input.setAttribute("readonly", "true"));
+                editBtn.style.display = "block";
+                submitBtn.style.display = "none";
+            } else {
+                messageDiv.innerHTML = '<div class="alert alert-danger">'+data.message+'</div>';
+            }
+        })
+        .catch(error => {
+            console.error("Lỗi khi gửi AJAX:", error);
+            messageDiv.innerHTML = `<div class="alert alert-danger">Có lỗi xảy ra!</div>`;
+        });
+    });
+});
 </script>
 </body>
 </html>
