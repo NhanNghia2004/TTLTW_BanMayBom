@@ -70,7 +70,23 @@ public class UserDao {
             return false; // Xóa thất bại
         }
     }
+    
+    public boolean updateUser(String firstName, String email, String address, String phone,int id) {
+        String sql = "UPDATE `user` SET fullname = :fullname, address = :address, phone = :phone , email = :email WHERE id =:id";
+        Jdbi jdbi = JDBIConnect.get();
+        int updatedRows = jdbi.withHandle(handle ->
+            handle.createUpdate(sql)
+                .bind("fullname", firstName)
+                .bind("address", address)
+                .bind("phone", phone)
+                .bind("email", email)
+                .bind("id", id)
+                .execute()
+        );
 
+        return updatedRows > 0;
+    }
+    
     public static void main(String[] args) {
         UserDao userDao = new UserDao();
         List<User> users = userDao.getAllUsers();

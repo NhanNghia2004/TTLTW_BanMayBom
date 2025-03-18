@@ -36,56 +36,53 @@
                 
                 <div class="row pt-3">
                     <!-- phan thay doi -->
-                    <div class="col">
-                        <h4 class="text-primary">GIỎ HÀNG</h4>
+                    <div class="col">                 
                         <%
                             Cart cart = (Cart) session.getAttribute("cart");
                             double totalPrice = cart != null ? cart.getTotalPrice() : 0;
                             int totalQuantity = cart != null ? cart.getTotalQuantity() : 0;
                         %>
 
-                        <table>
-                            <thead>
-                            <tr>
-                                <th>Sản phẩm</th>
-                                <th>Ảnh</th>
-                                <th>Số lượng</th>
-                                <th>Giá</th>
-                                <th>Thao tác</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <%
-                                if (cart != null) {
-                                    for (CartItem item : cart.getItems()) {
-                            %>
-                            <tr>
-                                <td><%= item.getProduct().getNameProduct() %></td>
-                                <td><img src="assets/imgs/maybom/<%= item.getProduct().getImage() %>" alt="<%= item.getProduct().getNameProduct() %>" width="100" /></td>
-                                <td>
-                                    <form action="add" method="post">
-                                        <input type="hidden" name="productId" value="<%= item.getProduct().getId() %>" />
-                                        <input type="number" name="quantity" value="<%= item.getQuantity() %>" min="1" />
-                                        <button type="submit" name="action" value="update">Cập nhật</button>
-                                    </form>
-                                </td>
-                                <td><%= item.getProduct().getPriceProduct() * item.getQuantity() %></td>
-                                <td>
-                                    <form action="add" method="post">
-                                        <input type="hidden" name="productId" value="<%= item.getProduct().getId() %>" />
-                                        <button type="submit" name="action" value="remove">Xóa</button>
-                                    </form>
-                                </td>
-                            </tr>
-                            <%
-                                    }
-                                }
-                            %>
-                            </tbody>
-                        </table>
+                        	<div class="container mt-2">
+							<h2 class="mb-2">Giỏ hàng của bạn</h2>
+							<div class="table-responsive">
+								<table class="table table-bordered text-center align-middle">
+									<thead class="table-light">
+										<tr>
+											<th class="bg-dark-blue text-light">Hình ảnh</th>
+											<th class="bg-dark-blue text-light">Thông tin và ngày
+												giao</th>
+											<th class="bg-dark-blue text-light">Đơn giá</th>
+											<th class="bg-dark-blue text-light">Số lượng</th>
+											<th class="bg-dark-blue text-light">Tổng</th>
+											<th class="bg-dark-blue text-light"></th>
+										</tr>
+									</thead>
+									<tbody>
+										<c:forEach items="${orders}" var="order">
+											<tr>
+												<td><img src="assets/imgs/maybom/app10.jpg"
+													class="img-fluid anhhang"
+													style="width: 80px; height: auto;"></td>
+												<td>
+													<h5 class="mb-1">Máy bơm cao áp mini Pamtex 110</h5>
+													<p class="mb-0">Ngày giao: 19/12/2024</p>
+												</td>
+												<td>650.000 đ</td>
+												<td>10</td>
+												<td>6.500.000 đ</td>
+												<td>
+													<button class="btn btn-danger btn-sm">Hủy đơn hàng</button>
+												</td>
+											</tr>
+										</c:forEach>
+									</tbody>
+								</table>
+							</div>
+						</div>
 
                         <!-- Tổng cộng và nút hành động -->
-                        <div class=" align-items-center">
+                        <div class=" align-items-center px-3">
                             <div class="text-end">
                                 <p class="mb-1"><strong>Tổng số lượng:</strong> <%= totalQuantity %></p>
                                 <p class="mb-1"><strong>Tổng tiền:</strong> <%= totalPrice %> đ</p>
@@ -120,18 +117,9 @@
     fetch("./assets/component/footer2.jsp")
         .then((response) => response.text())
         .then((html) => (footer2.innerHTML = html));
-    fetch("./assets/component/header2.jsp")
-        .then((response) => response.text())
-        .then((html) => (header2.innerHTML = html));
     fetch("./assets/component/nav.jsp")
         .then((response) => response.text())
         .then((html) => (nav.innerHTML = html));
-    fetch("./assets/component/tintuc.jsp")
-        .then((response) => response.text())
-        .then((html) => (tintuc.innerHTML = html));
-    fetch("./assets/component/chonmaybom.jsp")
-        .then((response) => response.text())
-        .then((html) => (chonmaybom.innerHTML = html));
 </script>
 <script src="assets/js/nav.js"></script>
 </body>

@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Cart {
+	private int id;
+	private int userId;
+	private double totalPrice;
     private List<CartItem> items;
 
     public Cart() {
