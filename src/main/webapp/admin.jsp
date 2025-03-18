@@ -207,7 +207,7 @@
                                     <th>Tên</th>
                                     <th>Hình ảnh</th>
                                     <th>Giá</th>
-                                    <th>Mô tả</th>
+                                    <th style="text-align: center">Mô tả</th>
                                     <th>Ngày sản xuất</th>
                                     <th>Công suất</th>
                                     <th>Áp suất</th>
@@ -219,7 +219,7 @@
                                     <th>Tồn kho</th>
                                     <th>Danh mục</th>
                                     <th>Nhà cung cấp</th>
-<%--                                    <th>Hành động</th>--%>
+                                    <th>Hành động</th>
                                 </tr>
                                 </thead>
                                 <tbody id="productBody">
@@ -726,48 +726,6 @@
     </div>
 
 </div>
-<%--<script>--%>
-<%--    $(document).ready(function() {--%>
-<%--        $.ajax({--%>
-<%--            url: 'api/products',--%>
-<%--            type: 'GET',--%>
-<%--            dataType: 'json',--%>
-<%--            success: function(data) {--%>
-<%--                console.log(data); // Kiểm tra dữ liệu trả về--%>
-<%--                var tableBody = $('#productBody');--%>
-<%--                tableBody.empty(); // Xóa dữ liệu cũ trong bảng--%>
-
-<%--                data.forEach(function(product) {--%>
-<%--                    var row = `<tr>--%>
-<%--                <td>${product.id}</td>--%>
-<%--                <td>${product.nameProduct}</td>--%>
-<%--                <td><img src="${product.image}" alt="Product Image" style="width: 50px; height: 50px;"></td>--%>
-<%--                <td>${product.priceProduct}</td>--%>
-<%--                <td>${product.description}</td>--%>
-<%--                <td>${product.manufactureDate}</td>--%>
-<%--                <td>${product.power}</td>--%>
-<%--                <td>${product.pressure}</td>--%>
-<%--                <td>${product.flowRate}</td>--%>
-<%--                <td>${product.pipeDiameter}</td>--%>
-<%--                <td>${product.voltage}</td>--%>
-<%--                <td>${product.brand}</td>--%>
-<%--                <td>${product.warrantyMonths}</td>--%>
-<%--                <td>${product.stock}</td>--%>
-<%--                <td>${product.idCategory}</td>--%>
-<%--                <td>${product.idSupplier}</td>--%>
-<%--            </tr>`;--%>
-<%--                    tableBody.append(row);--%>
-<%--                });--%>
-<%--            },--%>
-<%--            error: function(xhr, status, error) {--%>
-<%--                console.error("Error fetching product data: " + error);--%>
-<%--                console.log(xhr.responseText); // Kiểm tra response từ server--%>
-<%--            }--%>
-<%--        });--%>
-
-<%--    });--%>
-
-<%--</script>--%>
 <script src="assets/js/admin.js"></script>
 
 </body>
