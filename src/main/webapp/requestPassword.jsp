@@ -36,16 +36,25 @@
                     <div class="forgot-password-container">
                       <h2><i class="fa-solid fa-key px-2" style="color: #680a8a;"></i>Quên mật khẩu?</h2>
                       <p class="text-muted">Đừng lo lắng, chúng tôi sẽ gửi cho bạn hướng dẫn đặt lại.</p>
-                      <form>
-                        <div class="mb-3">
-                          <label for="email" class="form-label visually-hidden">Email</label>
-                          <input type="email" class="form-control" id="email" placeholder="Enter your email">
-                        </div>
-                        <button type="submit" class="btn btn-custom btn-block border-danger" style="margin-left: 200px;">Đặt lại mật khẩu</button>
-                        <div class="mt-3">
-                          <a href="dangnhap.jsp" class="text-muted">← Quay lại để đăng nhập</a>
+                      <form action="requestPassword" method="POST">
+                        <div class="row gy-3 overflow-hidden">
+                          <div class="col-12">
+                            <div class="form-floating mb-3">
+                              <input type="email" class="form-control"
+                                     name="email"
+                                     id="email" placeholder="name@example.com" required>
+                              <label for="email" class="form-label">Email</label>
+                            </div>
+                          </div>
+                          <div class="col-12">
+                            <div class="d-grid">
+                              <button class="btn bsb-btn-2xl btn-primary" type="submit">Reset password</button>
+                            </div>
+                          </div>
                         </div>
                       </form>
+                      <p class="text-danger">${mess}</p>
+                      <a href="dangnhap.jsp" class="text-muted">← Quay lại để đăng nhập</a>
                     </div>
                   </div>
               </div>
