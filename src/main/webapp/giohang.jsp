@@ -37,12 +37,6 @@
                 <div class="row pt-3">
                     <!-- phan thay doi -->
                     <div class="col">                 
-                        <%
-                            Cart cart = (Cart) session.getAttribute("cart");
-                            double totalPrice = cart != null ? cart.getTotalPrice() : 0;
-                            int totalQuantity = cart != null ? cart.getTotalQuantity() : 0;
-                        %>
-
                         	<div class="container mt-2">
 							<h2 class="mb-2">Giỏ hàng của bạn</h2>
 							<div class="table-responsive">
@@ -50,28 +44,34 @@
 									<thead class="table-light">
 										<tr>
 											<th class="bg-dark-blue text-light">Hình ảnh</th>
-											<th class="bg-dark-blue text-light">Thông tin và ngày
-												giao</th>
 											<th class="bg-dark-blue text-light">Đơn giá</th>
 											<th class="bg-dark-blue text-light">Số lượng</th>
-											<th class="bg-dark-blue text-light">Tổng</th>
 											<th class="bg-dark-blue text-light"></th>
 										</tr>
 									</thead>
 									<tbody>
-										<c:forEach items="${orders}" var="order">
+										<c:forEach items="${cartItems}" var="item">
 											<tr>
 												<td><img src="assets/imgs/maybom/app10.jpg"
 													class="img-fluid anhhang"
 													style="width: 80px; height: auto;"></td>
 												<td>
-													<h5 class="mb-1">Máy bơm cao áp mini Pamtex 110</h5>
-													<p class="mb-0">Ngày giao: 19/12/2024</p>
+													<h5 class="mb-1">${item.product.name}</h5>											
 												</td>
-												<td>650.000 đ</td>
-												<td>10</td>
-												<td>6.500.000 đ</td>
-												<td>
+												<td>${item.product.price}</td>
+												<!-- Số lượng sản phẩm -->
+													<td class="product-quantity">
+														<div class="quantity-wrapper">
+															<input id="quantity-edit-${index}" type="number"
+																name="weight" class="quantity-form"
+																value="${item.quantity}" min="1">
+															<button type="button" class="btn-update"
+																data-id="${item.product.id}">
+																<i class="bi bi-check"></i>
+															</button>
+														</div>
+													</td>
+													<td>
 													<button class="btn btn-danger btn-sm">Hủy đơn hàng</button>
 												</td>
 											</tr>
@@ -84,8 +84,8 @@
                         <!-- Tổng cộng và nút hành động -->
                         <div class=" align-items-center px-3">
                             <div class="text-end">
-                                <p class="mb-1"><strong>Tổng số lượng:</strong> <%= totalQuantity %></p>
-                                <p class="mb-1"><strong>Tổng tiền:</strong> <%= totalPrice %> đ</p>
+                                <p class="mb-1"><strong>Tổng số lượng:</strong> ${sessionScope.cart.totalAmount}</p>
+                                <p class="mb-1"><strong>Tổng tiền:</strong>${sessionScope.cart.totalPrice} đ</p>
                                 <button class="btn btn-success mt-2">
                                     Tiến hành thanh toán
                                 </button>
