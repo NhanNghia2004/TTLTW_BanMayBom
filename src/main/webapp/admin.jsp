@@ -232,145 +232,152 @@
                     </div>
 
 
+<%--                    <!-- Modal Thêm Sản Phẩm -->--%>
+<%--                    <div class="modal fade" id="addProductModal" tabindex="-1" role="dialog" aria-labelledby="addProductModalLabel" aria-hidden="true">--%>
+<%--                        <div class="modal-dialog" role="document">--%>
+<%--                            <div class="modal-content">--%>
+<%--                                <div class="modal-header">--%>
+<%--                                    <h5 class="modal-title" id="addProductModalLabel">Thêm Sản Phẩm</h5>--%>
+<%--                                </div>--%>
+<%--                                <div class="modal-body">--%>
+<%--                                    <form id="addProductForm" method="POST">--%>
+<%--                                        <div class="form-group">--%>
+<%--                                            <label for="productName">Tên Sản Phẩm</label>--%>
+<%--                                            <input type="text" class="form-control" id="productName" name="nameProduct" required>--%>
+<%--                                        </div>--%>
+<%--                                        <div class="form-group">--%>
+<%--                                            <label for="productImage">Hình Ảnh</label>--%>
+<%--                                            <input type="text" class="form-control" id="productImage" name="image" placeholder="Nhập URL hình ảnh" required>--%>
+<%--                                        </div>--%>
+<%--                                        <div class="form-group">--%>
+<%--                                            <label for="productPrice">Giá</label>--%>
+<%--                                            <input type="number" class="form-control" id="productPrice" name="priceProduct" required min="0">--%>
+<%--                                        </div>--%>
+<%--                                        <div class="form-group">--%>
+<%--                                            <label for="productDescription">Mô Tả</label>--%>
+<%--                                            <textarea class="form-control" id="productDescription" name="description" rows="3"></textarea>--%>
+<%--                                        </div>--%>
+<%--                                        <div class="form-group">--%>
+<%--                                            <label for="productManufactureDate">Ngày Sản Xuất</label>--%>
+<%--                                            <input type="date" class="form-control" id="productManufactureDate" name="manufactureDate" required>--%>
+<%--                                        </div>--%>
+<%--                                        <div class="form-group">--%>
+<%--                                            <label for="productPower">Công Suất</label>--%>
+<%--                                            <input type="text" class="form-control" id="productPower" name="power" required>--%>
+<%--                                        </div>--%>
+<%--                                        <div class="form-group">--%>
+<%--                                            <label for="productPressure">Áp Suất</label>--%>
+<%--                                            <input type="number" class="form-control" id="productPressure" name="pressure" required min="0">--%>
+<%--                                        </div>--%>
+<%--                                        <div class="form-group">--%>
+<%--                                            <label for="productFlowRate">Lưu Lượng</label>--%>
+<%--                                            <input type="number" class="form-control" id="productFlowRate" name="flowRate" required min="0">--%>
+<%--                                        </div>--%>
+<%--                                        <div class="form-group">--%>
+<%--                                            <label for="productPipeDiameter">Đường Kính Ống</label>--%>
+<%--                                            <input type="number" class="form-control" id="productPipeDiameter" name="pipeDiameter" required min="0">--%>
+<%--                                        </div>--%>
+<%--                                        <div class="form-group">--%>
+<%--                                            <label for="productVoltage">Điện Áp</label>--%>
+<%--                                            <input type="number" class="form-control" id="productVoltage" name="voltage" required min="0">--%>
+<%--                                        </div>--%>
+<%--                                        <div class="form-group">--%>
+<%--                                            <label for="productBrand">Thương Hiệu</label>--%>
+<%--                                            <input type="text" class="form-control" id="productBrand" name="brand" required>--%>
+<%--                                        </div>--%>
+<%--                                        <div class="form-group">--%>
+<%--                                            <label for="productWarrantyMonths">Bảo Hành (Tháng)</label>--%>
+<%--                                            <input type="number" class="form-control" id="productWarrantyMonths" name="warrantyMonths" required min="0">--%>
+<%--                                        </div>--%>
+<%--                                        <div class="form-group">--%>
+<%--                                            <label for="productStock">Tồn Kho</label>--%>
+<%--                                            <input type="number" class="form-control" id="productStock" name="stock" required min="0">--%>
+<%--                                        </div>--%>
+<%--                                        <div class="form-group">--%>
+<%--                                            <label for="productCategory">Danh Mục</label>--%>
+<%--                                            <input type="number" class="form-control" id="productCategory" name="idCategory" required>--%>
+<%--                                        </div>--%>
+<%--                                        <div class="form-group">--%>
+<%--                                            <label for="productSupplier">Nhà Cung Cấp</label>--%>
+<%--                                            <input type="number" class="form-control" id="productSupplier" name="idSupplier" required>--%>
+<%--                                        </div>--%>
+<%--                                        <button type="submit" class="btn btn-primary">Thêm Sản Phẩm</button>--%>
+<%--                                    </form>--%>
+<%--                                </div>--%>
+<%--                            </div>--%>
+<%--                        </div>--%>
+<%--                    </div>--%>
+
                     <!-- Modal Thêm Sản Phẩm -->
-                    <div class="modal fade" id="addProductModal" tabindex="-1" aria-labelledby="addProductModalLabel"
-                         aria-hidden="true">
-                        <div class="modal-dialog">
+                    <div class="modal fade" id="addProductModal" tabindex="-1" role="dialog" aria-labelledby="addProductModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <h5 class="modal-title" id="addProductModalLabel">Thêm Sản Phẩm</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                            aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-                                    <form action="#" method="POST">
-                                        <div class="mb-3 row">
-                                            <label for="productName" class="col-form-label col-sm-3">Tên sản
-                                                phẩm</label>
-                                            <div class="col-sm-9">
-                                                <input type="text" class="form-control" id="productName"
-                                                       name="productName"
-                                                       required>
-                                            </div>
+                                    <form id="addProductForm" method="POST" enctype="multipart/form-data">
+                                        <div class="form-group">
+                                            <label for="productName">Tên Sản Phẩm</label>
+                                            <input type="text" class="form-control" id="productName" name="nameProduct" required>
                                         </div>
-                                        <div class="mb-3 row">
-                                            <label for="productImage" class="col-form-label col-sm-3">Hình ảnh</label>
-                                            <div class="col-sm-9">
-                                                <input type="file" class="form-control" id="productImage"
-                                                       name="productImage"
-                                                       required>
-                                            </div>
+                                        <div class="form-group">
+                                            <label for="productImage">Hình Ảnh (URL)</label>
+                                            <input type="text" class="form-control" id="productImage" name="image" placeholder="Nhập URL hình ảnh" required>
                                         </div>
-                                        <div class="mb-3 row">
-                                            <label for="productPrice" class="col-form-label col-sm-3">Giá</label>
-                                            <div class="col-sm-9">
-                                                <input type="number" class="form-control" id="productPrice"
-                                                       name="productPrice"
-                                                       required>
-                                            </div>
+                                        <div class="form-group">
+                                            <label for="productPrice">Giá</label>
+                                            <input type="number" class="form-control" id="productPrice" name="priceProduct" required min="0">
                                         </div>
-                                        <div class="mb-3 row">
-                                            <label for="productDescription" class="col-form-label col-sm-3">Mô
-                                                tả</label>
-                                            <div class="col-sm-9">
-                                        <textarea class="form-control" id="productDescription" name="productDescription"
-                                                  rows="3" required></textarea>
-                                            </div>
+                                        <div class="form-group">
+                                            <label for="productDescription">Mô Tả</label>
+                                            <textarea class="form-control" id="productDescription" name="description" rows="3"></textarea>
                                         </div>
-                                        <div class="mb-3 row">
-                                            <label for="productManufactureDate" class="col-form-label col-sm-3">Ngày sản
-                                                xuất</label>
-                                            <div class="col-sm-9">
-                                                <input type="date" class="form-control" id="productManufactureDate"
-                                                       name="productManufactureDate" required>
-                                            </div>
+                                        <div class="form-group">
+                                            <label for="productManufactureDate">Ngày Sản Xuất</label>
+                                            <input type="date" class="form-control" id="productManufactureDate" name="manufactureDate" required>
                                         </div>
-                                        <div class="mb-3 row">
-                                            <label for="productPower" class="col-form-label col-sm-3">Công suất</label>
-                                            <div class="col-sm-9">
-                                                <input type="text" class="form-control" id="productPower"
-                                                       name="productPower"
-                                                       required>
-                                            </div>
+                                        <div class="form-group">
+                                            <label for="productPower">Công Suất</label>
+                                            <input type="text" class="form-control" id="productPower" name="power" required>
                                         </div>
-                                        <div class="mb-3 row">
-                                            <label for="productPressure" class="col-form-label col-sm-3">Áp suất</label>
-                                            <div class="col-sm-9">
-                                                <input type="text" class="form-control" id="productPressure"
-                                                       name="productPressure" required>
-                                            </div>
+                                        <div class="form-group">
+                                            <label for="productPressure">Áp Suất</label>
+                                            <input type="number" class="form-control" id="productPressure" name="pressure" required min="0">
                                         </div>
-                                        <div class="mb-3 row">
-                                            <label for="productFlowRate" class="col-form-label col-sm-3">Lưu
-                                                lượng</label>
-                                            <div class="col-sm-9">
-                                                <input type="text" class="form-control" id="productFlowRate"
-                                                       name="productFlowRate" required>
-                                            </div>
+                                        <div class="form-group">
+                                            <label for="productFlowRate">Lưu Lượng</label>
+                                            <input type="number" class="form-control" id="productFlowRate" name="flowRate" required min="0">
                                         </div>
-                                        <div class="mb-3 row">
-                                            <label for="productPipeDiameter" class="col-form-label col-sm-3">Đường kính
-                                                ống</label>
-                                            <div class="col-sm-9">
-                                                <input type="text" class="form-control" id="productPipeDiameter"
-                                                       name="productPipeDiameter" required>
-                                            </div>
+                                        <div class="form-group">
+                                            <label for="productPipeDiameter">Đường Kính Ống</label>
+                                            <input type="number" class="form-control" id="productPipeDiameter" name="pipeDiameter" required min="0">
                                         </div>
-                                        <div class="mb-3 row">
-                                            <label for="productVoltage" class="col-form-label col-sm-3">Điện áp</label>
-                                            <div class="col-sm-9">
-                                                <input type="text" class="form-control" id="productVoltage"
-                                                       name="productVoltage" required>
-                                            </div>
+                                        <div class="form-group">
+                                            <label for="productVoltage">Điện Áp</label>
+                                            <input type="number" class="form-control" id="productVoltage" name="voltage" required min="0">
                                         </div>
-                                        <div class="mb-3 row">
-                                            <label for="productBrand" class="col-form-label col-sm-3">Thương
-                                                hiệu</label>
-                                            <div class="col-sm-9">
-                                                <input type="text" class="form-control" id="productBrand"
-                                                       name="productBrand"
-                                                       required>
-                                            </div>
+                                        <div class="form-group">
+                                            <label for="productBrand">Thương Hiệu</label>
+                                            <input type="text" class="form-control" id="productBrand" name="brand" required>
                                         </div>
-                                        <div class="mb-3 row">
-                                            <label for="productWarranty" class="col-form-label col-sm-3">Bảo hành
-                                                (tháng)</label>
-                                            <div class="col-sm-9">
-                                                <input type="number" class="form-control" id="productWarranty"
-                                                       name="productWarranty" required>
-                                            </div>
+                                        <div class="form-group">
+                                            <label for="productWarrantyMonths">Bảo Hành (Tháng)</label>
+                                            <input type="number" class="form-control" id="productWarrantyMonths" name="warrantyMonths" required min="0">
                                         </div>
-                                        <div class="mb-3 row">
-                                            <label for="productStock" class="col-form-label col-sm-3">Tồn kho</label>
-                                            <div class="col-sm-9">
-                                                <input type="number" class="form-control" id="productStock"
-                                                       name="productStock"
-                                                       required>
-                                            </div>
+                                        <div class="form-group">
+                                            <label for="productStock">Tồn Kho</label>
+                                            <input type="number" class="form-control" id="productStock" name="stock" required min="0">
                                         </div>
-                                        <div class="mb-3 row">
-                                            <label for="productCategory" class="col-form-label col-sm-3">Danh
-                                                mục</label>
-                                            <div class="col-sm-9">
-                                                <select class="form-select" id="productCategory" name="productCategory"
-                                                        required>
-                                                    <option value="Máy bơm">Máy bơm</option>
-                                                    <!-- Add more categories as needed -->
-                                                </select>
-                                            </div>
+                                        <div class="form-group">
+                                            <label for="productCategory">Danh Mục</label>
+                                            <input type="number" class="form-control" id="productCategory" name="idCategory" required>
                                         </div>
-                                        <div class="mb-3 row">
-                                            <label for="productSupplier" class="col-form-label col-sm-3">Nhà cung
-                                                cấp</label>
-                                            <div class="col-sm-9">
-                                                <input type="text" class="form-control" id="productSupplier"
-                                                       name="productSupplier" required>
-                                            </div>
+                                        <div class="form-group">
+                                            <label for="productSupplier">Nhà Cung Cấp</label>
+                                            <input type="number" class="form-control" id="productSupplier" name="idSupplier" required>
                                         </div>
-                                        <div class="mb-3">
-                                            <button type="submit" class="btn btn-dark w-100 btn-lg">Thêm sản phẩm
-                                            </button>
-                                        </div>
+                                        <button type="submit" class="btn btn-primary">Thêm Sản Phẩm</button>
                                     </form>
                                 </div>
                             </div>
@@ -390,7 +397,7 @@
                                             aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-                                    <form action="#" method="POST">
+                                    <form action="productController" method="POST" enctype="multipart/form-data">
                                         <input type="hidden" id="editProductId" name="productId">
 
                                         <div class="row mb-3">

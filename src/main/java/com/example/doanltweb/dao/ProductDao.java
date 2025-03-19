@@ -4,43 +4,91 @@ import com.example.doanltweb.dao.db.JDBIConnect;
 import com.example.doanltweb.dao.model.Product;
 import org.jdbi.v3.core.Jdbi;
 import org.jdbi.v3.core.statement.Query;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
 public class ProductDao {
     static Map<Integer, Product> data = new HashMap<>();
+    private Jdbi jdbi;
 
-//    public List<Product> getAll() {
-//        Jdbi jdbi = JDBIConnect.get();
-//        return jdbi.withHandle(handle -> handle.createQuery("SELECT * FROM product").mapToBean(Product.class).list());
-//    }
-public List<Product> getAll() {
-    Jdbi jdbi = JDBIConnect.get();
-    return jdbi.withHandle(handle ->
-            handle.createQuery("SELECT * FROM product")
-                    .map((rs, ctx) -> {
-                        Product product = new Product();
-                        product.setId(rs.getInt("id"));
-                        product.setNameProduct(rs.getString("nameProduct"));
-                        product.setImage(rs.getString("image"));
-                        product.setPriceProduct(rs.getDouble("priceProduct"));
-                        product.setDescription(rs.getString("description"));
-                        product.setManufactureDate(rs.getString("manufactureDate"));
-                        product.setPower(rs.getString("power"));
-                        product.setPressure(rs.getDouble("pressure"));
-                        product.setFlowRate(rs.getDouble("flowRate"));
-                        product.setPipeDiameter(rs.getDouble("pipeDiameter"));
-                        product.setVoltage(rs.getInt("voltage"));
-                        product.setBrand(rs.getString("brand"));
-                        product.setWarrantyMonths(rs.getInt("warrantyMonths"));
-                        product.setStock(rs.getInt("stock"));
-                        product.setIdCategory(rs.getString("idCategory"));
-                        product.setIdSupplier(rs.getString("idSupplier"));
-                        return product;
-                    })
-                    .list());
-}
+    public ProductDao() {
+        this.jdbi = JDBIConnect.get(); // Kết nối JDBI từ lớp JDBIConnect của bạn
+    }
+
+    public List<Product> getAll() {
+        Jdbi jdbi = JDBIConnect.get();
+        return jdbi.withHandle(handle ->
+                handle.createQuery("SELECT * FROM product")
+                        .map((rs, ctx) -> {
+                            Product product = new Product();
+                            product.setId(rs.getInt("id"));
+                            product.setNameProduct(rs.getString("nameProduct"));
+                            product.setImage(rs.getString("image"));
+                            product.setPriceProduct(rs.getDouble("priceProduct"));
+                            product.setDescription(rs.getString("description"));
+                            product.setManufactureDate(rs.getString("manufactureDate"));
+                            product.setPower(rs.getString("power"));
+                            product.setPressure(rs.getDouble("pressure"));
+                            product.setFlowRate(rs.getDouble("flowRate"));
+                            product.setPipeDiameter(rs.getDouble("pipeDiameter"));
+                            product.setVoltage(rs.getInt("voltage"));
+                            product.setBrand(rs.getString("brand"));
+                            product.setWarrantyMonths(rs.getInt("warrantyMonths"));
+                            product.setStock(rs.getInt("stock"));
+                            product.setIdCategory(rs.getInt("idCategory"));
+                            product.setIdSupplier(rs.getInt("idSupplier"));
+                            return product;
+                        })
+                        .list());
+    }
+
+    public boolean addProduct(Product product) {
+        String sql = "INSERT INTO product (nameProduct, image, priceProduct, description, manufactureDate, power, " +
+                "pressure, flowRate, pipeDiameter, voltage, brand, warrantyMonths, stock, idCategory, idSupplier) " +
+                "VALUES (:nameProduct, :image, :priceProduct, :description, :manufactureDate, :power, :pressure, " +
+                ":flowRate, :pipeDiameter, :voltage, :brand, :warrantyMonths, :stock, :idCategory, :idSupplier)";
+
+        try {
+            // Thêm sản phẩm vào cơ sở dữ liệu
+            int rowsAffected = jdbi.withHandle(handle -> {
+                return handle.createUpdate(sql)
+                        .bind("nameProduct", product.getNameProduct())
+                        .bind("image", product.getImage())
+                        .bind("priceProduct", product.getPriceProduct())
+                        .bind("description", product.getDescription())
+                        .bind("manufactureDate", product.getManufactureDate())
+                        .bind("power", product.getPower())
+                        .bind("pressure", product.getPressure())
+                        .bind("flowRate", product.getFlowRate())
+                        .bind("pipeDiameter", product.getPipeDiameter())
+                        .bind("voltage", product.getVoltage())
+                        .bind("brand", product.getBrand())
+                        .bind("warrantyMonths", product.getWarrantyMonths())
+                        .bind("stock", product.getStock())
+                        .bind("idCategory", product.getIdCategory())
+                        .bind("idSupplier", product.getIdSupplier())
+                        .execute(); // Thực thi câu lệnh SQL INSERT
+            });
+
+            if (rowsAffected > 0) {
+                System.out.println("Sản phẩm đã được thêm thành công!");
+                return true; // Thêm sản phẩm thành công
+            } else {
+                System.out.println("Không có dòng nào bị ảnh hưởng, thêm sản phẩm thất bại.");
+                return false; // Không có dòng nào bị ảnh hưởng
+            }
+        } catch (Exception e) {
+            // In ra thông báo lỗi
+            System.err.println("Lỗi khi thêm sản phẩm: " + e.getMessage());
+            e.printStackTrace(); // In chi tiết lỗi ra console
+            return false;
+        }
+    }
+
+
 
 
     public Product getById(int id) {
@@ -59,6 +107,7 @@ public List<Product> getAll() {
             return q.mapToBean(Product.class).list();
         });
     }
+
     public List<Product> getProductBySupplier(int supplierId) {
         Jdbi jdbi = JDBIConnect.get();
         return jdbi.withHandle(handle ->
@@ -79,38 +128,43 @@ public List<Product> getAll() {
     }
 
 
-    // Test
-    public static void main(String[] args) {
-        ProductDao productDao = new ProductDao();
+        public static void main(String[] args) {
+            // Tạo đối tượng Product
+            Product product = new Product();
+            product.setNameProduct("Máy bơm nước");
+            product.setImage("image_url.jpg");
+            product.setPriceProduct(1000000);
+            product.setDescription("Máy bơm nước hiệu quả cao");
+            product.setManufactureDate("2025-03-20");
+            product.setPower("2 HP");
+            product.setPressure(10.5);
+            product.setFlowRate(500);
+            product.setPipeDiameter(50);
+            product.setVoltage(220);
+            product.setBrand("Bơm ABC");
+            product.setWarrantyMonths(24);
+            product.setStock(50);
+            product.setIdCategory(1);
+            product.setIdSupplier(2);
 
-        // Kiểm tra getAll()
-        System.out.println("Tất cả sản phẩm:");
-        List<Product> allProducts = productDao.getAll();
-        allProducts.forEach(product -> System.out.println(product));
+            // Khởi tạo ProductDao
+            ProductDao productDao = new ProductDao();
 
-        // Kiểm tra getById()
-        int testId = 1;  // Giả sử ID sản phẩm là 1
-        System.out.println("\nSản phẩm với ID = " + testId + ":");
-        Product productById = productDao.getById(testId);
-        System.out.println(productById != null ? productById : "Sản phẩm không tồn tại!");
+            // Thêm sản phẩm vào cơ sở dữ liệu
+            boolean success = productDao.addProduct(product);
 
-        // Kiểm tra getSaleProduct()
-        System.out.println("\nSản phẩm đang giảm giá:");
-        List<Product> saleProducts = productDao.getSaleProduct();
-        saleProducts.forEach(product -> System.out.println(product));
+            // Kiểm tra kết quả
+            if (success) {
+                System.out.println("Sản phẩm đã được thêm thành công!");
+            } else {
+                System.out.println("Có lỗi xảy ra khi thêm sản phẩm.");
+            }
+        }
 
-        // Kiểm tra getProductBySupplier()
-        int supplierId = 1;  // Giả sử ID nhà cung cấp là 1
-        System.out.println("\nSản phẩm của nhà cung cấp với ID = " + supplierId + ":");
-        List<Product> supplierProducts = productDao.getProductBySupplier(supplierId);
-        supplierProducts.forEach(product -> System.out.println(product));
-
-//        // Kiểm tra deleteById()
-//        String deleteId = "1";  // Giả sử muốn xóa sản phẩm có ID = 1
-//        System.out.println("\nXóa sản phẩm với ID = " + deleteId + ":");
-//        boolean isDeleted = productDao.deleteById(deleteId);
-//        System.out.println(isDeleted ? "Xóa thành công!" : "Xóa thất bại!");
-    }
 
 }
+
+
+
+
 
