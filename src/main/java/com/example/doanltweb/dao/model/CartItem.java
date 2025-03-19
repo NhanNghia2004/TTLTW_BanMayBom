@@ -24,4 +24,12 @@ public class CartItem {
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
+
+    public void increaseQuantity() {
+        this.quantity++;
+    }
+    
+    public void decreaseQuantity() {
+        this.quantity--;
+    }
 }
