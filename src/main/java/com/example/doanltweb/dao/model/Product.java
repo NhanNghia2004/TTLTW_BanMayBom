@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.sql.Date;
 
     public class Product implements java.io.Serializable {
-        private int id;
+        private Integer id;
         private String nameProduct;
         private String image;
         private double priceProduct;
@@ -24,11 +24,29 @@ import java.sql.Date;
     public Product() {
     }
 
+        public Product(String nameProduct, String image, double priceProduct, String description, String manufactureDate, String power, double pressure, double flowRate, double pipeDiameter, int voltage, String brand, int warrantyMonths, int stock, int idCategory, int idSupplier) {
+            this.nameProduct = nameProduct;
+            this.image = image;
+            this.priceProduct = priceProduct;
+            this.description = description;
+            this.manufactureDate = manufactureDate;
+            this.power = power;
+            this.pressure = pressure;
+            this.flowRate = flowRate;
+            this.pipeDiameter = pipeDiameter;
+            this.voltage = voltage;
+            this.brand = brand;
+            this.warrantyMonths = warrantyMonths;
+            this.stock = stock;
+            this.idCategory = idCategory;
+            this.idSupplier = idSupplier;
+        }
+
         public int getId() {
             return id;
         }
 
-        public void setId(int id) {
+        public void setId(Integer id) {
             this.id = id;
         }
 
