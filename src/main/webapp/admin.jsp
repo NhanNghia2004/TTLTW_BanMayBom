@@ -232,81 +232,6 @@
                     </div>
 
 
-<%--                    <!-- Modal Thêm Sản Phẩm -->--%>
-<%--                    <div class="modal fade" id="addProductModal" tabindex="-1" role="dialog" aria-labelledby="addProductModalLabel" aria-hidden="true">--%>
-<%--                        <div class="modal-dialog" role="document">--%>
-<%--                            <div class="modal-content">--%>
-<%--                                <div class="modal-header">--%>
-<%--                                    <h5 class="modal-title" id="addProductModalLabel">Thêm Sản Phẩm</h5>--%>
-<%--                                </div>--%>
-<%--                                <div class="modal-body">--%>
-<%--                                    <form id="addProductForm" method="POST">--%>
-<%--                                        <div class="form-group">--%>
-<%--                                            <label for="productName">Tên Sản Phẩm</label>--%>
-<%--                                            <input type="text" class="form-control" id="productName" name="nameProduct" required>--%>
-<%--                                        </div>--%>
-<%--                                        <div class="form-group">--%>
-<%--                                            <label for="productImage">Hình Ảnh</label>--%>
-<%--                                            <input type="text" class="form-control" id="productImage" name="image" placeholder="Nhập URL hình ảnh" required>--%>
-<%--                                        </div>--%>
-<%--                                        <div class="form-group">--%>
-<%--                                            <label for="productPrice">Giá</label>--%>
-<%--                                            <input type="number" class="form-control" id="productPrice" name="priceProduct" required min="0">--%>
-<%--                                        </div>--%>
-<%--                                        <div class="form-group">--%>
-<%--                                            <label for="productDescription">Mô Tả</label>--%>
-<%--                                            <textarea class="form-control" id="productDescription" name="description" rows="3"></textarea>--%>
-<%--                                        </div>--%>
-<%--                                        <div class="form-group">--%>
-<%--                                            <label for="productManufactureDate">Ngày Sản Xuất</label>--%>
-<%--                                            <input type="date" class="form-control" id="productManufactureDate" name="manufactureDate" required>--%>
-<%--                                        </div>--%>
-<%--                                        <div class="form-group">--%>
-<%--                                            <label for="productPower">Công Suất</label>--%>
-<%--                                            <input type="text" class="form-control" id="productPower" name="power" required>--%>
-<%--                                        </div>--%>
-<%--                                        <div class="form-group">--%>
-<%--                                            <label for="productPressure">Áp Suất</label>--%>
-<%--                                            <input type="number" class="form-control" id="productPressure" name="pressure" required min="0">--%>
-<%--                                        </div>--%>
-<%--                                        <div class="form-group">--%>
-<%--                                            <label for="productFlowRate">Lưu Lượng</label>--%>
-<%--                                            <input type="number" class="form-control" id="productFlowRate" name="flowRate" required min="0">--%>
-<%--                                        </div>--%>
-<%--                                        <div class="form-group">--%>
-<%--                                            <label for="productPipeDiameter">Đường Kính Ống</label>--%>
-<%--                                            <input type="number" class="form-control" id="productPipeDiameter" name="pipeDiameter" required min="0">--%>
-<%--                                        </div>--%>
-<%--                                        <div class="form-group">--%>
-<%--                                            <label for="productVoltage">Điện Áp</label>--%>
-<%--                                            <input type="number" class="form-control" id="productVoltage" name="voltage" required min="0">--%>
-<%--                                        </div>--%>
-<%--                                        <div class="form-group">--%>
-<%--                                            <label for="productBrand">Thương Hiệu</label>--%>
-<%--                                            <input type="text" class="form-control" id="productBrand" name="brand" required>--%>
-<%--                                        </div>--%>
-<%--                                        <div class="form-group">--%>
-<%--                                            <label for="productWarrantyMonths">Bảo Hành (Tháng)</label>--%>
-<%--                                            <input type="number" class="form-control" id="productWarrantyMonths" name="warrantyMonths" required min="0">--%>
-<%--                                        </div>--%>
-<%--                                        <div class="form-group">--%>
-<%--                                            <label for="productStock">Tồn Kho</label>--%>
-<%--                                            <input type="number" class="form-control" id="productStock" name="stock" required min="0">--%>
-<%--                                        </div>--%>
-<%--                                        <div class="form-group">--%>
-<%--                                            <label for="productCategory">Danh Mục</label>--%>
-<%--                                            <input type="number" class="form-control" id="productCategory" name="idCategory" required>--%>
-<%--                                        </div>--%>
-<%--                                        <div class="form-group">--%>
-<%--                                            <label for="productSupplier">Nhà Cung Cấp</label>--%>
-<%--                                            <input type="number" class="form-control" id="productSupplier" name="idSupplier" required>--%>
-<%--                                        </div>--%>
-<%--                                        <button type="submit" class="btn btn-primary">Thêm Sản Phẩm</button>--%>
-<%--                                    </form>--%>
-<%--                                </div>--%>
-<%--                            </div>--%>
-<%--                        </div>--%>
-<%--                    </div>--%>
 
                     <!-- Modal Thêm Sản Phẩm -->
                     <div class="modal fade" id="addProductModal" tabindex="-1" role="dialog" aria-labelledby="addProductModalLabel" aria-hidden="true">
@@ -316,7 +241,7 @@
                                     <h5 class="modal-title" id="addProductModalLabel">Thêm Sản Phẩm</h5>
                                 </div>
                                 <div class="modal-body">
-                                    <form id="addProductForm" method="POST" enctype="multipart/form-data">
+                                    <form id="addProductForm">
                                         <div class="form-group">
                                             <label for="productName">Tên Sản Phẩm</label>
                                             <input type="text" class="form-control" id="productName" name="nameProduct" required>
@@ -377,7 +302,7 @@
                                             <label for="productSupplier">Nhà Cung Cấp</label>
                                             <input type="number" class="form-control" id="productSupplier" name="idSupplier" required>
                                         </div>
-                                        <button type="submit" class="btn btn-primary">Thêm Sản Phẩm</button>
+                                        <button type="submit" class="btn btn-primary" onclick="addProduct(event)"> Thêm Sản Phẩm</button>
                                     </form>
                                 </div>
                             </div>

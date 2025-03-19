@@ -13,9 +13,7 @@ import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Paths;
 import java.util.List;
 
 
@@ -62,13 +60,17 @@ public class ProductController extends HttpServlet {
             }
             String jsonData = jsonBuffer.toString();
 
-            // Parse JSON thành Product object
+            // Parse JSON thành Product object, bỏ qua id
             Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
             Product product = gson.fromJson(jsonData, Product.class);
 
-            // Validate cơ bản
-            if (product.getNameProduct() == null || product.getNameProduct().isEmpty() ||
-                    product.getImage() == null || product.getImage().isEmpty()) {
+            System.out.println("bcd  " + product);
+            // Không sử dụng id từ client gửi lên (nếu có)
+            product.setId(null);  // Đảm bảo id không ảnh hưởng, DB sẽ tự sinh nếu cần
+
+            // Kiểm tra các trường bắt buộc
+            if (product.getNameProduct() == null || product.getNameProduct().trim().isEmpty() ||
+                    product.getImage() == null || product.getImage().trim().isEmpty()) {
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 response.getWriter().write("{\"message\": \"Vui lòng điền đầy đủ tên sản phẩm và ảnh!\"}");
                 return;
