@@ -13,7 +13,7 @@ import java.io.PrintWriter;
 
 import java.util.List;
 
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
+//import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 import com.example.doanltweb.dao.OrderDao;
 import com.example.doanltweb.dao.UserDao;
@@ -25,14 +25,14 @@ import com.google.gson.*;
 @MultipartConfig
 public class UserProfileServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		HttpSession session = request.getSession();
         User user = (User) session.getAttribute("auth");
 		OrderDao dao = new OrderDao();
 		List<Order> orders = dao.getOrderByUserId(user.getId());
-		
+
 		for (Order order : orders) {
 			List<OrderDetail> list = dao.getDetailById(order.getId());
 			order.setQuantity(list.size());
@@ -51,7 +51,7 @@ public class UserProfileServlet extends HttpServlet {
 	        Gson gson = new Gson();
 	        HttpSession session = request.getSession();
 	        User user = (User) session.getAttribute("auth");
-	    
+
 	        try {
 	            String fullname = request.getParameter("fullname");
 	            String email = request.getParameter("email");
