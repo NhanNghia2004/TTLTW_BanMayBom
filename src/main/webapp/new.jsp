@@ -16,25 +16,27 @@
             href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
             crossorigin="anonymous"
     />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="assets/css/headerAndFooter.css">
 </head>
 
 <body>
 <header id="header"></header>
+<nav id="nav"></nav>
 <div class="container">
     <div class="row">
         <div class="col-md-12">
             <div class="border p-3">
-                <div id="header2"></div>
-                <nav id="nav"></nav>
+                
 
-                <div class="row pt-3">
+                <div class="row ">
                     <div class="col-md-3">
                         <div id="chonmaybom"></div>
                         <div id="tintuc"></div>
                     </div>
                     <!-- phan thay doi -->
                     <div class="col-md-9">
-                        <h5 class="card-title text-center pt-2">Tin Tức Nổi Bật</h5>
+                        <h3 class="card-title text-center py-3">Tin Tức Nổi Bật</h3>
                         <ul class="list-unstyled">
                             <!-- tin1 -->
                             <div class="container border-bottom border-top">
@@ -176,6 +178,7 @@
             </div>
         </div>
     </div>
+    </div>
     <footer id="footer"></footer>
     <script>
         const header = document.getElementById("header");
@@ -207,6 +210,6 @@
             .then((response) => response.text())
             .then((html) => (chonmaybom.innerHTML = html));
     </script>
-</div>
+<script src="assets/js/nav.js"></script>
 </body>
 </html>

@@ -20,73 +20,72 @@
             href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
             crossorigin="anonymous"
     />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="assets/css/giohang.css">
+    <link rel="stylesheet" href="assets/css/headerAndFooter.css">
 </head>
 
 <body>
 <header id="header"></header>
+<nav id="nav"></nav>
+
 <div class="container">
     <div class="row">
         <div class="col-md-12">
             <div class="border p-3">
-                <div id="header2"></div>
-                <nav id="nav"></nav>
-
+                
                 <div class="row pt-3">
                     <!-- phan thay doi -->
-                    <div class="col">
-                        <h4 class="text-primary">GIỎ HÀNG</h4>
-                        <%
-                            Cart cart = (Cart) session.getAttribute("cart");
-                            double totalPrice = cart != null ? cart.getTotalPrice() : 0;
-                            int totalQuantity = cart != null ? cart.getTotalQuantity() : 0;
-                        %>
-
-                        <table>
-                            <thead>
-                            <tr>
-                                <th>Sản phẩm</th>
-                                <th>Ảnh</th>
-                                <th>Số lượng</th>
-                                <th>Giá</th>
-                                <th>Thao tác</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <%
-                                if (cart != null) {
-                                    for (CartItem item : cart.getItems()) {
-                            %>
-                            <tr>
-                                <td><%= item.getProduct().getNameProduct() %></td>
-                                <td><img src="assets/imgs/maybom/<%= item.getProduct().getImage() %>" alt="<%= item.getProduct().getNameProduct() %>" width="100" /></td>
-                                <td>
-                                    <form action="add" method="post">
-                                        <input type="hidden" name="productId" value="<%= item.getProduct().getId() %>" />
-                                        <input type="number" name="quantity" value="<%= item.getQuantity() %>" min="1" />
-                                        <button type="submit" name="action" value="update">Cập nhật</button>
-                                    </form>
-                                </td>
-                                <td><%= item.getProduct().getPriceProduct() * item.getQuantity() %></td>
-                                <td>
-                                    <form action="add" method="post">
-                                        <input type="hidden" name="productId" value="<%= item.getProduct().getId() %>" />
-                                        <button type="submit" name="action" value="remove">Xóa</button>
-                                    </form>
-                                </td>
-                            </tr>
-                            <%
-                                    }
-                                }
-                            %>
-                            </tbody>
-                        </table>
+                    <div class="col">                 
+                        	<div class="container mt-2">
+							<h2 class="mb-2">Giỏ hàng của bạn</h2>
+							<div class="table-responsive">
+								<table class="table table-bordered text-center align-middle">
+									<thead class="table-light">
+										<tr>
+											<th class="bg-dark-blue text-light">Hình ảnh</th>
+											<th class="bg-dark-blue text-light">Đơn giá</th>
+											<th class="bg-dark-blue text-light">Số lượng</th>
+											<th class="bg-dark-blue text-light"></th>
+										</tr>
+									</thead>
+									<tbody>
+										<c:forEach items="${cartItems}" var="item">
+											<tr>
+												<td><img src="assets/imgs/maybom/app10.jpg"
+													class="img-fluid anhhang"
+													style="width: 80px; height: auto;"></td>
+												<td>
+													<h5 class="mb-1">${item.product.name}</h5>											
+												</td>
+												<td>${item.product.price}</td>
+												<!-- Số lượng sản phẩm -->
+													<td class="product-quantity">
+														<div class="quantity-wrapper">
+															<input id="quantity-edit-${index}" type="number"
+																name="weight" class="quantity-form"
+																value="${item.quantity}" min="1">
+															<button type="button" class="btn-update"
+																data-id="${item.product.id}">
+																<i class="bi bi-check"></i>
+															</button>
+														</div>
+													</td>
+													<td>
+													<button class="btn btn-danger btn-sm">Hủy đơn hàng</button>
+												</td>
+											</tr>
+										</c:forEach>
+									</tbody>
+								</table>
+							</div>
+						</div>
 
                         <!-- Tổng cộng và nút hành động -->
-                        <div class=" align-items-center">
+                        <div class=" align-items-center px-3">
                             <div class="text-end">
-                                <p class="mb-1"><strong>Tổng số lượng:</strong> <%= totalQuantity %></p>
-                                <p class="mb-1"><strong>Tổng tiền:</strong> <%= totalPrice %> đ</p>
+                                <p class="mb-1"><strong>Tổng số lượng:</strong> ${sessionScope.cart.totalAmount}</p>
+                                <p class="mb-1"><strong>Tổng tiền:</strong>${sessionScope.cart.totalPrice} đ</p>
                                 <button class="btn btn-success mt-2">
                                     Tiến hành thanh toán
                                 </button>
@@ -118,18 +117,10 @@
     fetch("./assets/component/footer2.jsp")
         .then((response) => response.text())
         .then((html) => (footer2.innerHTML = html));
-    fetch("./assets/component/header2.jsp")
-        .then((response) => response.text())
-        .then((html) => (header2.innerHTML = html));
     fetch("./assets/component/nav.jsp")
         .then((response) => response.text())
         .then((html) => (nav.innerHTML = html));
-    fetch("./assets/component/tintuc.jsp")
-        .then((response) => response.text())
-        .then((html) => (tintuc.innerHTML = html));
-    fetch("./assets/component/chonmaybom.jsp")
-        .then((response) => response.text())
-        .then((html) => (chonmaybom.innerHTML = html));
 </script>
+<script src="assets/js/nav.js"></script>
 </body>
 </html>

@@ -15,28 +15,26 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
       crossorigin="anonymous"
-    />
+    />    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="assets/css/headerAndFooter.css">
   </head>
 
   <body>
     <header id="header"></header>
+	<nav id="nav"></nav>
     <div class="container">
       <div class="row">
         <div class="col-md-12">
           <div class="border p-3">
-            <div id="header2"></div>
-            <nav id="nav"></nav>
+           
 
             
               <!-- phan thay doi -->
               <div class="col-md-12">
-                <h3 class="text-primary">Quên mật khẩu</h3>
                 <div class="container-fluid d-flex justify-content-center">
                     <div class="forgot-password-container">
-                      <div class="mb-4">
-                        <img src="assets/imgs/khac/logo.png" alt="key icon" width="500">
-                      </div>
-                      <h2><i class="fa-solid fa-key" style="color: #680a8a;"></i>Quên mật khẩu?</h2>
+                      <h2><i class="fa-solid fa-key px-2" style="color: #680a8a;"></i>Quên mật khẩu?</h2>
                       <p class="text-muted">Đừng lo lắng, chúng tôi sẽ gửi cho bạn hướng dẫn đặt lại.</p>
                       <form action="requestPassword" method="POST">
                         <div class="row gy-3 overflow-hidden">

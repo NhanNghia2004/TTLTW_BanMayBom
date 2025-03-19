@@ -33,7 +33,8 @@ public class LoginServlet extends HttpServlet {
                 System.out.println("lỗi");
                 response.sendRedirect("admin");
             } else {
-                response.sendRedirect("trangchu");
+//                response.sendRedirect("trangchu");
+            	response.sendRedirect("index.jsp");
             }
         } else {
             // Nếu đăng nhập không thành công, hiển thị thông báo lỗi

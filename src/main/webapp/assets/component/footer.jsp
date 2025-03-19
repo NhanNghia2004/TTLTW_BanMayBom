@@ -1,33 +1,66 @@
 <%@ page contentType="text/html; charset=UTF-8" language="java" %>
-<footer class="bg-dark text-white">
-    <div class="row">
-        <div class="col-md-4">
-            <h5>Thông Tin Liên Hệ</h5>
-            <p><i class="fa-solid fa-building"></i> CÔNG TY TNHH ĐẦU TƯ THƯƠNG MẠI HÀ NỘI THỊNH VƯỢNG</p>
-            <p><i class="fa-solid fa-location-dot"></i> Địa chỉ: 268 Trường Chinh - Hà Nội</p>
-            <p><i class="fa-solid fa-phone"></i> Số điện thoại: 0972.952.882 - 0962.050.033</p>
-            <p><i class="fa-solid fa-envelope"></i> Email: maybomhanoi@gmail.com</p>
-            <p><i class="fa-solid fa-globe"></i> Website: maybomhanoi.com</p>
+<footer id="footer" class="bg-dark-blue text-light offset-bottom-5">
+    <div class="footer-container text-center ">
+        <!-- Scroll to top button -->
+        <div class="scoll-btn-wrapper mb-3">
+            <a href="#" class="scoll-btn">
+                <div class="scoll-icon-wheel">
+                    <span class="bi bi-chevron-up scoll-icon"></span>
+                </div>
+            </a>
         </div>
-        <div class="col-md-4">
-            <h5>Về Chúng Tôi</h5>
-            <ul class="list-unstyled">
-                <li>Trang chủ</li>
-                <li>Giới thiệu</li>
-                <li>Mua hàng & Thanh toán</li>
-                <li>Chính sách bảo hành</li>
-                <li>Tin tức</li>
-                <li>Liên hệ</li>
-            </ul>
-        </div>
-        <div class="col-md-4">
-            <h5>Bản Đồ</h5>
-            <img src="assets\imgs\khac\bando.png" alt="bando" class="img-fluid w-75">
-            <p><a href="#" class="text-white">Xem bản đồ lớn hơn</a></p>
-            <div class="d-flex justify-content-end">
-                <a href="#" class="text-white me-2"><i class="fa-brands fa-facebook"></i></a>
-                <a href="#" class="text-white me-2"><i class="fa-brands fa-youtube"></i></a>
-                <a href="#" class="text-white"><i class="fa-brands fa-twitter"></i></a>
+
+        <!-- Footer content -->
+        <div class="footer-content-wrapper row ">
+            <!-- Description Section -->
+            <div class="col-md-3 footer-discription text-start ">
+                <h2 class="dsc-title fw-bold fs-5">CÔNG TY TNHH ĐẦU TƯ THƯƠNG MẠI AQUATECH</h2>
+                <p class="dsc-content">Chuyên phân phối máy bơm nước hiện đại, hiệu suất cao, đáp ứng mọi nhu cầu từ dân dụng đến công nghiệp.</p>
+                <div class="footer-social-icon d-flex justify-content-evenly">
+                    <a href="#"><i class="fab fa-twitter text-light"></i></a>
+                    <a href="#"><i class="fab fa-facebook-f text-light"></i></a>
+                    <a href="#"><i class="fab fa-instagram text-light" ></i></a>
+                </div>
+            </div>
+
+            <!-- Menu Section -->
+            <div class="col-md-3 footer-menu text-start offset-right-50 ">
+                <h2 class="menu-title fw-bold fs-5">CỬA HÀNG</h2>
+                <img src="assets\imgs\khac\bando.png" alt="bando" class="img-fluid w-75 mt-3">
+            </div>
+
+            <!-- Help Section -->
+            <div class="col-md-3 footer-help text-start offset-right-50 ">
+                <h2 class="help-title fw-bold fs-5">HỖ TRỢ</h2>
+                <div class="help-content row">
+                    <div class="col help-left-content">
+                        <ul class="list-unstyled">
+                            <li><a href="#" class="help-link text-light">Hoàn & Trả hàng</a></li>
+                            <li><a href="#" class="help-link text-light">Chính sách mua hàng</a></li>
+                            <li><a href="#" class="help-link text-light">Tin tức</a></li>
+                            <li><a href="#" class="help-link text-light">Liên hệ</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contact Section -->
+            <div class="col-md-3 footer-question text-start">
+                <h2 class="question-title fw-bold fs-5">THÔNG TIN LIÊN HỆ</h2>
+                <div class="question-content">
+                    <div class="question-address d-flex align-items-start mb-2">
+                        <i class="bi bi-geo-alt-fill me-2"></i>
+                        <p class="mb-0 ">KCN Linh Xuân, Dĩ An, Thủ Đức, VN</p>
+                    </div>
+                    <div class="question-phone mb-2 d-flex align-items-start">
+                        <i class="bi bi-telephone-fill me-2"></i>
+                        <a href="tel:+23923929210" class="mb-0 text-light">+2 392 3929 210</a>
+                    </div>
+                    <div class="question-mail d-flex align-items-start">
+                        <i class="bi bi-envelope-fill me-2"></i>
+                        <a href="mailto:brofoods@gmail.com" class="mb-0 text-light" >aquatech@gmail.com</a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

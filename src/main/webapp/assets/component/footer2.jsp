@@ -1,7 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" language="java" %>
 <footer class="mt-4">
   <div class="text-center border-top pt-3">
-    <h5>Đối Tác Của Chúng Tôi</h5>
     <div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel">
       <div class="carousel-inner">
         <div class="carousel-item active" data-bs-interval="2000">
