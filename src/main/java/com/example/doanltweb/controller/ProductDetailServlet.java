@@ -2,7 +2,7 @@ package com.example.doanltweb.controller;
 
 import com.example.doanltweb.dao.ProductDao;
 import com.example.doanltweb.dao.model.Product;
-import com.example.doanltweb.service.ProductService;
+
 import jakarta.servlet.http.*;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.*;
