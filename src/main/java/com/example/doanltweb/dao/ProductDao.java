@@ -168,8 +168,8 @@ public class ProductDao {
 
     public List<Product> getSaleProduct() {
         Jdbi jdbi = JDBIConnect.get();
-        String query = "SELECT * FROM Product " +
-                "WHERE id IN (SELECT idProduct FROM Sale WHERE status = 1)";
+        String query = "SELECT * FROM product " +
+                "WHERE id IN (SELECT idProduct FROM sale WHERE status = 1)";
         return jdbi.withHandle(handle -> {
             Query q = handle.createQuery(query);
             return q.mapToBean(Product.class).list();
@@ -179,7 +179,7 @@ public class ProductDao {
     public List<Product> getProductBySupplier(int supplierId) {
         Jdbi jdbi = JDBIConnect.get();
         return jdbi.withHandle(handle ->
-                handle.createQuery("SELECT * FROM Product WHERE idSupplier = :supplierid")
+                handle.createQuery("SELECT * FROM product WHERE idSupplier = :supplierid")
                         .bind("supplierid", supplierId)
                         .mapToBean(Product.class)
                         .list()
@@ -190,7 +190,7 @@ public class ProductDao {
     public boolean deleteById(String id) {
         Jdbi jdbi = JDBIConnect.get();
         return JDBIConnect.get().withHandle(h -> {
-            String sql = "DELETE FROM belts WHERE id = :id";
+            String sql = "DELETE FROM product WHERE id = :id";
             return h.createUpdate(sql).bind("id", id).execute() > 0;
         });
     }

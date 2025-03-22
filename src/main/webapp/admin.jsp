@@ -1,8 +1,6 @@
-
 <%@ page contentType="text/html; charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt" %>
-
 
 
 <!DOCTYPE html>
@@ -221,205 +219,233 @@
 
 
                     <!-- Modal Thêm Sản Phẩm -->
-                    <div class="modal fade" id="addProductModal" tabindex="-1" role="dialog"
-                         aria-labelledby="addProductModalLabel" aria-hidden="true">
+                    <div class="modal fade" id="addProductModal" tabindex="-1" role="dialog" aria-labelledby="addProductModalLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="addProductModalLabel">Thêm Sản Phẩm</h5>
+                                    <h5 class="modal-title w-100 text-center" id="addProductModalLabel">Thêm Sản Phẩm</h5>
                                 </div>
                                 <div class="modal-body">
                                     <form id="addProductForm">
-                                        <div class="form-group">
-                                            <label for="productName">Tên Sản Phẩm</label>
-                                            <input type="text" class="form-control" id="productName" name="nameProduct"
-                                                   required>
+                                        <div class="form-group row">
+                                            <label for="productName" class="col-4 col-form-label">Tên Sản Phẩm</label>
+                                            <div class="col-8">
+                                                <input type="text" class="form-control" id="productName" name="nameProduct" required>
+                                            </div>
                                         </div>
-                                        <div class="form-group">
-                                            <label for="productImage">Hình Ảnh (URL)</label>
-                                            <input type="text" class="form-control" id="productImage" name="image"
-                                                   placeholder="Nhập URL hình ảnh" required>
+                                        <div class="form-group row">
+                                            <label for="productImage" class="col-4 col-form-label">Hình Ảnh (URL)</label>
+                                            <div class="col-8">
+                                                <input type="text" class="form-control" id="productImage" name="image" required>
+                                            </div>
                                         </div>
-                                        <div class="form-group">
-                                            <label for="productPrice">Giá</label>
-                                            <input type="number" class="form-control" id="productPrice"
-                                                   name="priceProduct" required min="0">
+                                        <div class="form-group row">
+                                            <label for="productPrice" class="col-4 col-form-label">Giá</label>
+                                            <div class="col-8">
+                                                <input type="number" class="form-control" id="productPrice" name="priceProduct" required min="0">
+                                            </div>
                                         </div>
-                                        <div class="form-group">
-                                            <label for="productDescription">Mô Tả</label>
-                                            <textarea class="form-control" id="productDescription" name="description"
-                                                      rows="3"></textarea>
+                                        <div class="form-group row">
+                                            <label for="productDescription" class="col-4 col-form-label">Mô Tả</label>
+                                            <div class="col-8">
+                                                <textarea class="form-control" id="productDescription" name="description" rows="2"></textarea>
+                                            </div>
                                         </div>
-                                        <div class="form-group">
-                                            <label for="productManufactureDate">Ngày Sản Xuất</label>
-                                            <input type="date" class="form-control" id="productManufactureDate"
-                                                   name="manufactureDate" required>
+                                        <div class="form-group row">
+                                            <label for="productManufactureDate" class="col-4 col-form-label">Ngày Sản Xuất</label>
+                                            <div class="col-8">
+                                                <input type="date" class="form-control" id="productManufactureDate" name="manufactureDate" required>
+                                            </div>
                                         </div>
-                                        <div class="form-group">
-                                            <label for="productPower">Công Suất</label>
-                                            <input type="text" class="form-control" id="productPower" name="power"
-                                                   required>
+                                        <div class="form-group row">
+                                            <label for="productPower" class="col-4 col-form-label">Công Suất</label>
+                                            <div class="col-8">
+                                                <input type="text" class="form-control" id="productPower" name="power" required>
+                                            </div>
                                         </div>
-                                        <div class="form-group">
-                                            <label for="productPressure">Áp Suất</label>
-                                            <input type="number" class="form-control" id="productPressure"
-                                                   name="pressure" required min="0">
+                                        <div class="form-group row">
+                                            <label for="productPressure" class="col-4 col-form-label">Áp Suất</label>
+                                            <div class="col-8">
+                                                <input type="number" class="form-control" id="productPressure" name="pressure" required min="0">
+                                            </div>
                                         </div>
-                                        <div class="form-group">
-                                            <label for="productFlowRate">Lưu Lượng</label>
-                                            <input type="number" class="form-control" id="productFlowRate"
-                                                   name="flowRate" required min="0">
+                                        <div class="form-group row">
+                                            <label for="productFlowRate" class="col-4 col-form-label">Lưu Lượng</label>
+                                            <div class="col-8">
+                                                <input type="number" class="form-control" id="productFlowRate" name="flowRate" required min="0">
+                                            </div>
                                         </div>
-                                        <div class="form-group">
-                                            <label for="productPipeDiameter">Đường Kính Ống</label>
-                                            <input type="number" class="form-control" id="productPipeDiameter"
-                                                   name="pipeDiameter" required min="0">
+                                        <div class="form-group row">
+                                            <label for="productPipeDiameter" class="col-4 col-form-label">Đường Kính Ống</label>
+                                            <div class="col-8">
+                                                <input type="number" class="form-control" id="productPipeDiameter" name="pipeDiameter" required min="0">
+                                            </div>
                                         </div>
-                                        <div class="form-group">
-                                            <label for="productVoltage">Điện Áp</label>
-                                            <input type="number" class="form-control" id="productVoltage" name="voltage"
-                                                   required min="0">
+                                        <div class="form-group row">
+                                            <label for="productVoltage" class="col-4 col-form-label">Điện Áp</label>
+                                            <div class="col-8">
+                                                <input type="number" class="form-control" id="productVoltage" name="voltage" required min="0">
+                                            </div>
                                         </div>
-                                        <div class="form-group">
-                                            <label for="productBrand">Thương Hiệu</label>
-                                            <input type="text" class="form-control" id="productBrand" name="brand"
-                                                   required>
+                                        <div class="form-group row">
+                                            <label for="productBrand" class="col-4 col-form-label">Thương Hiệu</label>
+                                            <div class="col-8">
+                                                <input type="text" class="form-control" id="productBrand" name="brand" required>
+                                            </div>
                                         </div>
-                                        <div class="form-group">
-                                            <label for="productWarrantyMonths">Bảo Hành (Tháng)</label>
-                                            <input type="number" class="form-control" id="productWarrantyMonths"
-                                                   name="warrantyMonths" required min="0">
+                                        <div class="form-group row">
+                                            <label for="productWarrantyMonths" class="col-4 col-form-label">Bảo Hành (Tháng)</label>
+                                            <div class="col-8">
+                                                <input type="number" class="form-control" id="productWarrantyMonths" name="warrantyMonths" required min="0">
+                                            </div>
                                         </div>
-                                        <div class="form-group">
-                                            <label for="productStock">Tồn Kho</label>
-                                            <input type="number" class="form-control" id="productStock" name="stock"
-                                                   required min="0">
+                                        <div class="form-group row">
+                                            <label for="productStock" class="col-4 col-form-label">Tồn Kho</label>
+                                            <div class="col-8">
+                                                <input type="number" class="form-control" id="productStock" name="stock" required min="0">
+                                            </div>
                                         </div>
-                                        <div class="form-group">
-                                            <label for="productCategory">Danh Mục</label>
-                                            <input type="number" class="form-control" id="productCategory"
-                                                   name="idCategory" required>
+                                        <div class="form-group row">
+                                            <label for="productCategory" class="col-4 col-form-label">Danh Mục</label>
+                                            <div class="col-8">
+                                                <input type="number" class="form-control" id="productCategory" name="idCategory" required>
+                                            </div>
                                         </div>
-                                        <div class="form-group">
-                                            <label for="productSupplier">Nhà Cung Cấp</label>
-                                            <input type="number" class="form-control" id="productSupplier"
-                                                   name="idSupplier" required>
+                                        <div class="form-group row">
+                                            <label for="productSupplier" class="col-4 col-form-label">Nhà Cung Cấp</label>
+                                            <div class="col-8">
+                                                <input type="number" class="form-control" id="productSupplier" name="idSupplier" required>
+                                            </div>
                                         </div>
-                                        <button type="submit" class="btn btn-primary" onclick="addProduct(event)"> Thêm
-                                            Sản Phẩm
-                                        </button>
+                                        <div class="text-center mt-3">
+                                            <button type="submit" class="btn btn-primary" onclick="addProduct(event)">Thêm Sản Phẩm</button>
+                                        </div>
                                     </form>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <%--modal sửa sản phẩm --%>
-                    <div class="modal fade" id="editProductModal" tabindex="-1" role="dialog"
-                         aria-labelledby="editProductModalLabel" aria-hidden="true">
+
+                    <%-- Modal Sửa Sản Phẩm --%>
+                    <div class="modal fade" id="editProductModal" tabindex="-1" role="dialog" aria-labelledby="editProductModalLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="editProductModalLabel">Sửa Sản Phẩm</h5>
+                                    <h5 class="modal-title w-100 text-center" id="editProductModalLabel">Sửa Sản Phẩm</h5>
                                 </div>
                                 <div class="modal-body">
                                     <form id="editProductForm">
                                         <input type="hidden" id="editProductId" name="idProduct">
-                                        <!-- Hidden field to store product ID -->
 
-                                        <div class="form-group">
-                                            <label for="editProductName">Tên Sản Phẩm</label>
-                                            <input type="text" class="form-control" id="editProductName"
-                                                   name="nameProduct" required>
+                                        <div class="form-group row">
+                                            <label for="editProductName" class="col-4 col-form-label">Tên Sản Phẩm</label>
+                                            <div class="col-8">
+                                                <input type="text" class="form-control" id="editProductName" name="nameProduct" required>
+                                            </div>
                                         </div>
 
-                                        <div class="form-group">
-                                            <label for="editProductImage">Hình Ảnh (URL)</label>
-                                            <input type="text" class="form-control" id="editProductImage" name="image"
-                                                   required>
+                                        <div class="form-group row">
+                                            <label for="editProductImage" class="col-4 col-form-label">Hình Ảnh (URL)</label>
+                                            <div class="col-8">
+                                                <input type="text" class="form-control" id="editProductImage" name="image" required>
+                                            </div>
                                         </div>
 
-                                        <div class="form-group">
-                                            <label for="editProductPrice">Giá</label>
-                                            <input type="number" class="form-control" id="editProductPrice"
-                                                   name="priceProduct" required min="0">
+                                        <div class="form-group row">
+                                            <label for="editProductPrice" class="col-4 col-form-label">Giá</label>
+                                            <div class="col-8">
+                                                <input type="number" class="form-control" id="editProductPrice" name="priceProduct" required min="0">
+                                            </div>
                                         </div>
 
-                                        <div class="form-group">
-                                            <label for="editProductDescription">Mô Tả</label>
-                                            <textarea class="form-control" id="editProductDescription"
-                                                      name="description" rows="3"></textarea>
+                                        <div class="form-group row">
+                                            <label for="editProductDescription" class="col-4 col-form-label">Mô Tả</label>
+                                            <div class="col-8">
+                                                <textarea class="form-control" id="editProductDescription" name="description" rows="2"></textarea>
+                                            </div>
                                         </div>
 
-                                        <div class="form-group">
-                                            <label for="editProductManufactureDate">Ngày Sản Xuất</label>
-                                            <input type="date" class="form-control" id="editProductManufactureDate"
-                                                   name="manufactureDate" required>
+                                        <div class="form-group row">
+                                            <label for="editProductManufactureDate" class="col-4 col-form-label">Ngày Sản Xuất</label>
+                                            <div class="col-8">
+                                                <input type="date" class="form-control" id="editProductManufactureDate" name="manufactureDate" required>
+                                            </div>
                                         </div>
 
-                                        <div class="form-group">
-                                            <label for="editProductPower">Công Suất</label>
-                                            <input type="text" class="form-control" id="editProductPower" name="power"
-                                                   required>
+                                        <div class="form-group row">
+                                            <label for="editProductPower" class="col-4 col-form-label">Công Suất</label>
+                                            <div class="col-8">
+                                                <input type="text" class="form-control" id="editProductPower" name="power" required>
+                                            </div>
                                         </div>
 
-                                        <div class="form-group">
-                                            <label for="editProductPressure">Áp Suất</label>
-                                            <input type="number" class="form-control" id="editProductPressure"
-                                                   name="pressure" required min="0">
+                                        <div class="form-group row">
+                                            <label for="editProductPressure" class="col-4 col-form-label">Áp Suất</label>
+                                            <div class="col-8">
+                                                <input type="number" class="form-control" id="editProductPressure" name="pressure" required min="0">
+                                            </div>
                                         </div>
 
-                                        <div class="form-group">
-                                            <label for="editProductFlowRate">Lưu Lượng</label>
-                                            <input type="number" class="form-control" id="editProductFlowRate"
-                                                   name="flowRate" required min="0">
+                                        <div class="form-group row">
+                                            <label for="editProductFlowRate" class="col-4 col-form-label">Lưu Lượng</label>
+                                            <div class="col-8">
+                                                <input type="number" class="form-control" id="editProductFlowRate" name="flowRate" required min="0">
+                                            </div>
                                         </div>
 
-                                        <div class="form-group">
-                                            <label for="editProductPipeDiameter">Đường Kính Ống</label>
-                                            <input type="number" class="form-control" id="editProductPipeDiameter"
-                                                   name="pipeDiameter" required min="0">
+                                        <div class="form-group row">
+                                            <label for="editProductPipeDiameter" class="col-4 col-form-label">Đường Kính Ống</label>
+                                            <div class="col-8">
+                                                <input type="number" class="form-control" id="editProductPipeDiameter" name="pipeDiameter" required min="0">
+                                            </div>
                                         </div>
 
-                                        <div class="form-group">
-                                            <label for="editProductVoltage">Điện Áp</label>
-                                            <input type="number" class="form-control" id="editProductVoltage"
-                                                   name="voltage" required min="0">
+                                        <div class="form-group row">
+                                            <label for="editProductVoltage" class="col-4 col-form-label">Điện Áp</label>
+                                            <div class="col-8">
+                                                <input type="number" class="form-control" id="editProductVoltage" name="voltage" required min="0">
+                                            </div>
                                         </div>
 
-                                        <div class="form-group">
-                                            <label for="editProductBrand">Thương Hiệu</label>
-                                            <input type="text" class="form-control" id="editProductBrand" name="brand"
-                                                   required>
+                                        <div class="form-group row">
+                                            <label for="editProductBrand" class="col-4 col-form-label">Thương Hiệu</label>
+                                            <div class="col-8">
+                                                <input type="text" class="form-control" id="editProductBrand" name="brand" required>
+                                            </div>
                                         </div>
 
-                                        <div class="form-group">
-                                            <label for="editProductWarrantyMonths">Bảo Hành (Tháng)</label>
-                                            <input type="number" class="form-control" id="editProductWarrantyMonths"
-                                                   name="warrantyMonths" required min="0">
+                                        <div class="form-group row">
+                                            <label for="editProductWarrantyMonths" class="col-4 col-form-label">Bảo Hành (Tháng)</label>
+                                            <div class="col-8">
+                                                <input type="number" class="form-control" id="editProductWarrantyMonths" name="warrantyMonths" required min="0">
+                                            </div>
                                         </div>
 
-                                        <div class="form-group">
-                                            <label for="editProductStock">Tồn Kho</label>
-                                            <input type="number" class="form-control" id="editProductStock" name="stock"
-                                                   required min="0">
+                                        <div class="form-group row">
+                                            <label for="editProductStock" class="col-4 col-form-label">Tồn Kho</label>
+                                            <div class="col-8">
+                                                <input type="number" class="form-control" id="editProductStock" name="stock" required min="0">
+                                            </div>
                                         </div>
 
-                                        <div class="form-group">
-                                            <label for="editProductCategory">Danh Mục</label>
-                                            <input type="number" class="form-control" id="editProductCategory"
-                                                   name="idCategory" required>
+                                        <div class="form-group row">
+                                            <label for="editProductCategory" class="col-4 col-form-label">Danh Mục</label>
+                                            <div class="col-8">
+                                                <input type="number" class="form-control" id="editProductCategory" name="idCategory" required>
+                                            </div>
                                         </div>
 
-                                        <div class="form-group">
-                                            <label for="editProductSupplier">Nhà Cung Cấp</label>
-                                            <input type="number" class="form-control" id="editProductSupplier"
-                                                   name="idSupplier" required>
+                                        <div class="form-group row">
+                                            <label for="editProductSupplier" class="col-4 col-form-label">Nhà Cung Cấp</label>
+                                            <div class="col-8">
+                                                <input type="number" class="form-control" id="editProductSupplier" name="idSupplier" required>
+                                            </div>
                                         </div>
 
-                                        <button type="submit" class="btn btn-primary" onclick="editProduct(event)">Lưu
-                                            Sửa
-                                        </button>
+                                        <div class="text-center mt-3">
+                                            <button type="submit" class="btn btn-primary" onclick="editProduct(event)">Lưu thay đổi</button>
+                                        </div>
                                     </form>
                                 </div>
                             </div>
