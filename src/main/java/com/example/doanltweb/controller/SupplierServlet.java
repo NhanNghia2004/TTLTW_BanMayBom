@@ -26,7 +26,6 @@ public class SupplierServlet extends HttpServlet {
 	        
 	        Gson gson = new Gson();
 	        String json = gson.toJson(suppliers);
-	        System.out.println(json);
 	        PrintWriter out = response.getWriter();
 	        out.print(json);
 	        out.flush();

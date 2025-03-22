@@ -32,7 +32,7 @@ public class LoginServlet extends HttpServlet {
                 response.sendRedirect("admin");
             } else {
 //                response.sendRedirect("trangchu");
-            	response.sendRedirect("index.jsp");
+            	response.sendRedirect("/DoAnLTWeb/trangchu");
             }
         } else {
             // Nếu đăng nhập không thành công, hiển thị thông báo lỗi

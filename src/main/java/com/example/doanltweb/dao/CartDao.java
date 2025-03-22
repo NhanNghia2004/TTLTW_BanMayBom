@@ -3,13 +3,16 @@ package com.example.doanltweb.dao;
 import java.util.List;
 
 import org.jdbi.v3.core.Jdbi;
+import org.jdbi.v3.core.statement.Query;
 
 import com.example.doanltweb.dao.db.JDBIConnect;
 import com.example.doanltweb.dao.model.Cart;
 import com.example.doanltweb.dao.model.CartItem;
+import com.example.doanltweb.dao.model.Product;
 
 
 public class CartDao {
+	ProductDao productDao;
 
 	public Cart getCartByUserId(int id) {
 		 Jdbi jdbi = JDBIConnect.get();
@@ -41,23 +44,75 @@ public class CartDao {
 	}
 	
 	public CartItem existInCartItem(int cartId, int productId) {
-		return null;
+	    Jdbi jdbi = JDBIConnect.get();
+	    return jdbi.withHandle(handle ->
+	        handle.createQuery("SELECT * FROM cart_item WHERE cart_id = :cartId AND product_id = :productId")
+	            .bind("cartId", cartId)
+	            .bind("productId", productId)
+	            .mapToBean(CartItem.class)
+	            .findOne()
+	            .orElse(null)
+	    );
+	}
+
+	
+	public boolean updateCartItem(int cartId, int productId, int quantity) {
+	    Jdbi jdbi = JDBIConnect.get();
+	    int rowsAffected = jdbi.withHandle(handle ->
+	        handle.createUpdate("UPDATE cart_item SET quantity = :quantity WHERE cart_id = :cartId AND product_id = :productId")
+	              .bind("quantity", quantity)
+	              .bind("cartId", cartId)
+	              .bind("productId", productId)
+	              .execute()
+	    );
+	    return rowsAffected > 0;
+	}
+
+	
+	public boolean addNewCartItem(int cartId, int productId, int quantity) {
+	    Jdbi jdbi = JDBIConnect.get();
+
+	    int rowsAffected = jdbi.withHandle(handle ->
+	        handle.createUpdate("INSERT INTO cart_item (cart_id, product_id, quantity) VALUES (:cartId, :productId, :quantity)")
+	            .bind("cartId", cartId)
+	            .bind("productId", productId)
+	            .bind("quantity", quantity)
+	            .execute()
+	    );
+
+	    return rowsAffected > 0;
 	}
 	
-	public CartItem updateCartItem(int cartId, int productId,  int quantity) {
-		return null;
-		
-	}
+
 	
-	public CartItem addToCartItem(int cartId, int productId,  int quantity) {
-		return null;
-		
-	}
+
+
 	
 	public List<CartItem> getListCartItemByCartId(int cartId) {
-		return null;
-		
+	    Jdbi jdbi = JDBIConnect.get();
+	    ProductDao productDao = new ProductDao(); // Dùng để lấy đối tượng Product theo productId
+	    String query = "SELECT * FROM cart_item WHERE cart_id = :cartId";
+
+	    return jdbi.withHandle(handle -> 
+	        handle.createQuery(query)
+	              .bind("cartId", cartId)
+	              .map((rs, ctx) -> {
+	                  CartItem item = new CartItem();
+	                  item.setId(rs.getInt("id"));
+	                  item.setCartId(rs.getInt("cart_id"));
+	                  // Lấy product id từ result set
+	                  int prodId = rs.getInt("product_id");
+	                  item.setQuantity(rs.getInt("quantity"));
+
+	                  // Lấy đối tượng Product từ product id
+	                  Product product = productDao.getById(prodId);
+	                  item.setProduct(product);
+	                  return item;
+	              })
+	              .list()
+	    );
 	}
+
 
 
 }

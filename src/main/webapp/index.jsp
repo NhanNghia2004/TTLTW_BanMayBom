@@ -47,7 +47,7 @@
                 <div class="" row pt-3>
                     <div class="col-md">
                         <!-- may bom khuyen mai  -->
-                        <div class="container my-4" style="background-color:darkorange">
+                        <div class="container my-4" style="background-color:#162e5c">
                             <div class="row">
                                 <div class="text-center">
                                     <img src="assets/imgs/khac/khuyenmai.png" class="img-fluid rounded">
@@ -55,35 +55,43 @@
                             </div>
                             <br>
                             <div class="row g-4">
+									<c:forEach items="${pall}" var="p" end="3">
+										<div class="col-md-3">
+											<div id="isReload"></div>
+											<a href="chitietsanpham?id=${p.id}"
+												style="text-decoration: none">
+												<div class="card position-relative">
+													<div class="discount-badge">-10%</div>
+													<img src="${p.image}"
+														class="card-img-top" alt="Bơm tăng áp mini Pamtex 10" />
+													<div class="card-body themaybom" style="height: 200px">
+														<h6 class="card-title">${p.nameProduct}</h6>
+														<p class="old-price">Giá cũ: 720.000đ</p>
+														<p class="new-price">Giá mới: 650.000đ</p>
+														<c:if test="${p.stock != 0}">
+															<div class="option">
+																<div class="wrap-option">
+																	<%-- <form class="addToCartForm">
+																		<input type="hidden" name="productId" value="${ p.getId()}"/>
+																		<input type="hidden" name="quantity" value=1 />
+																		<button type="submit" class="icon-cart">
+																			<i class="bi-cart4"></i>
+																		</button>
+																	</form> --%>
 
-                                <c:forEach items="${psale}" var="p" end="3">
+																	<a href="#" class="icon-like"> <i
+																		class="bi bi-cash-stack"></i>
+																	</a>
 
-                                    <div class="col-md-3">
-                                        <div id="isReload"></div>
-                                        <a
-                                                href="chitietsanpham?id=${p.id}"
-                                                style="text-decoration: none"
-                                        >
-                                            <div class="card position-relative">
-                                                <div class="discount-badge">-10%</div>
-                                                <img
-                                                        src="assets/imgs/maybom/${p.image}"
-                                                        class="card-img-top"
-                                                        alt="Bơm tăng áp mini Pamtex 10"
-                                                />
-                                                    <div class="card-body themaybom">
-                                                    <h6 class="card-title"> ${p.nameProduct}
-                                                    </h6>
-                                                    <p class="old-price">Giá cũ: 720.000đ</p>
-                                                    <p class="new-price">Giá mới: 650.000đ</p>
-                                                    <button class="buy-now">Mua Ngay</button>
-                                                    <button class="xem-them">Xem Sản Phẩm</button>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </div>
-                                </c:forEach>
-                                <!-- Add more products as needed -->
+																</div>
+															</div>
+														</c:if>
+													</div>
+												</div>
+											</a>
+										</div>
+									</c:forEach>
+									<!-- Add more products as needed -->
                             </div>
                         </div>
                         <!-- may bom khuyen mai  -->
@@ -91,7 +99,7 @@
                             <div class="row">
                                 <h4>Máy bơm nước các loại</h4>
                             </div>
-                            <div class="row">
+                            <div class="row mb-4">
                                 <div class="col-md-auto">
                                     <p>Sắp xếp theo</p>
                                 </div>
@@ -105,29 +113,42 @@
                                 </div>
                             </div>
                             <div class="row g-4">
-                                <c:forEach items="${pall}" var="p" end="7">
-                                    <div class="col-md-3">
-                                        <a href="chitietsanpham?id=${p.id}" style="text-decoration: none">
-                                            <div class="card position-relative border-dark">
-                                                <div class="discount-badge">-10%</div>
-                                                <img
-                                                        src="assets/imgs/maybom/${p.image}"
-                                                        class="card-img-top"
-                                                        alt="${p.nameProduct}"
-                                                />
-                                                <div class="card-body themaybom">
-                                                    <h6 class="card-title">
-                                                            ${p.nameProduct}
-                                                    </h6>
-                                                    <p class="old-price">Giá cũ: 720.000đ</p>
-                                                    <p class="new-price">Giá mới: 650.000đ</p>
-                                                    <button class="buy-now">Mua Ngay</button>
-                                                    <button class="xem-them">Xem Sản Phẩm</button>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </div>
-                                </c:forEach>
+                               <c:forEach items="${pall}" var="p" end="8">
+										<div class="col-md-3 ">
+											<div id="isReload"></div>
+											<a href="chitietsanpham?id=${p.id}"
+												style="text-decoration: none">
+												<div class="card position-relative">
+													<div class="discount-badge">-10%</div>
+													<img src="${p.image}"
+														class="card-img-top" alt="Bơm tăng áp mini Pamtex 10" />
+													<div class="card-body themaybom" style="height: 200px">
+														<h6 class="card-title">${p.nameProduct}</h6>
+														<p class="old-price">Giá cũ: 720.000đ</p>
+														<p class="new-price">Giá mới: 650.000đ</p>
+														<c:if test="${p.stock != 0}">
+															<div class="option">
+																<div class="wrap-option">
+																	<form class="addToCartForm">
+																		<input type="hidden" name="productId" value="${ p.getId()}"/>
+																		<input type="hidden" name="quantity" value=1 />
+																		<button type="submit" class="icon-cart">
+																			<i class="bi-cart4"></i>
+																		</button>
+																	</form>
+
+																	<a href="#" class="icon-like"> <i
+																		class="bi bi-cash-stack"></i>
+																	</a>
+
+																</div>
+															</div>
+														</c:if>
+													</div>
+												</div>
+											</a>
+										</div>
+									</c:forEach>
 
                                 <!-- Add more products as needed -->
                             </div>
@@ -220,6 +241,38 @@
 
 
 </script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll(".addToCartForm").forEach(form => {
+        form.addEventListener("submit", function (event) {
+            event.preventDefault(); // Ngăn chặn reload trang
+            console.log("add to cart");
+
+            var formData = new FormData(form); // Lấy dữ liệu từ form
+
+            fetch("/DoAnLTWeb/CartServlet", {
+                method: "POST",
+                body: formData, // Gửi trực tiếp FormData
+            })
+            .then(response => response.json()) // Chuyển dữ liệu JSON
+            .then(data => {
+                if (data.status === "success") {
+    
+                    alert(data.message);
+                } else {
+                    alert(data.message); // Hiển thị lỗi
+                }
+            })
+            .catch(error => {
+                alert("Có lỗi xảy ra, vui lòng thử lại!");
+                console.error("Lỗi:", error);
+            });
+        });
+    });
+});
+
+</script>
+
 <script src="assets/js/nav.js"></script>
 </body>
 </html>
