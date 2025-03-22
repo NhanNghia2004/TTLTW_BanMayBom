@@ -64,9 +64,9 @@ public class ProductController extends HttpServlet {
             Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
             Product product = gson.fromJson(jsonData, Product.class);
 
-            System.out.println("bcd  " + product);
+//            System.out.println("bcd  " + product);
             // Không sử dụng id từ client gửi lên (nếu có)
-            product.setId(null);  // Đảm bảo id không ảnh hưởng, DB sẽ tự sinh nếu cần
+//            product.setId(null);  // Đảm bảo id không ảnh hưởng, DB sẽ tự sinh nếu cần
 
             // Kiểm tra các trường bắt buộc
             if (product.getNameProduct() == null || product.getNameProduct().trim().isEmpty() ||
@@ -100,6 +100,65 @@ public class ProductController extends HttpServlet {
             response.getWriter().write("{\"message\": \"Lỗi hệ thống: " + e.getMessage() + "\"}");
         }
     }
+    @Override
+    protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+
+        int id = Integer.parseInt(request.getParameter("id"));
+
+        try {
+            // Đọc JSON từ request body
+            StringBuilder jsonBuffer = new StringBuilder();
+            String line;
+            try (BufferedReader reader = request.getReader()) {
+                while ((line = reader.readLine()) != null) {
+                    jsonBuffer.append(line);
+                }
+            }
+            String jsonData = jsonBuffer.toString();
+            System.out.println("Received JSON: " + jsonData);  // Kiểm tra dữ liệu JSON nhận được
+
+            // Parse JSON thành Product object
+            Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+
+            Product product = gson.fromJson(jsonData, Product.class);
+            product.setId(id);
+            System.out.println("Product: " + product);
+            // Kiểm tra các trường bắt buộc
+            if (product.getId() == 0 || product.getNameProduct() == null || product.getNameProduct().trim().isEmpty() ||
+                    product.getImage() == null || product.getImage().trim().isEmpty() ||
+                    product.getPriceProduct() <= 0 || product.getStock() < 0) {
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                response.getWriter().write("{\"message\": \"Vui lòng điền đầy đủ thông tin (bao gồm id, tên sản phẩm, ảnh, giá và số lượng)!\"}");
+                return;
+            }
+
+            // Gọi ProductDao để cập nhật sản phẩm
+            boolean success = productDao.updateProduct(product);
+
+            JsonObject jsonResponse = new JsonObject();
+            if (success) {
+                jsonResponse.addProperty("message", "Sản phẩm đã được cập nhật thành công!");
+                response.setStatus(HttpServletResponse.SC_OK);
+            } else {
+                jsonResponse.addProperty("message", "Có lỗi xảy ra khi cập nhật sản phẩm.");
+                response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            }
+            response.getWriter().write(gson.toJson(jsonResponse));
+
+        } catch (JsonSyntaxException e) {
+            e.printStackTrace();
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            response.getWriter().write("{\"message\": \"Dữ liệu JSON không hợp lệ\"}");
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            response.getWriter().write("{\"message\": \"Lỗi hệ thống: " + e.getMessage() + "\"}");
+        }
+    }
+
+
 
 
 }
