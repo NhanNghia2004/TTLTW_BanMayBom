@@ -30,7 +30,6 @@ public class CategoryServlet extends HttpServlet {
         
         Gson gson = new Gson();
         String json = gson.toJson(categories);
-        System.out.println(json);
         PrintWriter out = response.getWriter();
         out.print(json);
         out.flush();

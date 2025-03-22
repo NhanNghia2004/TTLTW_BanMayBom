@@ -15,13 +15,13 @@ public class ProductServlet extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         ProductService productService = new ProductService();
         List<Product> all = productService.getAll();
-        List<Product> sale = productService.getAllProductSale();
+//        List<Product> sale = productService.getAllProductSale();
         request.setAttribute("pall", all);
-        request.setAttribute("psale", sale);
+//        request.setAttribute("psale", sale);
         // nhà cung cấp
-        SupplierService service = new SupplierService();
-        List<Supplier> sall = service.getAllSupplier();
-        request.setAttribute("sall", sall);
+//        SupplierService service = new SupplierService();
+//        List<Supplier> sall = service.getAllSupplier();
+//        request.setAttribute("sall", sall);
         request.getRequestDispatcher("index.jsp").forward(request, response);
 
     }
