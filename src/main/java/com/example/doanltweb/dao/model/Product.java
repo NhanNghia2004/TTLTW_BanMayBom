@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.sql.Date;
 
     public class Product implements java.io.Serializable {
-        private Integer id;
+        private int id;
         private String nameProduct;
         private String image;
         private double priceProduct;
@@ -46,9 +46,13 @@ import java.sql.Date;
             return id;
         }
 
-        public void setId(Integer id) {
+        public void setId(int id) {
             this.id = id;
         }
+
+//        public void setId(Integer id) {
+//            this.id = id;
+//        }
 
         public String getNameProduct() {
             return nameProduct;

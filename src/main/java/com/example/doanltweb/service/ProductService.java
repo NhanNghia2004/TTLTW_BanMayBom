@@ -1,13 +1,13 @@
 package com.example.doanltweb.service;
 
 
-
 import com.example.doanltweb.dao.ProductDao;
 import com.example.doanltweb.dao.model.Product;
 
 import java.util.List;
+
 public class ProductService {
-private ProductDao productDao;
+    private ProductDao productDao;
 
     public ProductService() {
         this.productDao = new ProductDao();
@@ -21,6 +21,9 @@ private ProductDao productDao;
     // Lấy tất cả sản phẩm
     public List<Product> getAllProducts() {
         return productDao.getAll();
+    }
+    public boolean updateProduct(Product product) {
+        return productDao.updateProduct(product);
     }
 
     public static void main(String[] args) {

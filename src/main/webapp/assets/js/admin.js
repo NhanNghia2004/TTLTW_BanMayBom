@@ -1,7 +1,9 @@
-
 // quan li sp
 
 function loadProductData() {
+    if ($.fn.dataTable.isDataTable('#productTable')) {
+        $('#productTable').DataTable().clear().destroy();
+    }
     $.ajax({
         url: 'http://localhost:8080/TTW/productController', // API của bạn
         type: 'GET',
