@@ -22,10 +22,16 @@ public class ProductService {
     public List<Product> getAllProducts() {
         return productDao.getAll();
     }
+
     public boolean updateProduct(Product product) {
+
         return productDao.updateProduct(product);
     }
 
+    // Xóa sản phẩm
+    public boolean deleteProduct(int id) {
+        return productDao.deleteProduct(id);
+    }
     public static void main(String[] args) {
         // Tạo đối tượng ProductService để thực hiện các thao tác với sản phẩm
         ProductService productService = new ProductService();

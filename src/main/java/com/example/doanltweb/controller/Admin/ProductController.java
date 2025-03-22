@@ -159,6 +159,48 @@ public class ProductController extends HttpServlet {
     }
 
 
+    @Override
+    protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+
+        try {
+            // Lấy ID từ query string
+            String idParam = request.getParameter("id");
+            if (idParam == null || idParam.isEmpty()) {
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                response.getWriter().write("{\"message\": \"ID sản phẩm là bắt buộc\"}");
+                return;
+            }
+
+            int productId = Integer.parseInt(idParam);
+
+            // Gọi phương thức xóa sản phẩm
+            ProductDao productDao = new ProductDao();
+            boolean isDeleted = productDao.deleteProduct(productId);
+
+            // Trả về kết quả
+            JsonObject jsonResponse = new JsonObject();
+            if (isDeleted) {
+                jsonResponse.addProperty("message", "Sản phẩm đã được xóa thành công!");
+                response.setStatus(HttpServletResponse.SC_OK);
+            } else {
+                jsonResponse.addProperty("message", "Có lỗi xảy ra khi xóa sản phẩm.");
+                response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            }
+
+            // Gửi dữ liệu JSON về client
+            response.getWriter().write(new Gson().toJson(jsonResponse));
+
+        } catch (NumberFormatException e) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            response.getWriter().write("{\"message\": \"ID sản phẩm không hợp lệ\"}");
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            response.getWriter().write("{\"message\": \"Lỗi hệ thống: " + e.getMessage() + "\"}");
+        }
+    }
 
 
 }
