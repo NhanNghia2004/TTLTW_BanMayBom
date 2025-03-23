@@ -117,6 +117,40 @@ public class UserDao {
                         .execute() // Thực thi lệnh SQL
         );
     }
+    public void addUser(String username, String password, String email, String fullname, String phone, String address) {
+        Jdbi jdbi = new JDBIConnect().get(); // Kết nối Jdbi
+        jdbi.useHandle(handle ->
+                handle.execute("INSERT INTO user (username, password, email, fullname, phone, address, is_verified, idPermission) VALUES (?, ?, ?, ?, ?, ?, 0, 2)",
+                        username, password, email, fullname, phone, address)
+        );
+    }
+
+    public boolean isUserExists(String email) {
+        Jdbi jdbi = new JDBIConnect().get(); // Kết nối Jdbi
+        return jdbi.withHandle(handle ->
+                handle.createQuery("SELECT COUNT(*) FROM user WHERE email = ?")
+                        .bind(0, email)
+                        .mapTo(Integer.class)
+                        .one()
+        ) > 0;
+    }
+    public void updateUserVerifiedById(int userId) {
+        Jdbi jdbi = new JDBIConnect().get(); // Kết nối Jdbi
+        jdbi.useHandle(handle ->
+                handle.execute("UPDATE user SET is_verified = 1 WHERE id = ?", userId)
+        );
+    }
+
+    public int getUserIdByEmail(String email) {
+        Jdbi jdbi = new JDBIConnect().get(); // Kết nối Jdbi
+        return jdbi.withHandle(handle ->
+                handle.createQuery("SELECT id FROM user WHERE email = ?")
+                        .bind(0, email)
+                        .mapTo(Integer.class)
+                        .findOne()
+                        .orElse(-1)  // Trả về -1 nếu không tìm thấy
+        );
+    }
 
     public static void main(String[] args) {
         UserDao userDao = new UserDao();
