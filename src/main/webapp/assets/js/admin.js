@@ -4,6 +4,30 @@ function loadProductData() {
     if ($.fn.dataTable.isDataTable('#productTable')) {
         $('#productTable').DataTable().clear().destroy();
     }
+    // Static mapping for category and supplier names (replace with dynamic data if necessary)
+    var categories = {
+        1: 'Máy bơm nước',
+        2: 'Máy bơm chân không',
+        3: 'Máy bơm ly tâm',
+        4: 'Máy bơm định lượng',
+        5: 'Máy bơm hóa chất',
+        6: 'Máy bơm chìm',
+        7: 'Máy bơm nước sạch',
+        8: 'Máy bơm công nghiệp'
+    };
+
+    var suppliers = {
+        1: 'Công ty A',
+        2: 'Công ty B',
+        3: 'Công ty C',
+        4: 'Công ty D',
+        5: 'Công ty E',
+        6: 'Công ty F',
+        7: 'Công ty G',
+        8: 'Công ty H',
+        9: 'Công ty I',
+        10: 'Công ty J'
+    };
     $.ajax({
         url: 'http://localhost:8080/TTW/productController', // API của bạn
         type: 'GET',
@@ -14,6 +38,11 @@ function loadProductData() {
             tableBody.empty(); // Xóa dữ liệu cũ
 
             data.forEach(function (product) {
+
+                // Get category and supplier names based on their IDs
+                var categoryName = categories[product.idCategory] || 'N/A';
+                var supplierName = suppliers[product.idSupplier] || 'N/A';
+
                 var row = `<tr>
                         <td>${product.id}</td>
                         <td style="min-width: 70px;">${product.nameProduct}</td>
@@ -28,9 +57,10 @@ function loadProductData() {
                         <td>${product.voltage}</td>
                         <td>${product.brand}</td>
                         <td>${product.warrantyMonths}</td>
-                        <td>${product.stock}</td>
-                        <td>${product.idCategory}</td>
-                        <td>${product.idSupplier}</td>
+                        <td>${product.stock}</td>               
+                    
+                        <td style="min-width: 100px;" data-category-id="${product.idCategory}">${categoryName}</td> <!-- Display category name -->
+                        <td style="min-width: 70px;" data-supplier-id="${product.idSupplier}">${supplierName}</td> <!-- Display supplier name -->
                         <td>
                             <div class="d-flex gap-2 justify-content-center">
                                 <button class="btn btn-sm btn-primary edit-btn" data-id="${product.id}">Sửa</button>
@@ -150,8 +180,8 @@ function showEditProductModal(id) {
     $('#editProductBrand').val(row.find('td').eq(11).text());  // Lấy thương hiệu từ cột thứ 12
     $('#editProductWarrantyMonths').val(row.find('td').eq(12).text());  // Lấy bảo hành từ cột thứ 13
     $('#editProductStock').val(row.find('td').eq(13).text());  // Lấy tồn kho từ cột thứ 14
-    $('#editProductCategory').val(row.find('td').eq(14).text());  // Lấy danh mục từ cột thứ 15
-    $('#editProductSupplier').val(row.find('td').eq(15).text());  // Lấy nhà cung cấp từ cột thứ 16
+    $('#editProductCategory').val(row.find('td').eq(14).data('category-id'));  // Lấy danh mục từ cột thứ 15
+    $('#editProductSupplier').val(row.find('td').eq(15).data('supplier-id')); // Lấy nhà cung cấp từ cột thứ 16
 
     // Hiển thị modal
     $('#editProductModal').modal('show');
@@ -206,6 +236,32 @@ function editProduct(event) {
         }
     });
 }
+// Hàm xử lý xóa sản phẩm
+
+$(document).off('click', '.delete-btn').on('click', '.delete-btn', function () {
+    var productId = $(this).data('id');
+
+    if (confirm('Bạn có chắc chắn muốn xóa sản phẩm này?')) {
+        $.ajax({
+            url: 'http://localhost:8080/TTW/productController?id=' + productId,
+            type: 'DELETE',
+            success: function (response) {
+                alert(response.message);
+                loadProductData();
+            },
+            error: function (xhr, status, error) {
+                console.log(xhr);
+                let errorMessage;
+                try {
+                    errorMessage = JSON.parse(xhr.responseText).message || 'Có lỗi xảy ra khi xóa sản phẩm';
+                } catch (e) {
+                    errorMessage = 'Có lỗi xảy ra khi xóa sản phẩm';
+                }
+                alert(errorMessage);
+            }
+        });
+    }
+});
 
 
 
