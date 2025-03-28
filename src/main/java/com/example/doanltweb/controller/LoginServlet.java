@@ -3,11 +3,9 @@ package com.example.doanltweb.controller;import java.io.*;
 import com.example.doanltweb.dao.LogDao;
 import com.example.doanltweb.dao.UserDao;
 import com.example.doanltweb.dao.model.User;
-import com.mysql.cj.Session;
 import jakarta.servlet.http.*;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.*;
-import org.jdbi.v3.core.Jdbi;
 
 @WebServlet(name = "LoginServlet", value = "/LoginController")
 public class LoginServlet extends HttpServlet {
