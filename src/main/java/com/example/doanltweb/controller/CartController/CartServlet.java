@@ -30,12 +30,17 @@ public class CartServlet extends HttpServlet {
 
         // Lấy danh sách giỏ hàng cập nhật
         List<CartItem> cartItems = cartDao.getListCartItemByCartId(cart.getId());
-        System.out.println("so luong item: "+cartItems.size());
+        int amount =0;
+        double price =0;
         for (CartItem cartItem : cartItems) {
-			System.out.println(cartItem.toString());
+			amount+= cartItem.getQuantity();
+			price += cartItem.getQuantity()*cartItem.getProduct().getPriceProduct();
 		}
-        session.setAttribute("cartItems", cartItems); 
-        request.setAttribute("cart", cart);
+        cart.setTotalAmount(amount);
+        cart.setTotalPrice(price);
+       
+        session.setAttribute("cartItems", cartItems);
+        session.setAttribute("cart", cart);
 		request.getRequestDispatcher("giohang.jsp").forward(request, response);
     }
     public void doPost(HttpServletRequest request, HttpServletResponse response) 
@@ -70,16 +75,21 @@ public class CartServlet extends HttpServlet {
 
         // Cập nhật danh sách giỏ hàng
         List<CartItem> cartItems = cartDao.getListCartItemByCartId(cart.getId());
+        int amount =0;
+        double price =0;
+        for (CartItem cartItem : cartItems) {
+			amount+= cartItem.getQuantity();
+			price += cartItem.getQuantity()*cartItem.getProduct().getPriceProduct();
+		}
+        cart.setTotalAmount(amount);
+        cart.setTotalPrice(price);
         session.setAttribute("cartItems", cartItems);
         session.setAttribute("cart", cart);
 
         // Trả về JSON
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
-
-        // Giả sử bạn muốn trả về trạng thái và kích thước giỏ hàng
-        int cartSize = cartItems.size();
-        String jsonResponse = "{\"status\":\"success\", \"message\":\"Cập nhật giỏ hàng thành công!\", \"cartSize\":" + cartSize + "}";
+        String jsonResponse = "{\"status\":\"success\", \"message\":\"Cập nhật giỏ hàng thành công!\" }";
         response.getWriter().write(jsonResponse);
     }
 
