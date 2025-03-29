@@ -67,6 +67,18 @@ public class CartDao {
 	    );
 	    return rowsAffected > 0;
 	}
+	
+	public boolean updateCart(int cartId, double totalPrice, int totalQuantity) {
+	    Jdbi jdbi = JDBIConnect.get();
+	    int rowsAffected = jdbi.withHandle(handle ->
+	        handle.createUpdate("UPDATE cart SET total_amount = :totalQuantity, total_price = :totalPrice WHERE id = :cartId")
+	              .bind("totalQuantity", totalQuantity)
+	              .bind("totalPrice", totalPrice)
+	              .bind("cartId", cartId)
+	              .execute()
+	    );
+	    return rowsAffected > 0;
+	}
 
 	
 	public boolean addNewCartItem(int cartId, int productId, int quantity) {

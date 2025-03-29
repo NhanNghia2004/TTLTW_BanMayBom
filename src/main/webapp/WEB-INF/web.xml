@@ -44,6 +44,26 @@
     <servlet-name>CartServlet</servlet-name>
     <servlet-class>com.example.doanltweb.controller.CartController.CartServlet</servlet-class>
   </servlet>
+   <servlet-mapping>
+    <servlet-name>AddToCartServlet</servlet-name>
+    <url-pattern>/AddToCartServlet</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>AddToCartServlet</display-name>
+    <servlet-name>AddToCartServlet</servlet-name>
+    <servlet-class>com.example.doanltweb.controller.CartController.AddToCartServlet</servlet-class>
+  </servlet>
+   <servlet-mapping>
+    <servlet-name>RemoveFromCartServlet</servlet-name>
+    <url-pattern>/RemoveFromCartServlet</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>RemoveFromCartServlet</display-name>
+    <servlet-name>RemoveFromCartServlet</servlet-name>
+    <servlet-class>com.example.doanltweb.controller.CartController.RemoveFromCartServlet</servlet-class>
+  </servlet>
   <servlet-mapping>
     <servlet-name>CategoryServlet</servlet-name>
     <url-pattern>/CategoryServlet</url-pattern>

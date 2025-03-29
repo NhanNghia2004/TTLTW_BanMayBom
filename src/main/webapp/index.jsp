@@ -250,7 +250,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             var formData = new FormData(form); // Lấy dữ liệu từ form
 
-            fetch("/DoAnLTWeb/CartServlet", {
+            fetch("/DoAnLTWeb/AddToCartServlet", {
                 method: "POST",
                 body: formData, // Gửi trực tiếp FormData
             })

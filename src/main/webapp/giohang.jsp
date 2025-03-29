@@ -51,7 +51,7 @@
 										</tr>
 									</thead>
 									<tbody>
-											<c:forEach items="${cartItems}" var="item">
+											<c:forEach items="${cart}" var="item">
 												<tr class="cart-item"
 													data-price="${item.product.priceProduct}"
 													data-product-id="${item.product.id}">
@@ -92,10 +92,10 @@
                                 <p class="mb-1" id ="total-amount"><strong>Tổng số lượng:</strong>0</p>
                                 <p class="mb-1" id ="total-price"><strong>Tổng tiền:</strong>0 đ</p>
 								<input id="total-quantity-input" type="hidden"
-										name="total-quantity" class="quantity-form" value="${sessionScope.cart.totalAmount}"
+										name="total-quantity" class="quantity-form" value="${TotalAmount}"
 										min="1"> 
 								<input id="total-price-input" type="hidden"
-										name="total-price" class="quantity-form" value="${sessionScope.cart.totalPrice}"
+										name="total-price" class="quantity-form" value="${TotalPrice}"
 										min="1">
 									<button  type="submit" class="btn btn-success mt-2">
                                     Tiến hành thanh toán

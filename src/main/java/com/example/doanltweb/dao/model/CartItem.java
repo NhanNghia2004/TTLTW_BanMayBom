@@ -20,7 +20,7 @@ public class CartItem {
 		this.quantity = quantity;
 	}
 
-	public CartItem(Integer cartId,Product product, int quantity) {
+	public CartItem(int cartId,Product product, int quantity) {
 		this.cartId = cartId;
 		this.product = product;
 		this.quantity = quantity;
