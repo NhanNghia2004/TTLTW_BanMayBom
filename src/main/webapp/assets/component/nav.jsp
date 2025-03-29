@@ -59,7 +59,7 @@
 								class="nav-link text-light"> ${sessionScope.auth.username} </a></li>
 						</c:otherwise>
 					</c:choose>
-					<li class="list-item-head2"><a href="LogoutController"
+					<li class="list-item-head2"><a href="/DoAnLTWeb/LogoutController"
 						class="nav-link text-light">Đăng xuất</a></li>
 				</c:if>
 

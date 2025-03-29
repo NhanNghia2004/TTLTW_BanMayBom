@@ -1,8 +1,14 @@
 package com.example.doanltweb.controller;import java.io.*;
+import java.util.List;
+import java.util.Optional;
 
+import com.example.doanltweb.utils.CartUtils;
+import com.example.doanltweb.dao.CartDao;
 import com.example.doanltweb.dao.LogDao;
 import com.example.doanltweb.dao.UserDao;
 import com.example.doanltweb.dao.model.User;
+import com.example.doanltweb.dao.model.Cart;
+import com.example.doanltweb.dao.model.CartItem;
 import jakarta.servlet.http.*;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.*;
@@ -31,16 +37,15 @@ public class LoginServlet extends HttpServlet {
 
         // Kiểm tra kết quả đăng nhập
         if (user != null) {
-            
             session.setAttribute("auth", user); // Lưu thông tin người dùng vào session
             LogDao.saveLog(user.getId(), "INFO", ip, "LOGIN", "username=" + username, "SUCCESS");
-
+            
             // Nếu người dùng là Admin (role == 1)
             if (user.getIdPermission() == 1 ) {
                 System.out.println("lỗi");
                 response.sendRedirect("admin");
             } else {
-//                response.sendRedirect("trangchu");
+            	CartUtils.mergeSessionCartToDb(user.getId(),session);
             	response.sendRedirect("/DoAnLTWeb/trangchu");
             }
         } else {
@@ -50,8 +55,10 @@ public class LoginServlet extends HttpServlet {
         	LogDao.saveLog(0, "WARN", ip, "LOGIN", "username=" + username,"Login fail: " + count +"times");
             request.setAttribute("error", "Đăng nhập không thành công. Vui lòng kiểm tra lại thông tin.");
             request.setAttribute("username", username);
-            System.out.println(session.getAttribute("auth"));
             request.getRequestDispatcher("index.jsp").forward(request, response);
         }
     }
+    
+   
+
 }

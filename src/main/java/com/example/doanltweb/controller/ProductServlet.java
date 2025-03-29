@@ -15,7 +15,7 @@ import jakarta.servlet.annotation.*;
 public class ProductServlet extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         ProductService productService = new ProductService();
-        List<Product> all = productService.getAll();
+        List<Product> all = productService.getAllProducts();
 //        List<Product> sale = productService.getAllProductSale();
         request.setAttribute("pall", all);
 //        request.setAttribute("psale", sale);
