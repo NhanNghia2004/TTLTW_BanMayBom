@@ -95,11 +95,6 @@ public class CartDao {
 	    return rowsAffected > 0;
 	}
 	
-
-	
-
-
-	
 	public List<CartItem> getListCartItemByCartId(int cartId) {
 	    Jdbi jdbi = JDBIConnect.get();
 	    ProductDao productDao = new ProductDao(); // Dùng để lấy đối tượng Product theo productId
@@ -125,6 +120,28 @@ public class CartDao {
 	    );
 	}
 
+	public boolean clearCart(int cartId) {
+	    Jdbi jdbi = JDBIConnect.get();
+	    
+	    try {
+	        return jdbi.inTransaction(handle -> {
+	            // 1️⃣ Xóa tất cả cart items liên quan đến cartId
+	            handle.createUpdate("DELETE FROM cart_item WHERE cart_id = :cartId")
+	                  .bind("cartId", cartId)
+	                  .execute();
+
+	            // 2️⃣ Xóa cart tương ứng sau khi xóa cart items
+	            int rowsAffected = handle.createUpdate("DELETE FROM cart WHERE id = :cartId")
+	                                     .bind("cartId", cartId)
+	                                     .execute();
+	            
+	            return rowsAffected > 0;
+	        });
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return false;
+	    }
+	}
 
 
 }

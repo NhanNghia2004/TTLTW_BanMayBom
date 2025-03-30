@@ -34,9 +34,7 @@ public class AddToCartServlet extends HttpServlet {
         
         // Kiểm tra giỏ hàng đã tồn tại chưa
 		List<CartItem> cart =  (List<CartItem>) session.getAttribute("cart");
-		System.out.println("origin cart"+cart);
-		System.out.println(productId);
-	    System.out.println(quantity);
+
         if (cart == null) {
         	cart = new ArrayList<>(); // 🔥 Khởi tạo giỏ hàng
         	session.setAttribute("cart", cart); // Lưu vào session
@@ -54,7 +52,7 @@ public class AddToCartServlet extends HttpServlet {
         	cart.add(new CartItem(0, product, quantity));
         }
         
-        System.out.println("updated cart"+cart);
+
         session.setAttribute("cart", cart);
 
         // Trả về JSON
