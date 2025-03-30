@@ -38,12 +38,37 @@
 
 
     <title>admin</title>
+
+    <%--    <style>--%>
+    <%--        #sidebar-wrapper {--%>
+    <%--            position: fixed;--%>
+    <%--            top: 0;--%>
+    <%--            left: 0;--%>
+    <%--            width: 250px;  /* Thay đổi tùy theo kích thước sidebar của bạn */--%>
+    <%--            height: 100vh;--%>
+    <%--            background-color: #fff;--%>
+    <%--            box-shadow: 2px 0 5px rgba(0,0,0,0.1);--%>
+    <%--            z-index: 1000; /* Đảm bảo sidebar luôn ở trên cùng */--%>
+    <%--            padding-top: 20px; /* Giữ khoảng cách từ trên cùng */--%>
+    <%--        }--%>
+
+    <%--        #page-content-wrapper {--%>
+    <%--            margin-left: 250px;  /* Khoảng cách bên trái tương ứng với sidebar */--%>
+    <%--            padding: 20px;--%>
+    <%--            overflow-x: hidden; /* Tránh việc cuộn ngang */--%>
+    <%--        }--%>
+
+    <%--        #page-content-wrapper .tab-content {--%>
+    <%--            margin-left: 20px;--%>
+    <%--        }--%>
+
+    <%--    </style>--%>
 </head>
 
 <body>
 <div class="d-flex" id="wrapper">
     <!-- Sidebar -->
-    <div class="bg-white" id="sidebar-wrapper">
+    <div id="sidebar-wrapper">
         <div class="sidebar-heading text-center py-4 primary-text fs-4 fw-bold text-uppercase border-bottom"><i
                 class="fas fa-user-secret me-2"></i>Quản Lý
         </div>
@@ -59,14 +84,19 @@
                     class="fas fa-chart-line me-2"></i>Quản lý người dùng</a>
             <a href="#id4" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"
                data-bs-toggle="tab" role="tab" aria-controls="home" aria-selected="true"><i
-                    class="fas fa-paperclip me-2"></i>Báo Cáo</a>
+                    class="fas fa-gift me-2"></i>Quản lý khuyến mãi</a>
             <a href="#id5" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"
+               data-bs-toggle="tab" role="tab" aria-controls="home" aria-selected="true"><i
+                    class="fas fa-paperclip me-2"></i>Báo Cáo</a>
+            <a href="#id6" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"
                data-bs-toggle="tab" role="tab" aria-controls="home" aria-selected="true"><i
                     class="fa-solid fa-gift"></i> Bảo Hành </a>
             <a href="index.jsp" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"
                aria-selected="true"><i class="fa-solid fa-power-off"></i> Thoát</a>
         </div>
     </div>
+
+
     <!-- /#sidebar-wrapper -->
 
     <!-- Page Content -->
@@ -555,188 +585,240 @@
                         </div>
                     </div>
                 </section>
+            </div>
 
+            <%--------------------------------------------------%>
+            <%--     user--%>
 
-                <%--------------------------------------------------%>
-                <%--     user--%>
-
-                <div class="tab-pane fade" id="id3">
-                    <div class="m-4">
-                        <div class="d-flex align-items-center">
-                            <i class="fas fa-align-left primary-text fs-4 me-3"></i>
-                            <h2 class="fs-2 m-0">Quản lý Người dùng</h2>
-                        </div>
-                        <div class="row g-3 my-2">
-                            <div class="col">
-                                <div class="p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rounded">
-                                    <div>
-                                        <h3 class="fs-2">43</h3>
-                                        <p class="fs-5">Tổng số người dùng</p>
-                                    </div>
-                                    <i class="fas fa-gift fs-1 primary-text border rounded-full secondary-bg p-3"></i>
+            <div class="tab-pane fade" id="id3">
+                <div class="m-4">
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-align-left primary-text fs-4 me-3"></i>
+                        <h2 class="fs-2 m-0">Quản lý Người dùng</h2>
+                    </div>
+                    <div class="row g-3 my-2">
+                        <div class="col">
+                            <div class="p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rounded">
+                                <div>
+                                    <h3 class="fs-2">43</h3>
+                                    <p class="fs-5">Tổng số người dùng</p>
                                 </div>
+                                <i class="fas fa-gift fs-1 primary-text border rounded-full secondary-bg p-3"></i>
                             </div>
-                            <div class="container">
-                                <table id="userTable" class="display">
-                                    <thead>
+                        </div>
+                        <div class="container">
+                            <table id="userTable" class="display">
+                                <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Username</th>
+                                    <th>Fullname</th>
+                                    <th>Email</th>
+                                    <th>Phone</th>
+                                    <th>Address</th>
+                                    <th>Actions</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <c:forEach var="user" items="${users}">
                                     <tr>
-                                        <th>ID</th>
-                                        <th>Username</th>
-                                        <th>Fullname</th>
-                                        <th>Email</th>
-                                        <th>Phone</th>
-                                        <th>Address</th>
-                                        <th>Actions</th>
+                                        <td>${user.id}</td>
+                                        <td>${user.username}</td>
+                                        <td>${user.fullname}</td>
+                                        <td>${user.email}</td>
+                                        <td>${user.phone}</td>
+                                        <td>${user.address}</td>
+                                        <td>
+                                            <form action="${pageContext.request.contextPath}/admin" method="POST">
+                                                <input type="hidden" name="userId" value="${user.id}"/>
+                                                <button type="submit">Delete</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                </c:forEach>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <%--        --------------------Khuyến mãi----------------------------------%>
+            <div class="tab-pane fade" id="id4">
+                <div class="m-4">
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-gift primary-text fs-4 me-3"></i>
+                        <h2 class="fs-2 m-0">Quản lý Khuyến mãi</h2>
+                    </div>
+                    <div class="row g-3 my-2">
+                        <div class="col">
+                            <div class="p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rounded">
+                                <div>
+                                    <h3 class="fs-2">12</h3>
+                                    <p class="fs-5">Tổng số khuyến mãi</p>
+                                </div>
+                                <i class="fas fa-percent fs-1 primary-text border rounded-full secondary-bg p-3"></i>
+                            </div>
+                        </div>
+                        <div class="container">
+                            <table id="promotionTable" class="display">
+                                <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Tên khuyến mãi</th>
+                                    <th>Ngày bắt đầu</th>
+                                    <th>Ngày kết thúc</th>
+                                    <th>Giảm giá (%)</th>
+                                    <th>Actions</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <c:forEach var="promotion" items="${promotions}">
+                                    <tr>
+                                        <td>${promotion.id}</td>
+                                        <td>${promotion.name}</td>
+                                        <td>${promotion.startDate}</td>
+                                        <td>${promotion.endDate}</td>
+                                        <td>${promotion.discountPercentage}</td>
+                                        <td>
+                                            <form action="${pageContext.request.contextPath}/admin" method="POST">
+                                                <input type="hidden" name="promotionId" value="${promotion.id}"/>
+                                                <button type="submit">Delete</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                </c:forEach>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+<%--            -----------------------------------------%>
+            <div class="tab-pane fade" id="id5">
+                <div class="m-4">
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-align-left primary-text fs-4 me-3"></i>
+                        <h2 class="fs-2 m-0">Báo cáo</h2>
+                    </div>
+                </div>
+                <div class="container-fluid px-4 m-3">
+                    <div class="row my-5">
+                        <div class="container my-4">
+                            <div class=" mt-5">
+                                <h1 class="mb-4">Danh Sách Báo Cáo Người Dùng</h1>
+
+                                <table class="table table-bordered bg-white">
+                                    <thead class="thead-dark">
+                                    <tr>
+                                        <th scope="col">Mã Báo Cáo</th>
+                                        <th scope="col">Tên Người Dùng</th>
+                                        <th scope="col">Ngày Báo Cáo</th>
+                                        <th scope="col">Nội Dung</th>
+                                        <th scope="col">Trạng Thái</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <c:forEach var="user" items="${users}">
-                                        <tr>
-                                            <td>${user.id}</td>
-                                            <td>${user.username}</td>
-                                            <td>${user.fullname}</td>
-                                            <td>${user.email}</td>
-                                            <td>${user.phone}</td>
-                                            <td>${user.address}</td>
-                                            <td>
-                                                <form action="${pageContext.request.contextPath}/admin" method="POST">
-                                                    <input type="hidden" name="userId" value="${user.id}"/>
-                                                    <button type="submit">Delete</button>
-                                                </form>
-                                            </td>
-                                        </tr>
-                                    </c:forEach>
+                                    <tr>
+                                        <td>BC001</td>
+                                        <td>Nguyễn Văn A</td>
+                                        <td>2024-11-30</td>
+                                        <td>Vấn đề về đăng nhập</td>
+                                        <td>
+                                            <select class="form-control">
+                                                <option class="badge bg-warning">Đang xử lý</option>
+                                                <option class="badge bg-success" selected>Hoàn thành</option>
+                                                <option class="badge bg-danger">Cần xử lý ngay</option>
+                                            </select></td>
+                                    </tr>
+                                    <tr>
+                                        <td>BC002</td>
+                                        <td>Trần Thị B</td>
+                                        <td>2024-11-29</td>
+                                        <td>Không thể tải ảnh</td>
+                                        <td>
+                                            <select class="form-control">
+                                                <option class="badge bg-warning" selected>Đang xử lý</option>
+                                                <option class="badge bg-success">Hoàn thành</option>
+                                                <option class="badge bg-danger">Cần xử lý ngay</option>
+                                            </select></td>
+                                    </tr>
+                                    <tr>
+                                        <td>BC003</td>
+                                        <td>Lê Minh C</td>
+                                        <td>2024-11-28</td>
+                                        <td>Lỗi giao diện người dùng</td>
+                                        <td>
+                                            <select class="form-control">
+                                                <option class="badge bg-warning">Đang xử lý</option>
+                                                <option class="badge bg-success">Hoàn thành</option>
+                                                <option class="badge bg-danger" selected>Cần xử lý ngay</option>
+                                            </select></td>
+                                    </tr>
+                                    <!-- Thêm các báo cáo khác ở đây -->
                                     </tbody>
                                 </table>
                             </div>
                         </div>
                     </div>
 
-
                 </div>
-                <%--        ------------------------------------------------------%>
+            </div>
 
-                <div class="tab-pane fade" id="id4">
-                    <div class="m-4">
-                        <div class="d-flex align-items-center">
-                            <i class="fas fa-align-left primary-text fs-4 me-3"></i>
-                            <h2 class="fs-2 m-0">Báo cáo</h2>
-                        </div>
-                    </div>
-                    <div class="container-fluid px-4 m-3">
-                        <div class="row my-5">
-                            <div class="container my-4">
-                                <div class=" mt-5">
-                                    <h1 class="mb-4">Danh Sách Báo Cáo Người Dùng</h1>
-
-                                    <table class="table table-bordered bg-white">
-                                        <thead class="thead-dark">
-                                        <tr>
-                                            <th scope="col">Mã Báo Cáo</th>
-                                            <th scope="col">Tên Người Dùng</th>
-                                            <th scope="col">Ngày Báo Cáo</th>
-                                            <th scope="col">Nội Dung</th>
-                                            <th scope="col">Trạng Thái</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        <tr>
-                                            <td>BC001</td>
-                                            <td>Nguyễn Văn A</td>
-                                            <td>2024-11-30</td>
-                                            <td>Vấn đề về đăng nhập</td>
-                                            <td>
-                                                <select class="form-control">
-                                                    <option class="badge bg-warning">Đang xử lý</option>
-                                                    <option class="badge bg-success" selected>Hoàn thành</option>
-                                                    <option class="badge bg-danger">Cần xử lý ngay</option>
-                                                </select></td>
-                                        </tr>
-                                        <tr>
-                                            <td>BC002</td>
-                                            <td>Trần Thị B</td>
-                                            <td>2024-11-29</td>
-                                            <td>Không thể tải ảnh</td>
-                                            <td>
-                                                <select class="form-control">
-                                                    <option class="badge bg-warning" selected>Đang xử lý</option>
-                                                    <option class="badge bg-success">Hoàn thành</option>
-                                                    <option class="badge bg-danger">Cần xử lý ngay</option>
-                                                </select></td>
-                                        </tr>
-                                        <tr>
-                                            <td>BC003</td>
-                                            <td>Lê Minh C</td>
-                                            <td>2024-11-28</td>
-                                            <td>Lỗi giao diện người dùng</td>
-                                            <td>
-                                                <select class="form-control">
-                                                    <option class="badge bg-warning">Đang xử lý</option>
-                                                    <option class="badge bg-success">Hoàn thành</option>
-                                                    <option class="badge bg-danger" selected>Cần xử lý ngay</option>
-                                                </select></td>
-                                        </tr>
-                                        <!-- Thêm các báo cáo khác ở đây -->
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-
+<%--            -----------------------------%>
+            <div class="tab-pane fade" id="id6">
+                <div class="m-4">
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-align-left primary-text fs-4 me-3"></i>
+                        <h2 class="fs-2 m-0">Bảo hành</h2>
                     </div>
                 </div>
-                <div class="tab-pane fade" id="id5">
-                    <div class="m-4">
-                        <div class="d-flex align-items-center">
-                            <i class="fas fa-align-left primary-text fs-4 me-3"></i>
-                            <h2 class="fs-2 m-0">Bảo hành</h2>
-                        </div>
-                    </div>
-                    <div class="container-fluid px-4 m-3">
-                        <div class="row my-5">
-                            <div class="container my-4">
-                                <div class=" mt-5">
-                                    <h1>Danh Sách Sản Phẩm</h1>
-                                    <table class="table table-bordered table-striped bg-white mt-3">
-                                        <thead class="thead-dark">
-                                        <tr>
-                                            <th>ID Sản Phẩm</th>
-                                            <th>Tên Sản Phẩm</th>
-                                            <th>Ngày Bảo Hành</th>
-                                            <th>Ngày Hết Hạn Bảo Hành</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        <tr>
-                                            <td>SP001</td>
-                                            <td>Máy Bơm Nước Biển</td>
-                                            <td>01/01/2024</td>
-                                            <td>01/01/2025</td>
-                                        </tr>
-                                        <tr>
-                                            <td>SP002</td>
-                                            <td>Máy Lọc Nước</td>
-                                            <td>15/02/2024</td>
-                                            <td>15/02/2025</td>
-                                        </tr>
-                                        <tr>
-                                            <td>SP003</td>
-                                            <td>Máy Nén Khí</td>
-                                            <td>10/03/2024</td>
-                                            <td>10/03/2025</td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
+                <div class="container-fluid px-4 m-3">
+                    <div class="row my-5">
+                        <div class="container my-4">
+                            <div class=" mt-5">
+                                <h1>Danh Sách Sản Phẩm</h1>
+                                <table class="table table-bordered table-striped bg-white mt-3">
+                                    <thead class="thead-dark">
+                                    <tr>
+                                        <th>ID Sản Phẩm</th>
+                                        <th>Tên Sản Phẩm</th>
+                                        <th>Ngày Bảo Hành</th>
+                                        <th>Ngày Hết Hạn Bảo Hành</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td>SP001</td>
+                                        <td>Máy Bơm Nước Biển</td>
+                                        <td>01/01/2024</td>
+                                        <td>01/01/2025</td>
+                                    </tr>
+                                    <tr>
+                                        <td>SP002</td>
+                                        <td>Máy Lọc Nước</td>
+                                        <td>15/02/2024</td>
+                                        <td>15/02/2025</td>
+                                    </tr>
+                                    <tr>
+                                        <td>SP003</td>
+                                        <td>Máy Nén Khí</td>
+                                        <td>10/03/2024</td>
+                                        <td>10/03/2025</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
-
                     </div>
+
                 </div>
             </div>
         </div>
-
     </div>
+
+</div>
 
 </div>
 <script src="assets/js/admin.js"></script>
