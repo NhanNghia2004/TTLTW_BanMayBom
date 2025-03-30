@@ -38,25 +38,24 @@
                    <form id="orderForm" action="CheckoutServlet" method="post" style="color: #162e5c !important;">
                     <div class="mb-3">
                        <label class="form-label">Họ và Tên</label>
-                       <input type="text" class="form-control" name="fullName" value="${auth.fullname}" required>
+                       <input type="text" class="form-control" id="fullName" value="${auth.fullname}" required>
                      </div>
                      <div class="mb-3">
                        <label class="form-label">Số Điện Thoại</label>
-                       <input type="text" class="form-control" name="phone" value="${auth.phone}" required>
+                       <input type="text" class="form-control" id="phone" value="${auth.phone}" required>
                      </div>
                      <div class="mb-3">
                        <label class="form-label">Email</label>
-                       <input type="email" class="form-control" name="email"  value="${auth.email}" required>
+                       <input type="email" class="form-control" id="email"  value="${auth.email}" required>
                      </div>
                      <div class="mb-3">
                        <label class="form-label">Địa Chỉ Giao Hàng</label>
-                       <textarea class="form-control" name="address" rows="3" required>${auth.address}</textarea>
+                       <textarea class="form-control" id="address" rows="3" required>${auth.address}</textarea>
                      </div>
                      <div class="mb-3">
                        <label class="form-label">Phương Thức Thanh Toán</label>
-                       <select class="form-select" name="paymentMethod">
-                         <option value="cod">Thanh toán khi nhận hàng</option>
-                         <option value="bank">Chuyển khoản ngân hàng</option>
+                      <select class="form-select" name="paymentMethod" id="paymentMethod">                        <option value="1">Thanh toán khi nhận hàng</option>
+                         <option value="2">Chuyển khoản ngân hàng</option>
                        </select>
                      </div>
                      <div class="d-flex justify-content-between">
@@ -71,6 +70,8 @@
           </div>
         </div>
       </div>
+    </div>
+    </div>
     </div>
     <footer id="footer"></footer>
     <script>
@@ -88,49 +89,41 @@
       fetch("./assets/component/footer2.jsp")
               .then((response) => response.text())
               .then((html) => (footer2.innerHTML = html));
-      fetch("./assets/component/header2.jsp")
-              .then((response) => response.text())
-              .then((html) => (header2.innerHTML = html));
       fetch("./assets/component/nav.jsp")
               .then((response) => response.text())
               .then((html) => (nav.innerHTML = html));
-      fetch("./assets/component/tintuc.jsp")
-              .then((response) => response.text())
-              .then((html) => (tintuc.innerHTML = html));
-      fetch("./assets/component/chonmaybom.jsp")
-              .then((response) => response.text())
-              .then((html) => (chonmaybom.innerHTML = html));
+      
+     
     </script>
     <script>
-    document.getElementById("orderForm").addEventListener("submit", function(event) {
-        event.preventDefault(); // Ngăn tải lại trang
-        
-        // Lấy dữ liệu từ form
-        let formData = {
-            fullName: document.getElementById("fullName").value,
-            phone: document.getElementById("phone").value,
-            email: document.getElementById("email").value,
-            address: document.getElementById("address").value,
-            paymentMethod: document.getElementById("paymentMethod").value
-        };
+    document.getElementById("orderForm").addEventListener("submit", async function(event) {
+        event.preventDefault();
 
-        // Gửi AJAX request đến Servlet
-        fetch("OrderServlet", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(formData)
-        })
-        .then(response => response.json())
-        .then(data => {
+        let formData = new FormData(this);
+        try {
+            let response = await fetch("CheckoutServlet", {
+                method: "POST",
+                body: formData
+            });
+
+            if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+
+            let data = await response.json();
+            console.log("Data received:", data);
+            console.log("Success value:", data.success, typeof data.success); // Kiểm tra kiểu dữ liệu
+
             let messageBox = document.getElementById("orderMessage");
-            if (data.success) {
-                messageBox.innerHTML = `<div class="alert alert-success">${data.message}</div>`;
-            } else {
-                messageBox.innerHTML = `<div class="alert alert-danger">${data.message}</div>`;
-            }
-        })
-        .catch(error => console.error("Error:", error));
+            messageBox.innerHTML = '<div class="alert ' + (data.success ? 'alert-success' : 'alert-danger') + '">' + data.message + '</div>';
+
+
+
+        } catch (error) {
+            console.error("Error:", error);
+            document.getElementById("orderMessage").innerHTML = `<div class="alert alert-danger">Lỗi khi đặt hàng!</div>`;
+        }
     });
+
+
 </script>
   </body>
 </html>

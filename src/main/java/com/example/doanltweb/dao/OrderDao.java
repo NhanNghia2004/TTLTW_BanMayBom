@@ -63,11 +63,12 @@ public class OrderDao {
 	            return jdbi.inTransaction(handle -> {
 	                // 1️⃣ Chèn đơn hàng mới và lấy ID đơn hàng
 	                int orderId = handle.createUpdate(
-	                        "INSERT INTO orders (user_id, total_price, payment_id, created_at, status) " +
-	                        "VALUES (:userId, :totalPrice, :idPayment, NOW(), 'pending')")
+	                        "INSERT INTO orders (idUser, totalPrice, orderDate, status, idPayment,quantity) " +
+	                        "VALUES (:userId, :totalPrice, NOW(), 'pending',:idPayment,:quantity)")
 	                    .bind("userId", userId)
 	                    .bind("totalPrice", totalPrice)
 	                    .bind("idPayment", idPayment)
+	                    .bind("quantity", quantity)
 	                    .executeAndReturnGeneratedKeys("id")  
 	                    .mapTo(Integer.class)
 	                    .one();
@@ -77,7 +78,7 @@ public class OrderDao {
 
 	                for (CartItem item : cartItems) {
 	                    handle.createUpdate(
-	                            "INSERT INTO order_details (order_id, product_id, quantity, price) " +
+	                            "INSERT INTO detailorder (idOrder, idProduct, quantity, price) " +
 	                            "VALUES (:orderId, :productId, :quantity, :price)")
 	                        .bind("orderId", orderId)
 	                        .bind("productId", item.getProduct().getId())

@@ -35,6 +35,11 @@ public class CartServlet extends HttpServlet {
     				price += cartItem.getQuantity()*cartItem.getProduct().getPriceProduct();
     			}
     		}
+    		Cart userCart = cartDao.getCartByUserId(user.getId());
+    		if(userCart!=null) {
+    			
+    			cartDao.updateCart(userCart.getId(), price, amount);
+    		}
     		session.setAttribute("TotalAmount", amount);
     	    session.setAttribute("TotalPrice", price);
     	    session.setAttribute("cart", cart);	
@@ -49,7 +54,8 @@ public class CartServlet extends HttpServlet {
         HttpSession session = request.getSession();
         int productId = Integer.parseInt(request.getParameter("productId"));
         int quantity = Integer.parseInt(request.getParameter("quantity"));
-                
+        CartDao cartDao = new CartDao();
+    	User user = (User) session.getAttribute("auth");        
         
         List<CartItem> cart =  (List<CartItem>) session.getAttribute("cart");
 
@@ -69,7 +75,11 @@ public class CartServlet extends HttpServlet {
       			 price += cartItem.getQuantity()*cartItem.getProduct().getPriceProduct();
       		}
 		}
-
+        Cart userCart = cartDao.getCartByUserId(user.getId());
+        if(userCart!=null) {
+			
+			cartDao.updateCart(userCart.getId(), price, amount);
+		}
         session.setAttribute("TotalAmount", amount);
         session.setAttribute("TotalPrice", price);
         session.setAttribute("cart", cart);

@@ -20,7 +20,7 @@ public class UserDao {
 
     public User getUserbyid(int id) {
         Jdbi jdbi = JDBIConnect.get();
-        return jdbi.withHandle(handle -> handle.createQuery("SELECT * FROM user where id_user= :id").bind("id_user", id)
+        return jdbi.withHandle(handle -> handle.createQuery("SELECT * FROM user where id= :id").bind("id", id)
                 .mapToBean(User.class).findOne().orElse(null));
     }
 

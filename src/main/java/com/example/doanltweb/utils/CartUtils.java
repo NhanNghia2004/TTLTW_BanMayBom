@@ -15,17 +15,27 @@ public class CartUtils {
         List<CartItem> sessionCart = (List<CartItem>) session.getAttribute("cart");
         CartDao cartDao = new CartDao();
         Cart cart = cartDao.getCartByUserId(userId);
+        if(cart==null) {
+        	cart = cartDao.createCart(userId);
+        	System.out.println(cart);
+        }
         
         if (sessionCart == null || sessionCart.isEmpty()) {
         	List<CartItem> newCart = cartDao.getListCartItemByCartId(cart.getId());
-        	System.out.println(newCart);
+        	int amount =0;
+     		double price =0;
+     		 for (CartItem cartItem : newCart) {
+     			amount+= cartItem.getQuantity();
+     			price+= cartItem.getQuantity()*cartItem.getProduct().getPriceProduct();
+     		}
+     		boolean update =cartDao.updateCart(cart.getId(), price, amount);
+        	session.setAttribute("TotalAmount", amount);
+    	    session.setAttribute("TotalPrice", price);
         	session.setAttribute("cart", newCart);
             return;
         }
 
-        if (cart == null) {
-            cart = cartDao.createCart(userId);
-        }
+
 
         List<CartItem> dbCart = cartDao.getListCartItemByCartId(cart.getId());
 
@@ -54,6 +64,7 @@ public class CartUtils {
 			amount+= cartItem.getQuantity();
 			price+= cartItem.getQuantity()*cartItem.getProduct().getPriceProduct();
 		}
+        cartDao.updateCart(userId, price, amount);
         // Cập nhật giỏ hàng trong session
         session.setAttribute("TotalAmount", amount);
 	    session.setAttribute("TotalPrice", price);
