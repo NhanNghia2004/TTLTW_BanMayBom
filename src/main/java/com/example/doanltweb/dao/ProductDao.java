@@ -88,7 +88,74 @@ public class ProductDao {
         }
     }
 
+    // Hàm cập nhật sản phẩm
+    public boolean updateProduct(Product product) {
+        String sql = "UPDATE product SET nameProduct = :nameProduct, image = :image, priceProduct = :priceProduct, " +
+                "description = :description, manufactureDate = :manufactureDate, power = :power, pressure = :pressure, " +
+                "flowRate = :flowRate, pipeDiameter = :pipeDiameter, voltage = :voltage, brand = :brand, " +
+                "warrantyMonths = :warrantyMonths, stock = :stock, idCategory = :idCategory, idSupplier = :idSupplier " +
+                "WHERE id = :id";
 
+        try {
+            int rowsAffected = jdbi.withHandle(handle ->
+                    handle.createUpdate(sql)
+                            .bind("id", product.getId())
+                            .bind("nameProduct", product.getNameProduct())
+                            .bind("image", product.getImage())
+                            .bind("priceProduct", product.getPriceProduct())
+                            .bind("description", product.getDescription())
+                            .bind("manufactureDate", product.getManufactureDate())
+                            .bind("power", product.getPower())
+                            .bind("pressure", product.getPressure())
+                            .bind("flowRate", product.getFlowRate())
+                            .bind("pipeDiameter", product.getPipeDiameter())
+                            .bind("voltage", product.getVoltage())
+                            .bind("brand", product.getBrand())
+                            .bind("warrantyMonths", product.getWarrantyMonths())
+                            .bind("stock", product.getStock())
+                            .bind("idCategory", product.getIdCategory())
+                            .bind("idSupplier", product.getIdSupplier())
+                            .execute()
+            );
+
+            if (rowsAffected > 0) {
+                System.out.println("Sản phẩm đã được cập nhật thành công!");
+                return true;
+            } else {
+                System.out.println("Không có dòng nào bị ảnh hưởng, cập nhật thất bại.");
+                return false;
+            }
+        } catch (Exception e) {
+            System.err.println("Lỗi khi cập nhật sản phẩm: " + e.getMessage());
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    // Hàm xóa sản phẩm
+    public boolean deleteProduct(int id) {
+        String sql = "DELETE FROM product WHERE id = :id";
+
+        try {
+            int rowsAffected = jdbi.withHandle(handle ->
+                    handle.createUpdate(sql)
+                            .bind("id", id)
+                            .execute()
+            );
+
+            if (rowsAffected > 0) {
+                System.out.println("Sản phẩm đã được xóa thành công!");
+                return true;
+            } else {
+                System.out.println("Không có dòng nào bị ảnh hưởng, xóa thất bại.");
+                return false;
+            }
+        } catch (Exception e) {
+            System.err.println("Lỗi khi xóa sản phẩm: " + e.getMessage());
+            e.printStackTrace();
+            return false;
+        }
+    }
 
 
     public Product getById(int id) {
@@ -100,8 +167,8 @@ public class ProductDao {
 
     public List<Product> getSaleProduct() {
         Jdbi jdbi = JDBIConnect.get();
-        String query = "SELECT * FROM Product " +
-                "WHERE id IN (SELECT idProduct FROM Sale WHERE status = 1)";
+        String query = "SELECT * FROM product " +
+                "WHERE id IN (SELECT idProduct FROM sale WHERE status = 1)";
         return jdbi.withHandle(handle -> {
             Query q = handle.createQuery(query);
             return q.mapToBean(Product.class).list();
@@ -111,7 +178,7 @@ public class ProductDao {
     public List<Product> getProductBySupplier(int supplierId) {
         Jdbi jdbi = JDBIConnect.get();
         return jdbi.withHandle(handle ->
-                handle.createQuery("SELECT * FROM Product WHERE idSupplier = :supplierid")
+                handle.createQuery("SELECT * FROM product WHERE idSupplier = :supplierid")
                         .bind("supplierid", supplierId)
                         .mapToBean(Product.class)
                         .list()
@@ -119,47 +186,99 @@ public class ProductDao {
     }
 
 
-    public boolean deleteById(String id) {
-        Jdbi jdbi = JDBIConnect.get();
-        return JDBIConnect.get().withHandle(h -> {
-            String sql = "DELETE FROM belts WHERE id = :id";
-            return h.createUpdate(sql).bind("id", id).execute() > 0;
-        });
-    }
+//    public boolean deleteById(String id) {
+//        Jdbi jdbi = JDBIConnect.get();
+//        return JDBIConnect.get().withHandle(h -> {
+//            String sql = "DELETE FROM product WHERE id = :id";
+//            return h.createUpdate(sql).bind("id", id).execute() > 0;
+//        });
+//    }
 
 
-        public static void main(String[] args) {
-            // Tạo đối tượng Product
-            Product product = new Product();
-            product.setNameProduct("Máy bơm nước");
-            product.setImage("image_url.jpg");
-            product.setPriceProduct(1000000);
-            product.setDescription("Máy bơm nước hiệu quả cao");
-            product.setManufactureDate("2025-03-20");
-            product.setPower("2 HP");
-            product.setPressure(10.5);
-            product.setFlowRate(500);
-            product.setPipeDiameter(50);
-            product.setVoltage(220);
-            product.setBrand("Bơm ABC");
-            product.setWarrantyMonths(24);
-            product.setStock(50);
-            product.setIdCategory(1);
-            product.setIdSupplier(2);
+    //        public static void main(String[] args) {
+//            // Tạo đối tượng Product
+//            Product product = new Product();
+//            product.setNameProduct("Máy bơm nước");
+//            product.setImage("image_url.jpg");
+//            product.setPriceProduct(1000000);
+//            product.setDescription("Máy bơm nước hiệu quả cao");
+//            product.setManufactureDate("2025-03-20");
+//            product.setPower("2 HP");
+//            product.setPressure(10.5);
+//            product.setFlowRate(500);
+//            product.setPipeDiameter(50);
+//            product.setVoltage(220);
+//            product.setBrand("Bơm ABC");
+//            product.setWarrantyMonths(24);
+//            product.setStock(50);
+//            product.setIdCategory(1);
+//            product.setIdSupplier(2);
+//
+//            // Khởi tạo ProductDao
+//            ProductDao productDao = new ProductDao();
+//
+//            // Thêm sản phẩm vào cơ sở dữ liệu
+//            boolean success = productDao.addProduct(product);
+//
+//            // Kiểm tra kết quả
+//            if (success) {
+//                System.out.println("Sản phẩm đã được thêm thành công!");
+//            } else {
+//                System.out.println("Có lỗi xảy ra khi thêm sản phẩm.");
+//            }
+//        }
+    public static void main(String[] args) {
+//    // Giả sử ID sản phẩm cần cập nhật là 1
+//    int productIdToUpdate = 228;
+//
+//    // Tạo đối tượng Product với thông tin mới
+//    Product product = new Product();
+//    product.setId(productIdToUpdate); // Rất quan trọng: phải set ID để biết sản phẩm nào cần update
+//    product.setNameProduct("Máy bơm nước siêu tốc");
+//    product.setImage("updated_image_url.jpg");
+//    product.setPriceProduct(1200000);
+//    product.setDescription("Máy bơm nước siêu tốc, hiệu quả cao, tiết kiệm điện");
+//    product.setManufactureDate("2025-03-22");
+//    product.setPower("3 HP");
+//    product.setPressure(12.0);
+//    product.setFlowRate(600);
+//    product.setPipeDiameter(60);
+//    product.setVoltage(220);
+//    product.setBrand("Bơm XYZ");
+//    product.setWarrantyMonths(36);
+//    product.setStock(40);
+//    product.setIdCategory(1);
+//    product.setIdSupplier(2);
+//
+//    // Khởi tạo ProductDao
+//    ProductDao productDao = new ProductDao();
+//
+//    // Cập nhật sản phẩm trong cơ sở dữ liệu
+//    boolean success = productDao.updateProduct(product);
+//
+//    // Kiểm tra kết quả
+//    if (success) {
+//        System.out.println("Sản phẩm đã được cập nhật thành công!");
+//    } else {
+//        System.out.println("Có lỗi xảy ra khi cập nhật sản phẩm.");
+//    }
 
-            // Khởi tạo ProductDao
-            ProductDao productDao = new ProductDao();
+        // Giả sử ID sản phẩm cần xóa là 228
+        int productIdToDelete = 236;
 
-            // Thêm sản phẩm vào cơ sở dữ liệu
-            boolean success = productDao.addProduct(product);
+        // Khởi tạo ProductDao
+        ProductDao productDao = new ProductDao();
 
-            // Kiểm tra kết quả
-            if (success) {
-                System.out.println("Sản phẩm đã được thêm thành công!");
-            } else {
-                System.out.println("Có lỗi xảy ra khi thêm sản phẩm.");
-            }
+        // Xóa sản phẩm trong cơ sở dữ liệu
+        boolean success = productDao.deleteProduct(productIdToDelete);
+
+        // Kiểm tra kết quả
+        if (success) {
+            System.out.println("Sản phẩm đã được xóa thành công!");
+        } else {
+            System.out.println("Có lỗi xảy ra khi xóa sản phẩm.");
         }
+    }
 
 
 }

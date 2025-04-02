@@ -20,7 +20,7 @@ public class UserDao {
 
     public User getUserbyid(int id) {
         Jdbi jdbi = JDBIConnect.get();
-        return jdbi.withHandle(handle -> handle.createQuery("SELECT * FROM user where id_user= :id").bind("id_user", id)
+        return jdbi.withHandle(handle -> handle.createQuery("SELECT * FROM user where id= :id").bind("id", id)
                 .mapToBean(User.class).findOne().orElse(null));
     }
 
@@ -150,6 +150,23 @@ public class UserDao {
                         .findOne()
                         .orElse(-1)  // Trả về -1 nếu không tìm thấy
         );
+    }
+    public void insertUser(String username, String fullname, String email) {
+        Jdbi jdbi = new JDBIConnect().get();
+        String sql = "INSERT INTO user (username, fullname, email, password, idPermission, is_verified) " +
+                "VALUES (:username, :fullname, :email, :password, :idPermission, :isVerified)";
+
+        jdbi.useHandle(handle ->
+                handle.createUpdate(sql)
+                        .bind("username", username)
+                        .bind("fullname", fullname)
+                        .bind("email", email)
+                        .bind("password", "default123")  // Cung cấp mật khẩu mặc định
+                        .bind("idPermission", 2) // Mặc định là 2
+                        .bind("isVerified", 1)   // Mặc định là 1
+                        .execute()
+        );
+
     }
 
     public static void main(String[] args) {

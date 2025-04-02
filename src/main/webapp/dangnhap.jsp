@@ -65,7 +65,7 @@
 
                         <div class="mt-3 px-5 mx-5">
                             <span class="text-muted">Không có tài khoản? </span>
-                            <a href="dangki.jsp" class="text-decoration-none">Đăng kí</a>
+                            <a href="register.jsp" class="text-decoration-none">Đăng kí</a>
                         </div>
                     </div>
                     <footer id="footer2"></footer>

@@ -15,55 +15,80 @@ import jakarta.servlet.http.*;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.*;
 
-
+@MultipartConfig
 public class CartServlet extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
     	HttpSession session = request.getSession();
+    	CartDao cartDao = new CartDao();
+    	User user = (User) session.getAttribute("auth");
+    
+    		List<CartItem> cart =  (List<CartItem>) session.getAttribute("cart");
+    		int amount =0;
+    		double price =0;
+    		if (cart == null) {
+    			cart = new ArrayList<>(); // 🔥 Khởi tạo giỏ hàng
+    			session.setAttribute("cart", cart); // Lưu vào session
 
-        CartDao cartDao = new CartDao();
-        User user = (User) session.getAttribute("auth");
-        Cart cart = (Cart) cartDao.getCartByUserId(user.getId());
-        // Lấy giỏ hàng
-        if (cart == null) {
-            cart = cartDao.createCart(user.getId());
-        }
+    		}else {
+    			for (CartItem cartItem : cart) {
+    				amount+= cartItem.getQuantity();
+    				price += cartItem.getQuantity()*cartItem.getProduct().getPriceProduct();
+    			}
+    		}
+    		Cart userCart = cartDao.getCartByUserId(user.getId());
+    		if(userCart!=null) {
+    			
+    			cartDao.updateCart(userCart.getId(), price, amount);
+    		}
+    		session.setAttribute("TotalAmount", amount);
+    	    session.setAttribute("TotalPrice", price);
+    	    session.setAttribute("cart", cart);	
+    
+    
 
-        // Lấy danh sách giỏ hàng cập nhật
-        List<CartItem> cartItems = cartDao.getListCartItemByCartId(cart.getId());
-
-        session.setAttribute("cartItems", cartItems); 
-        request.setAttribute("cart", cart);
+       
 		request.getRequestDispatcher("giohang.jsp").forward(request, response);
     }
-    public void doPost(HttpServletRequest request, HttpServletResponse response) throws
-            IOException, ServletException {
-    	HttpSession session = request.getSession();
-        int productId = Integer.parseInt(request.getParameter("id"));
+    public void doPost(HttpServletRequest request, HttpServletResponse response) 
+            throws IOException, ServletException {
+        HttpSession session = request.getSession();
+        int productId = Integer.parseInt(request.getParameter("productId"));
         int quantity = Integer.parseInt(request.getParameter("quantity"));
-        ProductDao productDao = new ProductDao();
         CartDao cartDao = new CartDao();
+    	User user = (User) session.getAttribute("auth");        
         
-        User user = (User) session.getAttribute("auth");
-        Product product = productDao.getById(productId);
-        Cart cart = (Cart) cartDao.getCartByUserId(user.getId());
-        // Lấy giỏ hàng
+        List<CartItem> cart =  (List<CartItem>) session.getAttribute("cart");
+
+        int amount =0;
+        double price =0;
+        
+        
         if (cart == null) {
-            cart = cartDao.createCart(user.getId());
-        }
-
-        // Kiểm tra sản phẩm trong giỏ hàng
-        CartItem cartItem = cartDao.existInCartItem(cart.getId(), productId);
-        if (cartItem != null) {
-        	 System.out.println(cartDao.updateCartItem(cart.getId(), productId,  quantity));
-        } else {
-        	cartDao.addToCartItem(cart.getId(), productId, quantity);
-        }
-
-        // Lấy danh sách giỏ hàng cập nhật
-        List<CartItem> cartItems = cartDao.getListCartItemByCartId(cart.getId());
-
-        session.setAttribute("cartItems", cartItems); 
+        	cart = new ArrayList<>(); // 🔥 Khởi tạo giỏ hàng
+        	session.setAttribute("cart", cart); // Lưu vào session
+        }else {
+        	 for (CartItem cartItem : cart) {
+        		 if(cartItem.getProduct().getId()==productId) {	
+        			 cartItem.setQuantity(quantity);
+        		 }
+        		 amount+= cartItem.getQuantity();
+      			 price += cartItem.getQuantity()*cartItem.getProduct().getPriceProduct();
+      		}
+		}
+        Cart userCart = cartDao.getCartByUserId(user.getId());
+        if(userCart!=null) {
+			
+			cartDao.updateCart(userCart.getId(), price, amount);
+		}
+        session.setAttribute("TotalAmount", amount);
+        session.setAttribute("TotalPrice", price);
         session.setAttribute("cart", cart);
-		request.getRequestDispatcher("giohang.jsp").forward(request, response);
+
+        // Trả về JSON
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        String jsonResponse = "{\"status\":\"success\", \"message\":\"Cập nhật giỏ hàng thành công!\" }";
+        response.getWriter().write(jsonResponse);
     }
+
 }

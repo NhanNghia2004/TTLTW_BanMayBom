@@ -47,7 +47,7 @@ public class UserProfileServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		   response.setContentType("application/json");
+		   	response.setContentType("application/json");
 	        PrintWriter out = response.getWriter();
 	        JsonObject jsonResponse = new JsonObject();
 	        Gson gson = new Gson();
