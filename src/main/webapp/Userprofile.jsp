@@ -110,6 +110,7 @@
 											<th class="bg-dark-blue text-light">Ngày đặt hàng</th>
 											<th class="bg-dark-blue text-light">Tổng số lượng</th>
 											<th class="bg-dark-blue text-light">Tổng tiền</th>
+											<th class="bg-dark-blue text-light">Trạng thái</th>
 											<th class="bg-dark-blue text-light"></th>
 										</tr>
 									</thead>
@@ -121,6 +122,7 @@
 												</td>
 												<td>${order.quantity }</td>
 												<td>${order.totalPrice }</td>
+												<td>${order.status }</td>
 												<td>
 													<button class="btn btn-danger btn-sm">Hủy đơn hàng</button>
 													<a href="#" class="btn  bg-dark-blue btn-sm text-light"> 

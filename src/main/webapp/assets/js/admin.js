@@ -1,15 +1,33 @@
-// $(document).ready(function() {
-//     $('#productTable').DataTable();
-// });
-// $(document).ready(function() {
-//     $('#userTable').DataTable();
-// });
-//
-//
-
 // quan li sp
 
-$(document).ready(function () {
+function loadProductData() {
+    if ($.fn.dataTable.isDataTable('#productTable')) {
+        $('#productTable').DataTable().clear().destroy();
+    }
+    // Static mapping for category and supplier names (replace with dynamic data if necessary)
+    var categories = {
+        1: 'Máy bơm nước',
+        2: 'Máy bơm chân không',
+        3: 'Máy bơm ly tâm',
+        4: 'Máy bơm định lượng',
+        5: 'Máy bơm hóa chất',
+        6: 'Máy bơm chìm',
+        7: 'Máy bơm nước sạch',
+        8: 'Máy bơm công nghiệp'
+    };
+
+    var suppliers = {
+        1: 'Công ty A',
+        2: 'Công ty B',
+        3: 'Công ty C',
+        4: 'Công ty D',
+        5: 'Công ty E',
+        6: 'Công ty F',
+        7: 'Công ty G',
+        8: 'Công ty H',
+        9: 'Công ty I',
+        10: 'Công ty J'
+    };
     $.ajax({
         url: 'http://localhost:8080/TTW/productController', // API của bạn
         type: 'GET',
@@ -20,13 +38,18 @@ $(document).ready(function () {
             tableBody.empty(); // Xóa dữ liệu cũ
 
             data.forEach(function (product) {
+
+                // Get category and supplier names based on their IDs
+                var categoryName = categories[product.idCategory] || 'N/A';
+                var supplierName = suppliers[product.idSupplier] || 'N/A';
+
                 var row = `<tr>
                         <td>${product.id}</td>
                         <td style="min-width: 70px;">${product.nameProduct}</td>
                         <td><img src="${product.image}" alt="Product Image" style="width: 60px; height: 60px;"></td>
                         <td>${product.priceProduct}</td>
-                       <td style="min-width: 150px;">${product.description}</td>
-                       <td style="min-width: 90px;">${product.manufactureDate}</td>
+                        <td style="min-width: 150px;">${product.description}</td>
+                        <td style="min-width: 90px;">${product.manufactureDate}</td>
                         <td>${product.power}</td>
                         <td>${product.pressure}</td>
                         <td>${product.flowRate}</td>
@@ -34,13 +57,15 @@ $(document).ready(function () {
                         <td>${product.voltage}</td>
                         <td>${product.brand}</td>
                         <td>${product.warrantyMonths}</td>
-                        <td>${product.stock}</td>
-                        <td>${product.idCategory}</td>
-                        <td>${product.idSupplier}</td>
-                        <td >
-                        <div class="d-flex gap-2 justify-content-center">
-                            <button class="btn btn-sm btn-primary edit-btn" data-id="${product.id}">Sửa</button>
-                            <button class="btn btn-sm btn-danger delete-btn" data-id="${product.id}">Xóa</button>
+                        <td>${product.stock}</td>               
+                    
+                        <td style="min-width: 100px;" data-category-id="${product.idCategory}">${categoryName}</td> <!-- Display category name -->
+                        <td style="min-width: 70px;" data-supplier-id="${product.idSupplier}">${supplierName}</td> <!-- Display supplier name -->
+                        <td>
+                            <div class="d-flex gap-2 justify-content-center">
+                                <button class="btn btn-sm btn-primary edit-btn" data-id="${product.id}">Sửa</button>
+                                <button class="btn btn-sm btn-danger delete-btn" data-id="${product.id}">Xóa</button>
+                            </div>
                         </td>
                     </tr>`;
                 tableBody.append(row);
@@ -78,84 +103,166 @@ $(document).ready(function () {
             console.log(xhr.responseText);
         }
     });
-});
-$(document).ready(function () {
-    // Sự kiện khi submit form thêm sản phẩm
-    $('#addProductForm').submit(function (event) {
-        event.preventDefault();  // Ngừng hành động mặc định (reload trang)
+}
+document.addEventListener('DOMContentLoaded',loadProductData)
+//thêm
+// Hàm xử lý thêm sản phẩm
+function addProduct(event) {
+    event.preventDefault();  // Ngăn reload trang
 
-        // Thu thập dữ liệu từ form, bao gồm cả file (nếu có)
-        var formData = new FormData(this);
+    // Lấy form theo ID
+    var form = document.getElementById('addProductForm');
+    var formData = new FormData(form);
+    const productData = Object.fromEntries(formData.entries());
 
-        const productData = Object.fromEntries(formData.entries());
+    // Ép kiểu dữ liệu
+    productData.nameProduct = String(productData.nameProduct);
+    productData.image = String(productData.image);
+    productData.priceProduct = parseFloat(productData.priceProduct);
+    productData.description = String(productData.description);
+    productData.manufactureDate = String(productData.manufactureDate);
+    productData.power = String(productData.power);
+    productData.pressure = parseFloat(productData.pressure);
+    productData.flowRate = parseFloat(productData.flowRate);
+    productData.pipeDiameter = parseFloat(productData.pipeDiameter);
+    productData.voltage = parseInt(productData.voltage);
+    productData.brand = String(productData.brand);
+    productData.warrantyMonths = parseInt(productData.warrantyMonths);
+    productData.stock = parseInt(productData.stock);
+    productData.idCategory = parseInt(productData.idCategory);
+    productData.idSupplier = parseInt(productData.idSupplier);
 
-        productData.nameProduct = String(productData.nameProduct);
-        productData.image = String(productData.image);
-        productData.priceProduct = parseFloat(productData.priceProduct);
-        productData.description = String(productData.description);
-        productData.manufactureDate = String(productData.manufactureDate);
-        productData.power = String(productData.power);
-        productData.pressure = parseFloat(productData.pressure);
-        productData.flowRate = parseFloat(productData.flowRate);
-        productData.pipeDiameter = parseFloat(productData.pipeDiameter);
-        productData.voltage = parseInt(productData.voltage);
-        productData.brand = String(productData.brand);
-        productData.warrantyMonths = parseInt(productData.warrantyMonths);
-        productData.stock = parseInt(productData.stock);
-        productData.idCategory = parseInt(productData.idCategory);
-        productData.idSupplier = parseInt(productData.idSupplier);
+    console.log(productData); // Debug data
 
-        console.log(JSON.stringify(productData))
-
-        
-        // Gửi AJAX request tới backend
-        $.ajax({
-            url: 'http://localhost:8080/TTW/productController',  // Địa chỉ servlet hoặc controller
-            type: 'POST',
-            data: JSON.stringify(productData),
-            contentType: false,  // Quan trọng: không gửi content-type vì ta đang sử dụng FormData
-            processData: false,  // Quan trọng: để jQuery tự xử lý dữ liệu
-            success: function (response) {
-                alert(response.message);  // Hiển thị thông báo thành công
-                if (response.message === "Sản phẩm đã được thêm thành công!") {
-                    // Cập nhật lại danh sách sản phẩm, hoặc đóng modal
-                    $('#addProductModal').modal('hide');
-                    loadProducts();  // Giả sử có hàm loadProducts để cập nhật bảng sản phẩm
-                }
-            },
-            error: function (xhr, status, error) {
-                alert("Có lỗi xảy ra: " + error);
-            }
-        });
-    });
-});
-
-// Hàm để tải lại danh sách sản phẩm
-function loadProducts() {
+    // Gửi AJAX
     $.ajax({
-        url: 'http://localhost:8080/TTW/productController',  // Địa chỉ lấy tất cả sản phẩm
-        type: 'GET',
-        dataType: 'json',  // Đảm bảo dữ liệu trả về là dạng JSON
+        url: 'http://localhost:8080/TTW/productController',
+        type: 'POST',
+        data: JSON.stringify(productData),
+        contentType: 'application/json',
         success: function (response) {
-            var productBody = $('#productBody');
-            productBody.empty();  // Xóa nội dung cũ trong bảng sản phẩm
-            $.each(response, function (index, product) {
-                // Tạo một hàng mới cho mỗi sản phẩm
-                var row = $('<tr></tr>');
-                row.append('<td>' + product.id + '</td>');
-                row.append('<td>' + product.nameProduct + '</td>');
-                row.append('<td><img src="' + product.image + '" width="100" alt="Product Image"></td>');
-                row.append('<td>' + product.priceProduct + ' VNĐ</td>');
-                // Thêm các cột khác nếu cần thiết
-                row.append('<td><button class="btn btn-primary btn-sm" onclick="editProduct(' + product.id + ')">Sửa</button></td>');
-                row.append('<td><button class="btn btn-danger btn-sm" onclick="deleteProduct(' + product.id + ')">Xóa</button></td>');
-                productBody.append(row);
-            });
+            alert(response.message);
+            if (response.message === "Sản phẩm đã được thêm thành công!") {
+                $('#addProductModal').modal('hide');
+                // Giả sử có hàm loadProducts()
+                loadProductData();
+            }
         },
-        error: function () {
-            alert("Không thể tải danh sách sản phẩm!");
+        error: function (xhr, status, error) {
+            alert("Có lỗi xảy ra: " + error);
         }
     });
 }
+// sua san pham
+// Hàm xử lý khi nhấn nút "Sửa" để hiển thị dữ liệu sản phẩm vào modal
+$(document).on('click', '.edit-btn', function() {
+    var id = $(this).data('id');  // Lấy id sản phẩm từ thuộc tính data-id
+    showEditProductModal(id);  // Hiển thị modal sửa sản phẩm
+});
+
+// Hàm hiển thị dữ liệu sản phẩm trong modal sửa
+function showEditProductModal(id) {
+    // Lấy dữ liệu của sản phẩm từ dòng chứa nút sửa
+
+    var row = $('button[data-id="'+id+'"]').closest('tr');  // Lấy dòng chứa nút sửa
+    // Lấy giá trị từ các cột trong dòng đó và điền vào form modal
+    $('#editProductId').val(id);
+    $('#editProductName').val(row.find('td').eq(1).text());  // Lấy tên sản phẩm từ cột thứ 2
+    $('#editProductImage').val(row.find('td').eq(2).find('img').attr('src'));  // Lấy hình ảnh từ cột thứ 3
+    $('#editProductPrice').val(row.find('td').eq(3).text());  // Lấy giá từ cột thứ 4
+    $('#editProductDescription').val(row.find('td').eq(4).text());  // Lấy mô tả từ cột thứ 5
+    $('#editProductManufactureDate').val(row.find('td').eq(5).text());  // Lấy ngày sản xuất từ cột thứ 6
+    $('#editProductPower').val(row.find('td').eq(6).text());  // Lấy công suất từ cột thứ 7
+    $('#editProductPressure').val(row.find('td').eq(7).text());  // Lấy áp suất từ cột thứ 8
+    $('#editProductFlowRate').val(row.find('td').eq(8).text());  // Lấy lưu lượng từ cột thứ 9
+    $('#editProductPipeDiameter').val(row.find('td').eq(9).text());  // Lấy đường kính ống từ cột thứ 10
+    $('#editProductVoltage').val(row.find('td').eq(10).text());  // Lấy điện áp từ cột thứ 11
+    $('#editProductBrand').val(row.find('td').eq(11).text());  // Lấy thương hiệu từ cột thứ 12
+    $('#editProductWarrantyMonths').val(row.find('td').eq(12).text());  // Lấy bảo hành từ cột thứ 13
+    $('#editProductStock').val(row.find('td').eq(13).text());  // Lấy tồn kho từ cột thứ 14
+    $('#editProductCategory').val(row.find('td').eq(14).data('category-id'));  // Lấy danh mục từ cột thứ 15
+    $('#editProductSupplier').val(row.find('td').eq(15).data('supplier-id')); // Lấy nhà cung cấp từ cột thứ 16
+
+    // Hiển thị modal
+    $('#editProductModal').modal('show');
+}
+
+// Hàm xử lý sửa sản phẩm
+function editProduct(event) {
+    event.preventDefault();  // Ngăn reload trang
+
+    // Lấy form theo ID
+    var form = document.getElementById('editProductForm');
+    var formData = new FormData(form);
+    const productData = Object.fromEntries(formData.entries());
+    var pid =parseInt(document.getElementById('editProductId').value);
+    // Ép kiểu dữ liệu
+    productData.id = parseInt(productData.id);  // ID sản phẩm cần sửa
+    productData.nameProduct = String(productData.nameProduct);
+    productData.image = String(productData.image);
+    productData.priceProduct = parseFloat(productData.priceProduct);
+    productData.description = String(productData.description);
+    productData.manufactureDate = String(productData.manufactureDate);
+    productData.power = String(productData.power);
+    productData.pressure = parseFloat(productData.pressure);
+    productData.flowRate = parseFloat(productData.flowRate);
+    productData.pipeDiameter = parseFloat(productData.pipeDiameter);
+    productData.voltage = parseInt(productData.voltage);
+    productData.brand = String(productData.brand);
+    productData.warrantyMonths = parseInt(productData.warrantyMonths);
+    productData.stock = parseInt(productData.stock);
+    productData.idCategory = parseInt(productData.idCategory);
+    productData.idSupplier = parseInt(productData.idSupplier);
+
+    console.log(productData); // Debug data
+
+    // Gửi yêu cầu PUT để cập nhật sản phẩm
+
+    $.ajax({
+        url: 'http://localhost:8080/TTW/productController?id=' + pid,  // API xử lý PUT sửa sản phẩm
+        type: 'PUT',
+        data: JSON.stringify(productData),
+        contentType: 'application/json',
+        success: function(response) {
+            alert(response.message);
+            if (response.message === "Sản phẩm đã được cập nhật thành công!") {
+                $('#editProductModal').modal('hide');  // Đóng modal sau khi sửa thành công
+                loadProductData();  // Tải lại dữ liệu sản phẩm
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error('Lỗi cập nhật :', error);
+            alert("Có lỗi xảy ra: " + error);
+        }
+    });
+}
+// Hàm xử lý xóa sản phẩm
+
+$(document).off('click', '.delete-btn').on('click', '.delete-btn', function () {
+    var productId = $(this).data('id');
+
+    if (confirm('Bạn có chắc chắn muốn xóa sản phẩm này?')) {
+        $.ajax({
+            url: 'http://localhost:8080/TTW/productController?id=' + productId,
+            type: 'DELETE',
+            success: function (response) {
+                alert(response.message);
+                loadProductData();
+            },
+            error: function (xhr, status, error) {
+                console.log(xhr);
+                let errorMessage;
+                try {
+                    errorMessage = JSON.parse(xhr.responseText).message || 'Có lỗi xảy ra khi xóa sản phẩm';
+                } catch (e) {
+                    errorMessage = 'Có lỗi xảy ra khi xóa sản phẩm';
+                }
+                alert(errorMessage);
+            }
+        });
+    }
+});
+
+
 
 
