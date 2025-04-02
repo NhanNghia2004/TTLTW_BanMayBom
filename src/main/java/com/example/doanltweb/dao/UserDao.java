@@ -151,6 +151,23 @@ public class UserDao {
                         .orElse(-1)  // Trả về -1 nếu không tìm thấy
         );
     }
+    public void insertUser(String username, String fullname, String email) {
+        Jdbi jdbi = new JDBIConnect().get();
+        String sql = "INSERT INTO user (username, fullname, email, password, idPermission, is_verified) " +
+                "VALUES (:username, :fullname, :email, :password, :idPermission, :isVerified)";
+
+        jdbi.useHandle(handle ->
+                handle.createUpdate(sql)
+                        .bind("username", username)
+                        .bind("fullname", fullname)
+                        .bind("email", email)
+                        .bind("password", "default123")  // Cung cấp mật khẩu mặc định
+                        .bind("idPermission", 2) // Mặc định là 2
+                        .bind("isVerified", 1)   // Mặc định là 1
+                        .execute()
+        );
+
+    }
 
     public static void main(String[] args) {
         UserDao userDao = new UserDao();
