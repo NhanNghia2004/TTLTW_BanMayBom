@@ -14,8 +14,8 @@ import org.json.JSONObject;
 
 @WebServlet(name = "facebook-callback", value = "/facebook-callback")
 public class FacebookCallbackServlet extends HttpServlet {
-    private static final String CLIENT_ID = "1451949449515239";
-    private static final String CLIENT_SECRET = "0aaeb85f503c3dcfce8a9ba01902eb40";
+    private static final String CLIENT_ID = "your_client";
+    private static final String CLIENT_SECRET = "your_client";
     private static final String REDIRECT_URI = "http://localhost:8080/DoAnLTWeb_war/facebook-callback";
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
