@@ -3,6 +3,8 @@ package com.example.doanltweb.dao;
 import com.example.doanltweb.dao.db.JDBIConnect;
 import com.example.doanltweb.dao.model.Product;
 import com.example.doanltweb.dao.model.User;
+
+import org.jdbi.v3.core.Handle;
 import org.jdbi.v3.core.Jdbi;
 import org.apache.commons.codec.digest.DigestUtils;
 
@@ -167,6 +169,16 @@ public class UserDao {
                         .execute()
         );
 
+    }
+    public User findByEmail(String email) {
+        Jdbi jdbi = new JDBIConnect().get();
+        try (Handle handle = jdbi.open()) {
+            return handle.createQuery("SELECT * FROM user WHERE email = :email")
+                    .bind("email", email)
+                    .mapToBean(User.class)
+                    .findOne()
+                    .orElse(null);
+        }
     }
 
     public static void main(String[] args) {
