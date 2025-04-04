@@ -1,17 +1,20 @@
 package com.example.doanltweb.dao.model;
 
+import java.time.LocalDateTime;
+
 public class Sale {
     private int id;
-    private String promotion;
+    private double promotion;
     private String description;
     private int status;
-    private String startDate;
-    private String endDate;
+    private LocalDateTime startDate;  // Sử dụng LocalDateTime cho ngày giờ bắt đầu
+    private LocalDateTime endDate;
     private int idProduct;
 
     public Sale() {
     }
-    public Sale(int id, String promotion, String description, int status, String startDate, String endDate, int idProduct) {
+
+    public Sale(int id, double promotion, String description, int status, LocalDateTime startDate, LocalDateTime endDate, int idProduct) {
         this.id = id;
         this.promotion = promotion;
         this.description = description;
@@ -29,11 +32,11 @@ public class Sale {
         this.id = id;
     }
 
-    public String getPromotion() {
+    public double getPromotion() {
         return promotion;
     }
 
-    public void setPromotion(String promotion) {
+    public void setPromotion(double promotion) {
         this.promotion = promotion;
     }
 
@@ -53,19 +56,19 @@ public class Sale {
         this.status = status;
     }
 
-    public String getStartDate() {
+    public LocalDateTime getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(String startDate) {
+    public void setStartDate(LocalDateTime startDate) {
         this.startDate = startDate;
     }
 
-    public String getEndDate() {
+    public LocalDateTime getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(String endDate) {
+    public void setEndDate(LocalDateTime endDate) {
         this.endDate = endDate;
     }
 
@@ -81,11 +84,11 @@ public class Sale {
     public String toString() {
         return "Sale{" +
                 "id=" + id +
-                ", promotion='" + promotion + '\'' +
+                ", promotion=" + promotion +
                 ", description='" + description + '\'' +
                 ", status=" + status +
-                ", startDate='" + startDate + '\'' +
-                ", endDate='" + endDate + '\'' +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
                 ", idProduct=" + idProduct +
                 '}';
     }

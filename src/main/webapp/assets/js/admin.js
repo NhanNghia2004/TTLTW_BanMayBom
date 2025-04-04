@@ -263,6 +263,83 @@ $(document).off('click', '.delete-btn').on('click', '.delete-btn', function () {
     }
 });
 
+// --------------khuyen mãi--------------------
+function loadSaleData() {
+    if ($.fn.dataTable.isDataTable('#promotionTable')) {
+        $('#promotionTable').DataTable().clear().destroy();
+    }
 
+    // Static mapping for status names (you can modify or make this dynamic if necessary)
+    var statuses = {
+        1: 'Hoạt động',
+        0: 'Không hoạt động'
+    };
 
+    $.ajax({
+        url: 'http://localhost:8080/TTW/SaleController', // API của bạn
+        type: 'GET',
+        dataType: 'json',
+        success: function (data) {
+            console.log(data); // Kiểm tra dữ liệu trả về
+            var tableBody = $('#promotionBody');
+            tableBody.empty(); // Xóa dữ liệu cũ
+
+            data.forEach(function (sale) {
+
+                // Get status name based on status ID
+                var statusName = statuses[sale.status] || 'N/A';
+
+                var row = `<tr>
+                        <td>${sale.id}</td>
+                        <td style="min-width: 50px;">${sale.promotion}</td>
+                        <td style="min-width: 130px;">${sale.description}</td>
+                        <td>${statusName}</td>
+                        <td style="min-width: 100px;">${sale.startDate}</td>
+                        <td style="min-width: 100px;">${sale.endDate}</td>
+                        <td>${sale.idProduct}</td>
+                        <td>
+                            <div class="d-flex gap-2 justify-content-center">
+                                <button class="btn btn-sm btn-primary edit-btn" data-id="${sale.id}">Sửa</button>
+                                <button class="btn btn-sm btn-danger delete-btn" data-id="${sale.id}">Xóa</button>
+                            </div>
+                        </td>
+                    </tr>`;
+                tableBody.append(row);
+            });
+
+            // Destroy bảng cũ nếu có
+            if ($.fn.DataTable.isDataTable('#promotionTable')) {
+                $('#promotionTable').DataTable().destroy();
+            }
+
+            // Khởi tạo DataTable với tiếng Việt
+            $('#promotionTable').DataTable({
+                "paging": true,
+                "searching": true,
+                "ordering": true,
+                "lengthChange": true,
+                "language": {
+                    "lengthMenu": "Hiển thị _MENU_ khuyến mãi mỗi trang",
+                    "zeroRecords": "Không tìm thấy khuyến mãi nào",
+                    "info": "Hiển thị _START_ đến _END_ của _TOTAL_ khuyến mãi",
+                    "infoEmpty": "Không có khuyến mãi nào",
+                    "infoFiltered": "(lọc từ _MAX_ khuyến mãi)",
+                    "search": "Tìm kiếm:",
+                    "paginate": {
+                        "first": "Đầu",
+                        "last": "Cuối",
+                        "next": "Sau",
+                        "previous": "Trước"
+                    },
+                }
+            });
+        },
+        error: function (xhr, status, error) {
+            console.error("Lỗi lấy dữ liệu khuyến mãi: " + error);
+            console.log(xhr.responseText);
+        }
+    });
+}
+
+document.addEventListener('DOMContentLoaded', loadSaleData);
 

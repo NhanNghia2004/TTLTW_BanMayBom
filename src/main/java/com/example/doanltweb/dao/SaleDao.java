@@ -19,6 +19,7 @@ public class SaleDao {
                         .execute() > 0);
     }
 
+
     // Lấy tất cả các Sale
     public List<Sale> getAllSales() {
         return jdbi.withHandle(handle ->
