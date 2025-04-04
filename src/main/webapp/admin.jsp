@@ -39,30 +39,7 @@
 
     <title>admin</title>
 
-    <%--    <style>--%>
-    <%--        #sidebar-wrapper {--%>
-    <%--            position: fixed;--%>
-    <%--            top: 0;--%>
-    <%--            left: 0;--%>
-    <%--            width: 250px;  /* Thay đổi tùy theo kích thước sidebar của bạn */--%>
-    <%--            height: 100vh;--%>
-    <%--            background-color: #fff;--%>
-    <%--            box-shadow: 2px 0 5px rgba(0,0,0,0.1);--%>
-    <%--            z-index: 1000; /* Đảm bảo sidebar luôn ở trên cùng */--%>
-    <%--            padding-top: 20px; /* Giữ khoảng cách từ trên cùng */--%>
-    <%--        }--%>
 
-    <%--        #page-content-wrapper {--%>
-    <%--            margin-left: 250px;  /* Khoảng cách bên trái tương ứng với sidebar */--%>
-    <%--            padding: 20px;--%>
-    <%--            overflow-x: hidden; /* Tránh việc cuộn ngang */--%>
-    <%--        }--%>
-
-    <%--        #page-content-wrapper .tab-content {--%>
-    <%--            margin-left: 20px;--%>
-    <%--        }--%>
-
-    <%--    </style>--%>
 </head>
 
 <body>
@@ -206,11 +183,6 @@
                     </button>
                 </div>
 
-                <!-- Tùy chỉnh vị trí "Show entries" và "Search" -->
-                <%--                <div class="d-flex justify-content-between align-items-center px-4 mb-3">--%>
-                <%--                    <div id="productTable_length" class="dataTables_length"></div>--%>
-                <%--                    <div id="productTable_filter" class="dataTables_filter"></div>--%>
-                <%--                </div>--%>
 
                 <!-- Danh sách sản phẩm -->
                 <section id="product-management" class="py-4">
@@ -644,57 +616,96 @@
 
             </div>
             <%--        --------------------Khuyến mãi----------------------------------%>
+<%--            <div class="tab-pane fade" id="id4">--%>
+<%--                <div class="m-4">--%>
+<%--                    <div class="d-flex align-items-center">--%>
+<%--                        <i class="fas fa-gift primary-text fs-4 me-3"></i>--%>
+<%--                        <h2 class="fs-2 m-0">Quản lý Khuyến mãi</h2>--%>
+<%--                    </div>--%>
+<%--                    <div class="row g-3 my-2">--%>
+<%--                        <div class="col">--%>
+<%--                            <div class="p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rounded">--%>
+<%--                                <div>--%>
+<%--                                    <h3 class="fs-2">12</h3>--%>
+<%--                                    <p class="fs-5">Tổng số khuyến mãi</p>--%>
+<%--                                </div>--%>
+<%--                                <i class="fas fa-percent fs-1 primary-text border rounded-full secondary-bg p-3"></i>--%>
+<%--                            </div>--%>
+<%--                        </div>--%>
+<%--                        <div class="container">--%>
+<%--                            <table id="promotionTable" class="display">--%>
+<%--                                <thead>--%>
+<%--                                <tr>--%>
+<%--                                    <th>ID</th>--%>
+<%--                                    <th>Tên khuyến mãi</th>--%>
+<%--                                    <th>Ngày bắt đầu</th>--%>
+<%--                                    <th>Ngày kết thúc</th>--%>
+<%--                                    <th>Giảm giá (%)</th>--%>
+<%--                                    <th>Actions</th>--%>
+<%--                                </tr>--%>
+<%--                                </thead>--%>
+<%--                                <tbody>--%>
+<%--                                <c:forEach var="promotion" items="${promotions}">--%>
+<%--                                    <tr>--%>
+<%--                                        <td>${promotion.id}</td>--%>
+<%--                                        <td>${promotion.name}</td>--%>
+<%--                                        <td>${promotion.startDate}</td>--%>
+<%--                                        <td>${promotion.endDate}</td>--%>
+<%--                                        <td>${promotion.discountPercentage}</td>--%>
+<%--                                        <td>--%>
+<%--                                            <form action="${pageContext.request.contextPath}/admin" method="POST">--%>
+<%--                                                <input type="hidden" name="promotionId" value="${promotion.id}"/>--%>
+<%--                                                <button type="submit">Delete</button>--%>
+<%--                                            </form>--%>
+<%--                                        </td>--%>
+<%--                                    </tr>--%>
+<%--                                </c:forEach>--%>
+<%--                                </tbody>--%>
+<%--                            </table>--%>
+<%--                        </div>--%>
+<%--                    </div>--%>
+<%--                </div>--%>
+<%--            </div>--%>
             <div class="tab-pane fade" id="id4">
-                <div class="m-4">
-                    <div class="d-flex align-items-center">
-                        <i class="fas fa-gift primary-text fs-4 me-3"></i>
-                        <h2 class="fs-2 m-0">Quản lý Khuyến mãi</h2>
-                    </div>
-                    <div class="row g-3 my-2">
-                        <div class="col">
-                            <div class="p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rounded">
-                                <div>
-                                    <h3 class="fs-2">12</h3>
-                                    <p class="fs-5">Tổng số khuyến mãi</p>
-                                </div>
-                                <i class="fas fa-percent fs-1 primary-text border rounded-full secondary-bg p-3"></i>
-                            </div>
-                        </div>
-                        <div class="container">
-                            <table id="promotionTable" class="display">
-                                <thead>
+                <div class="d-flex align-items-center m-4">
+                    <i class="fas fa-gift primary-text fs-4 me-3"></i>
+                    <h2 class="fs-2 m-0">Quản lý Khuyến mãi</h2>
+                </div>
+
+                <!-- Nút thêm khuyến mãi ở giữa -->
+                <div class="d-flex justify-content-center align-items-center m-4">
+                    <button type="button" class="btn btn-success w-100 btn-lg" data-bs-toggle="modal"
+                            data-bs-target="#addPromotionModal">
+                        Thêm khuyến mãi
+                    </button>
+                </div>
+
+                <!-- Danh sách khuyến mãi -->
+                <section id="promotion-management" class="py-4">
+                    <div class="px-4">
+                        <h3 class="mb-3">Danh sách khuyến mãi</h3>
+                        <div class="table-responsive">
+                            <table id="promotionTable" class="table table-striped table-bordered text-center bg-white">
+                                <thead class="bg-white text-dark fw-bold">
                                 <tr>
-                                    <th>ID</th>
-                                    <th>Tên khuyến mãi</th>
-                                    <th>Ngày bắt đầu</th>
-                                    <th>Ngày kết thúc</th>
-                                    <th>Giảm giá (%)</th>
-                                    <th>Actions</th>
+                                    <th style="text-align: center">ID</th>
+                                    <th style="text-align: center">Giảm giá (%)</th>
+                                    <th style="text-align: center">Mô tả</th>
+                                    <th style="text-align: center">Trạng thái</th>
+                                    <th style="text-align: center">Ngày bắt đầu</th>
+                                    <th style="text-align: center">Ngày kết thúc</th>
+                                    <th style="text-align: center">ID Sản phẩm</th>  <!-- Thêm cột ID Sản phẩm -->
+                                    <th style="text-align: center">Hành động</th>
                                 </tr>
                                 </thead>
-                                <tbody>
-                                <c:forEach var="promotion" items="${promotions}">
-                                    <tr>
-                                        <td>${promotion.id}</td>
-                                        <td>${promotion.name}</td>
-                                        <td>${promotion.startDate}</td>
-                                        <td>${promotion.endDate}</td>
-                                        <td>${promotion.discountPercentage}</td>
-                                        <td>
-                                            <form action="${pageContext.request.contextPath}/admin" method="POST">
-                                                <input type="hidden" name="promotionId" value="${promotion.id}"/>
-                                                <button type="submit">Delete</button>
-                                            </form>
-                                        </td>
-                                    </tr>
-                                </c:forEach>
+                                <tbody id="promotionBody">
+                                <!-- Dữ liệu sẽ được chèn vào đây bằng JavaScript hoặc AJAX -->
                                 </tbody>
                             </table>
                         </div>
                     </div>
-                </div>
+                </section>
             </div>
-
 <%--            -----------------------------------------%>
             <div class="tab-pane fade" id="id5">
                 <div class="m-4">

@@ -23,7 +23,7 @@
 		class=" d-flex justify-content-between align-items-center bg-dark-blue ">
 		<div class="container list-display-none  text-light">
 			<ul class="list-head2 mb-0 d-flex justify-content-between px-0">
-				<li class="list-item-head2 "><a href="/DoAnLTWeb/trangchu"
+				<li class="list-item-head2 "><a href="trangchu"
 					class="nav-link text-light">Trang chủ</a></li>
 
 				<li class="list-item-head2 shop-active position-relative"><a

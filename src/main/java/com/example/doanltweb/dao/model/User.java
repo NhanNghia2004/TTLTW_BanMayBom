@@ -2,6 +2,7 @@ package com.example.doanltweb.dao.model;
 
 public class User implements java.io.Serializable {
     private int id;
+    private String avatar;
     private String username;
     private String password;
     private String fullname;
@@ -10,6 +11,15 @@ public class User implements java.io.Serializable {
     private String address;
     private int idPermission;
     private int isVerified;
+
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
 
     public int getId() {
         return id;
@@ -99,8 +109,10 @@ public class User implements java.io.Serializable {
 
     public User() {
     }
-    public User(int id, String username, String password, String fullname, String email, String phone, String address, int idPermission, int isVerified) {
+
+    public User(int id, String avatar, String username, String password, String fullname, String email, String phone, String address, int idPermission, int isVerified) {
         this.id = id;
+        this.avatar = avatar;
         this.username = username;
         this.password = password;
         this.fullname = fullname;
