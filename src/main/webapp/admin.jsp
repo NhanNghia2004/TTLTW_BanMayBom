@@ -220,117 +220,247 @@
                     </div>
 
 
-                    <!-- Modal Thêm Sản Phẩm -->
+                    <%--                    <!-- Modal Thêm Sản Phẩm -->--%>
+                    <%--                    <div class="modal fade" id="addProductModal" tabindex="-1" role="dialog"--%>
+                    <%--                         aria-labelledby="addProductModalLabel" aria-hidden="true">--%>
+                    <%--                        <div class="modal-dialog" role="document">--%>
+                    <%--                            <div class="modal-content">--%>
+                    <%--                                <div class="modal-header">--%>
+                    <%--                                    <h5 class="modal-title w-100 text-center" id="addProductModalLabel">Thêm Sản--%>
+                    <%--                                        Phẩm</h5>--%>
+                    <%--                                </div>--%>
+                    <%--                                <div class="modal-body">--%>
+                    <%--                                    <form id="addProductForm">--%>
+                    <%--                                        <div class="form-group row">--%>
+                    <%--                                            <label for="productName" class="col-4 col-form-label">Tên Sản Phẩm</label>--%>
+                    <%--                                            <div class="col-8">--%>
+                    <%--                                                <input type="text" class="form-control" id="productName"--%>
+                    <%--                                                       name="nameProduct" required>--%>
+                    <%--                                            </div>--%>
+                    <%--                                        </div>--%>
+                    <%--                                        <div class="form-group row">--%>
+                    <%--                                            <label for="productImage" class="col-4 col-form-label">Hình Ảnh--%>
+                    <%--                                                (URL)</label>--%>
+                    <%--                                            <div class="col-8">--%>
+                    <%--                                                <input type="text" class="form-control" id="productImage" name="image"--%>
+                    <%--                                                       required>--%>
+                    <%--                                            </div>--%>
+                    <%--                                        </div>--%>
+                    <%--                                        <div class="form-group row">--%>
+                    <%--                                            <label for="productPrice" class="col-4 col-form-label">Giá</label>--%>
+                    <%--                                            <div class="col-8">--%>
+                    <%--                                                <input type="number" class="form-control" id="productPrice"--%>
+                    <%--                                                       name="priceProduct" required min="0">--%>
+                    <%--                                            </div>--%>
+                    <%--                                        </div>--%>
+                    <%--                                        <div class="form-group row">--%>
+                    <%--                                            <label for="productDescription" class="col-4 col-form-label">Mô Tả</label>--%>
+                    <%--                                            <div class="col-8">--%>
+                    <%--                                                <textarea class="form-control" id="productDescription"--%>
+                    <%--                                                          name="description" rows="2"></textarea>--%>
+                    <%--                                            </div>--%>
+                    <%--                                        </div>--%>
+                    <%--                                        <div class="form-group row">--%>
+                    <%--                                            <label for="productManufactureDate" class="col-4 col-form-label">Ngày Sản--%>
+                    <%--                                                Xuất</label>--%>
+                    <%--                                            <div class="col-8">--%>
+                    <%--                                                <input type="date" class="form-control" id="productManufactureDate"--%>
+                    <%--                                                       name="manufactureDate" required>--%>
+                    <%--                                            </div>--%>
+                    <%--                                        </div>--%>
+                    <%--                                        <div class="form-group row">--%>
+                    <%--                                            <label for="productPower" class="col-4 col-form-label">Công Suất</label>--%>
+                    <%--                                            <div class="col-8">--%>
+                    <%--                                                <input type="text" class="form-control" id="productPower" name="power"--%>
+                    <%--                                                       required>--%>
+                    <%--                                            </div>--%>
+                    <%--                                        </div>--%>
+                    <%--                                        <div class="form-group row">--%>
+                    <%--                                            <label for="productPressure" class="col-4 col-form-label">Áp Suất</label>--%>
+                    <%--                                            <div class="col-8">--%>
+                    <%--                                                <input type="number" class="form-control" id="productPressure"--%>
+                    <%--                                                       name="pressure" required min="0">--%>
+                    <%--                                            </div>--%>
+                    <%--                                        </div>--%>
+                    <%--                                        <div class="form-group row">--%>
+                    <%--                                            <label for="productFlowRate" class="col-4 col-form-label">Lưu Lượng</label>--%>
+                    <%--                                            <div class="col-8">--%>
+                    <%--                                                <input type="number" class="form-control" id="productFlowRate"--%>
+                    <%--                                                       name="flowRate" required min="0">--%>
+                    <%--                                            </div>--%>
+                    <%--                                        </div>--%>
+                    <%--                                        <div class="form-group row">--%>
+                    <%--                                            <label for="productPipeDiameter" class="col-4 col-form-label">Đường Kính--%>
+                    <%--                                                Ống</label>--%>
+                    <%--                                            <div class="col-8">--%>
+                    <%--                                                <input type="number" class="form-control" id="productPipeDiameter"--%>
+                    <%--                                                       name="pipeDiameter" required min="0">--%>
+                    <%--                                            </div>--%>
+                    <%--                                        </div>--%>
+                    <%--                                        <div class="form-group row">--%>
+                    <%--                                            <label for="productVoltage" class="col-4 col-form-label">Điện Áp</label>--%>
+                    <%--                                            <div class="col-8">--%>
+                    <%--                                                <input type="number" class="form-control" id="productVoltage"--%>
+                    <%--                                                       name="voltage" required min="0">--%>
+                    <%--                                            </div>--%>
+                    <%--                                        </div>--%>
+                    <%--                                        <div class="form-group row">--%>
+                    <%--                                            <label for="productBrand" class="col-4 col-form-label">Thương Hiệu</label>--%>
+                    <%--                                            <div class="col-8">--%>
+                    <%--                                                <input type="text" class="form-control" id="productBrand" name="brand"--%>
+                    <%--                                                       required>--%>
+                    <%--                                            </div>--%>
+                    <%--                                        </div>--%>
+                    <%--                                        <div class="form-group row">--%>
+                    <%--                                            <label for="productWarrantyMonths" class="col-4 col-form-label">Bảo Hành--%>
+                    <%--                                                (Tháng)</label>--%>
+                    <%--                                            <div class="col-8">--%>
+                    <%--                                                <input type="number" class="form-control" id="productWarrantyMonths"--%>
+                    <%--                                                       name="warrantyMonths" required min="0">--%>
+                    <%--                                            </div>--%>
+                    <%--                                        </div>--%>
+                    <%--                                        <div class="form-group row">--%>
+                    <%--                                            <label for="productStock" class="col-4 col-form-label">Tồn Kho</label>--%>
+                    <%--                                            <div class="col-8">--%>
+                    <%--                                                <input type="number" class="form-control" id="productStock" name="stock"--%>
+                    <%--                                                       required min="0">--%>
+                    <%--                                            </div>--%>
+                    <%--                                        </div>--%>
+                    <%--                                        <div class="form-group row">--%>
+                    <%--                                            <label for="productCategory" class="col-4 col-form-label">Danh Mục</label>--%>
+                    <%--                                            <div class="col-8">--%>
+                    <%--                                                &lt;%&ndash;                                                <input type="number" class="form-control" id="productCategory" name="idCategory" required>&ndash;%&gt;--%>
+                    <%--                                                <select class="form-control" id="productCategory" name="idCategory"--%>
+                    <%--                                                        required>--%>
+                    <%--                                                    <option value="1">Máy bơm nước</option>--%>
+                    <%--                                                    <option value="2">Máy bơm chân không</option>--%>
+                    <%--                                                    <option value="3">Máy bơm ly tâm</option>--%>
+                    <%--                                                    <option value="4">Máy bơm định lượng</option>--%>
+                    <%--                                                    <option value="5">Máy bơm hóa chất</option>--%>
+                    <%--                                                    <option value="6">Máy bơm chìm</option>--%>
+                    <%--                                                    <option value="7">Máy bơm nước sạch</option>--%>
+                    <%--                                                    <option value="8">Máy bơm công nghiệp</option>--%>
+                    <%--                                                </select>--%>
+                    <%--                                            </div>--%>
+                    <%--                                        </div>--%>
+                    <%--                                        <div class="form-group row">--%>
+                    <%--                                            <label for="productSupplier" class="col-4 col-form-label">Nhà Cung--%>
+                    <%--                                                Cấp</label>--%>
+                    <%--                                            <div class="col-8">--%>
+                    <%--                                                &lt;%&ndash;                                                <input type="number" class="form-control" id="productSupplier"&ndash;%&gt;--%>
+                    <%--                                                &lt;%&ndash;                                                       name="idSupplier" required>&ndash;%&gt;--%>
+                    <%--                                                <select class="form-control" id="productSupplier" name="idSupplier"--%>
+                    <%--                                                        required>--%>
+                    <%--                                                    <option value="">-- Chọn nhà cung cấp --</option>--%>
+                    <%--                                                    <option value="1">Công ty A</option>--%>
+                    <%--                                                    <option value="2">Công ty B</option>--%>
+                    <%--                                                    <option value="3">Công ty C</option>--%>
+                    <%--                                                    <option value="4">Công ty D</option>--%>
+                    <%--                                                    <option value="5">Công ty E</option>--%>
+                    <%--                                                    <option value="6">Công ty F</option>--%>
+                    <%--                                                    <option value="7">Công ty G</option>--%>
+                    <%--                                                    <option value="8">Công ty H</option>--%>
+                    <%--                                                    <option value="9">Công ty I</option>--%>
+                    <%--                                                    <option value="10">Công ty J</option>--%>
+                    <%--                                                </select>--%>
+                    <%--                                            </div>--%>
+                    <%--                                        </div>--%>
+                    <%--                                        <div class="text-center mt-3">--%>
+                    <%--                                            <button type="submit" class="btn btn-primary" onclick="addProduct(event)">--%>
+                    <%--                                                Thêm Sản Phẩm--%>
+                    <%--                                            </button>--%>
+                    <%--                                        </div>--%>
+                    <%--                                    </form>--%>
+                    <%--                                </div>--%>
+                    <%--                            </div>--%>
+                    <%--                        </div>--%>
+                    <%--                    </div>--%>
+
                     <div class="modal fade" id="addProductModal" tabindex="-1" role="dialog"
                          aria-labelledby="addProductModalLabel" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
+                        <div class="modal-dialog modal-lg" role="document">
                             <div class="modal-content">
-                                <div class="modal-header">
+                                <div class="modal-header bg-success text-white">
                                     <h5 class="modal-title w-100 text-center" id="addProductModalLabel">Thêm Sản
                                         Phẩm</h5>
+                                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                                            aria-label="Đóng"></button>
                                 </div>
                                 <div class="modal-body">
                                     <form id="addProductForm">
-                                        <div class="form-group row">
-                                            <label for="productName" class="col-4 col-form-label">Tên Sản Phẩm</label>
-                                            <div class="col-8">
+                                        <div class="row g-3">
+                                            <div class="col-md-6">
+                                                <label for="productName" class="form-label">Tên Sản Phẩm</label>
                                                 <input type="text" class="form-control" id="productName"
                                                        name="nameProduct" required>
                                             </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label for="productImage" class="col-4 col-form-label">Hình Ảnh
-                                                (URL)</label>
-                                            <div class="col-8">
+                                            <div class="col-md-6">
+                                                <label for="productImage" class="form-label">Hình Ảnh (URL)</label>
                                                 <input type="text" class="form-control" id="productImage" name="image"
                                                        required>
                                             </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label for="productPrice" class="col-4 col-form-label">Giá</label>
-                                            <div class="col-8">
+                                            <div class="col-md-6">
+                                                <label for="productPrice" class="form-label">Giá</label>
                                                 <input type="number" class="form-control" id="productPrice"
                                                        name="priceProduct" required min="0">
                                             </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label for="productDescription" class="col-4 col-form-label">Mô Tả</label>
-                                            <div class="col-8">
-                                                <textarea class="form-control" id="productDescription"
-                                                          name="description" rows="2"></textarea>
-                                            </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label for="productManufactureDate" class="col-4 col-form-label">Ngày Sản
-                                                Xuất</label>
-                                            <div class="col-8">
+                                            <div class="col-md-6">
+                                                <label for="productManufactureDate" class="form-label">Ngày Sản
+                                                    Xuất</label>
                                                 <input type="date" class="form-control" id="productManufactureDate"
                                                        name="manufactureDate" required>
                                             </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label for="productPower" class="col-4 col-form-label">Công Suất</label>
-                                            <div class="col-8">
+                                            <div class="col-md-12">
+                                                <label for="productDescription" class="form-label">Mô Tả</label>
+                                                <textarea class="form-control" id="productDescription"
+                                                          name="description" rows="2"></textarea>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <label for="productPower" class="form-label">Công Suất</label>
                                                 <input type="text" class="form-control" id="productPower" name="power"
                                                        required>
                                             </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label for="productPressure" class="col-4 col-form-label">Áp Suất</label>
-                                            <div class="col-8">
+                                            <div class="col-md-6">
+                                                <label for="productPressure" class="form-label">Áp Suất</label>
                                                 <input type="number" class="form-control" id="productPressure"
                                                        name="pressure" required min="0">
                                             </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label for="productFlowRate" class="col-4 col-form-label">Lưu Lượng</label>
-                                            <div class="col-8">
+                                            <div class="col-md-6">
+                                                <label for="productFlowRate" class="form-label">Lưu Lượng</label>
                                                 <input type="number" class="form-control" id="productFlowRate"
                                                        name="flowRate" required min="0">
                                             </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label for="productPipeDiameter" class="col-4 col-form-label">Đường Kính
-                                                Ống</label>
-                                            <div class="col-8">
+                                            <div class="col-md-6">
+                                                <label for="productPipeDiameter" class="form-label">Đường Kính
+                                                    Ống</label>
                                                 <input type="number" class="form-control" id="productPipeDiameter"
                                                        name="pipeDiameter" required min="0">
                                             </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label for="productVoltage" class="col-4 col-form-label">Điện Áp</label>
-                                            <div class="col-8">
+                                            <div class="col-md-6">
+                                                <label for="productVoltage" class="form-label">Điện Áp</label>
                                                 <input type="number" class="form-control" id="productVoltage"
                                                        name="voltage" required min="0">
                                             </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label for="productBrand" class="col-4 col-form-label">Thương Hiệu</label>
-                                            <div class="col-8">
+                                            <div class="col-md-6">
+                                                <label for="productBrand" class="form-label">Thương Hiệu</label>
                                                 <input type="text" class="form-control" id="productBrand" name="brand"
                                                        required>
                                             </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label for="productWarrantyMonths" class="col-4 col-form-label">Bảo Hành
-                                                (Tháng)</label>
-                                            <div class="col-8">
+                                            <div class="col-md-6">
+                                                <label for="productWarrantyMonths" class="form-label">Bảo Hành
+                                                    (Tháng)</label>
                                                 <input type="number" class="form-control" id="productWarrantyMonths"
                                                        name="warrantyMonths" required min="0">
                                             </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label for="productStock" class="col-4 col-form-label">Tồn Kho</label>
-                                            <div class="col-8">
+                                            <div class="col-md-6">
+                                                <label for="productStock" class="form-label">Tồn Kho</label>
                                                 <input type="number" class="form-control" id="productStock" name="stock"
                                                        required min="0">
                                             </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label for="productCategory" class="col-4 col-form-label">Danh Mục</label>
-                                            <div class="col-8">
-                                                <%--                                                <input type="number" class="form-control" id="productCategory" name="idCategory" required>--%>
-                                                <select class="form-control" id="productCategory" name="idCategory"
+                                            <div class="col-md-6">
+                                                <label for="productCategory" class="form-label">Danh Mục</label>
+                                                <select class="form-select" id="productCategory" name="idCategory"
                                                         required>
                                                     <option value="1">Máy bơm nước</option>
                                                     <option value="2">Máy bơm chân không</option>
@@ -342,14 +472,9 @@
                                                     <option value="8">Máy bơm công nghiệp</option>
                                                 </select>
                                             </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label for="productSupplier" class="col-4 col-form-label">Nhà Cung
-                                                Cấp</label>
-                                            <div class="col-8">
-                                                <%--                                                <input type="number" class="form-control" id="productSupplier"--%>
-                                                <%--                                                       name="idSupplier" required>--%>
-                                                <select class="form-control" id="productSupplier" name="idSupplier"
+                                            <div class="col-md-6">
+                                                <label for="productSupplier" class="form-label">Nhà Cung Cấp</label>
+                                                <select class="form-select" id="productSupplier" name="idSupplier"
                                                         required>
                                                     <option value="">-- Chọn nhà cung cấp --</option>
                                                     <option value="1">Công ty A</option>
@@ -365,12 +490,12 @@
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="text-center mt-3">
-                                            <button type="submit" class="btn btn-primary" onclick="addProduct(event)">
-                                                Thêm Sản Phẩm
-                                            </button>
-                                        </div>
                                     </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="submit" form="addProductForm" class="btn btn-success w-100"
+                                            onclick="addProduct(event)">Thêm Sản Phẩm
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -616,56 +741,7 @@
 
             </div>
             <%--        --------------------Khuyến mãi----------------------------------%>
-<%--            <div class="tab-pane fade" id="id4">--%>
-<%--                <div class="m-4">--%>
-<%--                    <div class="d-flex align-items-center">--%>
-<%--                        <i class="fas fa-gift primary-text fs-4 me-3"></i>--%>
-<%--                        <h2 class="fs-2 m-0">Quản lý Khuyến mãi</h2>--%>
-<%--                    </div>--%>
-<%--                    <div class="row g-3 my-2">--%>
-<%--                        <div class="col">--%>
-<%--                            <div class="p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rounded">--%>
-<%--                                <div>--%>
-<%--                                    <h3 class="fs-2">12</h3>--%>
-<%--                                    <p class="fs-5">Tổng số khuyến mãi</p>--%>
-<%--                                </div>--%>
-<%--                                <i class="fas fa-percent fs-1 primary-text border rounded-full secondary-bg p-3"></i>--%>
-<%--                            </div>--%>
-<%--                        </div>--%>
-<%--                        <div class="container">--%>
-<%--                            <table id="promotionTable" class="display">--%>
-<%--                                <thead>--%>
-<%--                                <tr>--%>
-<%--                                    <th>ID</th>--%>
-<%--                                    <th>Tên khuyến mãi</th>--%>
-<%--                                    <th>Ngày bắt đầu</th>--%>
-<%--                                    <th>Ngày kết thúc</th>--%>
-<%--                                    <th>Giảm giá (%)</th>--%>
-<%--                                    <th>Actions</th>--%>
-<%--                                </tr>--%>
-<%--                                </thead>--%>
-<%--                                <tbody>--%>
-<%--                                <c:forEach var="promotion" items="${promotions}">--%>
-<%--                                    <tr>--%>
-<%--                                        <td>${promotion.id}</td>--%>
-<%--                                        <td>${promotion.name}</td>--%>
-<%--                                        <td>${promotion.startDate}</td>--%>
-<%--                                        <td>${promotion.endDate}</td>--%>
-<%--                                        <td>${promotion.discountPercentage}</td>--%>
-<%--                                        <td>--%>
-<%--                                            <form action="${pageContext.request.contextPath}/admin" method="POST">--%>
-<%--                                                <input type="hidden" name="promotionId" value="${promotion.id}"/>--%>
-<%--                                                <button type="submit">Delete</button>--%>
-<%--                                            </form>--%>
-<%--                                        </td>--%>
-<%--                                    </tr>--%>
-<%--                                </c:forEach>--%>
-<%--                                </tbody>--%>
-<%--                            </table>--%>
-<%--                        </div>--%>
-<%--                    </div>--%>
-<%--                </div>--%>
-<%--            </div>--%>
+
             <div class="tab-pane fade" id="id4">
                 <div class="d-flex align-items-center m-4">
                     <i class="fas fa-gift primary-text fs-4 me-3"></i>
@@ -704,9 +780,79 @@
                             </table>
                         </div>
                     </div>
+
+
+                    <!-- Modal thêm khuyến mãi -->
+                    <div class="modal fade" id="addPromotionModal" tabindex="-1"
+                         aria-labelledby="addPromotionModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg"> <!-- modal lớn hơn để dễ nhập -->
+                            <div class="modal-content">
+                                <div class="modal-header bg-success text-white">
+                                    <h5 class="modal-title w-100 text-center" id="addPromotionModalLabel">Thêm Khuyến
+                                        Mãi</h5>
+                                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                                            aria-label="Đóng"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form id="addPromotionForm">
+                                        <div class="row g-3">
+                                            <div class="col-md-6">
+                                                <label for="promotionValue" class="form-label">Giảm giá (%)</label>
+                                                <input type="number" class="form-control" id="promotionValue"
+                                                       name="promotion" min="0" max="100" required>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <label for="status" class="form-label">Trạng thái</label>
+                                                <select class="form-select" id="status" name="status" required>
+                                                    <option value="1">Đang áp dụng</option>
+                                                    <option value="0">Không áp dụng</option>
+                                                </select>
+                                            </div>
+
+                                            <div class="col-md-12">
+                                                <label for="description" class="form-label">Mô tả</label>
+                                                <textarea class="form-control" id="description" name="description"
+                                                          rows="2" required></textarea>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <label for="startDate" class="form-label">Ngày bắt đầu</label>
+                                                <input type="datetime-local" class="form-control" id="startDate"
+                                                       name="startDate" required>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <label for="endDate" class="form-label">Ngày kết thúc</label>
+                                                <input type="datetime-local" class="form-control" id="endDate"
+                                                       name="endDate" required>
+                                            </div>
+
+                                            <div class="col-md-12">
+                                                <label for="idProduct" class="form-label">ID Sản phẩm</label>
+                                                <input type="number" class="form-control" id="idProduct"
+                                                       name="idProduct" required>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+
+                                <div class="modal-footer">
+
+                                    <button type="submit" form="addPromotionForm"
+                                            class="btn btn-success w-100 text-center">Thêm mới
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
                 </section>
             </div>
-<%--            -----------------------------------------%>
+
+
+            <%--            -----------------------------------------%>
             <div class="tab-pane fade" id="id5">
                 <div class="m-4">
                     <div class="d-flex align-items-center">
@@ -777,7 +923,7 @@
                 </div>
             </div>
 
-<%--            -----------------------------%>
+            <%--            -----------------------------%>
             <div class="tab-pane fade" id="id6">
                 <div class="m-4">
                     <div class="d-flex align-items-center">

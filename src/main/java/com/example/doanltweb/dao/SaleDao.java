@@ -4,6 +4,7 @@ import com.example.doanltweb.dao.db.JDBIConnect;
 import com.example.doanltweb.dao.model.Sale;
 import org.jdbi.v3.core.Jdbi;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class SaleDao {
@@ -56,39 +57,53 @@ public class SaleDao {
 
     // Phương thức main để kiểm tra CRUD
     public static void main(String[] args) {
-        SaleDao saleDAO = new SaleDao();
 
-//        // Thêm một Sale mới
-//        Sale sale1 = new Sale(1, "Giảm giá cho máy bơm T1", "Khuyến mãi giảm giá 15% cho sản phẩm máy bơm T1", 1, "2025-01-14", "2026-02-14", 1);
-//        saleDAO.addSale(sale1);
+            SaleDao saleDao = new SaleDao();
 
-        // Lấy tất cả các Sale
-        List<Sale> allSales = saleDAO.getAllSales();
-        System.out.println("Danh sách các Sale:");
-        for (Sale sale : allSales) {
-            System.out.println(sale);
+            // 1. Tạo một Sale mới để test
+            Sale newSale = new Sale();
+            newSale.setId( 21);  // ID tự đặt nếu không có auto-increment
+            newSale.setPromotion(15.5);
+            newSale.setDescription("Khuyến mãi đầu năm");
+            newSale.setStatus(1);
+            newSale.setStartDate(LocalDateTime.now());
+            newSale.setEndDate(LocalDateTime.now().plusDays(10));
+            newSale.setIdProduct(22);  // ID sản phẩm tồn tại
+
+            // 2. Thêm khuyến mãi
+            boolean isAdded = saleDao.addSale(newSale);
+            System.out.println("Thêm khuyến mãi: " + (isAdded ? "Thành công" : "Thất bại"));
+
+            // 3. Lấy danh sách tất cả khuyến mãi
+//            List<Sale> allSales = saleDao.getAllSales();
+//            System.out.println("Danh sách khuyến mãi:");
+//            allSales.forEach(sale -> {
+//                System.out.println("ID: " + sale.getId());
+//                System.out.println("Giảm giá: " + sale.getPromotion() + "%");
+//                System.out.println("Mô tả: " + sale.getDescription());
+//                System.out.println("Trạng thái: " + (sale.getStatus() == 1 ? "Đang áp dụng" : "Không áp dụng"));
+//                System.out.println("Bắt đầu: " + sale.getStartDate());
+//                System.out.println("Kết thúc: " + sale.getEndDate());
+//                System.out.println("ID Sản phẩm: " + sale.getIdProduct());
+//                System.out.println("----------------------");
+//            });
+//
+//            // 4. Cập nhật một khuyến mãi
+//            if (!allSales.isEmpty()) {
+//                Sale updateSale = allSales.get(0);
+//                updateSale.setDescription("Khuyến mãi cập nhật");
+//                updateSale.setPromotion(20.0);
+//                boolean isUpdated = saleDao.updateSale(updateSale);
+//                System.out.println("Cập nhật khuyến mãi: " + (isUpdated ? "Thành công" : "Thất bại"));
+//            }
+//
+//            // 5. Xóa khuyến mãi theo ID
+//            int deleteId = 1;
+//            boolean isDeleted = saleDao.deleteSale(deleteId);
+//            System.out.println("Xóa khuyến mãi ID " + deleteId + ": " + (isDeleted ? "Thành công" : "Thất bại"));
         }
 
-        // Lấy một Sale theo ID
-        Sale fetchedSale = saleDAO.getSaleById(1);
-        System.out.println("Sale theo ID 1: " + fetchedSale);
 
-//        // Cập nhật Sale
-//        if (fetchedSale != null) {
-//            fetchedSale.setPromotion("Giảm giá đặc biệt cho máy bơm T1");
-//            saleDAO.updateSale(fetchedSale);
-//            System.out.println("Sale sau khi cập nhật: " + saleDAO.getSaleById(1));
-//        }
-//
-//        // Xóa Sale theo ID
-//        saleDAO.deleteSale(1);
-//        System.out.println("Sale đã bị xóa");
-//
-//        // Kiểm tra lại tất cả các Sale sau khi xóa
-//        List<Sale> allSalesAfterDeletion = saleDAO.getAllSales();
-//        System.out.println("Danh sách các Sale sau khi xóa:");
-//        for (Sale sale : allSalesAfterDeletion) {
-//            System.out.println(sale);
-        }
+
     }
 
