@@ -271,8 +271,8 @@ function loadSaleData() {
 
     // Static mapping for status names (you can modify or make this dynamic if necessary)
     var statuses = {
-        1: 'Hoạt động',
-        0: 'Không hoạt động'
+        1: 'Đang áp dụng',
+        0: 'Không áp dụng'
     };
 
     $.ajax({
@@ -343,3 +343,84 @@ function loadSaleData() {
 
 document.addEventListener('DOMContentLoaded', loadSaleData);
 
+//them khuyến mãi
+// $(document).ready(function () {
+//     // $('#addPromotionForm').on('submit', function (e) {
+//     $('#addPromotionForm').off('submit').on('submit', function (e) {
+//         e.preventDefault(); // Ngăn form reload trang
+//
+//         // Lấy dữ liệu từ form
+//         const saleData = {
+//             promotion: parseFloat($('#promotionValue').val()),
+//             description: $('#description').val(),
+//             status: parseInt($('#status').val()),
+//             startDate: $('#startDate').val(),
+//             endDate: $('#endDate').val(),
+//             idProduct: parseInt($('#idProduct').val())
+//         };
+//
+//         // Gửi dữ liệu lên servlet qua POST
+//         $.ajax({
+//             url: 'http://localhost:8080/TTW/SaleController',
+//             type: 'POST',
+//             contentType: 'application/json',
+//             data: JSON.stringify(saleData),
+//             success: function (response) {
+//                 alert("Thêm khuyến mãi thành công!");
+//
+//                 // Reset form và ẩn modal
+//                 $('#addPromotionForm')[0].reset();
+//                 $('#addPromotionModal').modal('hide');
+//
+//                 // Load lại bảng dữ liệu
+//                 loadSaleData();
+//             },
+//             error: function (xhr, status, error) {
+//                 console.error("Lỗi khi thêm khuyến mãi:", error);
+//                 alert("Thêm khuyến mãi thất bại!");
+//             }
+//         });
+//     });
+// });
+$(document).ready(function () {
+    $('#addPromotionForm').off('submit').on('submit', function (e) {
+        e.preventDefault(); // Ngăn form reload trang
+
+        const startDate = new Date($('#startDate').val());
+        const endDate = new Date($('#endDate').val());
+
+        // Kiểm tra ngày kết thúc phải sau ngày bắt đầu
+        if (endDate <= startDate) {
+            alert("❌ Ngày kết thúc phải sau ngày bắt đầu!");
+            return; // Dừng submit
+        }
+
+        // Lấy dữ liệu từ form
+        const saleData = {
+            promotion: parseFloat($('#promotionValue').val()),
+            description: $('#description').val(),
+            status: parseInt($('#status').val()),
+            startDate: $('#startDate').val(),
+            endDate: $('#endDate').val(),
+            idProduct: parseInt($('#idProduct').val())
+        };
+
+        // Gửi dữ liệu lên servlet qua POST
+        $.ajax({
+            url: 'http://localhost:8080/TTW/SaleController',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(saleData),
+            success: function (response) {
+                alert("✅ Thêm khuyến mãi thành công!");
+                $('#addPromotionForm')[0].reset();
+                $('#addPromotionModal').modal('hide');
+                loadSaleData();
+            },
+            error: function (xhr, status, error) {
+                console.error("Lỗi khi thêm khuyến mãi:", error);
+                alert("❌ Thêm khuyến mãi thất bại!");
+            }
+        });
+    });
+});

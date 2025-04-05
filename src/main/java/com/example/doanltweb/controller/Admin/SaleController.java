@@ -10,8 +10,11 @@ import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @WebServlet(name = "SaleController", value = "/SaleController")
 public class SaleController extends HttpServlet {
@@ -51,5 +54,39 @@ public class SaleController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+
+        try {
+            // Đọc JSON từ request body
+            BufferedReader reader = request.getReader();
+            ObjectMapper objectMapper = new ObjectMapper();
+            objectMapper.registerModule(new JavaTimeModule());
+            objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+
+            // Chuyển JSON thành đối tượng Sale
+            Sale newSale = objectMapper.readValue(reader, Sale.class);
+
+            // Gọi DAO để thêm Sale
+            boolean success = saleDao.addSale(newSale);
+
+            // Gửi phản hồi JSON về client
+            Map<String, Object> responseMap = new HashMap<>();
+            responseMap.put("success", success);
+            responseMap.put("message", success ? "Thêm khuyến mãi thành công!" : "Thêm khuyến mãi thất bại!");
+
+            String jsonResponse = objectMapper.writeValueAsString(responseMap);
+            response.getWriter().write(jsonResponse);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+
+            // Trả về lỗi nếu có exception
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            Map<String, String> error = new HashMap<>();
+            error.put("error", "Dữ liệu không hợp lệ hoặc lỗi máy chủ.");
+            ObjectMapper mapper = new ObjectMapper();
+            response.getWriter().write(mapper.writeValueAsString(error));
+        }
     }
 }
