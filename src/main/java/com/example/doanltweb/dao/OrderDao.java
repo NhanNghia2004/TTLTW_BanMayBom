@@ -2,6 +2,7 @@ package com.example.doanltweb.dao;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -13,6 +14,7 @@ import com.example.doanltweb.dao.model.CartItem;
 import com.example.doanltweb.dao.model.Order;
 import com.example.doanltweb.dao.model.OrderDetail;
 import com.example.doanltweb.dao.model.Payment;
+import com.example.doanltweb.dao.model.Product;
 import com.example.doanltweb.dao.model.User;
 
 
@@ -21,6 +23,7 @@ public class OrderDao {
 	  UserDao userDao = new UserDao();
 	  PaymentDao paymentDao = new PaymentDao();
 	  CartDao cartDao = new CartDao();
+	  ProductDao productDao = new ProductDao();
 	  
 	    public List<Order> getOrderByUserId(int id) {
 	        Jdbi jdbi = JDBIConnect.get();
@@ -51,10 +54,44 @@ public class OrderDao {
 	                	int productId = rs.getInt("idProduct");
 	                	int quantity = rs.getInt("quantity");
 	                	double price = rs.getDouble("price");
-	                	return new OrderDetail(detailId,orderId,productId,quantity,price);
+	                	Product p = productDao.getById(productId);
+	                	return new OrderDetail(detailId,orderId,p,quantity,price);
 	                }).list());
 	                
 	               
+	    }
+	    public List<Order> getAllOrder() {
+	        Jdbi jdbi = JDBIConnect.get();  // Kết nối với cơ sở dữ liệu
+	        return jdbi.withHandle(handle -> 
+	            handle.createQuery("SELECT * FROM orders")  // Truy vấn tất cả đơn hàng
+	                  .map((rs, ctx) -> {
+	                      int orderId = rs.getInt("id");
+	                      int userId = rs.getInt("idUser");
+	                      double totalPrice = rs.getDouble("totalPrice");
+	                      String orderDate = rs.getString("orderDate");
+	                      String status = rs.getString("status");
+	                      int idPayment = rs.getInt("idPayment");
+	                      int quantity = rs.getInt("quantity");
+
+	                      User user = userDao.getUserbyid(userId);  // Lấy thông tin người dùng
+	                      Payment payment = paymentDao.getPaymentbyid(idPayment);  // Lấy thông tin thanh toán
+	                      return new Order(orderId, user, totalPrice, orderDate, status, payment, quantity);
+	                  })
+	                  .list()  // Trả về danh sách đơn hàng
+	        );
+	    }
+
+	    
+	    public Map<Order, List<OrderDetail>> getOrderWithDetails() {
+	        Map<Order, List<OrderDetail>> map = new LinkedHashMap<>();
+	        List<Order> orders = getAllOrder();
+
+	        for (Order order : orders) {
+	            List<OrderDetail> details = getDetailById(order.getId());
+	            map.put(order, details);
+	        }
+
+	        return map;
 	    }
 	    public boolean createOrder(int userId, double totalPrice, int idPayment, int quantity, int cartId) {
 	        Jdbi jdbi = JDBIConnect.get();
