@@ -3,6 +3,8 @@ package com.example.doanltweb.dao;
 import com.example.doanltweb.dao.db.JDBIConnect;
 import com.example.doanltweb.dao.model.Product;
 import com.example.doanltweb.dao.model.User;
+
+import org.jdbi.v3.core.Handle;
 import org.jdbi.v3.core.Jdbi;
 import org.apache.commons.codec.digest.DigestUtils;
 
@@ -116,6 +118,67 @@ public class UserDao {
                         .bind("email", email) // Gán giá trị email
                         .execute() // Thực thi lệnh SQL
         );
+    }
+    public void addUser(String username, String password, String email, String fullname, String phone, String address) {
+        Jdbi jdbi = new JDBIConnect().get(); // Kết nối Jdbi
+        jdbi.useHandle(handle ->
+                handle.execute("INSERT INTO user (username, password, email, fullname, phone, address, is_verified, idPermission) VALUES (?, ?, ?, ?, ?, ?, 0, 2)",
+                        username, password, email, fullname, phone, address)
+        );
+    }
+
+    public boolean isUserExists(String email) {
+        Jdbi jdbi = new JDBIConnect().get(); // Kết nối Jdbi
+        return jdbi.withHandle(handle ->
+                handle.createQuery("SELECT COUNT(*) FROM user WHERE email = ?")
+                        .bind(0, email)
+                        .mapTo(Integer.class)
+                        .one()
+        ) > 0;
+    }
+    public void updateUserVerifiedById(int userId) {
+        Jdbi jdbi = new JDBIConnect().get(); // Kết nối Jdbi
+        jdbi.useHandle(handle ->
+                handle.execute("UPDATE user SET is_verified = 1 WHERE id = ?", userId)
+        );
+    }
+
+    public int getUserIdByEmail(String email) {
+        Jdbi jdbi = new JDBIConnect().get(); // Kết nối Jdbi
+        return jdbi.withHandle(handle ->
+                handle.createQuery("SELECT id FROM user WHERE email = ?")
+                        .bind(0, email)
+                        .mapTo(Integer.class)
+                        .findOne()
+                        .orElse(-1)  // Trả về -1 nếu không tìm thấy
+        );
+    }
+    public void insertUser(String username, String fullname, String email) {
+        Jdbi jdbi = new JDBIConnect().get();
+        String sql = "INSERT INTO user (username, fullname, email, password, idPermission, is_verified) " +
+                "VALUES (:username, :fullname, :email, :password, :idPermission, :isVerified)";
+
+        jdbi.useHandle(handle ->
+                handle.createUpdate(sql)
+                        .bind("username", username)
+                        .bind("fullname", fullname)
+                        .bind("email", email)
+                        .bind("password", "default123")  // Cung cấp mật khẩu mặc định
+                        .bind("idPermission", 2) // Mặc định là 2
+                        .bind("isVerified", 1)   // Mặc định là 1
+                        .execute()
+        );
+
+    }
+    public User findByEmail(String email) {
+        Jdbi jdbi = new JDBIConnect().get();
+        try (Handle handle = jdbi.open()) {
+            return handle.createQuery("SELECT * FROM user WHERE email = :email")
+                    .bind("email", email)
+                    .mapToBean(User.class)
+                    .findOne()
+                    .orElse(null);
+        }
     }
 
     public static void main(String[] args) {

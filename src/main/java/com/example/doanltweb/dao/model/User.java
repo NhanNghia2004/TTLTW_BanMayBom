@@ -2,6 +2,7 @@ package com.example.doanltweb.dao.model;
 
 public class User implements java.io.Serializable {
     private int id;
+    private String avatar;
     private String username;
     private String password;
     private String fullname;
@@ -9,7 +10,16 @@ public class User implements java.io.Serializable {
     private String phone;
     private String address;
     private int idPermission;
+    private int isVerified;
 
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
 
     public int getId() {
         return id;
@@ -74,6 +84,13 @@ public class User implements java.io.Serializable {
     public void setIdPermission(int idPermission) {
         this.idPermission = idPermission;
     }
+    public int getIsVerified() {
+        return isVerified;
+    }
+
+    public void setIsVerified(int isVerified) {
+        this.isVerified = isVerified;
+    }
 
     @Override
     public String toString() {
@@ -86,14 +103,16 @@ public class User implements java.io.Serializable {
                 ", phone='" + phone + '\'' +
                 ", address='" + address + '\'' +
                 ", idPermission=" + idPermission +
+                ", isVerified=" + isVerified +
                 '}';
     }
 
     public User() {
     }
 
-    public User(int id, String username, String password, String fullname, String email, String phone, String address, int idPermission) {
+    public User(int id, String avatar, String username, String password, String fullname, String email, String phone, String address, int idPermission, int isVerified) {
         this.id = id;
+        this.avatar = avatar;
         this.username = username;
         this.password = password;
         this.fullname = fullname;
@@ -101,5 +120,6 @@ public class User implements java.io.Serializable {
         this.phone = phone;
         this.address = address;
         this.idPermission = idPermission;
+        this.isVerified = isVerified;
     }
 }

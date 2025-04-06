@@ -40,7 +40,7 @@
                                 nữa</p>
                         </div>
                         <% String errorMessage = (String) request.getAttribute("errorMessage"); %>
-                        <form action="SignupController" method="post">
+                        <form action="register" method="post">
                             <!-- Hàng 1 -->
                             <div class="row">
                                 <div class="col">
