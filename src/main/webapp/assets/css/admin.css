@@ -134,6 +134,12 @@
   --second-bg-color: #c1efde;
 }
 
+
+.bg-dark-blue{
+    background-color: #162e5c !important;
+}
+
+
 .primary-text {
   color: var(--main-text-color);
 }

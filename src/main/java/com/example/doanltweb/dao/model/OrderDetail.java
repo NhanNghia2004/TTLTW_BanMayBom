@@ -3,7 +3,7 @@ package com.example.doanltweb.dao.model;
 public class OrderDetail {
 	private int id;
 	private int idOrder;
-	private int idProduct;
+	private Product product;
 	private int quantity;
 	private double price;
 	public int getId() {
@@ -18,12 +18,7 @@ public class OrderDetail {
 	public void setIdOrder(int idOrder) {
 		this.idOrder = idOrder;
 	}
-	public int getIdProduct() {
-		return idProduct;
-	}
-	public void setIdProduct(int idProduct) {
-		this.idProduct = idProduct;
-	}
+	
 	public int getQuantity() {
 		return quantity;
 	}
@@ -37,24 +32,26 @@ public class OrderDetail {
 		this.price = price;
 	}
 	
-	public OrderDetail(int id, int idOrder, int idProduct, int quantity, double price) {
+	
+	
+	public Product getProduct() {
+		return product;
+	}
+	public void setProduct(Product product) {
+		this.product = product;
+	}
+	public OrderDetail() {
+		super();
+	}
+	public OrderDetail(int id, int idOrder, Product product, int quantity, double price) {
 		super();
 		this.id = id;
 		this.idOrder = idOrder;
-		this.idProduct = idProduct;
+		this.product = product;
 		this.quantity = quantity;
 		this.price = price;
 	}
 	
-	public OrderDetail() {
-		super();
-	}
-	
-	@Override
-	public String toString() {
-		return "OrderDetail [id=" + id + ", idOrder=" + idOrder + ", idProduct=" + idProduct + ", quantity=" + quantity
-				+ ", price=" + price + "]";
-	}
 	
 	
 }
