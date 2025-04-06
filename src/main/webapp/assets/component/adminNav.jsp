@@ -1,5 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" language="java" %>
-<div class="bg-white" id="sidebar-wrapper">
+<div class="" id="sidebar-wrapper">
         <div class="sidebar-heading text-center py-4 primary-text fs-4 fw-bold text-uppercase border-bottom"><i
                 class="fas fa-user-secret me-2"></i>Quản Lý
         </div>

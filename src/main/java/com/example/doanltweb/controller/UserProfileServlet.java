@@ -46,39 +46,54 @@ public class UserProfileServlet extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		   	response.setContentType("application/json");
-	        PrintWriter out = response.getWriter();
-	        JsonObject jsonResponse = new JsonObject();
-	        Gson gson = new Gson();
-	        HttpSession session = request.getSession();
-	        User user = (User) session.getAttribute("auth");
+		@Override
+		protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		    // Set Content-Type là JSON
+		    response.setContentType("application/json");
+		    PrintWriter out = response.getWriter();
+		    JsonObject jsonResponse = new JsonObject();
+		    Gson gson = new Gson();
+		    
+		    // Lấy thông tin người dùng từ session
+		    HttpSession session = request.getSession();
+		    User user = (User) session.getAttribute("auth");
 
-	        try {
-	            String fullname = request.getParameter("fullname");
-	            String email = request.getParameter("email");
-	            String address = request.getParameter("address");
-	            String phone = request.getParameter("phone");
+		    try {
+		        // Lấy các tham số từ request
+		        String fullname = request.getParameter("fullname");
+		        String email = request.getParameter("email");
+		        String address = request.getParameter("address");
+		        String phone = request.getParameter("phone");
 
-	            // Gọi DAO để cập nhật thông tin user
-	            UserDao userDao = new UserDao();
-	            boolean isUpdated = userDao.updateUser(fullname, email, address, phone,user.getId() );
+		        // Kiểm tra nếu có tham số bị thiếu
+		        if (fullname == null || email == null || address == null || phone == null) {
+		            jsonResponse.addProperty("success", false);
+		            jsonResponse.addProperty("message", "Các trường thông tin không thể để trống!");
+		            out.print(gson.toJson(jsonResponse));
+		            return;
+		        }
 
+		        // Cập nhật thông tin người dùng
+		        UserDao userDao = new UserDao();
+		        boolean isUpdated = userDao.updateUser(fullname, email, address, phone, user.getId());
 
-	            jsonResponse.addProperty("success", isUpdated);
-	            jsonResponse.addProperty("message", isUpdated ? "Cập nhật thành công!" : "Cập nhật thất bại, thử lại sau!");
+		        // Trả về kết quả
+		        jsonResponse.addProperty("success", isUpdated);
+		        jsonResponse.addProperty("message", isUpdated ? "Cập nhật thành công!" : "Cập nhật thất bại, thử lại sau!");
 
-	        } catch (Exception e) {
-	            e.printStackTrace();
-	            jsonResponse.addProperty("success", false);
-	            jsonResponse.addProperty("message", "Lỗi xử lý dữ liệu!");
-	        }
+		    } catch (Exception e) {
+		        e.printStackTrace();
+		        jsonResponse.addProperty("success", false);
+		        jsonResponse.addProperty("message", "Lỗi xử lý dữ liệu!");
+		    }
 
-	        String jsonString = gson.toJson(jsonResponse);
-	        System.out.println("JSON Response: " + jsonString);
-	        out.print(jsonString);
-	        out.flush();
-	    }
+		    // Chuyển đổi phản hồi thành JSON và trả về client
+		    String jsonString = gson.toJson(jsonResponse);
+		    System.out.println("JSON Response: " + jsonString);
+		    out.print(jsonString);
+		    out.flush();
+		}
+
 	}
 
 

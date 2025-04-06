@@ -47,6 +47,18 @@ public class Order {
 	
 
 
+	public User getUser() {
+		return user;
+	}
+	public void setUser(User user) {
+		this.user = user;
+	}
+	public Payment getPaymentMethod() {
+		return paymentMethod;
+	}
+	public void setPaymentMethod(Payment paymentMethod) {
+		this.paymentMethod = paymentMethod;
+	}
 	public Order() {
 		super();
 	}
@@ -65,7 +77,7 @@ public class Order {
 
 	@Override
 	public String toString() {
-	    return "Order{id=" + id + ", orderDate=" + orderDate + ", status=" + status + ", totalPrice=" + totalPrice + "}";
+	    return "Order{id=" + id + ",user=" + user.getFullname() +", orderDate=" + orderDate + ", status=" + status + ", totalPrice=" + totalPrice + "}";
 	}
 
 	
