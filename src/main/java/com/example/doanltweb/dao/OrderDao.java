@@ -137,6 +137,18 @@ public class OrderDao {
 	        }
 	    }
 
+		public boolean updateStatus(int id, String status) {
+			Jdbi jdbi = JDBIConnect.get();
+			int rowsAffected = jdbi.withHandle(handle -> 
+			handle.createUpdate("UPDATE orders SET status = :status WHERE id = :id")
+		    .bind("status", status)
+		    .bind("id", id)
+		    .execute());
+			return rowsAffected>0;
+		}
+
+
+
 	  
 
 

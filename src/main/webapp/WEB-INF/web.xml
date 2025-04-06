@@ -78,4 +78,14 @@
     <servlet-name>CheckoutServlet</servlet-name>
     <url-pattern>/CheckoutServlet</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>OrderController</display-name>
+    <servlet-name>OrderController</servlet-name>
+    <servlet-class>com.example.doanltweb.controller.Admin.OrderController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>OrderController</servlet-name>
+    <url-pattern>/OrderController</url-pattern>
+  </servlet-mapping>
 </web-app>
