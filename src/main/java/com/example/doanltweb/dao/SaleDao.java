@@ -48,12 +48,12 @@ public class SaleDao {
     }
 
     // Xóa Sale theo ID
-    public boolean deleteSale(int id) {
-        return jdbi.withHandle(handle ->
-                handle.createUpdate("DELETE FROM sales WHERE id = :id")
-                        .bind("id", id)
-                        .execute() > 0);
-    }
+//    public boolean deleteSale(int id) {
+//        return jdbi.withHandle(handle ->
+//                handle.createUpdate("DELETE FROM sales WHERE id = :id")
+//                        .bind("id", id)
+//                        .execute() > 0);
+//    }
 
     // Phương thức main để kiểm tra CRUD
     public static void main(String[] args) {
@@ -61,44 +61,48 @@ public class SaleDao {
             SaleDao saleDao = new SaleDao();
 
             // 1. Tạo một Sale mới để test
-            Sale newSale = new Sale();
-            newSale.setId( 21);  // ID tự đặt nếu không có auto-increment
-            newSale.setPromotion(15.5);
-            newSale.setDescription("Khuyến mãi đầu năm");
-            newSale.setStatus(1);
-            newSale.setStartDate(LocalDateTime.now());
-            newSale.setEndDate(LocalDateTime.now().plusDays(10));
-            newSale.setIdProduct(22);  // ID sản phẩm tồn tại
-
-            // 2. Thêm khuyến mãi
-            boolean isAdded = saleDao.addSale(newSale);
-            System.out.println("Thêm khuyến mãi: " + (isAdded ? "Thành công" : "Thất bại"));
+//            Sale newSale = new Sale();
+//            newSale.setId( 21);  // ID tự đặt nếu không có auto-increment
+//            newSale.setPromotion(15.5);
+//            newSale.setDescription("Khuyến mãi đầu năm");
+//            newSale.setStatus(1);
+//            newSale.setStartDate(LocalDateTime.now());
+//            newSale.setEndDate(LocalDateTime.now().plusDays(10));
+//            newSale.setIdProduct(22);  // ID sản phẩm tồn tại
+//
+//            // 2. Thêm khuyến mãi
+//            boolean isAdded = saleDao.addSale(newSale);
+//            System.out.println("Thêm khuyến mãi: " + (isAdded ? "Thành công" : "Thất bại"));
 
             // 3. Lấy danh sách tất cả khuyến mãi
-//            List<Sale> allSales = saleDao.getAllSales();
-//            System.out.println("Danh sách khuyến mãi:");
-//            allSales.forEach(sale -> {
-//                System.out.println("ID: " + sale.getId());
-//                System.out.println("Giảm giá: " + sale.getPromotion() + "%");
-//                System.out.println("Mô tả: " + sale.getDescription());
-//                System.out.println("Trạng thái: " + (sale.getStatus() == 1 ? "Đang áp dụng" : "Không áp dụng"));
-//                System.out.println("Bắt đầu: " + sale.getStartDate());
-//                System.out.println("Kết thúc: " + sale.getEndDate());
-//                System.out.println("ID Sản phẩm: " + sale.getIdProduct());
-//                System.out.println("----------------------");
-//            });
-//
-//            // 4. Cập nhật một khuyến mãi
-//            if (!allSales.isEmpty()) {
-//                Sale updateSale = allSales.get(0);
-//                updateSale.setDescription("Khuyến mãi cập nhật");
-//                updateSale.setPromotion(20.0);
-//                boolean isUpdated = saleDao.updateSale(updateSale);
-//                System.out.println("Cập nhật khuyến mãi: " + (isUpdated ? "Thành công" : "Thất bại"));
-//            }
-//
-//            // 5. Xóa khuyến mãi theo ID
-//            int deleteId = 1;
+            List<Sale> allSales = saleDao.getAllSales();
+            System.out.println("Danh sách khuyến mãi:");
+            allSales.forEach(sale -> {
+                System.out.println("ID: " + sale.getId());
+                System.out.println("Giảm giá: " + sale.getPromotion() + "%");
+                System.out.println("Mô tả: " + sale.getDescription());
+                System.out.println("Trạng thái: " + (sale.getStatus() == 1 ? "Đang áp dụng" : "Không áp dụng"));
+                System.out.println("Bắt đầu: " + sale.getStartDate());
+                System.out.println("Kết thúc: " + sale.getEndDate());
+                System.out.println("ID Sản phẩm: " + sale.getIdProduct());
+                System.out.println("----------------------");
+            });
+
+
+        // 4. Cập nhật một khuyến mãi có id = 3
+        Sale updateSale = saleDao.getSaleById(4);
+        if (updateSale != null) {
+            updateSale.setDescription("Khuyến mãi cập nhật cho ID 3");
+            updateSale.setPromotion(20.0);
+            boolean isUpdated = saleDao.updateSale(updateSale);
+            System.out.println("Cập nhật khuyến mãi có ID 3: " + (isUpdated ? "Thành công" : "Thất bại"));
+        } else {
+            System.out.println("Không tìm thấy khuyến mãi có ID = 3");
+        }
+
+
+//        // 5. Xóa khuyến mãi theo ID
+//            int deleteId = 103;
 //            boolean isDeleted = saleDao.deleteSale(deleteId);
 //            System.out.println("Xóa khuyến mãi ID " + deleteId + ": " + (isDeleted ? "Thành công" : "Thất bại"));
         }

@@ -63,8 +63,8 @@ function loadProductData() {
                         <td style="min-width: 70px;" data-supplier-id="${product.idSupplier}">${supplierName}</td> <!-- Display supplier name -->
                         <td>
                             <div class="d-flex gap-2 justify-content-center">
-                                <button class="btn btn-sm btn-primary edit-btn" data-id="${product.id}">Sửa</button>
-                                <button class="btn btn-sm btn-danger delete-btn" data-id="${product.id}">Xóa</button>
+                                <button class="btn btn-sm btn-primary product-edit-btn" data-id="${product.id}">Sửa</button>
+                                <button class="btn btn-sm btn-danger product-delete-btn" data-id="${product.id}">Xóa</button>
                             </div>
                         </td>
                     </tr>`;
@@ -155,7 +155,7 @@ function addProduct(event) {
 }
 // sua san pham
 // Hàm xử lý khi nhấn nút "Sửa" để hiển thị dữ liệu sản phẩm vào modal
-$(document).on('click', '.edit-btn', function() {
+$(document).on('click', '.product-edit-btn', function() {
     var id = $(this).data('id');  // Lấy id sản phẩm từ thuộc tính data-id
     showEditProductModal(id);  // Hiển thị modal sửa sản phẩm
 });
@@ -238,7 +238,7 @@ function editProduct(event) {
 }
 // Hàm xử lý xóa sản phẩm
 
-$(document).off('click', '.delete-btn').on('click', '.delete-btn', function () {
+$(document).off('click', '.product-delete-btn').on('click', '.delete-btn', function () {
     var productId = $(this).data('id');
 
     if (confirm('Bạn có chắc chắn muốn xóa sản phẩm này?')) {
@@ -299,8 +299,8 @@ function loadSaleData() {
                         <td>${sale.idProduct}</td>
                         <td>
                             <div class="d-flex gap-2 justify-content-center">
-                                <button class="btn btn-sm btn-primary edit-btn" data-id="${sale.id}">Sửa</button>
-                                <button class="btn btn-sm btn-danger delete-btn" data-id="${sale.id}">Xóa</button>
+                                <button class="btn btn-sm btn-primary promotion-edit-btn" data-id="${sale.id}">Sửa</button>
+                                <button class="btn btn-sm btn-danger promotion-delete-btn" data-id="${sale.id}">Xóa</button>
                             </div>
                         </td>
                     </tr>`;
@@ -344,44 +344,6 @@ function loadSaleData() {
 document.addEventListener('DOMContentLoaded', loadSaleData);
 
 //them khuyến mãi
-// $(document).ready(function () {
-//     // $('#addPromotionForm').on('submit', function (e) {
-//     $('#addPromotionForm').off('submit').on('submit', function (e) {
-//         e.preventDefault(); // Ngăn form reload trang
-//
-//         // Lấy dữ liệu từ form
-//         const saleData = {
-//             promotion: parseFloat($('#promotionValue').val()),
-//             description: $('#description').val(),
-//             status: parseInt($('#status').val()),
-//             startDate: $('#startDate').val(),
-//             endDate: $('#endDate').val(),
-//             idProduct: parseInt($('#idProduct').val())
-//         };
-//
-//         // Gửi dữ liệu lên servlet qua POST
-//         $.ajax({
-//             url: 'http://localhost:8080/TTW/SaleController',
-//             type: 'POST',
-//             contentType: 'application/json',
-//             data: JSON.stringify(saleData),
-//             success: function (response) {
-//                 alert("Thêm khuyến mãi thành công!");
-//
-//                 // Reset form và ẩn modal
-//                 $('#addPromotionForm')[0].reset();
-//                 $('#addPromotionModal').modal('hide');
-//
-//                 // Load lại bảng dữ liệu
-//                 loadSaleData();
-//             },
-//             error: function (xhr, status, error) {
-//                 console.error("Lỗi khi thêm khuyến mãi:", error);
-//                 alert("Thêm khuyến mãi thất bại!");
-//             }
-//         });
-//     });
-// });
 $(document).ready(function () {
     $('#addPromotionForm').off('submit').on('submit', function (e) {
         e.preventDefault(); // Ngăn form reload trang
@@ -391,7 +353,7 @@ $(document).ready(function () {
 
         // Kiểm tra ngày kết thúc phải sau ngày bắt đầu
         if (endDate <= startDate) {
-            alert("❌ Ngày kết thúc phải sau ngày bắt đầu!");
+            alert(" Ngày kết thúc phải sau ngày bắt đầu!");
             return; // Dừng submit
         }
 
@@ -412,15 +374,96 @@ $(document).ready(function () {
             contentType: 'application/json',
             data: JSON.stringify(saleData),
             success: function (response) {
-                alert("✅ Thêm khuyến mãi thành công!");
+                alert(" Thêm khuyến mãi thành công!");
                 $('#addPromotionForm')[0].reset();
                 $('#addPromotionModal').modal('hide');
                 loadSaleData();
             },
             error: function (xhr, status, error) {
                 console.error("Lỗi khi thêm khuyến mãi:", error);
-                alert("❌ Thêm khuyến mãi thất bại!");
+                alert(" Thêm khuyến mãi thất bại!");
             }
         });
     });
 });
+
+//sửa khuyến mãi
+
+$(document).on('click', '.promotion-edit-btn', function (event) {
+    event.stopPropagation();
+    const row = $(this).closest('tr');
+    const id = $(this).data('id');
+
+    // Lấy dữ liệu từng cột
+    const promotion = row.find('td:eq(1)').text();
+    const description = row.find('td:eq(2)').text();
+    const statusText = row.find('td:eq(3)').text().trim();
+    const startDate = row.find('td:eq(4)').text();
+    const endDate = row.find('td:eq(5)').text();
+    const idProduct = row.find('td:eq(6)').text();
+
+    // Chuyển status từ text sang số
+    const status = (statusText === 'Đang áp dụng') ? 1 : 0;
+
+    // Format ngày để đưa vào input type="datetime-local"
+    const formatDateTime = (dateTimeString) => {
+        const date = new Date(dateTimeString);
+        return date.toISOString().slice(0, 16); // yyyy-MM-ddTHH:mm
+    };
+
+    // Gán dữ liệu vào form
+    $('#editPromotionId').val(id);
+    $('#editPromotionValue').val(promotion);
+    $('#editDescription').val(description);
+    $('#editStatus').val(status);
+    $('#editStartDate').val(formatDateTime(startDate));
+    $('#editEndDate').val(formatDateTime(endDate));
+    $('#editIdProduct').val(idProduct);
+
+    // Hiển thị modal
+    $('#editPromotionModal').modal('show');
+});
+// Khi modal đóng, xóa backdrop và khôi phục cuộn trang
+$('#editPromotionModal').on('hidden.bs.modal', function () {
+    $('.modal-backdrop').remove();
+    $('body').css('overflow', 'auto');  // Khôi phục khả năng cuộn trang
+});
+
+$('#editPromotionForm').off('submit').on('submit', function (e) {
+    e.preventDefault();
+
+    const startDate = new Date($('#editStartDate').val());
+    const endDate = new Date($('#editEndDate').val());
+
+    if (endDate <= startDate) {
+        alert("Ngày kết thúc phải sau ngày bắt đầu!");
+        return;
+    }
+
+    const updatedSale = {
+        id: parseInt($('#editPromotionId').val()),
+        promotion: parseFloat($('#editPromotionValue').val()),
+        description: $('#editDescription').val(),
+        status: parseInt($('#editStatus').val()),
+        startDate: $('#editStartDate').val(),
+        endDate: $('#editEndDate').val(),
+        idProduct: parseInt($('#editIdProduct').val())
+    };
+
+    $.ajax({
+        url: 'http://localhost:8080/TTW/SaleController',
+        type: 'PUT',
+        contentType: 'application/json',
+        data: JSON.stringify(updatedSale),
+        success: function (response) {
+            alert("Cập nhật khuyến mãi thành công!");
+            $('#editPromotionModal').modal('hide');
+            loadSaleData(); // Reload lại danh sách khuyến mãi
+        },
+        error: function (xhr, status, error) {
+            console.error("Lỗi khi cập nhật khuyến mãi:", error);
+            alert("Cập nhật khuyến mãi thất bại!");
+        }
+    });
+});
+
