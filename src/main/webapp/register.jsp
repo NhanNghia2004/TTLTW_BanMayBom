@@ -21,6 +21,7 @@
           crossorigin="anonymous" referrerpolicy="no-referrer"/>
    	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="assets/css/headerAndFooter.css">
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </head>
 <body style="background-color: rgb(242 244 247)">
 <header id="header"></header>
@@ -98,7 +99,8 @@
                                     </div>
                                 </div>
                             </div>
-
+                            <!-- Google reCAPTCHA -->
+                            <div class="g-recaptcha" data-sitekey="6LcIsA4rAAAAAKTypNS-94XJI8a-Hq34isJYFdDQ"></div>
                             <!-- Đồng ý điều khoản -->
                             <div class="row mt-2 justify-content-between">
                                 <div class="col-6">
@@ -106,6 +108,7 @@
                                     <label>Tôi đồng ý với <a href="chinhsachbaohanh.jsp">Điều khoản sử dụng</a></label>
                                 </div>
                             </div>
+
 
                             <!-- Nút đăng ký -->
                             <div class="row justify-content-center">
