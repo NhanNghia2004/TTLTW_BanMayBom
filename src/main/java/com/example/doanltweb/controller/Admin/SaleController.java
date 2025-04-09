@@ -89,4 +89,52 @@ public class SaleController extends HttpServlet {
             response.getWriter().write(mapper.writeValueAsString(error));
         }
     }
+
+    @Override
+    protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+
+        // Khởi tạo ObjectMapper một lần
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
+        objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+
+        try {
+            // Đọc và parse JSON từ request body
+            BufferedReader reader = request.getReader();
+            Sale updatedSale = objectMapper.readValue(reader, Sale.class);
+
+            // Kiểm tra các trường bắt buộc
+            if (updatedSale.getId() <= 0 || updatedSale.getPromotion() <= 0 ||
+                    updatedSale.getDescription() == null || updatedSale.getDescription().trim().isEmpty() ||
+                    updatedSale.getStartDate() == null || updatedSale.getEndDate() == null) {
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                Map<String, String> error = new HashMap<>();
+                error.put("error", "Vui lòng cung cấp đầy đủ thông tin bao gồm ID, khuyến mãi, mô tả, ngày bắt đầu và kết thúc!");
+                response.getWriter().write(objectMapper.writeValueAsString(error));
+                return;
+            }
+
+            // Gọi DAO để cập nhật
+            boolean success = saleDao.updateSale(updatedSale);
+
+            // Phản hồi kết quả
+            Map<String, Object> responseMap = new HashMap<>();
+            responseMap.put("success", success);
+            responseMap.put("message", success ? "Cập nhật khuyến mãi thành công!" : "Có lỗi xảy ra khi cập nhật khuyến mãi!");
+
+            response.getWriter().write(objectMapper.writeValueAsString(responseMap));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            Map<String, String> error = new HashMap<>();
+            error.put("error", "Dữ liệu không hợp lệ hoặc lỗi máy chủ.");
+            response.getWriter().write(objectMapper.writeValueAsString(error));
+        }
+    }
+
+
 }

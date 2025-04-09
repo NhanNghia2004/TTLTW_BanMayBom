@@ -20,6 +20,10 @@ public class SaleService {
     public boolean addSale(Sale sale) {
         return saleDao.addSale(sale);
     }
+    public boolean updateSale(Sale sale) {
+        return saleDao.updateSale(sale);
+    }
+
     public static void main(String[] args) {
         SaleService saleService = new SaleService();
 
