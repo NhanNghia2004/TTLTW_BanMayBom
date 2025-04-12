@@ -135,6 +135,38 @@ public class SaleController extends HttpServlet {
             response.getWriter().write(objectMapper.writeValueAsString(error));
         }
     }
+    @Override
+    protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        try {
+            int id = Integer.parseInt(request.getParameter("id")); // Lấy ID từ query string
+
+            boolean success = saleDao.deleteSale(id);
+
+            Map<String, Object> responseMap = new HashMap<>();
+            responseMap.put("success", success);
+            responseMap.put("message", success ? "Xóa khuyến mãi thành công!" : "Xóa khuyến mãi thất bại hoặc không tìm thấy!");
+
+            response.getWriter().write(objectMapper.writeValueAsString(responseMap));
+
+        } catch (NumberFormatException e) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            Map<String, String> error = new HashMap<>();
+            error.put("error", "ID không hợp lệ!");
+            response.getWriter().write(objectMapper.writeValueAsString(error));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            Map<String, String> error = new HashMap<>();
+            error.put("error", "Có lỗi xảy ra khi xóa khuyến mãi.");
+            response.getWriter().write(objectMapper.writeValueAsString(error));
+        }
+    }
 
 
 }
