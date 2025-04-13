@@ -105,7 +105,7 @@ function loadProductData() {
     });
 }
 document.addEventListener('DOMContentLoaded',loadProductData)
-//thêm
+
 // Hàm xử lý thêm sản phẩm
 function addProduct(event) {
     event.preventDefault();  // Ngăn reload trang
@@ -238,7 +238,7 @@ function editProduct(event) {
 }
 // Hàm xử lý xóa sản phẩm
 
-$(document).off('click', '.product-delete-btn').on('click', '.delete-btn', function () {
+$(document).off('click', '.product-delete-btn').on('click', '.product-delete-btn', function () {
     var productId = $(this).data('id');
 
     if (confirm('Bạn có chắc chắn muốn xóa sản phẩm này?')) {
@@ -466,4 +466,23 @@ $('#editPromotionForm').off('submit').on('submit', function (e) {
         }
     });
 });
+$(document).off('click', '.promotion-delete-btn').on('click', '.promotion-delete-btn', function () {
+    const id = $(this).data('id');
+
+    if (confirm("Bạn có chắc chắn muốn xóa khuyến mãi này không?")) {
+        $.ajax({
+            url: `http://localhost:8080/TTW/SaleController?id=${id}`,
+            type: 'DELETE',
+            success: function (response) {
+                alert(response.message || "Xóa thành công!");
+                loadSaleData(); // Tải lại danh sách
+            },
+            error: function (xhr, status, error) {
+                console.error("Lỗi khi xóa khuyến mãi:", error);
+                alert("Xóa khuyến mãi thất bại hoặc không tìm thấy!");
+            }
+        });
+    }
+});
+
 

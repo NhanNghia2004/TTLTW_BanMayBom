@@ -483,58 +483,40 @@
             <%--     user--%>
 
             <div class="tab-pane fade" id="id3">
-                <div class="m-4">
-                    <div class="d-flex align-items-center">
-                        <i class="fas fa-align-left primary-text fs-4 me-3"></i>
-                        <h2 class="fs-2 m-0">Quản lý Người dùng</h2>
-                    </div>
-                    <div class="row g-3 my-2">
-                        <div class="col">
-                            <div class="p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rounded">
-                                <div>
-                                    <h3 class="fs-2">43</h3>
-                                    <p class="fs-5">Tổng số người dùng</p>
-                                </div>
-                                <i class="fas fa-gift fs-1 primary-text border rounded-full secondary-bg p-3"></i>
-                            </div>
-                        </div>
-                        <div class="container">
-                            <table id="userTable" class="display">
-                                <thead>
+                <div class="d-flex align-items-center m-4">
+                    <i class="fas fa-users primary-text fs-4 me-3"></i>
+                    <h2 class="fs-2 m-0">Quản lý người dùng</h2>
+                </div>
+
+                <!-- Danh sách người dùng -->
+                <section id="user-management" class="py-4">
+                    <div class="px-4">
+                        <h3 class="mb-3">Danh sách người dùng</h3>
+                        <div class="table-responsive">
+                            <table id="userTable" class="table table-striped table-bordered text-center bg-white">
+                                <thead class="bg-white text-dark fw-bold">
                                 <tr>
                                     <th>ID</th>
-                                    <th>Username</th>
-                                    <th>Fullname</th>
+                                    <th>Ảnh đại diện</th>
+                                    <th>Tên đăng nhập</th>
+                                    <th>Họ tên</th>
                                     <th>Email</th>
-                                    <th>Phone</th>
-                                    <th>Address</th>
-                                    <th>Actions</th>
+                                    <th>Số điện thoại</th>
+                                    <th>Địa chỉ</th>
+                                    <th>Quyền</th>
+                                    <th>Đã xác thực</th>
+                                    <th>Hành động</th>
                                 </tr>
                                 </thead>
-                                <tbody>
-                                <c:forEach var="user" items="${users}">
-                                    <tr>
-                                        <td>${user.id}</td>
-                                        <td>${user.username}</td>
-                                        <td>${user.fullname}</td>
-                                        <td>${user.email}</td>
-                                        <td>${user.phone}</td>
-                                        <td>${user.address}</td>
-                                        <td>
-                                            <form action="${pageContext.request.contextPath}/admin" method="POST">
-                                                <input type="hidden" name="userId" value="${user.id}"/>
-                                                <button type="submit">Delete</button>
-                                            </form>
-                                        </td>
-                                    </tr>
-                                </c:forEach>
+                                <tbody id="userBody">
+                                <!-- Dữ liệu sẽ được chèn vào đây bằng Ajax -->
                                 </tbody>
                             </table>
                         </div>
                     </div>
-                </div>
-
+                </section>
             </div>
+
             <%----------------------Khuyến mãi----------------------------------%>
 
             <div class="tab-pane fade" id="id4">
