@@ -29,7 +29,7 @@ public class SignupController extends HttpServlet {
 
         try {
             userDao.insert(username, password, fullname, email, phone, address, idPermission);
-            response.sendRedirect("dangnhap.jsp"); // Redirect to login page if successful
+            response.sendRedirect("login.jsp"); // Redirect to login page if successful
         } catch (Exception e) {
             request.setAttribute("errorMessage", "Failed to create user: " + e.getMessage());
             RequestDispatcher dispatcher = request.getRequestDispatcher("dangki.jsp");

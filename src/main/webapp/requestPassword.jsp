@@ -54,7 +54,7 @@
                         </div>
                       </form>
                       <p class="text-danger">${mess}</p>
-                      <a href="dangnhap.jsp" class="text-muted">← Quay lại để đăng nhập</a>
+                      <a href="login.jsp" class="text-muted">← Quay lại để đăng nhập</a>
                     </div>
                   </div>
               </div>

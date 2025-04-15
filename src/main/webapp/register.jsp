@@ -34,7 +34,7 @@
                 <!-- phan thay doi -->
                 <div class="col-md-12">
                     <div class="container">
-                        <p>Bạn đã có tài khoản ? <a href="dangnhap.jsp">Đăng nhập</a> tại đây</p>
+                        <p>Bạn đã có tài khoản ? <a href="login.jsp">Đăng nhập</a> tại đây</p>
                         <div class="text-center">
                             <h2 class="text-primary">Đăng Kí</h2>
                             <p class="text-muted mb-5">Hãy đăng kí để nhận được nhiều thông báo về khuyến mãi và nhiều hơn

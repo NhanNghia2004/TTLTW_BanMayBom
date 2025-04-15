@@ -54,8 +54,8 @@ public class GoogleCallbackServlet extends HttpServlet {
 
             // Lưu session
             HttpSession session = request.getSession();
-            session.setAttribute("user", existingUser);
-            response.sendRedirect("home.jsp");
+            session.setAttribute("auth", existingUser);
+            response.sendRedirect("Userprofile.jsp");
         } else {
             response.sendRedirect("login.jsp");
         }
