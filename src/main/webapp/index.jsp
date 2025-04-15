@@ -165,7 +165,7 @@
             <!--tin tức-->
             <div class="row my-1">
                 <div class="d-flex justify-content-center">
-                    <span class="text-center fs-4 fw-bold border-bottom border-black m-5 pb-2" style="border-bottom-width: 2 px !important;">Tin tức nổi bật</span>
+                    <span class="text-center fs-4 fw-bold border-bottom border-black m-5 pb-2" style="border-bottom-width: 2px !important;">Tin tức nổi bật</span>
                 </div>
             </div>
             <div class="row">
