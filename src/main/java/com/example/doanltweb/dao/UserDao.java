@@ -15,6 +15,20 @@ import java.util.Map;
 public class UserDao {
     static Map<Integer, User> data = new HashMap<>();
 
+    public List<User> getUsersForAdmin() {
+        String sql = "SELECT id, avatar, username, fullname, email, phone, address, idPermission, is_verified FROM user";
+
+        Jdbi jdbi = JDBIConnect.get();  // Kết nối JDBI
+
+        return jdbi.withHandle(handle -> {
+            // Thực thi truy vấn và ánh xạ kết quả vào danh sách User
+            return handle.createQuery(sql)
+                    .mapToBean(User.class)  // Ánh xạ các kết quả thành đối tượng User
+                    .list();                // Thu thập kết quả vào danh sách và trả về
+        });
+    }
+
+
     public List<User> getAllUsers() {
         Jdbi jdbi = JDBIConnect.get();
         return jdbi.withHandle(handle -> handle.createQuery("SELECT * FROM user").mapToBean(User.class).list());
@@ -183,6 +197,27 @@ public class UserDao {
 
     public static void main(String[] args) {
         UserDao userDao = new UserDao();
-        List<User> users = userDao.getAllUsers();
+//        List<User> users = userDao.getAllUsers();
+
+        List<User> users = userDao.getUsersForAdmin();
+
+        // In kết quả ra console
+        if (users.isEmpty()) {
+            System.out.println("Không có người dùng nào trong cơ sở dữ liệu.");
+        } else {
+            // Duyệt qua danh sách người dùng và in thông tin ra console
+            for (User user : users) {
+                System.out.println("ID: " + user.getId());
+                System.out.println("Avatar: " + user.getAvatar());
+                System.out.println("Username: " + user.getUsername());
+                System.out.println("Fullname: " + user.getFullname());
+                System.out.println("Email: " + user.getEmail());
+                System.out.println("Phone: " + user.getPhone());
+                System.out.println("Address: " + user.getAddress());
+                System.out.println("Permission ID: " + user.getIdPermission());
+                System.out.println("Verified: " + user.getIsVerified());
+                System.out.println("---------------------------------");
+            }
+      }
     }
 }

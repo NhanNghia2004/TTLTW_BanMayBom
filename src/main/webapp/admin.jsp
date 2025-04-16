@@ -496,16 +496,16 @@
                             <table id="userTable" class="table table-striped table-bordered text-center bg-white">
                                 <thead class="bg-white text-dark fw-bold">
                                 <tr>
-                                    <th>ID</th>
-                                    <th>Ảnh đại diện</th>
-                                    <th>Tên đăng nhập</th>
-                                    <th>Họ tên</th>
-                                    <th>Email</th>
-                                    <th>Số điện thoại</th>
-                                    <th>Địa chỉ</th>
-                                    <th>Quyền</th>
-                                    <th>Đã xác thực</th>
-                                    <th>Hành động</th>
+                                    <th style="text-align: center">ID</th>
+                                    <th style="text-align: center">Ảnh đại diện</th>
+                                    <th style="text-align: center">Tên đăng nhập</th>
+                                    <th style="text-align: center">Họ tên</th>
+                                    <th style="text-align: center">Email</th>
+                                    <th style="text-align: center">Số điện thoại</th>
+                                    <th style="text-align: center">Địa chỉ</th>
+                                    <th style="text-align: center">Quyền</th>
+                                    <th style="text-align: center">Đã xác thực</th>
+                                    <th style="text-align: center">Hành động</th>
                                 </tr>
                                 </thead>
                                 <tbody id="userBody">

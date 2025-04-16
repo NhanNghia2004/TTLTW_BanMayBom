@@ -29,7 +29,7 @@ function loadProductData() {
         10: 'Công ty J'
     };
     $.ajax({
-        url: 'http://localhost:8080/TTW/productController', // API của bạn
+        url: 'http://localhost:8080/DoAnLTWeb_war/productController', // API của bạn
         type: 'GET',
         dataType: 'json',
         success: function (data) {
@@ -136,7 +136,7 @@ function addProduct(event) {
 
     // Gửi AJAX
     $.ajax({
-        url: 'http://localhost:8080/TTW/productController',
+        url: 'http://localhost:8080/DoAnLTWeb_war/productController',
         type: 'POST',
         data: JSON.stringify(productData),
         contentType: 'application/json',
@@ -243,7 +243,7 @@ $(document).off('click', '.product-delete-btn').on('click', '.product-delete-btn
 
     if (confirm('Bạn có chắc chắn muốn xóa sản phẩm này?')) {
         $.ajax({
-            url: 'http://localhost:8080/TTW/productController?id=' + productId,
+            url: 'http://localhost:8080/DoAnLTWeb_war/productController?id=' + productId,
             type: 'DELETE',
             success: function (response) {
                 alert(response.message);
@@ -276,7 +276,7 @@ function loadSaleData() {
     };
 
     $.ajax({
-        url: 'http://localhost:8080/TTW/SaleController', // API của bạn
+        url: 'http://localhost:8080/DoAnLTWeb_war/SaleController', // API của bạn
         type: 'GET',
         dataType: 'json',
         success: function (data) {
@@ -369,7 +369,7 @@ $(document).ready(function () {
 
         // Gửi dữ liệu lên servlet qua POST
         $.ajax({
-            url: 'http://localhost:8080/TTW/SaleController',
+            url: 'http://localhost:8080/DoAnLTWeb_war/SaleController',
             type: 'POST',
             contentType: 'application/json',
             data: JSON.stringify(saleData),
@@ -451,7 +451,7 @@ $('#editPromotionForm').off('submit').on('submit', function (e) {
     };
 
     $.ajax({
-        url: 'http://localhost:8080/TTW/SaleController',
+        url: 'http://localhost:8080/DoAnLTWeb_war/SaleController',
         type: 'PUT',
         contentType: 'application/json',
         data: JSON.stringify(updatedSale),
@@ -466,12 +466,13 @@ $('#editPromotionForm').off('submit').on('submit', function (e) {
         }
     });
 });
+// xoa
 $(document).off('click', '.promotion-delete-btn').on('click', '.promotion-delete-btn', function () {
     const id = $(this).data('id');
 
     if (confirm("Bạn có chắc chắn muốn xóa khuyến mãi này không?")) {
         $.ajax({
-            url: `http://localhost:8080/TTW/SaleController?id=${id}`,
+            url: `http://localhost:8080/DoAnLTWeb_war/SaleController?id=${id}`,
             type: 'DELETE',
             success: function (response) {
                 alert(response.message || "Xóa thành công!");
@@ -484,5 +485,89 @@ $(document).off('click', '.promotion-delete-btn').on('click', '.promotion-delete
         });
     }
 });
+// user
+function loadUserData() {
+    if ($.fn.dataTable.isDataTable('#userTable')) {
+        $('#userTable').DataTable().clear().destroy();
+    }
+
+    // Mapping quyền (idPermission)
+    const permissionMap = {
+        1: "Admin",
+        2: "Nhân viên",
+        3: "Khách hàng",
+        4: "Cộng tác viên" // Thêm quyền mới
+    };
+
+    $.ajax({
+        url: 'http://localhost:8080/DoAnLTWeb_war/UserManagerController',
+        type: 'GET',
+        dataType: 'json',
+        success: function (data) {
+            const tableBody = $('#userBody');
+            tableBody.empty();
+
+            data.forEach(user => {
+                const permission = permissionMap[user.idPermission] || 'Không rõ';
+                const verified = user.isVerified === 1 ? 'Đã xác thực' : 'Chưa xác thực';
+                const avatar = user.avatar
+                    ? `<img src="${user.avatar}" alt="Avatar" width="40" height="40" style="border-radius: 50%;">`
+                    : '—';
+
+                const row = `
+                    <tr>
+                        <td>${user.id}</td>
+                        <td style="min-width: 100px;">${avatar}</td>
+                        <td style="min-width: 100px;">${user.username}</td>
+                        <td>${user.fullname || ''}</td>
+                        <td style="min-width: 150px;">${user.email || ''}</td>
+                        <td>${user.phone || ''}</td>
+                        <td style="min-width: 70px;">${user.address || ''}</td>
+                        <td>${permission}</td>
+                        <td style="min-width: 100px;">${verified}</td>
+                        <td>
+                            <div class="d-flex gap-2 justify-content-center">
+                                <button class="btn btn-sm btn-primary user-edit-btn" data-id="${user.id}">Sửa</button>
+                                <button class="btn btn-sm btn-danger user-delete-btn" data-id="${user.id}">Xóa</button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+                tableBody.append(row);
+            });
+            // Destroy bảng cũ nếu có
+            if ($.fn.DataTable.isDataTable('#userTable')) {
+                $('#userTable').DataTable().destroy();
+            }
+
+            $('#userTable').DataTable({
+                paging: true,
+                searching: true,
+                ordering: true,
+                lengthChange: true,
+                language: {
+                    lengthMenu: "Hiển thị _MENU_ người dùng mỗi trang",
+                    zeroRecords: "Không tìm thấy người dùng nào",
+                    info: "Hiển thị _START_ đến _END_ của _TOTAL_ người dùng",
+                    infoEmpty: "Không có người dùng nào",
+                    infoFiltered: "(lọc từ _MAX_ người dùng)",
+                    search: "Tìm kiếm:",
+                    paginate: {
+                        first: "Đầu",
+                        last: "Cuối",
+                        next: "Sau",
+                        previous: "Trước"
+                    }
+                }
+            });
+        },
+        error: function (xhr, status, error) {
+            console.error("Lỗi khi lấy danh sách người dùng:", error);
+            console.log(xhr.responseText);
+        }
+    });
+}
+
+document.addEventListener('DOMContentLoaded', loadUserData);
 
 
