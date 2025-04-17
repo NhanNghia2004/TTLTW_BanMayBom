@@ -2,6 +2,7 @@ package com.example.doanltweb.controller;import java.io.*;
 import java.util.List;
 import java.util.Optional;
 
+import com.example.doanltweb.dao.LogDao;
 import com.example.doanltweb.utils.CartUtils;
 import com.example.doanltweb.dao.CartDao;
 //import com.example.doanltweb.dao.LogDao;
@@ -50,14 +51,13 @@ public class LoginServlet extends HttpServlet {
             }
         } else {
             // Nếu đăng nhập không thành công, hiển thị thông báo lỗi
-<<<<<<< Updated upstream
+
         	count++; // Tăng số lần thất bại
             session.setAttribute("loginFail", count); // Lưu lại số lần thất bại vào session
 //        	LogDao.saveLog(0, "WARN", ip, "LOGIN", "username=" + username,"Login fail: " + count +"times");
             request.setAttribute("error", "Đăng nhập không thành công. Vui lòng kiểm tra lại thông tin.");
             request.setAttribute("username", username);
             request.getRequestDispatcher("index.jsp").forward(request, response);
-=======
             if (userDao.checkLockUserByUsername(username) == true ) {
                 request.setAttribute("error", "tài khoản của bạn đã bị khóa vui lòng quên mật khẩu để mở khóa.");
                 request.getRequestDispatcher("dangnhap.jsp").forward(request, response);
@@ -73,7 +73,6 @@ public class LoginServlet extends HttpServlet {
             userDao.lockUserByUsername(username);
             request.setAttribute("error", "tài khoản của bạn đã bị khóa vui lòng quên mật khẩu để mở khóa.");
             request.getRequestDispatcher("dangnhap.jsp").forward(request, response);
->>>>>>> Stashed changes
         }
     }
     
