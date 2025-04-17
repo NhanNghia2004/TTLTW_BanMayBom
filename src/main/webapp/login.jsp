@@ -33,9 +33,18 @@
                 <!-- phan thay doi -->
                 <div class="col-md-12">
                     <h3 class="text-primary mt-5 text-center">Đăng nhập</h3>
+<<<<<<< Updated upstream:src/main/webapp/login.jsp
                     <div class="login-container px-5 mx-5">
                         <p class="text-muted text-center">Đơn giản hóa quy trình làm việc của bạn và tăng năng suất với
                             ứng dụng của
+=======
+                    <div class="login-container ">
+                        <% String error = (String) request.getAttribute("error"); %>
+                        <% if (error != null) { %>
+                        <div class="text-center" style="color: red;"><%= error %></div>
+                        <% } %>
+                        <p class="text-muted text-center">Đơn giản hóa quy trình làm việc của bạn và tăng năng suất với ứng dụng của
+>>>>>>> Stashed changes:src/main/webapp/dangnhap.jsp
                             chúng tôi. Bắt đầu miễn phí</p>
                         <form action="LoginController" method="post" class="px-5 mx-5">
                             <div class="mb-3">
