@@ -22,40 +22,64 @@
                      Quản Lý Nhập Hàng
                 </h4>
 
-                <!-- Nút chuyển đến trang nhập hàng mới -->
-                <div class="mb-3 text-end">
-                    <a href="nhap-hang.jsp" class="btn btn-success">
-                        <i class="bi bi-plus-circle me-1"></i> Nhập hàng mới
-                    </a>
-                </div>
+				<div class="mb-3 text-end">
+					<button class="btn btn-success" data-bs-toggle="modal"
+						data-bs-target="#StockInModal">
+						<i class="bi bi-plus-circle me-1"></i> Nhập hàng mới
+					</button>
+				</div>
 
-                <!-- Bảng hiển thị danh sách nhập hàng -->
+				<div class="modal fade" id="StockInModal" tabindex="-1"
+					aria-labelledby="nhapHangModalLabel" aria-hidden="true">
+					<div class="modal-dialog">
+						<form id="StockInForm" action="StockInController" method="post">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h5 class="modal-title" id="nhapHangModalLabel">Nhập hàng
+										mới</h5>
+									<button type="button" class="btn-close" data-bs-dismiss="modal"
+										aria-label="Đóng"></button>
+								</div>
+								<div class="modal-body">
+									<div class="mb-3">
+										<label for="productId" class="form-label">ID sản phẩm</label>
+										<input type="number" class="form-control" name="productId" required>
+									</div>
+									<div class="mb-3">
+										<label for="quantity" class="form-label">Số lượng</label>
+										<input type="number" class="form-control" name="quantity" required>
+									</div>									
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-secondary"
+										data-bs-dismiss="modal">Đóng</button>
+									<button type="submit" class="btn btn-primary">Lưu</button>
+								</div>
+							</div>
+						</form>
+						<div id="message" class="mt-3"></div>
+					</div>
+				</div>
+
+				<!-- Bảng hiển thị danh sách nhập hàng -->
                 <div class="table-responsive">
                     <table class="table table-striped table-bordered align-middle">
                         <thead class="table-dark">
                             <tr>
-                                <th>#</th>
                                 <th>Tên sản phẩm</th>
-                                <th>Danh mục</th>
                                 <th>Số lượng</th>
-                                <th>Giá nhập</th>
-                                <th>Nhà cung cấp</th>
                                 <th>Ngày nhập</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <c:forEach var="item" items="${nhapHangList}" varStatus="loop">
-                                <tr>
-                                    <td>${loop.index + 1}</td>
-                                    <td>${item.productName}</td>
-                                    <td>${item.category}</td>
-                                    <td>${item.quantity}</td>
-                                    <td><f:formatNumber value="${item.price}" type="currency" currencySymbol="₫"/></td>
-                                    <td>${item.supplier}</td>
-                                    <td><f:formatDate value="${item.date}" pattern="dd/MM/yyyy"/></td>
+                            <c:forEach var="item" items="${records}" varStatus="loop">
+                                <tr>                                    
+                                    <td>${item.getProduct().getNameProduct()}</td>
+                                    <td>${item.quantity}</td>                                   
+                                    <td>${item.getStockDate() }</td>
                                 </tr>
                             </c:forEach>
-                            <c:if test="${empty nhapHangList}">
+                            <c:if test="${empty records}">
                                 <tr>
                                     <td colspan="7" class="text-center text-muted">Chưa có dữ liệu nhập hàng.</td>
                                 </tr>
@@ -68,10 +92,47 @@
     </div>
 
     <script>
+    document.addEventListener("DOMContentLoaded", function () {
+    	const form = document.getElementById("StockInForm");
+    	const messageDiv = document.getElementById("message");
+    	form.addEventListener("submit", function (event) {
+    		 event.preventDefault(); 
+    		// Lấy dữ liệu từ form
+    	        const formData = new FormData(form);
+				console.log("Sending:", Object.fromEntries(formData.entries()));
+
+				fetch("${pageContext.request.contextPath}/StockInController", {
+					method: "POST",
+					body: formData
+				})
+
+    	        .then(res => {
+    	            if (!res.ok) {
+    	                return res.text().then(text => { // lấy nội dung lỗi từ server
+    	                    throw new Error(text);
+    	                });
+    	            }
+    	            return res.text();
+    	        })
+    	        .then(msg => {
+    	            messageDiv.innerHTML = `<div class="alert alert-success">${msg}</div>`;
+    	            form.reset();
+    	        })
+    	        .catch(err => {
+    	            messageDiv.innerHTML = `<div class="alert alert-danger">${err.message}</div>`;
+    	        });
+
+    	  })
+    })
+  		
+
+    </script>
+    <script>
         const nav = document.getElementById("nav");
         fetch("./assets/component/adminNav.jsp")
             .then((response) => response.text())
             .then((html) => (nav.innerHTML = html));
     </script>
+    
 </body>
 </html>
