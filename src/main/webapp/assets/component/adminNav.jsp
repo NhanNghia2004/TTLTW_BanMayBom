@@ -13,7 +13,7 @@
             <a href="${pageContext.request.contextPath}/OrderController" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"
                 aria-controls="home" aria-selected="true">
                <i class="bi bi-box-seam me-2"></i>Quản lý đơn hàng</a>   
-            <a href="nhaphang.jsp" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"
+            <a href="${pageContext.request.contextPath}/StockInController" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"
                 aria-controls="home" aria-selected="true">
                <i class="bi bi-box-arrow-in-down me-2"></i>Quản lý kho</a>     
             <a href="#id3" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"

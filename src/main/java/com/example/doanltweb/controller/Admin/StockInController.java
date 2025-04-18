@@ -1,5 +1,7 @@
 package com.example.doanltweb.controller.Admin;
 
+import com.example.doanltweb.utils.OrderUtils;
+import com.example.doanltweb.utils.StockInUtils;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
@@ -8,7 +10,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.example.doanltweb.dao.ProductDao;
 import com.example.doanltweb.dao.StockInDao;
@@ -21,15 +25,30 @@ public class StockInController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	StockInDao stockInDao = new StockInDao();
     ProductDao productDao = new ProductDao();   
-
+	StockInUtils stockInUtils = new StockInUtils();
+	OrderUtils orderUtils = new OrderUtils();
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		List<StockIn> records = stockInDao.getAllRecord();
+		Map<Product,Integer> stockInMap = stockInUtils.stockInRecord();
+		Map<Product,Integer> detailMap = orderUtils.orderRecord();
+		Map<Product, Integer> remainingMap = new HashMap<>();
+		for (Map.Entry<Product, Integer> entry : stockInMap.entrySet()) {
+			Product product = entry.getKey();
+			int totalImported = entry.getValue();
+			int totalSold = detailMap.getOrDefault(product, 0);
+			int remaining = totalImported - totalSold;
+
+			if (remaining > 0) {
+				remainingMap.put(product, remaining);
+			}
+		}
+		request.setAttribute("stockRemainList", remainingMap);
 		request.setAttribute("records", records);
-		request.getRequestDispatcher("nhaphang.jsp").forward(request, response);
+		request.getRequestDispatcher("stockIn.jsp").forward(request, response);
 	}
 
 	
