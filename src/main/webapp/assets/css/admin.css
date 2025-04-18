@@ -180,7 +180,7 @@
   left: 0;
   width: 250px;  /* Thay đổi tùy theo kích thước sidebar của bạn */
   height: 100vh;
-  background-color: #001f3f;
+  background-color: #162e5c;
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
   z-index: 1000; /* Đảm bảo sidebar luôn ở trên cùng */
   padding-top: 20px; /* Giữ khoảng cách từ trên cùng */

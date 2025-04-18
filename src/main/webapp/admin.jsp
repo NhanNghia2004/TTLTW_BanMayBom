@@ -62,6 +62,12 @@
             <a href="#id4" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"
                data-bs-toggle="tab" role="tab" aria-controls="home" aria-selected="true"><i
                     class="fas fa-gift me-2"></i>Quản lý khuyến mãi</a>
+            <a href="${pageContext.request.contextPath}/OrderController" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"
+                aria-controls="home" aria-selected="true">
+                <i class="bi bi-box-seam me-2"></i>Quản lý đơn hàng</a>
+            <a href="${pageContext.request.contextPath}/StockInController" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"
+               aria-controls="home" aria-selected="true">
+               <i class="bi bi-box-arrow-in-down me-2"></i>Quản lý kho</a>
             <a href="#id5" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"
                data-bs-toggle="tab" role="tab" aria-controls="home" aria-selected="true"><i
                     class="fas fa-paperclip me-2"></i>Báo Cáo</a>
