@@ -64,7 +64,7 @@
 				</c:if>
 
 				<c:if test="${empty sessionScope.auth}">
-					<li class="list-item-head2"><a href="dangnhap.jsp"
+					<li class="list-item-head2"><a href="login.jsp"
 						class="nav-link text-light">Đăng nhập</a></li>
 				</c:if>
 

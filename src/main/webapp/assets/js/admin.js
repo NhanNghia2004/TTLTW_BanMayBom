@@ -29,7 +29,7 @@ function loadProductData() {
         10: 'Công ty J'
     };
     $.ajax({
-        url: 'http://localhost:8080/TTW/productController', // API của bạn
+        url: 'http://localhost:8080/DoAnLTWeb_war/productController', // API của bạn
         type: 'GET',
         dataType: 'json',
         success: function (data) {
@@ -46,7 +46,7 @@ function loadProductData() {
                 var row = `<tr>
                         <td>${product.id}</td>
                         <td style="min-width: 70px;">${product.nameProduct}</td>
-                        <td><img src="${product.image}" alt="Product Image" style="width: 60px; height: 60px;"></td>
+                        <td><img src="/assets/imgs/maybom/${product.image}" alt="Product Image" style="width: 60px; height: 60px;"></td>
                         <td>${product.priceProduct}</td>
                         <td style="min-width: 150px;">${product.description}</td>
                         <td style="min-width: 90px;">${product.manufactureDate}</td>
@@ -136,7 +136,7 @@ function addProduct(event) {
 
     // Gửi AJAX
     $.ajax({
-        url: 'http://localhost:8080/TTW/productController',
+        url: 'http://localhost:8080/DoAnLTWeb_war/productController',
         type: 'POST',
         data: JSON.stringify(productData),
         contentType: 'application/json',
@@ -219,7 +219,7 @@ function editProduct(event) {
     // Gửi yêu cầu PUT để cập nhật sản phẩm
 
     $.ajax({
-        url: 'http://localhost:8080/TTW/productController?id=' + pid,  // API xử lý PUT sửa sản phẩm
+        url: 'http://localhost:8080/DoAnLTWeb_war/productController?id=' + pid,  // API xử lý PUT sửa sản phẩm
         type: 'PUT',
         data: JSON.stringify(productData),
         contentType: 'application/json',
@@ -243,7 +243,7 @@ $(document).off('click', '.product-delete-btn').on('click', '.product-delete-btn
 
     if (confirm('Bạn có chắc chắn muốn xóa sản phẩm này?')) {
         $.ajax({
-            url: 'http://localhost:8080/TTW/productController?id=' + productId,
+            url: 'http://localhost:8080/DoAnLTWeb_war/productController?id=' + productId,
             type: 'DELETE',
             success: function (response) {
                 alert(response.message);
@@ -276,7 +276,7 @@ function loadSaleData() {
     };
 
     $.ajax({
-        url: 'http://localhost:8080/TTW/SaleController', // API của bạn
+        url: 'http://localhost:8080/DoAnLTWeb_war/SaleController', // API của bạn
         type: 'GET',
         dataType: 'json',
         success: function (data) {
@@ -369,7 +369,7 @@ $(document).ready(function () {
 
         // Gửi dữ liệu lên servlet qua POST
         $.ajax({
-            url: 'http://localhost:8080/TTW/SaleController',
+            url: 'http://localhost:8080/DoAnLTWeb_war/SaleController',
             type: 'POST',
             contentType: 'application/json',
             data: JSON.stringify(saleData),
@@ -451,7 +451,7 @@ $('#editPromotionForm').off('submit').on('submit', function (e) {
     };
 
     $.ajax({
-        url: 'http://localhost:8080/TTW/SaleController',
+        url: 'http://localhost:8080/DoAnLTWeb_war/SaleController',
         type: 'PUT',
         contentType: 'application/json',
         data: JSON.stringify(updatedSale),
@@ -471,7 +471,7 @@ $(document).off('click', '.promotion-delete-btn').on('click', '.promotion-delete
 
     if (confirm("Bạn có chắc chắn muốn xóa khuyến mãi này không?")) {
         $.ajax({
-            url: `http://localhost:8080/TTW/SaleController?id=${id}`,
+            url: `http://localhost:8080/DoAnLTWeb_war/SaleController?id=${id}`,
             type: 'DELETE',
             success: function (response) {
                 alert(response.message || "Xóa thành công!");

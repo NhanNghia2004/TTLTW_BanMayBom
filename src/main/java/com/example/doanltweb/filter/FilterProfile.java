@@ -35,7 +35,7 @@ public class FilterProfile implements Filter {
 
         } else {
             // Nếu chưa đăng nhập, chuyển hướng đến trang đăng nhập
-            httpResponse.sendRedirect(httpRequest.getContextPath() + "/dangnhap.jsp");
+            httpResponse.sendRedirect(httpRequest.getContextPath() + "/login.jsp");
         }
     }
 
