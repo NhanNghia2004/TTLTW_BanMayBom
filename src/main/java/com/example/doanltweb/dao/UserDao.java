@@ -47,6 +47,20 @@ public class UserDao {
 
         return rowsAffected > 0;
     }
+    public boolean updateVerifiedStatus(int id, int isVerified) {
+        String sql = "UPDATE user SET is_verified = :isVerified WHERE id = :id";
+        Jdbi jdbi = JDBIConnect.get();
+
+        int rowsAffected = jdbi.withHandle(handle ->
+                handle.createUpdate(sql)
+                        .bind("isVerified", isVerified)
+                        .bind("id", id)
+                        .execute()
+        );
+
+        return rowsAffected > 0;
+    }
+
 
 //user
     public List<User> getAllUsers() {
@@ -217,27 +231,51 @@ public class UserDao {
 
     public static void main(String[] args) {
         UserDao userDao = new UserDao();
-//        List<User> users = userDao.getAllUsers();
 
+        // Lấy tất cả người dùng cho admin
         List<User> users = userDao.getUsersForAdmin();
 
-        // In kết quả ra console
         if (users.isEmpty()) {
-            System.out.println("Không có người dùng nào trong cơ sở dữ liệu.");
+            System.out.println("❌ Không có người dùng nào trong cơ sở dữ liệu.");
         } else {
-            // Duyệt qua danh sách người dùng và in thông tin ra console
+            System.out.println("✅ Danh sách người dùng hiện tại:");
             for (User user : users) {
-                System.out.println("ID: " + user.getId());
-                System.out.println("Avatar: " + user.getAvatar());
-                System.out.println("Username: " + user.getUsername());
-                System.out.println("Fullname: " + user.getFullname());
-                System.out.println("Email: " + user.getEmail());
-                System.out.println("Phone: " + user.getPhone());
-                System.out.println("Address: " + user.getAddress());
-                System.out.println("Permission ID: " + user.getIdPermission());
-                System.out.println("Verified: " + user.getIsVerified());
-                System.out.println("---------------------------------");
+                printUser(user);
             }
-      }
+
+            // Test cập nhật trạng thái isVerified cho người dùng đầu tiên
+            User firstUser = users.get(1);
+            int newVerifyStatus = (firstUser.getIsVerified() == 1) ? 0 : 1;
+
+            boolean success = userDao.updateVerifiedStatus(firstUser.getId(), newVerifyStatus);
+            if (success) {
+                System.out.println("\n✅ Đã cập nhật trạng thái xác thực của user ID = " + firstUser.getId() +
+                        " thành " + newVerifyStatus);
+            } else {
+                System.out.println("\n❌ Cập nhật trạng thái xác thực thất bại.");
+            }
+
+            // In lại thông tin người dùng sau khi cập nhật
+            List<User> updatedUsers = userDao.getUsersForAdmin();
+            System.out.println("\n📦 Thông tin sau khi cập nhật:");
+            for (User user : updatedUsers) {
+                printUser(user);
+            }
+        }
+    }
+
+    private static void printUser(User user) {
+        System.out.println("ID: " + user.getId());
+        System.out.println("Avatar: " + user.getAvatar());
+        System.out.println("Username: " + user.getUsername());
+        System.out.println("Fullname: " + user.getFullname());
+        System.out.println("Email: " + user.getEmail());
+        System.out.println("Phone: " + user.getPhone());
+        System.out.println("Address: " + user.getAddress());
+        System.out.println("Permission ID: " + user.getIdPermission());
+        System.out.println("Verified: " + (user.getIsVerified() == 1 ? "Đã xác thực" : "Chưa xác thực"));
+        System.out.println("---------------------------------");
+
+
     }
 }

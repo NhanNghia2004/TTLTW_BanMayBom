@@ -15,6 +15,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 
+
+
 @WebServlet(name = "UserManagerController", value = "/UserManagerController")
 public class UserManagerController extends HttpServlet {
 
@@ -89,5 +91,40 @@ public class UserManagerController extends HttpServlet {
 
         response.getWriter().write(gson.toJson(jsonResponse));
     }
+    @Override
+    protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+
+        try {
+            // Đọc JSON từ request
+            BufferedReader reader = request.getReader();
+            Gson gson = new Gson();
+            User user = gson.fromJson(reader, User.class);
+
+            // Kiểm tra ID hợp lệ
+            if (user.getId() > 0) {
+                UserService userService = new UserService();
+                boolean success = userService.updateVerifiedStatus(user.getId(), 0);
+
+                if (success) {
+                    response.setStatus(HttpServletResponse.SC_OK);
+                    response.getWriter().write("{\"message\": \"Đã chuyển trạng thái người dùng thành 'Không hoạt động'\"}");
+                } else {
+                    response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                    response.getWriter().write("{\"message\": \"Không thể cập nhật trạng thái người dùng\"}");
+                }
+            } else {
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                response.getWriter().write("{\"message\": \"Thiếu ID người dùng\"}");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            response.getWriter().write("{\"message\": \"Lỗi xử lý yêu cầu\"}");
+        }
+    }
+
+
 
 }

@@ -509,7 +509,7 @@ function loadUserData() {
 
             data.forEach(user => {
                 const permission = permissionMap[user.idPermission] || 'Không rõ';
-                const verified = user.isVerified === 1 ? 'Đã xác thực' : 'Chưa xác thực';
+                const verified = user.isVerified === 1 ? 'Hoạt động' : 'Không hoạt động';
                 const avatar = user.avatar
                     ? `<img src="${user.avatar}" alt="Avatar" width="40" height="40" style="border-radius: 50%;">`
                     : '—';
@@ -651,6 +651,28 @@ $('#editUserForm').off('submit').on('submit', function (e) {
             alert("Cập nhật người dùng thất bại!");
         }
     });
+});
+// Gỡ sự kiện cũ trước khi gán lại để tránh lặp
+$(document).off('click', '.user-delete-btn').on('click', '.user-delete-btn', function (e) {
+    e.preventDefault();
+    const userId = $(this).data('id');
+
+    if (confirm("Bạn có chắc chắn muốn xóa?")) {
+        $.ajax({
+            url: 'http://localhost:8080/DoAnLTWeb_war/UserManagerController',
+            type: 'DELETE',
+            contentType: 'application/json',
+            data: JSON.stringify({ id: userId }),
+            success: function (response) {
+                alert("Người dùng đã được xóa.");
+                loadUserData(); // Tải lại bảng dữ liệu
+            },
+            error: function (xhr, status, error) {
+                console.error("Lỗi khi xóa người dùng:", error);
+                alert("Xóa người dùng thất bại!");
+            }
+        });
+    }
 });
 
 

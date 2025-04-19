@@ -503,8 +503,8 @@
                                     <th style="text-align: center">Email</th>
                                     <th style="text-align: center">Số điện thoại</th>
                                     <th style="text-align: center">Địa chỉ</th>
-                                    <th style="text-align: center">Quyền</th>
-                                    <th style="text-align: center">Đã xác thực</th>
+                                    <th style="text-align: center">Vai trò</th>
+                                    <th style="text-align: center">Trạng thái</th>
                                     <th style="text-align: center">Hành động</th>
                                 </tr>
                                 </thead>
@@ -549,7 +549,7 @@
                                                 <input type="text" class="form-control" id="editAddress" name="address">
                                             </div>
                                             <div class="col-md-6">
-                                                <label for="editPermission" class="form-label">Quyền</label>
+                                                <label for="editPermission" class="form-label">Vai trò</label>
                                                 <select class="form-select" id="editPermission" name="idPermission">
                                                     <option value="1">Admin</option>
                                                     <option value="2">Nhân viên</option>
@@ -558,10 +558,10 @@
                                                 </select>
                                             </div>
                                             <div class="col-md-6">
-                                                <label for="editVerified" class="form-label">Xác thực</label>
+                                                <label for="editVerified" class="form-label">Trạng thái</label>
                                                 <select class="form-select" id="editVerified" name="isVerified">
-                                                    <option value="1">Đã xác thực</option>
-                                                    <option value="0">Chưa xác thực</option>
+                                                    <option value="1">Hoạt động</option>
+                                                    <option value="0">Không hoạt động</option>
                                                 </select>
                                             </div>
                                             <div class="col-md-12">
