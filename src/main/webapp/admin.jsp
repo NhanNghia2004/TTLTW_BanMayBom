@@ -514,6 +514,70 @@
                             </table>
                         </div>
                     </div>
+
+                    <!-- Modal sửa người dùng -->
+                    <div class="modal fade" id="editUserModal" tabindex="-1" aria-labelledby="editUserModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header bg-primary text-white">
+                                    <h5 class="modal-title w-100 text-center" id="editUserModalLabel">Sửa Thông Tin Người Dùng</h5>
+                                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                                            aria-label="Đóng"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form id="editUserForm">
+                                        <input type="hidden" id="editUserId" name="id">
+                                        <div class="row g-3">
+                                            <div class="col-md-6">
+                                                <label for="editUsername" class="form-label">Tên đăng nhập</label>
+                                                <input type="text" class="form-control" id="editUsername" name="username" required>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="editFullname" class="form-label">Họ tên</label>
+                                                <input type="text" class="form-control" id="editFullname" name="fullname">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="editEmail" class="form-label">Email</label>
+                                                <input type="email" class="form-control" id="editEmail" name="email">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="editPhone" class="form-label">Số điện thoại</label>
+                                                <input type="text" class="form-control" id="editPhone" name="phone">
+                                            </div>
+                                            <div class="col-md-12">
+                                                <label for="editAddress" class="form-label">Địa chỉ</label>
+                                                <input type="text" class="form-control" id="editAddress" name="address">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="editPermission" class="form-label">Quyền</label>
+                                                <select class="form-select" id="editPermission" name="idPermission">
+                                                    <option value="1">Admin</option>
+                                                    <option value="2">Nhân viên</option>
+                                                    <option value="3">Khách hàng</option>
+                                                    <option value="4">Cộng tác viên</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="editVerified" class="form-label">Xác thực</label>
+                                                <select class="form-select" id="editVerified" name="isVerified">
+                                                    <option value="1">Đã xác thực</option>
+                                                    <option value="0">Chưa xác thực</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <label for="editAvatar" class="form-label">Link ảnh đại diện</label>
+                                                <input type="text" class="form-control" id="editAvatar" name="avatar">
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="submit" form="editUserForm" class="btn btn-primary w-100 text-center">Lưu thay đổi</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                 </section>
             </div>
 

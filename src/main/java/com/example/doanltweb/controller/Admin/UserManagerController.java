@@ -2,11 +2,15 @@ package com.example.doanltweb.controller.Admin;
 
 import com.example.doanltweb.dao.UserDao;
 import com.example.doanltweb.dao.model.User;
+import com.example.doanltweb.service.UserService;
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonSyntaxException;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -34,4 +38,56 @@ public class UserManagerController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     }
+    @Override
+    protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+
+        Gson gson = new Gson();
+        JsonObject jsonResponse = new JsonObject();
+
+        try (BufferedReader reader = request.getReader()) {
+            // Đọc JSON từ body
+            StringBuilder jsonBuffer = new StringBuilder();
+            String line;
+            while ((line = reader.readLine()) != null) {
+                jsonBuffer.append(line);
+            }
+
+            String json = jsonBuffer.toString();
+
+            // Parse JSON thành User object
+            User user = gson.fromJson(json, User.class);
+
+            // Kiểm tra ID hợp lệ
+            if (user.getId() <= 0) {
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                jsonResponse.addProperty("message", "ID người dùng không hợp lệ.");
+                response.getWriter().write(gson.toJson(jsonResponse));
+                return;
+            }
+
+            // Gọi service để cập nhật
+            UserService userService = new UserService();
+            boolean isUpdated = userService.updateUser(user);
+
+            if (isUpdated) {
+                response.setStatus(HttpServletResponse.SC_OK);
+                jsonResponse.addProperty("message", "Cập nhật người dùng thành công.");
+            } else {
+                response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+                jsonResponse.addProperty("message", "Không tìm thấy người dùng để cập nhật.");
+            }
+
+        } catch (JsonSyntaxException e) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            jsonResponse.addProperty("message", "JSON không hợp lệ: " + e.getMessage());
+        } catch (Exception e) {
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            jsonResponse.addProperty("message", "Lỗi xử lý: " + e.getMessage());
+        }
+
+        response.getWriter().write(gson.toJson(jsonResponse));
+    }
+
 }

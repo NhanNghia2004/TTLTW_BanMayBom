@@ -14,7 +14,7 @@ import java.util.Map;
 
 public class UserDao {
     static Map<Integer, User> data = new HashMap<>();
-
+//admin
     public List<User> getUsersForAdmin() {
         String sql = "SELECT id, avatar, username, fullname, email, phone, address, idPermission, is_verified FROM user";
 
@@ -27,8 +27,28 @@ public class UserDao {
                     .list();                // Thu thập kết quả vào danh sách và trả về
         });
     }
+    public boolean updateUserByAdmin(User user) {
+        String sql = "UPDATE user SET avatar = :avatar,username = :username,fullname = :fullname,email = :email,phone = :phone,address = :address,idPermission = :idPermission,is_verified = :isVerified WHERE id = :id";
+        Jdbi jdbi = JDBIConnect.get();
 
+        int rowsAffected = jdbi.withHandle(handle ->
+                handle.createUpdate(sql)
+                        .bind("avatar", user.getAvatar())
+                        .bind("username", user.getUsername())
+                        .bind("fullname", user.getFullname())
+                        .bind("email", user.getEmail())
+                        .bind("phone", user.getPhone())
+                        .bind("address", user.getAddress())
+                        .bind("idPermission", user.getIdPermission())
+                        .bind("isVerified", user.getIsVerified())
+                        .bind("id", user.getId())
+                        .execute()
+        );
 
+        return rowsAffected > 0;
+    }
+
+//user
     public List<User> getAllUsers() {
         Jdbi jdbi = JDBIConnect.get();
         return jdbi.withHandle(handle -> handle.createQuery("SELECT * FROM user").mapToBean(User.class).list());
