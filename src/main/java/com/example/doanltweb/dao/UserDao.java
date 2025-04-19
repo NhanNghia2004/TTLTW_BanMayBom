@@ -228,9 +228,31 @@ public class UserDao {
                     .orElse(null);
         }
     }
+    public void lockUserByUsername(String username) {
+        Jdbi jdbi = new JDBIConnect().get();
+        jdbi.useHandle(handle -> {
+            String sql = "UPDATE user SET is_verified = 0 WHERE username = :username";
+            handle.createUpdate(sql)
+                    .bind("username", username)
+                    .execute();
+        });
+        System.out.println("lock user by username " + username);
+    }
+    public boolean checkLockUserByUsername(String username) {
+        Jdbi jdbi = new JDBIConnect().get();
 
+        return jdbi.withHandle(handle ->
+                handle.createQuery("SELECT is_verified FROM user WHERE username = :username")
+                        .bind("username", username)
+                        .mapTo(Integer.class)
+                        .findOne()
+                        .map(isVerified -> isVerified == 0) // true nếu bị khóa
+                        .orElse(false)
+        );
+    }
     public static void main(String[] args) {
         UserDao userDao = new UserDao();
+
 
         // Lấy tất cả người dùng cho admin
         List<User> users = userDao.getUsersForAdmin();
@@ -276,6 +298,8 @@ public class UserDao {
         System.out.println("Verified: " + (user.getIsVerified() == 1 ? "Đã xác thực" : "Chưa xác thực"));
         System.out.println("---------------------------------");
 
+
+        userDao.lockUserByUsername("admin");
 
     }
 }

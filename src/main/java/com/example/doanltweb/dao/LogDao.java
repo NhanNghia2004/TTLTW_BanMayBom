@@ -9,7 +9,7 @@ import com.example.doanltweb.dao.model.Log;
 import java.sql.*;
 import java.time.LocalDateTime;
 public class LogDao {
-	 private static final Jdbi jdbi = JDBIConnect.get(); 
+	 private static final Jdbi jdbi = JDBIConnect.get();
 
 	  public static void saveLog(int userId, String level, String ip, String resource, String dataIn, String dataOut) {
 		  	LogDao.info("Ghi log: userId={} level={} resource={} ip={} before={} after={}", userId, level, resource, ip, dataIn, dataOut);
@@ -28,12 +28,12 @@ public class LogDao {
 	                    .execute();
 	            });
 
-	 
+
 	        }
 
 	private static void info(String string, int userId, String level, String resource, String ip, String dataIn,
 			String dataOut) {
 		// TODO Auto-generated method stub
-		
+
 	}
 	  }

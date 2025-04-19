@@ -47,7 +47,7 @@ public class CartServlet extends HttpServlet {
     
 
        
-		request.getRequestDispatcher("giohang.jsp").forward(request, response);
+		request.getRequestDispatcher("cart.jsp").forward(request, response);
     }
     public void doPost(HttpServletRequest request, HttpServletResponse response) 
             throws IOException, ServletException {

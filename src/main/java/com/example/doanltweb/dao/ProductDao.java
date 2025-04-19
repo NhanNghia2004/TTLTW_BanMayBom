@@ -228,56 +228,9 @@ public class ProductDao {
 //            }
 //        }
     public static void main(String[] args) {
-//    // Giả sử ID sản phẩm cần cập nhật là 1
-//    int productIdToUpdate = 228;
-//
-//    // Tạo đối tượng Product với thông tin mới
-//    Product product = new Product();
-//    product.setId(productIdToUpdate); // Rất quan trọng: phải set ID để biết sản phẩm nào cần update
-//    product.setNameProduct("Máy bơm nước siêu tốc");
-//    product.setImage("updated_image_url.jpg");
-//    product.setPriceProduct(1200000);
-//    product.setDescription("Máy bơm nước siêu tốc, hiệu quả cao, tiết kiệm điện");
-//    product.setManufactureDate("2025-03-22");
-//    product.setPower("3 HP");
-//    product.setPressure(12.0);
-//    product.setFlowRate(600);
-//    product.setPipeDiameter(60);
-//    product.setVoltage(220);
-//    product.setBrand("Bơm XYZ");
-//    product.setWarrantyMonths(36);
-//    product.setStock(40);
-//    product.setIdCategory(1);
-//    product.setIdSupplier(2);
-//
-//    // Khởi tạo ProductDao
-//    ProductDao productDao = new ProductDao();
-//
-//    // Cập nhật sản phẩm trong cơ sở dữ liệu
-//    boolean success = productDao.updateProduct(product);
-//
-//    // Kiểm tra kết quả
-//    if (success) {
-//        System.out.println("Sản phẩm đã được cập nhật thành công!");
-//    } else {
-//        System.out.println("Có lỗi xảy ra khi cập nhật sản phẩm.");
-//    }
-
-        // Giả sử ID sản phẩm cần xóa là 228
-        int productIdToDelete = 236;
-
-        // Khởi tạo ProductDao
         ProductDao productDao = new ProductDao();
+        System.out.println(productDao.getAll());
 
-        // Xóa sản phẩm trong cơ sở dữ liệu
-        boolean success = productDao.deleteProduct(productIdToDelete);
-
-        // Kiểm tra kết quả
-        if (success) {
-            System.out.println("Sản phẩm đã được xóa thành công!");
-        } else {
-            System.out.println("Có lỗi xảy ra khi xóa sản phẩm.");
-        }
     }
 
 

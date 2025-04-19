@@ -55,10 +55,10 @@ public class FacebookCallbackServlet extends HttpServlet {
 
         // Lưu thông tin vào session
         HttpSession session = request.getSession();
-        session.setAttribute("user", user);
+        session.setAttribute("auth", user);
 
         // Chuyển hướng đến trang chính
-        response.sendRedirect("home.jsp");
+        response.sendRedirect("Userprofile.jsp");
     }
 
     private String getAccessToken(String tokenUrl) throws IOException {

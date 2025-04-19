@@ -46,7 +46,7 @@ function loadProductData() {
                 var row = `<tr>
                         <td>${product.id}</td>
                         <td style="min-width: 70px;">${product.nameProduct}</td>
-                        <td><img src="${product.image}" alt="Product Image" style="width: 60px; height: 60px;"></td>
+                        <td><img src="/assets/imgs/maybom/${product.image}" alt="Product Image" style="width: 60px; height: 60px;"></td>
                         <td>${product.priceProduct}</td>
                         <td style="min-width: 150px;">${product.description}</td>
                         <td style="min-width: 90px;">${product.manufactureDate}</td>
@@ -219,7 +219,7 @@ function editProduct(event) {
     // Gửi yêu cầu PUT để cập nhật sản phẩm
 
     $.ajax({
-        url: 'http://localhost:8080/TTW/productController?id=' + pid,  // API xử lý PUT sửa sản phẩm
+        url: 'http://localhost:8080/DoAnLTWeb_war/productController?id=' + pid,  // API xử lý PUT sửa sản phẩm
         type: 'PUT',
         data: JSON.stringify(productData),
         contentType: 'application/json',
