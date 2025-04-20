@@ -8,6 +8,7 @@ import org.jdbi.v3.core.Handle;
 import org.jdbi.v3.core.Jdbi;
 import org.apache.commons.codec.digest.DigestUtils;
 
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -202,8 +203,46 @@ public class UserDao {
                         .orElse(false)
         );
     }
+    public boolean changePassword(int userId, String newPassword) throws SQLException {
+        Jdbi jdbi = JDBIConnect.get();
+
+        int result = jdbi.withHandle(handle ->
+                handle.createUpdate("UPDATE users SET password = :password WHERE id = :id")
+                        .bind("password", newPassword)
+                        .bind("id", userId)
+                        .execute()
+        );
+        return result > 0;
+    }
+    public boolean checkPassword(int userId, String password) {
+        Jdbi jdbi = JDBIConnect.get(); // Giả sử jdbiconnect.get() trả về một đối tượng Jdbi
+
+        String storedPassword = jdbi.withHandle(handle ->
+                handle.createQuery("SELECT password FROM user WHERE id = :userId")
+                        .bind("userId", userId)
+                        .mapTo(String.class)
+                        .findOne()
+                        .orElse(null)
+        );
+
+        if (storedPassword == null) {
+            return false; // Không tìm thấy người dùng
+        }
+
+        return storedPassword.equals(password); // So sánh mật khẩu đơn giản (chưa mã hóa)
+    }
+    public boolean updatePassword(int userId, String newPassword) {
+        Jdbi jdbi = JDBIConnect.get();
+        int updatedRows = jdbi.withHandle(handle ->
+                handle.createUpdate("UPDATE user SET password = :password WHERE id = :userId")
+                        .bind("password", newPassword)
+                        .bind("userId", userId)
+                        .execute()
+        );
+        return updatedRows > 0;
+    }
+
+
     public static void main(String[] args) {
-        UserDao userDao = new UserDao();
-        userDao.lockUserByUsername("admin");
     }
 }

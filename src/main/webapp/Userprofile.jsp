@@ -96,6 +96,30 @@
 										<!-- Hiển thị thông báo -->
 										<div id="message" class="mt-3"></div>
 
+                                        <!-- Form đổi mật khẩu -->
+                                        <div class="card p-4 mt-4">
+                                            <h5 class="fw-bold mb-3">Đổi mật khẩu</h5>
+                                            <form id="changePasswordForm">
+
+
+                                                <div class="mb-3">
+                                                    <label class="form-label fw-bold">Mật khẩu hiện tại</label>
+                                                    <input type="password" class="form-control" name="currentPassword" required>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label fw-bold">Mật khẩu mới</label>
+                                                    <input type="password" class="form-control" name="newPassword" required>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label fw-bold">Xác nhận mật khẩu mới</label>
+                                                    <input type="password" class="form-control" name="confirmPassword" required>
+                                                </div>
+                                                <button type="submit" class="btn btn-primary mt-3">Đổi mật khẩu</button>
+
+												<div id="changePasswordMessage" class="mt-3 mb-3"></div>
+											</form>
+                                        </div>
+
 									</div>
 								</div>
 							</div>
@@ -118,7 +142,7 @@
 										<c:forEach items="${orders}" var="order">
 											<tr>
 												<td>
-													<p class="mb-0">${order.ordeDate }</p>
+													<p class="mb-0">${order.orderDate }</p>
 												</td>
 												<td>${order.quantity }</td>
 												<td>${order.totalPrice }</td>
@@ -190,7 +214,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const formData = new FormData(form);
 
         // Gửi dữ liệu qua AJAX
-        fetch("http://localhost:8080/DoAnLTWeb/UserProfileServlet", {
+        fetch("http://localhost:8080/DoAnLTWeb_war/UserProfileServlet", {
             method: "POST",
             body: formData
         })
@@ -214,5 +238,40 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const changePasswordForm = document.getElementById("changePasswordForm");
+            const changePasswordMessage = document.getElementById("changePasswordMessage");
+			const messageDiv = document.getElementById("changePasswordMessage");
+            if (changePasswordForm) {
+                changePasswordForm.addEventListener("submit", function (event) {
+                    event.preventDefault();
+
+                    const formData = new FormData(changePasswordForm);
+
+                    fetch("http://localhost:8080/DoAnLTWeb_war/UserProfileServlet?action=changePassword", {
+                        method: "POST",
+                        body: formData
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+							console.log("DATA:", data);
+							if (data.success) {
+								messageDiv.innerHTML = '<div class="alert alert-success">'+data.message+'</div>';
+
+							} else {
+								messageDiv.innerHTML = '<div class="alert alert-danger">'+data.message+'</div>';
+							}
+							changePasswordForm.reset();
+						})
+                        .catch(error => {
+                            console.error("Lỗi:", error);
+                            changePasswordMessage.innerHTML = `<div class="alert alert-danger">Có lỗi xảy ra!</div>`;
+                        });
+                });
+            }
+        });
+    </script>
+
 </body>
 </html>
