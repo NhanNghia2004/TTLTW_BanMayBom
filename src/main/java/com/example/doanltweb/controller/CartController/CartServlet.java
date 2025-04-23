@@ -21,33 +21,37 @@ public class CartServlet extends HttpServlet {
     	HttpSession session = request.getSession();
     	CartDao cartDao = new CartDao();
     	User user = (User) session.getAttribute("auth");
-    
-    		List<CartItem> cart =  (List<CartItem>) session.getAttribute("cart");
-    		int amount =0;
-    		double price =0;
-    		if (cart == null) {
-    			cart = new ArrayList<>(); // 🔥 Khởi tạo giỏ hàng
-    			session.setAttribute("cart", cart); // Lưu vào session
 
-    		}else {
-    			for (CartItem cartItem : cart) {
-    				amount+= cartItem.getQuantity();
-    				price += cartItem.getQuantity()*cartItem.getProduct().getPriceProduct();
-    			}
-    		}
-    		Cart userCart = cartDao.getCartByUserId(user.getId());
-    		if(userCart!=null) {
-    			
-    			cartDao.updateCart(userCart.getId(), price, amount);
-    		}
-    		session.setAttribute("TotalAmount", amount);
-    	    session.setAttribute("TotalPrice", price);
-    	    session.setAttribute("cart", cart);	
-    
-    
+    	List<CartItem> cart = (List<CartItem>) session.getAttribute("cart");
+    	int amount = 0;
+    	double price = 0;
 
-       
-		request.getRequestDispatcher("cart.jsp").forward(request, response);
+    	if (cart == null) {
+    	    cart = new ArrayList<>(); // 🔥 Khởi tạo giỏ hàng
+    	    session.setAttribute("cart", cart); // Lưu vào session
+    	} else {
+    	    for (CartItem cartItem : cart) {
+    	        amount += cartItem.getQuantity();
+    	        price += cartItem.getQuantity() * cartItem.getProduct().getPriceProduct();
+    	    }
+    	}
+
+    	// Nếu người dùng đã đăng nhập thì cập nhật giỏ hàng vào database
+    	if (user != null) {
+    	    Cart userCart = cartDao.getCartByUserId(user.getId());
+    	    if (userCart != null) {
+    	        cartDao.updateCart(userCart.getId(), price, amount);
+    	    }
+    	}
+
+    	// Luôn cập nhật giỏ hàng vào session để hiển thị lên giao diện
+    	session.setAttribute("TotalAmount", amount);
+    	session.setAttribute("TotalPrice", price);
+    	session.setAttribute("cart", cart);
+
+    	// Chuyển đến trang hiển thị giỏ hàng
+    	request.getRequestDispatcher("cart.jsp").forward(request, response);
+
     }
     public void doPost(HttpServletRequest request, HttpServletResponse response) 
             throws IOException, ServletException {
@@ -75,11 +79,13 @@ public class CartServlet extends HttpServlet {
       			 price += cartItem.getQuantity()*cartItem.getProduct().getPriceProduct();
       		}
 		}
-        Cart userCart = cartDao.getCartByUserId(user.getId());
-        if(userCart!=null) {
-			
-			cartDao.updateCart(userCart.getId(), price, amount);
-		}
+        // Nếu người dùng đã đăng nhập thì cập nhật giỏ hàng vào database
+    	if (user != null) {
+    	    Cart userCart = cartDao.getCartByUserId(user.getId());
+    	    if (userCart != null) {
+    	        cartDao.updateCart(userCart.getId(), price, amount);
+    	    }
+    	}
         session.setAttribute("TotalAmount", amount);
         session.setAttribute("TotalPrice", price);
         session.setAttribute("cart", cart);

@@ -20,6 +20,7 @@
             href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
             crossorigin="anonymous"
     />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="assets/css/giohang.css">
     <link rel="stylesheet" href="assets/css/headerAndFooter.css">
@@ -52,7 +53,7 @@
 									</thead>
 									<tbody>
 											<c:forEach items="${cart}" var="item">
-												<tr class="cart-item"
+												<tr id="cart-item-${item.product.id}" class="cart-item"
 													data-price="${item.product.priceProduct}"
 													data-product-id="${item.product.id}">
 													<td><img src="${item.product.image }"
@@ -75,7 +76,7 @@
 														</div>
 													</td>
 													<td>
-														<button class="btn btn-danger btn-sm">Xóa</button>
+														<button class="btn btn-danger btn-sm" onclick="removeFromCart(${item.product.id})">Xóa</button>
 													</td>
 												</tr>
 											</c:forEach>
@@ -132,97 +133,7 @@
         .then((response) => response.text())
         .then((html) => (nav.innerHTML = html));
 </script>
-	<script>
-	document.addEventListener("DOMContentLoaded", function () {
-		  function recalcTotals() {
-			    let totalQuantity = 0;
-			    let totalPrice = 0;
-			    
-			    const cartItems = document.querySelectorAll(".cart-item");
-			    
-			    cartItems.forEach(item => {
-			      // Lấy số lượng từ input
-			      const qtyInput = item.querySelector("input.quantity-form");
-			      const quantity = parseInt(qtyInput.value);
-			      
-			      // Lấy giá sản phẩm từ thuộc tính data-price của hàng
-			      const price = parseFloat(item.dataset.price);
-			      
-			      totalQuantity += quantity;
-			      totalPrice += quantity * price;
-			      console.log(totalQuantity)
-			      console.log(totalPrice)
-			    });
-			    
-			    document.getElementById("total-amount").innerHTML = '<strong>Tổng số lượng:</strong>'+totalQuantity;
-			    document.getElementById("total-price").innerHTML = '<strong>Tổng tiền:</strong> '+totalPrice.toLocaleString()+' đ';
-			  }
-			  
-			  // Gán sự kiện 'change' cho các input số lượng
-			  const quantityInputs = document.querySelectorAll("input.quantity-form");
-			  quantityInputs.forEach(input => {
-			    input.addEventListener("change", recalcTotals);
-			  });
-			  
-			  recalcTotals(); // Cập nhật tổng ban đầu
-		  // Lấy tất cả các nút cập nhật
-		  const updateButtons = document.querySelectorAll(".btn-update");
-		  
-		  updateButtons.forEach(btn => {
-		    btn.addEventListener("click", function () {
-		      // Lấy product id từ data attribute của button
-		      const productId = this.dataset.id;
-		      
-		      // Tìm input số lượng trong cùng một parent (quantity-wrapper)
-		      const quantityInput = this.closest(".quantity-wrapper").querySelector("input.quantity-form");
-		      
-		      if (!quantityInput) {
-		        alert("❌ Không tìm thấy input số lượng!");
-		        return;
-		      }
-		      
-		      // Lấy số lượng mới từ input
-		      const newQuantity = parseInt(quantityInput.value);
-		      if (isNaN(newQuantity) || newQuantity < 1) {
-		        alert("❌ Số lượng không hợp lệ! Vui lòng nhập số hợp lệ.");
-		        return;
-		      }
-		      
-		      // Tạo dữ liệu gửi đi theo dạng URL-encoded
-		      const data = new URLSearchParams();
-		      data.append("productId", productId);
-		      data.append("quantity", newQuantity);
-		      data.append("action", "update"); // Nếu bạn phân biệt action
-		      
-		      // Gửi request POST đến servlet (ví dụ: CartController hoặc CartServlet)
-		      fetch("/DoAnLTWeb/CartServlet", {
-		        method: "POST",
-		        headers: {
-		          "Content-Type": "application/x-www-form-urlencoded"
-		        },
-		        body: data.toString()
-		      })
-		      .then(response => response.json())
-		      .then(responseData => {
-		        console.log("Response:", responseData);
-		        if (responseData.status === "success") {
-		          alert("✅ Cập nhật giỏ hàng thành công!");
-		          // Bạn có thể cập nhật số lượng hiển thị ở nơi khác nếu cần, ví dụ:
-		        
-
-		        } else {
-		          alert(responseData.message);
-		        }
-		      })
-		      .catch(error => {
-		        alert("❌ Có lỗi xảy ra, vui lòng thử lại!");
-		        console.error("Lỗi:", error);
-		      });
-		    });
-		  });
-		});
-
-</script>
 <script src="assets/js/nav.js"></script>
+<script src="assets/js/cart.js"></script>
 </body>
 </html>
