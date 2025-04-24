@@ -36,7 +36,7 @@ public class OrderController extends HttpServlet {
          // quản lý báo cáo
 
         System.out.println(order);
-        request.getRequestDispatcher("donhang.jsp").forward(request, response);
+        request.getRequestDispatcher("orders.jsp").forward(request, response);
     }
     
     

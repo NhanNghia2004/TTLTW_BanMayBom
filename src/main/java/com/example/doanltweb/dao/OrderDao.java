@@ -93,6 +93,19 @@ public class OrderDao {
 
 	        return map;
 	    }
+
+	public Map<Order, List<OrderDetail>> getOrderWithDetails(int userId) {
+		Map<Order, List<OrderDetail>> map = new LinkedHashMap<>();
+		List<Order> orders = getOrderByUserId(userId);
+
+		for (Order order : orders) {
+			List<OrderDetail> details = getDetailById(order.getId());
+			map.put(order, details);
+		}
+
+		return map;
+	}
+
 	    public boolean createOrder(int userId, double totalPrice, int idPayment, int quantity, int cartId) {
 	        Jdbi jdbi = JDBIConnect.get();
 

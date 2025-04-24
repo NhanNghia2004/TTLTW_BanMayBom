@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 import java.util.List;
+import java.util.Map;
 
 
 //import org.apache.commons.fileupload.servlet.ServletFileUpload;
@@ -32,14 +33,11 @@ public class UserProfileServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		HttpSession session = request.getSession();
         User user = (User) session.getAttribute("auth");
-		OrderDao dao = new OrderDao();
-		List<Order> orders = dao.getOrderByUserId(user.getId());
+		OrderDao orderDao = new OrderDao();
 
-		for (Order order : orders) {
-			List<OrderDetail> list = dao.getDetailById(order.getId());
-			order.setQuantity(list.size());
-		}
-		request.setAttribute("orders", orders);
+		Map<Order,List<OrderDetail>> orders = orderDao.getOrderWithDetails(user.getId());
+		request.setAttribute("orderMap", orders);
+		System.out.println(orders);
 		request.getRequestDispatcher("Userprofile.jsp").forward(request, response);
 	}
 

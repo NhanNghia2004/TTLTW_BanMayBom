@@ -19,6 +19,7 @@
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
 	crossorigin="anonymous" />
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <link rel="stylesheet"
 	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 <link rel="stylesheet" href="assets/css/Userprofilestyle.css">
@@ -115,22 +116,62 @@
 										</tr>
 									</thead>
 									<tbody>
-										<c:forEach items="${orders}" var="order">
-											<tr>
-												<td>
-													<p class="mb-0">${order.ordeDate }</p>
-												</td>
-												<td>${order.quantity }</td>
-												<td>${order.totalPrice }</td>
-												<td>${order.status }</td>
-												<td>
-													<button class="btn btn-danger btn-sm">Hủy đơn hàng</button>
-													<a href="#" class="btn  bg-dark-blue btn-sm text-light"> 
-														Xem chi tiết
-													</a>
-												</td>
-											</tr>
-										</c:forEach>
+									<c:forEach var="entry" items="${orderMap}">
+										<c:set var="order" value="${entry.key}" />
+										<c:set var="details" value="${entry.value}" />
+
+										<tr style="cursor: pointer;" class="table-row-main">
+											<td>${order.orderDate}</td>
+											<td onclick="toggleDetails(${order.id})">${order.user.fullname}</td>
+											<td onclick="toggleDetails(${order.id})">${order.quantity}</td>
+											<td onclick="toggleDetails(${order.id})">${order.totalPrice}</td>
+											<td onclick="toggleDetails(${order.id})" id="status-${order.id}" data-order-id="${order.id}">
+												<span class="badge text-dark">
+													${order.status}
+												</span>
+											</td>
+											<td>
+												<c:if test="${order.status == 'PENDING'}">
+													<form class="cancelOrderForm d-inline" method="post">
+														<input type="hidden" name="orderId" value="${order.id}" />
+														<button id="btn-${order.id}" class="btn btn-danger btn-sm" type="submit">
+															Hủy đơn
+														</button>
+													</form>
+												</c:if>
+											</td>
+										</tr>
+
+										<!-- Chi tiết đơn hàng -->
+										<tr class="bg-light">
+											<td colspan="6" class="p-0 border-0">
+												<div class="collapse" id="orderDetails-${order.id}">
+													<table class="table table-sm table-bordered m-0">
+														<thead class="table-secondary">
+														<tr>
+															<th>Ảnh</th>
+															<th>Tên sản phẩm</th>
+															<th>Số lượng</th>
+															<th>Giá</th>
+														</tr>
+														</thead>
+														<tbody>
+														<c:forEach var="detail" items="${details}">
+															<tr>
+																<td class="text-center align-middle">
+																	<img src="${detail.product.image}" class="img-thumbnail" style="width: 80px;">
+																</td>
+																<td class="align-middle">${detail.product.nameProduct}</td>
+																<td class="align-middle">${detail.quantity}</td>
+																<td class="align-middle">${detail.price}</td>
+															</tr>
+														</c:forEach>
+														</tbody>
+													</table>
+												</div>
+											</td>
+										</tr>
+									</c:forEach>
 									</tbody>
 								</table>
 							</div>
@@ -148,7 +189,6 @@
 	<script>
   const header = document.getElementById("header");
   const footer = document.getElementById("footer");
-  const header2 = document.getElementById("header2");
   const footer2 = document.getElementById("footer2");
   const nav = document.getElementById("nav");
   fetch("./assets/component/header.jsp")
@@ -160,59 +200,21 @@
   fetch("./assets/component/footer2.jsp")
           .then((response) => response.text())
           .then((html) => (footer2.innerHTML = html));
-  fetch("./assets/component/header2.jsp")
-          .then((response) => response.text())
-          .then((html) => (header2.innerHTML = html));
   fetch("./assets/component/nav.jsp")
           .then((response) => response.text())
           .then((html) => (nav.innerHTML = html));
 </script>
-<script >
-document.addEventListener("DOMContentLoaded", function () {
-    const editBtn = document.getElementById("editBtn");
-    const submitBtn = document.getElementById("submitBtn");
-    const formInputs = document.querySelectorAll("#userForm input");
-    const messageDiv = document.getElementById("message");
-    const form = document.getElementById("userForm");
-
-    // Khi nhấn "Edit"
-    editBtn.addEventListener("click", function () {
-        formInputs.forEach(input => input.removeAttribute("readonly"));
-        editBtn.style.display = "none";   // Ẩn nút Edit
-        submitBtn.style.display = "block"; // Hiện nút Submit
-    });
-
-    // Khi nhấn "Submit"
-    form.addEventListener("submit", function (event) {
-        event.preventDefault(); // Ngăn chặn reload trang
-
-        // Lấy dữ liệu từ form
-        const formData = new FormData(form);
-
-        // Gửi dữ liệu qua AJAX
-        fetch("http://localhost:8080/DoAnLTWeb/UserProfileServlet", {
-            method: "POST",
-            body: formData
-        })
-        .then(response => response.json()) // Đọc phản hồi JSON từ server
-        .then(data => {
-            if (data.success) {
-                messageDiv.innerHTML = '<div class="alert alert-success">'+data.message+'</div>';
-                
-                // Chuyển form về trạng thái chỉ đọc
-                formInputs.forEach(input => input.setAttribute("readonly", "true"));
-                editBtn.style.display = "block";
-                submitBtn.style.display = "none";
-            } else {
-                messageDiv.innerHTML = '<div class="alert alert-danger">'+data.message+'</div>';
-            }
-        })
-        .catch(error => {
-            console.error("Lỗi khi gửi AJAX:", error);
-            messageDiv.innerHTML = `<div class="alert alert-danger">Có lỗi xảy ra!</div>`;
-        });
-    });
-});
+<script src="assets/js/nav.js"></script>
+<script src="assets/js/userProfile.js"></script>
+<script>
+	function toggleDetails(orderId) {
+		let detailsRow = document.getElementById("orderDetails-" + orderId);
+		if (detailsRow) {
+			detailsRow.classList.toggle("show");
+		} else {
+			console.error("Không tìm thấy phần tử orderDetails" + orderId);
+		}
+	}
 </script>
 </body>
 </html>
