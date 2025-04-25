@@ -29,7 +29,7 @@ function loadProductData() {
         10: 'Công ty J'
     };
     $.ajax({
-        url: 'http://localhost:8080/DoAnLTWeb_war/productController', // API của bạn
+        url: 'http://localhost:8080/DoAnLTWeb/productController', // API của bạn
         type: 'GET',
         dataType: 'json',
         success: function (data) {
@@ -136,7 +136,7 @@ function addProduct(event) {
 
     // Gửi AJAX
     $.ajax({
-        url: 'http://localhost:8080/DoAnLTWeb_war/productController',
+        url: 'http://localhost:8080/DoAnLTWeb/productController',
         type: 'POST',
         data: JSON.stringify(productData),
         contentType: 'application/json',
@@ -219,7 +219,7 @@ function editProduct(event) {
     // Gửi yêu cầu PUT để cập nhật sản phẩm
 
     $.ajax({
-        url: 'http://localhost:8080/DoAnLTWeb_war/productController?id=' + pid,  // API xử lý PUT sửa sản phẩm
+        url: 'http://localhost:8080/DoAnLTWeb/productController?id=' + pid,  // API xử lý PUT sửa sản phẩm
         type: 'PUT',
         data: JSON.stringify(productData),
         contentType: 'application/json',
@@ -243,7 +243,7 @@ $(document).off('click', '.product-delete-btn').on('click', '.product-delete-btn
 
     if (confirm('Bạn có chắc chắn muốn xóa sản phẩm này?')) {
         $.ajax({
-            url: 'http://localhost:8080/DoAnLTWeb_war/productController?id=' + productId,
+            url: 'http://localhost:8080/DoAnLTWeb/productController?id=' + productId,
             type: 'DELETE',
             success: function (response) {
                 alert(response.message);
@@ -276,7 +276,7 @@ function loadSaleData() {
     };
 
     $.ajax({
-        url: 'http://localhost:8080/DoAnLTWeb_war/SaleController', // API của bạn
+        url: 'http://localhost:8080/DoAnLTWeb/SaleController', // API của bạn
         type: 'GET',
         dataType: 'json',
         success: function (data) {
@@ -369,7 +369,7 @@ $(document).ready(function () {
 
         // Gửi dữ liệu lên servlet qua POST
         $.ajax({
-            url: 'http://localhost:8080/DoAnLTWeb_war/SaleController',
+            url: 'http://localhost:8080/DoAnLTWeb/SaleController',
             type: 'POST',
             contentType: 'application/json',
             data: JSON.stringify(saleData),
@@ -451,7 +451,7 @@ $('#editPromotionForm').off('submit').on('submit', function (e) {
     };
 
     $.ajax({
-        url: 'http://localhost:8080/DoAnLTWeb_war/SaleController',
+        url: 'http://localhost:8080/DoAnLTWeb/SaleController',
         type: 'PUT',
         contentType: 'application/json',
         data: JSON.stringify(updatedSale),
@@ -472,7 +472,7 @@ $(document).off('click', '.promotion-delete-btn').on('click', '.promotion-delete
 
     if (confirm("Bạn có chắc chắn muốn xóa khuyến mãi này không?")) {
         $.ajax({
-            url: `http://localhost:8080/DoAnLTWeb_war/SaleController?id=${id}`,
+            url: `http://localhost:8080/DoAnLTWeb/SaleController?id=${id}`,
             type: 'DELETE',
             success: function (response) {
                 alert(response.message || "Xóa thành công!");
@@ -500,7 +500,7 @@ function loadUserData() {
     };
 
     $.ajax({
-        url: 'http://localhost:8080/DoAnLTWeb_war/UserManagerController',
+        url: 'http://localhost:8080/DoAnLTWeb/UserManagerController',
         type: 'GET',
         dataType: 'json',
         success: function (data) {
@@ -637,7 +637,7 @@ $('#editUserForm').off('submit').on('submit', function (e) {
 
     // Gửi yêu cầu PUT để cập nhật người dùng
     $.ajax({
-        url: 'http://localhost:8080/DoAnLTWeb_war/UserManagerController',
+        url: 'http://localhost:8080/DoAnLTWeb/UserManagerController',
         type: 'PUT',
         contentType: 'application/json',
         data: JSON.stringify(updatedUser),
@@ -659,7 +659,7 @@ $(document).off('click', '.user-delete-btn').on('click', '.user-delete-btn', fun
 
     if (confirm("Bạn có chắc chắn muốn xóa?")) {
         $.ajax({
-            url: 'http://localhost:8080/DoAnLTWeb_war/UserManagerController',
+            url: 'http://localhost:8080/DoAnLTWeb/UserManagerController',
             type: 'DELETE',
             contentType: 'application/json',
             data: JSON.stringify({ id: userId }),
@@ -674,5 +674,86 @@ $(document).off('click', '.user-delete-btn').on('click', '.user-delete-btn', fun
         });
     }
 });
+// voucher
+function loadVoucherData() {
+    const tableSelector = '#voucherTable';
+    const table = $(tableSelector);
+
+    // Nếu DataTable đã được khởi tạo → hủy
+    if ($.fn.DataTable.isDataTable(tableSelector)) {
+        table.DataTable().clear().destroy();
+    }
+
+    $.ajax({
+        url: 'http://localhost:8080/DoAnLTWeb/VoucherController',
+        type: 'GET',
+        dataType: 'json',
+        success: function (data) {
+            const tableBody = $('#voucherBody');
+            tableBody.empty();
+
+            const statuses = {
+                1: 'Đang hoạt động',
+                0: 'Không hoạt động'
+            };
+
+            data.forEach(function (voucher) {
+                const statusName = statuses[voucher.status] || 'Không xác định';
+
+                const row = `
+                    <tr>
+                        <td>${voucher.id}</td>
+                        <td style="min-width: 100px;">${voucher.code}</td>
+                        <td>${voucher.discountValue}</td>
+                        <td>${voucher.minOrderValue.toLocaleString('vi-VN')} VND</td>
+                        <td>${voucher.usageLimit !== null ? voucher.usageLimit : 'Không giới hạn'}</td>
+                        <td>${voucher.usedCount}</td>
+                        <td>${voucher.maxUsagePerUser}</td>
+                        <td style="min-width: 130px;">${voucher.validRange}</td>
+                        <td>${statusName}</td>
+                        <td>
+                            <div class="d-flex gap-2 justify-content-center">
+                                <button class="btn btn-sm btn-primary voucher-edit-btn" data-id="${voucher.id}">Sửa</button>
+                                <button class="btn btn-sm btn-danger voucher-delete-btn" data-id="${voucher.id}">Xóa</button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+
+                tableBody.append(row);
+            });
+
+            // Khởi tạo lại DataTable
+            table.DataTable({
+                destroy: true, // đảm bảo cho phép hủy
+                paging: true,
+                searching: true,
+                ordering: true,
+                lengthChange: true,
+                language: {
+                    lengthMenu: "Hiển thị _MENU_ voucher mỗi trang",
+                    zeroRecords: "Không tìm thấy voucher nào",
+                    info: "Hiển thị _START_ đến _END_ của _TOTAL_ voucher",
+                    infoEmpty: "Không có voucher nào",
+                    infoFiltered: "(lọc từ _MAX_ voucher)",
+                    search: "Tìm kiếm:",
+                    paginate: {
+                        first: "Đầu",
+                        last: "Cuối",
+                        next: "Sau",
+                        previous: "Trước"
+                    },
+                }
+            });
+        },
+        error: function (xhr, status, error) {
+            console.error("Lỗi khi lấy dữ liệu voucher:", error);
+        }
+    });
+}
+
+document.addEventListener('DOMContentLoaded', loadVoucherData);
+
+
 
 

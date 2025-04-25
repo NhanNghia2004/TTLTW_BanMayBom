@@ -62,16 +62,19 @@
             <a href="#id4" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"
                data-bs-toggle="tab" role="tab" aria-controls="home" aria-selected="true"><i
                     class="fas fa-gift me-2"></i>Quản lý khuyến mãi</a>
+            <a href="#id5" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"
+               data-bs-toggle="tab" role="tab" aria-controls="home" aria-selected="true">
+               <i class="fas fa-ticket-alt me-2"></i>Quản lý voucher</a>
             <a href="${pageContext.request.contextPath}/OrderController" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"
                 aria-controls="home" aria-selected="true">
                 <i class="bi bi-box-seam me-2"></i>Quản lý đơn hàng</a>
             <a href="${pageContext.request.contextPath}/StockInController" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"
                aria-controls="home" aria-selected="true">
                <i class="bi bi-box-arrow-in-down me-2"></i>Quản lý kho</a>
-            <a href="#id5" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"
+            <a href="#id6" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"
                data-bs-toggle="tab" role="tab" aria-controls="home" aria-selected="true"><i
                     class="fas fa-paperclip me-2"></i>Báo Cáo</a>
-            <a href="#id6" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"
+            <a href="#id7" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"
                data-bs-toggle="tab" role="tab" aria-controls="home" aria-selected="true"><i
                     class="fa-solid fa-gift"></i> Bảo Hành </a>
             <a href="index.jsp" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"
@@ -763,8 +766,53 @@
             </div>
 
 
-            <%--            -----------------------------------------%>
+            <%-- Voucher           -----------------------------------------%>
+
             <div class="tab-pane fade" id="id5">
+                <div class="d-flex align-items-center m-4">
+                    <i class="fas fa-ticket-alt primary-text fs-4 me-3"></i>
+                    <h2 class="fs-2 m-0">Quản lý Voucher</h2>
+                </div>
+
+                <!-- Nút thêm voucher -->
+                <div class="d-flex justify-content-center align-items-center m-4">
+                    <button type="button" class="btn btn-primary w-100 btn-lg" data-bs-toggle="modal"
+                            data-bs-target="#addVoucherModal">
+                        Thêm voucher
+                    </button>
+                </div>
+
+                <!-- Danh sách voucher -->
+                <section id="voucher-management" class="py-4">
+                    <div class="px-4">
+                        <h3 class="mb-3">Danh sách voucher</h3>
+                        <div class="table-responsive">
+                            <table id="voucherTable" class="table table-striped table-bordered text-center bg-white">
+                                <thead class="bg-white text-dark fw-bold">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Mã code</th>
+                                    <th>Giá trị giảm</th>
+                                    <th>Giá trị đơn tối thiểu</th>
+                                    <th>Giới hạn sử dụng</th>
+                                    <th>Đã sử dụng</th>
+                                    <th>Lượt dùng mỗi người</th>
+                                    <th>Thời gian hiệu lực</th>
+                                    <th>Trạng thái</th>
+                                    <th>Hành động</th>
+                                </tr>
+                                </thead>
+                                <tbody id="voucherBody">
+                                <!-- Dữ liệu sẽ được chèn vào đây bằng JavaScript hoặc AJAX -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+              <%--            -----------------------------------------%>
+            <div class="tab-pane fade" id="id6">
                 <div class="m-4">
                     <div class="d-flex align-items-center">
                         <i class="fas fa-align-left primary-text fs-4 me-3"></i>
@@ -835,7 +883,7 @@
             </div>
 
             <%--            -----------------------------%>
-            <div class="tab-pane fade" id="id6">
+            <div class="tab-pane fade" id="id7">
                 <div class="m-4">
                     <div class="d-flex align-items-center">
                         <i class="fas fa-align-left primary-text fs-4 me-3"></i>

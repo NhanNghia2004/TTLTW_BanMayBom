@@ -299,7 +299,7 @@ public class UserDao {
         System.out.println("---------------------------------");
 
 
-        userDao.lockUserByUsername("admin");
+//        userDao.lockUserByUsername("admin");
 
     }
 }
