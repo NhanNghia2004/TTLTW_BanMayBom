@@ -37,10 +37,10 @@ public class OrderDao {
 	                    String status = rs.getString("status");
 	                    int idPayment = rs.getInt("idPayment");
 	                    int quantity = rs.getInt("quantity");
-
+						String otp = rs.getString("otp");
 	                    User user = userDao.getUserbyid(userId);
 	                    Payment payment = paymentDao.getPaymentbyid(idPayment);
-	                    return new Order(orderId, user, totalPrice, orderDate, status, payment, quantity);
+	                    return new Order(orderId, user, totalPrice, orderDate, status, payment, quantity,otp);
 	                }).list());
 	    }
 
@@ -72,10 +72,10 @@ public class OrderDao {
 	                      String status = rs.getString("status");
 	                      int idPayment = rs.getInt("idPayment");
 	                      int quantity = rs.getInt("quantity");
-
+						  String otp = rs.getString("otp");
 	                      User user = userDao.getUserbyid(userId);  // Lấy thông tin người dùng
 	                      Payment payment = paymentDao.getPaymentbyid(idPayment);  // Lấy thông tin thanh toán
-	                      return new Order(orderId, user, totalPrice, orderDate, status, payment, quantity);
+	                      return new Order(orderId, user, totalPrice, orderDate, status, payment, quantity,otp);
 	                  })
 	                  .list()  // Trả về danh sách đơn hàng
 	        );
@@ -106,19 +106,20 @@ public class OrderDao {
 		return map;
 	}
 
-	    public boolean createOrder(int userId, double totalPrice, int idPayment, int quantity, int cartId) {
+	    public boolean createOrder(int userId, double totalPrice, int idPayment, int quantity, int cartId,String otp) {
 	        Jdbi jdbi = JDBIConnect.get();
 
 	        try {
 	            return jdbi.inTransaction(handle -> {
 	                // 1️⃣ Chèn đơn hàng mới và lấy ID đơn hàng
 	                int orderId = handle.createUpdate(
-	                        "INSERT INTO orders (idUser, totalPrice, orderDate, status, idPayment,quantity) " +
-	                        "VALUES (:userId, :totalPrice, NOW(), 'pending',:idPayment,:quantity)")
+	                        "INSERT INTO orders (idUser, totalPrice, orderDate, status, idPayment,quantity,otp) " +
+	                        "VALUES (:userId, :totalPrice, NOW(), 'pending',:idPayment,:quantity,:otp)")
 	                    .bind("userId", userId)
 	                    .bind("totalPrice", totalPrice)
 	                    .bind("idPayment", idPayment)
 	                    .bind("quantity", quantity)
+						.bind("otp",otp)
 	                    .executeAndReturnGeneratedKeys("id")  
 	                    .mapTo(Integer.class)
 	                    .one();

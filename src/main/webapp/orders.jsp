@@ -113,65 +113,66 @@
             .then((html) => (nav.innerHTML = html));
     </script>
     <script >
-    function toggleDetails(orderId) {
-        let detailsRow = document.getElementById("orderDetails-" + orderId);
-        if (detailsRow) {
-            detailsRow.classList.toggle("show");
-        } else {
-            console.error("Không tìm thấy phần tử orderDetails" + orderId);
-        }
-    }
+		function toggleDetails(orderId) {
+			let detailsRow = document.getElementById("orderDetails-" + orderId);
+			if (detailsRow) {
+				detailsRow.classList.toggle("show");
+			} else {
+				console.error("Không tìm thấy phần tử orderDetails" + orderId);
+			}
+		}
+		document.addEventListener("DOMContentLoaded", function () {
+			document.querySelectorAll(".cancelOrderForm").forEach(form => {
+				form.addEventListener("submit", function (event) {
+					event.preventDefault(); // Ngăn chặn reload trang
 
-    document.addEventListener("DOMContentLoaded", function () {
-        document.querySelectorAll(".cancelOrderForm").forEach(form => {
-            form.addEventListener("submit", function (event) {
-                event.preventDefault(); // Ngăn chặn reload trang
+					var formData = new FormData(form); // Lấy dữ liệu từ form
 
-                var formData = new FormData(form); // Lấy dữ liệu từ form
+					$.ajax({
+						url: '/DoAnLTWeb/OrderController',
+						method: 'POST',
+						data: formData,
+						processData: false,
+						contentType: false,
+						success: function (data) {
+							try {
+								let jsonData = (typeof data === "string") ? JSON.parse(data) : data;
 
-                fetch('/DoAnLTWeb/OrderController', {
-                    method: 'POST',
-                    body: new FormData(form)  // Gửi dữ liệu form
-                })
-                .then(response => response.text())  // Chuyển thành text để xem nội dung
-                .then(data => {
-                    try {
-                        let jsonData = JSON.parse(data);  // Chuyển text thành JSON
+								if (jsonData.status === "success") {
+									alert(jsonData.message);
 
-                        if (jsonData.status === "success") {
-                            alert(jsonData.message);
+									console.log("Order ID:", jsonData.orderId);
+									const elementId = 'status-' + jsonData.orderId;
+									const statusCell = document.getElementById(elementId);
+									console.log("Status Cell:", statusCell);
 
-                            console.log("Order ID:", jsonData.orderId);
-                            const elementId = 'status-'+jsonData.orderId;
-                            const statusCell = document.getElementById(elementId);
-                            console.log("Status Cell:", statusCell);
+									if (statusCell) {
+										statusCell.textContent = "CANCELLED";
+									} else {
+										console.warn(`Không tìm thấy phần tử với id: ${elementId}`);
+									}
 
-                            if (statusCell) {
-                                statusCell.textContent = "CANCELLED";
-                            } else {
-                                console.warn(`Không tìm thấy phần tử với id: ${elementId}`);
-                            }
-                            const cancelButtonElement = 'btn-'+jsonData.orderId;
-                            const cancelButton = document.getElementById(cancelButtonElement);
-                            if (cancelButton) {
-                                cancelButton.style.display = 'none';  // Ẩn nút hủy đơn
-                            }
-                        } else {
-                            alert(jsonData.message);
-                        }
-                    } catch (error) {
-                        console.error('Error parsing JSON:', error);  // Log nếu không thể parse
-                    }
-                })
-                .catch(error => {
-                    alert("Có lỗi xảy ra, vui lòng thử lại!");
-                    console.error("Lỗi:", error);
-                });
+									const cancelButtonElement = 'btn-' + jsonData.orderId;
+									const cancelButton = document.getElementById(cancelButtonElement);
+									if (cancelButton) {
+										cancelButton.style.display = 'none'; // Ẩn nút hủy đơn
+									}
+								} else {
+									alert(jsonData.message);
+								}
+							} catch (error) {
+								console.error('Lỗi khi chuyển đổi JSON:', error);
+							}
+						},
+						error: function (xhr, status, error) {
+							alert("Có lỗi xảy ra, vui lòng thử lại!");
+							console.error("Lỗi:", error);
+						}
+					});
+				});
+			});
+		});
+	</script>
 
-            });
-        });
-    });
-
-    </script>
   </body>
 </html>

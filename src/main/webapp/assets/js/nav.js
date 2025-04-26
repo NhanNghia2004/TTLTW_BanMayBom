@@ -1,8 +1,10 @@
 
 document.addEventListener("DOMContentLoaded", function () {
-    fetch("CategoryServlet")
-        .then(response => response.json())
-        .then(data => {
+    $.ajax({
+        url: "/DoAnLTWeb/CategoryServlet",
+        method: "GET",
+        dataType: "json",
+        success: function (data) {
             console.log("Dữ liệu nhận được:", data);
 
             let categoryList = document.getElementById("categoryList");
@@ -15,17 +17,19 @@ document.addEventListener("DOMContentLoaded", function () {
 
             data.forEach(category => {
                 let li = document.createElement("li");
-           
                 li.className = "shop-list";
-                li.innerHTML = '<a href="ShopController?categoryId=' + category.id + '" class="text-light">' + 
-                category.categoryName + 
-                '</a>';
-
+                li.innerHTML = '<a href="ShopController?categoryId=' + category.id + '" class="text-light">' +
+                    category.categoryName +
+                    '</a>';
                 categoryList.appendChild(li);
             });
 
             console.log("Danh sách đã được cập nhật:", categoryList.innerHTML);
-        })
-        .catch(error => console.error("Lỗi khi gọi API:", error));
+        },
+        error: function (xhr, status, error) {
+            console.error("Lỗi khi gọi API:", error);
+        }
+    });
 });
+
 
