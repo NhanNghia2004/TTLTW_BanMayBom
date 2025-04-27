@@ -97,6 +97,30 @@
 										<!-- Hiển thị thông báo -->
 										<div id="message" class="mt-3"></div>
 
+                                        <!-- Form đổi mật khẩu -->
+                                        <div class="card p-4 mt-4">
+                                            <h5 class="fw-bold mb-3">Đổi mật khẩu</h5>
+                                            <form id="changePasswordForm">
+
+
+                                                <div class="mb-3">
+                                                    <label class="form-label fw-bold">Mật khẩu hiện tại</label>
+                                                    <input type="password" class="form-control" name="currentPassword" required>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label fw-bold">Mật khẩu mới</label>
+                                                    <input type="password" class="form-control" name="newPassword" required>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label fw-bold">Xác nhận mật khẩu mới</label>
+                                                    <input type="password" class="form-control" name="confirmPassword" required>
+                                                </div>
+                                                <button type="submit" class="btn btn-primary mt-3">Đổi mật khẩu</button>
+
+												<div id="changePasswordMessage" class="mt-3 mb-3"></div>
+											</form>
+                                        </div>
+
 									</div>
 								</div>
 							</div>
@@ -116,6 +140,7 @@
 										</tr>
 									</thead>
 									<tbody>
+
 										<c:forEach var="entry" items="${orderMap}">
 											<c:set var="order" value="${entry.key}" />
 											<c:set var="details" value="${entry.value}" />
@@ -128,6 +153,7 @@
 												<td onclick="toggleDetails(${order.id})"
 													data-order-id="${order.id}"><span
 													id="status-${order.id}" class="badge text-dark">${order.status}</span>
+
 												</td>
 												<td>
 													<c:if
@@ -206,6 +232,7 @@
           .then((response) => response.text())
           .then((html) => (nav.innerHTML = html));
 </script>
+
 	<script src="assets/js/nav.js"></script>
 	<script src="assets/js/userProfile.js"></script>
 	<script>
@@ -279,6 +306,7 @@
 	});
 
 	</script>
+
 
 
 </body>

@@ -27,6 +27,6 @@ public class LogoutServlet extends HttpServlet {
         session.invalidate();
 
         // Điều hướng đến trang login
-        response.sendRedirect("dangnhap.jsp");
+        response.sendRedirect("login.jsp");
     }
 }

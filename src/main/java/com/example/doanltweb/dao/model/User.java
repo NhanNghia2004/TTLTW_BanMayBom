@@ -13,6 +13,7 @@ public class User implements java.io.Serializable {
     private int isVerified;
 
 
+
     public String getAvatar() {
         return avatar;
     }
@@ -92,10 +93,12 @@ public class User implements java.io.Serializable {
         this.isVerified = isVerified;
     }
 
+
     @Override
     public String toString() {
         return "User{" +
                 "id=" + id +
+                ", avatar='" + avatar + '\'' +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", fullname='" + fullname + '\'' +

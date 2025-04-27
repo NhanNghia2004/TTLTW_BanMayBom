@@ -114,14 +114,14 @@
                                 </div>
                             </div>
                             <div class="row g-4">
-                               <c:forEach items="${pall}" var="p" end="8">
+                               <c:forEach items="${pall}" var="p" end="7">
 										<div class="col-md-3 ">
 											<div id="isReload"></div>
 											<a href="chitietsanpham?id=${p.id}"
 												style="text-decoration: none">
 												<div class="card position-relative">
 													<div class="discount-badge">-10%</div>
-													<img src="${p.image}"
+													<img src="assets/imgs/maybom/${p.image}"
 														class="card-img-top" alt="Bơm tăng áp mini Pamtex 10" />
 													<div class="card-body themaybom" style="height: 200px">
 														<h6 class="card-title">${p.nameProduct}</h6>

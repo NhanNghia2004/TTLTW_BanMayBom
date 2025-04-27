@@ -8,13 +8,62 @@ import org.jdbi.v3.core.Handle;
 import org.jdbi.v3.core.Jdbi;
 import org.apache.commons.codec.digest.DigestUtils;
 
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class UserDao {
     static Map<Integer, User> data = new HashMap<>();
+//admin
+    public List<User> getUsersForAdmin() {
+        String sql = "SELECT id, avatar, username, fullname, email, phone, address, idPermission, is_verified FROM user";
 
+        Jdbi jdbi = JDBIConnect.get();  // Kết nối JDBI
+
+        return jdbi.withHandle(handle -> {
+            // Thực thi truy vấn và ánh xạ kết quả vào danh sách User
+            return handle.createQuery(sql)
+                    .mapToBean(User.class)  // Ánh xạ các kết quả thành đối tượng User
+                    .list();                // Thu thập kết quả vào danh sách và trả về
+        });
+    }
+    public boolean updateUserByAdmin(User user) {
+        String sql = "UPDATE user SET avatar = :avatar,username = :username,fullname = :fullname,email = :email,phone = :phone,address = :address,idPermission = :idPermission,is_verified = :isVerified WHERE id = :id";
+        Jdbi jdbi = JDBIConnect.get();
+
+        int rowsAffected = jdbi.withHandle(handle ->
+                handle.createUpdate(sql)
+                        .bind("avatar", user.getAvatar())
+                        .bind("username", user.getUsername())
+                        .bind("fullname", user.getFullname())
+                        .bind("email", user.getEmail())
+                        .bind("phone", user.getPhone())
+                        .bind("address", user.getAddress())
+                        .bind("idPermission", user.getIdPermission())
+                        .bind("isVerified", user.getIsVerified())
+                        .bind("id", user.getId())
+                        .execute()
+        );
+
+        return rowsAffected > 0;
+    }
+    public boolean updateVerifiedStatus(int id, int isVerified) {
+        String sql = "UPDATE user SET is_verified = :isVerified WHERE id = :id";
+        Jdbi jdbi = JDBIConnect.get();
+
+        int rowsAffected = jdbi.withHandle(handle ->
+                handle.createUpdate(sql)
+                        .bind("isVerified", isVerified)
+                        .bind("id", id)
+                        .execute()
+        );
+
+        return rowsAffected > 0;
+    }
+
+
+//user
     public List<User> getAllUsers() {
         Jdbi jdbi = JDBIConnect.get();
         return jdbi.withHandle(handle -> handle.createQuery("SELECT * FROM user").mapToBean(User.class).list());
@@ -180,9 +229,68 @@ public class UserDao {
                     .orElse(null);
         }
     }
+    public void lockUserByUsername(String username) {
+        Jdbi jdbi = new JDBIConnect().get();
+        jdbi.useHandle(handle -> {
+            String sql = "UPDATE user SET is_verified = 0 WHERE username = :username";
+            handle.createUpdate(sql)
+                    .bind("username", username)
+                    .execute();
+        });
+        System.out.println("lock user by username " + username);
+    }
+    public boolean checkLockUserByUsername(String username) {
+        Jdbi jdbi = new JDBIConnect().get();
+
+        return jdbi.withHandle(handle ->
+                handle.createQuery("SELECT is_verified FROM user WHERE username = :username")
+                        .bind("username", username)
+                        .mapTo(Integer.class)
+                        .findOne()
+                        .map(isVerified -> isVerified == 0) // true nếu bị khóa
+                        .orElse(false)
+        );
+    }
+    public boolean changePassword(int userId, String newPassword) throws SQLException {
+        Jdbi jdbi = JDBIConnect.get();
+
+        int result = jdbi.withHandle(handle ->
+                handle.createUpdate("UPDATE users SET password = :password WHERE id = :id")
+                        .bind("password", newPassword)
+                        .bind("id", userId)
+                        .execute()
+        );
+        return result > 0;
+    }
+    public boolean checkPassword(int userId, String password) {
+        Jdbi jdbi = JDBIConnect.get(); // Giả sử jdbiconnect.get() trả về một đối tượng Jdbi
+
+        String storedPassword = jdbi.withHandle(handle ->
+                handle.createQuery("SELECT password FROM user WHERE id = :userId")
+                        .bind("userId", userId)
+                        .mapTo(String.class)
+                        .findOne()
+                        .orElse(null)
+        );
+
+        if (storedPassword == null) {
+            return false; // Không tìm thấy người dùng
+        }
+
+        return storedPassword.equals(password); // So sánh mật khẩu đơn giản (chưa mã hóa)
+    }
+    public boolean updatePassword(int userId, String newPassword) {
+        Jdbi jdbi = JDBIConnect.get();
+        int updatedRows = jdbi.withHandle(handle ->
+                handle.createUpdate("UPDATE user SET password = :password WHERE id = :userId")
+                        .bind("password", newPassword)
+                        .bind("userId", userId)
+                        .execute()
+        );
+        return updatedRows > 0;
+    }
+
 
     public static void main(String[] args) {
-        UserDao userDao = new UserDao();
-        List<User> users = userDao.getAllUsers();
     }
 }

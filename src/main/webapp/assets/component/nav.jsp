@@ -55,16 +55,16 @@
 						</c:when>
 						<c:otherwise>
 							<li class="list-item-head2"><a
-								href="/DoAnLTWeb/UserProfileServlet"
+								href="/DoAnLTWeb_war/UserProfileServlet"
 								class="nav-link text-light"> ${sessionScope.auth.username} </a></li>
 						</c:otherwise>
 					</c:choose>
-					<li class="list-item-head2"><a href="/DoAnLTWeb/LogoutController"
+					<li class="list-item-head2"><a href="/DoAnLTWeb_war/LogoutController"
 						class="nav-link text-light">Đăng xuất</a></li>
 				</c:if>
 
 				<c:if test="${empty sessionScope.auth}">
-					<li class="list-item-head2"><a href="dangnhap.jsp"
+					<li class="list-item-head2"><a href="login.jsp"
 						class="nav-link text-light">Đăng nhập</a></li>
 				</c:if>
 

@@ -48,14 +48,14 @@ public class SaleDao {
     }
 
     // Xóa Sale theo ID
-//    public boolean deleteSale(int id) {
-//        return jdbi.withHandle(handle ->
-//                handle.createUpdate("DELETE FROM sales WHERE id = :id")
-//                        .bind("id", id)
-//                        .execute() > 0);
-//    }
+    public boolean deleteSale(int id) {
+        return jdbi.withHandle(handle ->
+                handle.createUpdate("DELETE FROM sales WHERE id = :id")
+                        .bind("id", id)
+                        .execute() > 0);
+    }
 
-    // Phương thức main để kiểm tra CRUD
+
     public static void main(String[] args) {
 
             SaleDao saleDao = new SaleDao();
@@ -90,7 +90,7 @@ public class SaleDao {
 
 
         // 4. Cập nhật một khuyến mãi có id = 3
-        Sale updateSale = saleDao.getSaleById(4);
+        Sale updateSale = saleDao.getSaleById(3);
         if (updateSale != null) {
             updateSale.setDescription("Khuyến mãi cập nhật cho ID 3");
             updateSale.setPromotion(20.0);

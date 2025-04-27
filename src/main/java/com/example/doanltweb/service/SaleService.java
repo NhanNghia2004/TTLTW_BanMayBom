@@ -24,6 +24,10 @@ public class SaleService {
         return saleDao.updateSale(sale);
     }
 
+    public boolean deleteSale(int id) {
+        return saleDao.deleteSale(id);
+    }
+
     public static void main(String[] args) {
         SaleService saleService = new SaleService();
 
