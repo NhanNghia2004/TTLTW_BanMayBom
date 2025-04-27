@@ -21,6 +21,7 @@
             href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
             crossorigin="anonymous"
     />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="assets/css/index.css">
     <link rel="stylesheet" href="assets/css/headerAndFooter.css">
 </head>
@@ -242,37 +243,35 @@
 
 </script>
 <script>
-document.addEventListener("DOMContentLoaded", function () {
-    document.querySelectorAll(".addToCartForm").forEach(form => {
-        form.addEventListener("submit", function (event) {
-            event.preventDefault(); // Ngăn chặn reload trang
-            console.log("add to cart");
+    document.addEventListener("DOMContentLoaded", function () {
+        document.querySelectorAll(".addToCartForm").forEach(form => {
+            form.addEventListener("submit", function (event) {
+                event.preventDefault(); // Ngăn reload
 
-            var formData = new FormData(form); // Lấy dữ liệu từ form
+                var formData = new FormData(form); // Lấy dữ liệu từ form
 
-            fetch("/DoAnLTWeb/AddToCartServlet", {
-                method: "POST",
-                body: formData, // Gửi trực tiếp FormData
-            })
-            .then(response => response.json()) // Chuyển dữ liệu JSON
-            .then(data => {
-                if (data.status === "success") {
-    
-                    alert(data.message);
-                } else {
-                    alert(data.message); // Hiển thị lỗi
-                }
-            })
-            .catch(error => {
-                alert("Có lỗi xảy ra, vui lòng thử lại!");
-                console.error("Lỗi:", error);
+                $.ajax({
+                    url: "/DoAnLTWeb/AddToCartServlet",
+                    method: "POST",
+                    data: formData,
+                    processData: false, // Bắt buộc khi dùng FormData
+                    contentType: false, // Bắt buộc khi dùng FormData
+                    success: function (data) {
+                        if (data.status === "success") {
+                            alert(data.message);
+                        } else {
+                            alert(data.message);
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        alert("Có lỗi xảy ra, vui lòng thử lại!");
+                        console.error("Lỗi:", error);
+                    }
+                });
             });
         });
     });
-});
-
 </script>
-
 <script src="assets/js/nav.js"></script>
 </body>
 </html>

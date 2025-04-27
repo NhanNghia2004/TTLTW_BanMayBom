@@ -12,13 +12,15 @@ public class Order {
 	private String status;
 	private Payment paymentMethod;
 	private int quantity;
+	private String otp;
+	private boolean verified;
+
 	public int getId() {
 		return id;
 	}
 	public void setId(int id) {
 		this.id = id;
 	}
-
 	public double getTotalPrice() {
 		return totalPrice;
 	}
@@ -44,8 +46,14 @@ public class Order {
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
 	}
-	
 
+	public boolean isVerified() {
+		return verified;
+	}
+
+	public String getOtp() {
+		return otp;
+	}
 
 	public User getUser() {
 		return user;
@@ -63,7 +71,7 @@ public class Order {
 		super();
 	}
 	public Order(int id, User user, double totalPrice, String orderDate, String status, Payment paymentMethod,
-			int quantity) {
+			int quantity,String otp) {
 		super();
 		this.id = id;
 		this.user = user;
@@ -72,6 +80,7 @@ public class Order {
 		this.status = status;
 		this.paymentMethod = paymentMethod;
 		this.quantity = quantity;
+		this.otp = otp;
 	}
 
 
