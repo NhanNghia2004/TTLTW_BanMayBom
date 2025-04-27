@@ -16,7 +16,15 @@ public class UserService {
     public boolean deleteUserById(int id) {
         return userDao.delete(id);
     }
-
+    public List<User> getUsersForAdmin() {
+        return userDao.getUsersForAdmin();
+    }
+    public boolean updateUser(User user) {
+        return userDao.updateUserByAdmin(user);
+    }
+    public boolean updateVerifiedStatus(int id, int isVerified) {
+        return userDao.updateVerifiedStatus(id, isVerified);
+    }
 
     public static void main(String[] args) {
         UserService userService = new UserService();

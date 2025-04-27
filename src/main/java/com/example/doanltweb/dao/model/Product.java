@@ -2,8 +2,9 @@ package com.example.doanltweb.dao.model;
 
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.util.Objects;
 
-    public class Product implements java.io.Serializable {
+public class Product implements java.io.Serializable {
         private int id;
         private String nameProduct;
         private String image;
@@ -173,6 +174,20 @@ import java.sql.Date;
         public void setIdSupplier(int idSupplier) {
             this.idSupplier = idSupplier;
         }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            Product product = (Product) o;
+            return id == product.id; // So sánh theo ID chẳng hạn
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(id); // Hash dựa trên ID
+        }
+
 
         @Override
         public String toString() {

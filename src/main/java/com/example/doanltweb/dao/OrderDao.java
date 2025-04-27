@@ -147,7 +147,20 @@ public class OrderDao {
 			return rowsAffected>0;
 		}
 
+		public List<OrderDetail> getAllDetail() {
+		Jdbi jdbi = JDBIConnect.get();
+		return jdbi.withHandle(handle -> handle.createQuery("SELECT * FROM detailorder")
+				.map((rs, ctx) -> {
+					int detailId = rs.getInt("id");
+					int orderId = rs.getInt("idOrder");
+					int productId = rs.getInt("idProduct");
+					int quantity = rs.getInt("quantity");
+					double price = rs.getDouble("price");
+					Product p = productDao.getById(productId);
+					return new OrderDetail(detailId,orderId,p,quantity,price);
+				}).list());
 
+	}
 
 	  
 

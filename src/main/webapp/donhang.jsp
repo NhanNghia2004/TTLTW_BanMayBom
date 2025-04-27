@@ -29,75 +29,79 @@
 	<div class="d-flex" id="wrapper" >
 		<div id="nav" class="col-2"></div>
 		<div class="container mt-4 col-10" >
-			<h2 class="mb-2">Đơn hàng chờ xác nhận</h2>
+			<h2 class="mb-4">Danh sách đơn hàng</h2>
 			<div class="table-responsive">
-				<table class="table table-bordered text-center align-middle" >
-					<thead class="table-light">
-						<tr>
-							<th class="bg-dark-blue text-light">Ngày đặt hàng</th>
-							<th class="bg-dark-blue text-light">Người đặt hàng</th>
-							<th class="bg-dark-blue text-light">Tổng số lượng</th>
-							<th class="bg-dark-blue text-light">Tổng tiền</th>
-							<th class="bg-dark-blue text-light">Trạng thái</th>
-							<th class="bg-dark-blue text-light"></th>
-						</tr>
-					</thead>
-					<tbody>
-						<c:forEach var="entry" items="${orderMap}">
-							<c:set var="order" value="${entry.key}" />
-							<c:set var="details" value="${entry.value}" />
-							<!-- Hàng chính (Order) -->
-							<tr style="cursor: pointer;" >
-								<td>${order.orderDate}</td>
-								<td onclick="toggleDetails(${order.id})">${order.user.fullname}</td>
-								<td onclick="toggleDetails(${order.id})">${order.quantity}</td>
-								<td onclick="toggleDetails(${order.id})">${order.totalPrice}</td>
-								<td onclick="toggleDetails(${order.id})" id ="status-${order.id}"data-order-id="${order.id}">${order.status}</td>
-								<td>
-									<c:if test="${order.status == 'PENDING'}">
-									<form class="cancelOrderForm" action="post">
-									<input   type="hidden" name="orderId" value ="${order.id}"/>
-										<button id ="btn-${order.id}" class="btn btn-danger btn-sm" type="submit" >
-										Hủy đơn
-									</button>
-									</form>
-									</c:if>
-								</td>
-							</tr>
+				<table class="table table-bordered table-hover table-striped text-center align-middle border-dark shadow-sm rounded">
+	<thead class="bg-dark-blue">
+		<tr>
+			<th class="text-light">Ngày đặt hàng</th>
+			<th class="text-light">Người đặt hàng</th>
+			<th class="text-light">Tổng số lượng</th>
+			<th class="text-light">Tổng tiền</th>
+			<th class="text-light">Trạng thái</th>
+			<th class="text-light">Hành động</th>
+		</tr>
+	</thead>
+	<tbody>
+		<c:forEach var="entry" items="${orderMap}">
+			<c:set var="order" value="${entry.key}" />
+			<c:set var="details" value="${entry.value}" />
 
+			<tr style="cursor: pointer;" class="table-row-main">
+				<td>${order.orderDate}</td>
+				<td onclick="toggleDetails(${order.id})">${order.user.fullname}</td>
+				<td onclick="toggleDetails(${order.id})">${order.quantity}</td>
+				<td onclick="toggleDetails(${order.id})">${order.totalPrice}</td>
+				<td onclick="toggleDetails(${order.id})" id="status-${order.id}" data-order-id="${order.id}">
+					<span class="badge text-dark">
+						${order.status}
+					</span>
+				</td>
+				<td>
+					<c:if test="${order.status == 'PENDING'}">
+						<form class="cancelOrderForm d-inline" method="post">
+							<input type="hidden" name="orderId" value="${order.id}" />
+							<button id="btn-${order.id}" class="btn btn-danger btn-sm" type="submit">
+								Hủy đơn
+							</button>
+						</form>
+					</c:if>
+				</td>
+			</tr>
 
-							<tr>
-								<td colspan="5" class="p-0">
-									<div class="collapse" id="orderDetails-${order.id}">
-										<table class="table table-sm mb-0">
-											<thead>
-												<tr style="background-color: #f1f1f1;">
-													<th>Ảnh</th>
-													<th>Tên sản phẩm</th>
-													<th>Số lượng</th>
-													<th>Giá</th>
-												</tr>
-											</thead>
-											<tbody>
-												<c:forEach var="detail" items="${details}">
-													<tr>
-														<td class="text-center align-middle"><img src="${detail.product.image }"
-															class="img-fluid anhhang"
-															style="width: 80px; height: auto;"></td>
-														<td class="text-center align-middle">${detail.product.nameProduct}</td>
-														<td class="text-center align-middle" >${detail.quantity}</td>
-														<td class="text-center align-middle">${detail.price}</td>
-													</tr>
-												</c:forEach>
-											</tbody>
-										</table>
-									</div>
-								</td>
-							</tr>
+			<!-- Chi tiết đơn hàng -->
+			<tr class="bg-light">
+				<td colspan="6" class="p-0 border-0">
+					<div class="collapse" id="orderDetails-${order.id}">
+						<table class="table table-sm table-bordered m-0">
+							<thead class="table-secondary">
+								<tr>
+									<th>Ảnh</th>
+									<th>Tên sản phẩm</th>
+									<th>Số lượng</th>
+									<th>Giá</th>
+								</tr>
+							</thead>
+							<tbody>
+								<c:forEach var="detail" items="${details}">
+									<tr>
+										<td class="text-center align-middle">
+											<img src="${detail.product.image}" class="img-thumbnail" style="width: 80px;">
+										</td>
+										<td class="align-middle">${detail.product.nameProduct}</td>
+										<td class="align-middle">${detail.quantity}</td>
+										<td class="align-middle">${detail.price}</td>
+									</tr>
+								</c:forEach>
+							</tbody>
+						</table>
+					</div>
+				</td>
+			</tr>
+		</c:forEach>
+	</tbody>
+</table>
 
-						</c:forEach>
-					</tbody>
-				</table>
 			</div>
 		</div>
 	</div>
