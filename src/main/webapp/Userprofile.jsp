@@ -51,7 +51,7 @@
 											<p class="text-muted">${auth.email}</p>
 										</div>
 
-									<!-- Form chi tiết người dùng -->
+										<!-- Form chi tiết người dùng -->
 										<form id="userForm" action="DetailUserController"
 											method="post">
 											<div class="mb-3">
@@ -116,68 +116,70 @@
 										</tr>
 									</thead>
 									<tbody>
-									<c:forEach var="entry" items="${orderMap}">
-										<c:set var="order" value="${entry.key}" />
-										<c:set var="details" value="${entry.value}" />
+										<c:forEach var="entry" items="${orderMap}">
+											<c:set var="order" value="${entry.key}" />
+											<c:set var="details" value="${entry.value}" />
 
-										<tr style="cursor: pointer;" class="table-row-main">
-											<td>${order.orderDate}</td>
-											<td onclick="toggleDetails(${order.id})">${order.user.fullname}</td>
-											<td onclick="toggleDetails(${order.id})">${order.quantity}</td>
-											<td onclick="toggleDetails(${order.id})">${order.totalPrice}</td>
-											<td onclick="toggleDetails(${order.id})" id="status-${order.id}" data-order-id="${order.id}">
-												<span class="badge text-dark">
-													${order.status}
-												</span>
-											</td>
-											<td>
-												<c:if test="${order.status == 'PENDING'}">
-													<form class="cancelOrderForm d-inline" method="post">
-														<input type="hidden" name="orderId" value="${order.id}" />
-														<button id="btn-${order.id}" class="btn btn-danger btn-sm" type="submit">
-															Hủy đơn
-														</button>
-													</form>
-												</c:if>
-											</td>
-										</tr>
-
-										<!-- Chi tiết đơn hàng -->
-										<tr class="bg-light">
-											<td colspan="6" class="p-0 border-0">
-												<div class="collapse" id="orderDetails-${order.id}">
-													<table class="table table-sm table-bordered m-0">
-														<thead class="table-secondary">
-														<tr>
-															<th>Ảnh</th>
-															<th>Tên sản phẩm</th>
-															<th>Số lượng</th>
-															<th>Giá</th>
-														</tr>
-														</thead>
-														<tbody>
-														<c:forEach var="detail" items="${details}">
-															<tr>
-																<td class="text-center align-middle">
-																	<img src="${detail.product.image}" class="img-thumbnail" style="width: 80px;">
-																</td>
-																<td class="align-middle">${detail.product.nameProduct}</td>
-																<td class="align-middle">${detail.quantity}</td>
-																<td class="align-middle">${detail.price}</td>
-															</tr>
-														</c:forEach>
-														</tbody>
-													</table>
+											<tr style="cursor: pointer;" class="table-row-main">
+												<td>${order.orderDate}</td>
+												<td onclick="toggleDetails(${order.id})">${order.user.fullname}</td>
+												<td onclick="toggleDetails(${order.id})">${order.quantity}</td>
+												<td onclick="toggleDetails(${order.id})">${order.totalPrice}</td>
+												<td onclick="toggleDetails(${order.id})"
+													data-order-id="${order.id}"><span
+													id="status-${order.id}" class="badge text-dark">${order.status}</span>
+												</td>
+												<td>
+													<c:if
+														test="${order.status == 'PENDING' || order.status == 'VERIFIED'}">
+														<button id="btn-${order.id}" class="btn btn-danger btn-sm"
+															onclick="cancelOrder(${order.id})">Hủy đơn</button>
+													</c:if> <c:if test="${order.status == 'PENDING'}">
+														<button id="btn-confirm-${order.id}"
+															onclick="showOtpModal(${order.id})"
+															class="btn btn-success btn-sm">Xác nhận</button>
+													</c:if>
+												</td>
+											</tr>
+										</c:forEach>
+										<!-- Modal dùng chung cho tất cả đơn hàng -->
+										<div class="modal fade" id="otpModal" tabindex="-1"
+											aria-labelledby="otpModalLabel" aria-hidden="true">
+											<div class="modal-dialog">
+												<div class="modal-content">
+													<div class="modal-header">
+														<h5 class="modal-title" id="otpModalLabel">Xác nhận
+															đơn hàng</h5>
+														<button type="button" class="btn-close"
+															data-bs-dismiss="modal" aria-label="Đóng"></button>
+													</div>
+													<div class="modal-body">
+														<form id="verifyOtpForm">
+															<input type="hidden" class="form-control" name="orderId"
+																id="orderId">
+															<div class="mb-3">
+																<label for="otp" class="form-label">Nhập OTP:</label> <input
+																	type="text" class="form-control" id="otp" name="otp"
+																	required>
+															</div>
+															<div id="verifyMessage" class="mt-2"></div>
+															<div class="d-grid gap-2 mt-3">
+																<button type="submit" class="btn btn-primary">Xác
+																	nhận</button>
+															</div>
+														</form>
+													</div>
 												</div>
-											</td>
-										</tr>
-									</c:forEach>
+											</div>
+										</div>
+
 									</tbody>
 								</table>
 							</div>
 						</div>
-				
+
 					</div>
+
 					<footer id="footer2"></footer>
 
 				</div>
@@ -204,9 +206,9 @@
           .then((response) => response.text())
           .then((html) => (nav.innerHTML = html));
 </script>
-<script src="assets/js/nav.js"></script>
-<script src="assets/js/userProfile.js"></script>
-<script>
+	<script src="assets/js/nav.js"></script>
+	<script src="assets/js/userProfile.js"></script>
+	<script>
 	function toggleDetails(orderId) {
 		let detailsRow = document.getElementById("orderDetails-" + orderId);
 		if (detailsRow) {
@@ -215,6 +217,69 @@
 			console.error("Không tìm thấy phần tử orderDetails" + orderId);
 		}
 	}
-</script>
+
+	function showOtpModal(orderId) {
+	    $('#otpModal').modal('show');
+	    $('#otpModalLabel').text('Xác nhận đơn hàng #' + orderId); // Đổi title cho đẹp
+	    $('#orderId').val(orderId); // Gán orderId vào hidden input
+	}
+
+
+	function closeForm(orderId) {
+	    // Đóng modal OTP tương ứng với mỗi đơn hàng
+	    $('#otpModal-' + orderId).modal('hide');
+	}
+
+	</script>
+	<script>
+	$(document).ready(function () {
+	    $('#verifyOtpForm').submit(function (event) {
+	        event.preventDefault();
+
+	        var orderId = $('#orderId').val();
+	        var otp = $('#otp').val();
+	        var messageDiv = $('#verifyMessage');
+
+	        $.ajax({
+	            url: '/DoAnLTWeb/VerifyOrderServlet',
+	            type: 'POST',
+	            data: {
+	                orderId: orderId,
+	                otp: otp
+	            },
+	            success: function (data) {
+	                if (typeof data === 'string') {
+	                    data = JSON.parse(data);
+	                }
+	                if (data.success) {
+	                    messageDiv.html('<div class="alert alert-success">' + data.message + '</div>');
+	                    setTimeout(function () {
+	                        $('#otpModal').modal('hide');
+	                        messageDiv.html('');
+	                    }, 1000);
+	                 // Cập nhật trạng thái đơn hàng
+	    				const elementId = 'status-' + orderId;
+	    				const statusCell = document.getElementById(elementId);
+
+	    				if (statusCell) {
+	    					statusCell.textContent = "VERIFIED";
+	    					$('#btn-confirm-' + orderId).hide();
+	    				} else {
+	    					console.warn(`Không tìm thấy phần tử với id: ${elementId}`);
+	    				}
+	                } else {
+	                    messageDiv.html('<div class="alert alert-danger">' + data.message + '</div>');
+	                }
+	            },
+	            error: function () {
+	                messageDiv.html('<div class="alert alert-danger">Lỗi kết nối server!</div>');
+	            }
+	        });
+	    });
+	});
+
+	</script>
+
+
 </body>
 </html>

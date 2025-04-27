@@ -176,9 +176,14 @@ public class OrderDao {
 
 	}
 
-	  
 
-
-	     
-
+	public boolean verifyOrder(int orderId, String otp) {
+		Jdbi jdbi = JDBIConnect.get();
+		int rowsAffected = jdbi.withHandle(handle ->
+				handle.createUpdate("UPDATE orders SET status = 'VERIFIED' WHERE id = :id AND otp = :otp AND orderDate > NOW() - INTERVAL 24 HOUR ")
+						.bind("otp", otp)
+						.bind("id", orderId)
+						.execute());
+		return rowsAffected>0;
+	}
 }
