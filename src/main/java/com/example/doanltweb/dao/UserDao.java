@@ -8,6 +8,7 @@ import org.jdbi.v3.core.Handle;
 import org.jdbi.v3.core.Jdbi;
 import org.apache.commons.codec.digest.DigestUtils;
 
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -250,56 +251,46 @@ public class UserDao {
                         .orElse(false)
         );
     }
-    public static void main(String[] args) {
-        UserDao userDao = new UserDao();
+    public boolean changePassword(int userId, String newPassword) throws SQLException {
+        Jdbi jdbi = JDBIConnect.get();
 
+        int result = jdbi.withHandle(handle ->
+                handle.createUpdate("UPDATE users SET password = :password WHERE id = :id")
+                        .bind("password", newPassword)
+                        .bind("id", userId)
+                        .execute()
+        );
+        return result > 0;
+    }
+    public boolean checkPassword(int userId, String password) {
+        Jdbi jdbi = JDBIConnect.get(); // Giả sử jdbiconnect.get() trả về một đối tượng Jdbi
 
-        // Lấy tất cả người dùng cho admin
-        List<User> users = userDao.getUsersForAdmin();
+        String storedPassword = jdbi.withHandle(handle ->
+                handle.createQuery("SELECT password FROM user WHERE id = :userId")
+                        .bind("userId", userId)
+                        .mapTo(String.class)
+                        .findOne()
+                        .orElse(null)
+        );
 
-        if (users.isEmpty()) {
-            System.out.println("❌ Không có người dùng nào trong cơ sở dữ liệu.");
-        } else {
-            System.out.println("✅ Danh sách người dùng hiện tại:");
-            for (User user : users) {
-                printUser(user);
-            }
-
-            // Test cập nhật trạng thái isVerified cho người dùng đầu tiên
-            User firstUser = users.get(1);
-            int newVerifyStatus = (firstUser.getIsVerified() == 1) ? 0 : 1;
-
-            boolean success = userDao.updateVerifiedStatus(firstUser.getId(), newVerifyStatus);
-            if (success) {
-                System.out.println("\n✅ Đã cập nhật trạng thái xác thực của user ID = " + firstUser.getId() +
-                        " thành " + newVerifyStatus);
-            } else {
-                System.out.println("\n❌ Cập nhật trạng thái xác thực thất bại.");
-            }
-
-            // In lại thông tin người dùng sau khi cập nhật
-            List<User> updatedUsers = userDao.getUsersForAdmin();
-            System.out.println("\n📦 Thông tin sau khi cập nhật:");
-            for (User user : updatedUsers) {
-                printUser(user);
-            }
+        if (storedPassword == null) {
+            return false; // Không tìm thấy người dùng
         }
+
+        return storedPassword.equals(password); // So sánh mật khẩu đơn giản (chưa mã hóa)
+    }
+    public boolean updatePassword(int userId, String newPassword) {
+        Jdbi jdbi = JDBIConnect.get();
+        int updatedRows = jdbi.withHandle(handle ->
+                handle.createUpdate("UPDATE user SET password = :password WHERE id = :userId")
+                        .bind("password", newPassword)
+                        .bind("userId", userId)
+                        .execute()
+        );
+        return updatedRows > 0;
     }
 
-    private static void printUser(User user) {
-        System.out.println("ID: " + user.getId());
-        System.out.println("Avatar: " + user.getAvatar());
-        System.out.println("Username: " + user.getUsername());
-        System.out.println("Fullname: " + user.getFullname());
-        System.out.println("Email: " + user.getEmail());
-        System.out.println("Phone: " + user.getPhone());
-        System.out.println("Address: " + user.getAddress());
-        System.out.println("Permission ID: " + user.getIdPermission());
-        System.out.println("Verified: " + (user.getIsVerified() == 1 ? "Đã xác thực" : "Chưa xác thực"));
-        System.out.println("---------------------------------");
 
-
-        userDao.lockUserByUsername("admin");
-
+    public static void main(String[] args) {
     }
 }
