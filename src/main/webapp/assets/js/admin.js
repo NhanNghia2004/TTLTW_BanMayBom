@@ -46,7 +46,7 @@ function loadProductData() {
                 var row = `<tr>
                         <td>${product.id}</td>
                         <td style="min-width: 70px;">${product.nameProduct}</td>
-                        <td><img src="/assets/imgs/maybom/${product.image}" alt="Product Image" style="width: 60px; height: 60px;"></td>
+                        <td><img src="${product.image}" alt="Product Image" style="width: 60px; height: 60px;"></td>
                         <td>${product.priceProduct}</td>
                         <td style="min-width: 150px;">${product.description}</td>
                         <td style="min-width: 90px;">${product.manufactureDate}</td>
@@ -679,7 +679,6 @@ function loadVoucherData() {
     const tableSelector = '#voucherTable';
     const table = $(tableSelector);
 
-    // Nếu DataTable đã được khởi tạo → hủy
     if ($.fn.DataTable.isDataTable(tableSelector)) {
         table.DataTable().clear().destroy();
     }
@@ -697,6 +696,13 @@ function loadVoucherData() {
                 0: 'Không hoạt động'
             };
 
+            // function formatDate(dateString) {
+            //     if (!dateString) return ''; // Trả về chuỗi trống nếu không có ngày
+            //     const date = new Date(dateString);
+            //     if (isNaN(date)) return ''; // Nếu không phải ngày hợp lệ
+            //     return date.toLocaleDateString('vi-VN');
+            // }
+
             data.forEach(function (voucher) {
                 const statusName = statuses[voucher.status] || 'Không xác định';
 
@@ -709,7 +715,8 @@ function loadVoucherData() {
                         <td>${voucher.usageLimit !== null ? voucher.usageLimit : 'Không giới hạn'}</td>
                         <td>${voucher.usedCount}</td>
                         <td>${voucher.maxUsagePerUser}</td>
-                        <td style="min-width: 130px;">${voucher.validRange}</td>
+                        <td>${(voucher.startDate)}</td>
+                        <td>${(voucher.endDate)}</td>
                         <td>${statusName}</td>
                         <td>
                             <div class="d-flex gap-2 justify-content-center">
@@ -719,13 +726,11 @@ function loadVoucherData() {
                         </td>
                     </tr>
                 `;
-
                 tableBody.append(row);
             });
 
-            // Khởi tạo lại DataTable
             table.DataTable({
-                destroy: true, // đảm bảo cho phép hủy
+                destroy: true,
                 paging: true,
                 searching: true,
                 ordering: true,
@@ -752,7 +757,82 @@ function loadVoucherData() {
     });
 }
 
+
 document.addEventListener('DOMContentLoaded', loadVoucherData);
+
+// thêm voucher
+
+
+
+
+
+$(document).ready(function () {
+    $('#addVoucherForm').off('submit').on('submit', function (e) {
+        e.preventDefault(); // Ngăn form reload trang
+
+        // Lấy ngày bắt đầu và kết thúc từ input
+        const startDate = $('#startDate').val();
+        const endDate = $('#endDate').val();
+
+        // Kiểm tra xem ngày bắt đầu và ngày kết thúc có hợp lệ không
+        if (!startDate || !endDate) {
+            alert("Ngày bắt đầu và ngày kết thúc không được để trống!");
+            return; // Dừng nếu có lỗi
+        }
+
+        // Kiểm tra ngày kết thúc phải sau ngày bắt đầu
+        if (new Date(endDate) <= new Date(startDate)) {
+            alert("Ngày kết thúc phải sau ngày bắt đầu!");
+            return; // Dừng nếu có lỗi
+        }
+
+        // Tạo object dữ liệu từ form
+        const voucherData = {
+            code: $('#voucherCode').val().trim(), // Loại bỏ khoảng trắng thừa
+            discountValue: $('#discountValue').val().trim(),
+            minOrderValue: parseFloat($('#minOrderValue').val()),
+            usageLimit: $('#usageLimit').val() ? parseInt($('#usageLimit').val()) : null,
+            maxUsagePerUser: parseInt($('#usagePerUser').val()),
+            status: parseInt($('#status').val()),
+            startDate: startDate, // Ngày bắt đầu dạng 'yyyy-MM-dd'
+            endDate: endDate // Ngày kết thúc dạng 'yyyy-MM-dd'
+        };
+
+        // Kiểm tra xem discountValue có phải là một số hợp lệ không
+        if (isNaN(voucherData.discountValue) || voucherData.discountValue.trim() === "") {
+            alert("Giá trị giảm giá không hợp lệ!");
+            return; // Dừng nếu không hợp lệ
+        }
+
+        // Gửi dữ liệu lên server
+        $.ajax({
+            url: 'http://localhost:8080/DoAnLTWeb/VoucherController',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(voucherData),
+            success: function (response) {
+                alert("Thêm voucher thành công!");
+                $('#addVoucherForm')[0].reset();
+                $('#addVoucherModal').modal('hide');
+                loadVoucherData(); // Gọi lại để refresh bảng
+            },
+            error: function (xhr, status, error) {
+                console.error("Lỗi khi thêm voucher:", error);
+                alert("Thêm voucher thất bại!");
+            }
+        });
+    });
+});
+
+
+
+
+
+
+
+
+
+
 
 
 

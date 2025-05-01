@@ -1,5 +1,8 @@
 package com.example.doanltweb.dao.model;
 
+import java.sql.Date;
+import java.time.LocalDate;
+
 public class Voucher {
     private int id;
     private String code;
@@ -8,12 +11,14 @@ public class Voucher {
     private Integer usageLimit;         // Có thể null
     private int usedCount;
     private int maxUsagePerUser;
-    private String validRange;
+    private LocalDate startDate;
+    private LocalDate endDate;
     private int status;
 
     public Voucher() {
     }
-    public Voucher(int id, String code, String discountValue, double minOrderValue, Integer usageLimit, int usedCount, int maxUsagePerUser, String validRange, int status) {
+
+    public Voucher(int id, String code, String discountValue, double minOrderValue, Integer usageLimit, int usedCount, int maxUsagePerUser, LocalDate startDate, LocalDate endDate, int status) {
         this.id = id;
         this.code = code;
         this.discountValue = discountValue;
@@ -21,7 +26,8 @@ public class Voucher {
         this.usageLimit = usageLimit;
         this.usedCount = usedCount;
         this.maxUsagePerUser = maxUsagePerUser;
-        this.validRange = validRange;
+        this.startDate = startDate;
+        this.endDate = endDate;
         this.status = status;
     }
 
@@ -81,12 +87,20 @@ public class Voucher {
         this.maxUsagePerUser = maxUsagePerUser;
     }
 
-    public String getValidRange() {
-        return validRange;
+    public LocalDate getStartDate() {
+        return startDate;
     }
 
-    public void setValidRange(String validRange) {
-        this.validRange = validRange;
+    public void setStartDate(LocalDate startDate) {
+        this.startDate = startDate;
+    }
+
+    public LocalDate getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(LocalDate endDate) {
+        this.endDate = endDate;
     }
 
     public int getStatus() {
@@ -107,7 +121,8 @@ public class Voucher {
                 ", usageLimit=" + usageLimit +
                 ", usedCount=" + usedCount +
                 ", maxUsagePerUser=" + maxUsagePerUser +
-                ", validRange='" + validRange + '\'' +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
                 ", status=" + status +
                 '}';
     }

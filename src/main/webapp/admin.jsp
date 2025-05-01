@@ -797,7 +797,9 @@
                                     <th>Giới hạn sử dụng</th>
                                     <th>Đã sử dụng</th>
                                     <th>Lượt dùng mỗi người</th>
-                                    <th>Thời gian hiệu lực</th>
+<%--                                    <th>Thời gian hiệu lực</th>--%>
+                                    <th>Thời gian bắt đầu</th>
+                                    <th>Thời gian Kết thúc</th>
                                     <th>Trạng thái</th>
                                     <th>Hành động</th>
                                 </tr>
@@ -806,6 +808,72 @@
                                 <!-- Dữ liệu sẽ được chèn vào đây bằng JavaScript hoặc AJAX -->
                                 </tbody>
                             </table>
+                        </div>
+                    </div>
+
+                    <!-- Modal thêm voucher -->
+
+                    <div class="modal fade" id="addVoucherModal" tabindex="-1"
+                         aria-labelledby="addVoucherModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg"> <!-- modal lớn hơn để dễ nhập -->
+                            <div class="modal-content">
+                                <div class="modal-header bg-primary text-white">
+                                    <h5 class="modal-title w-100 text-center" id="addVoucherModalLabel">Thêm Voucher</h5>
+                                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Đóng"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form id="addVoucherForm">
+                                        <div class="row g-3">
+                                            <div class="col-md-6">
+                                                <label for="voucherCode" class="form-label">Mã code</label>
+                                                <input type="text" class="form-control" id="voucherCode" name="code" required>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <label for="discountValue" class="form-label">Giá trị giảm</label>
+                                                <input type="number" class="form-control" id="discountValue" name="discountValue" min="0" max="100" required>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <label for="minOrderValue" class="form-label">Giá trị đơn tối thiểu</label>
+                                                <input type="number" class="form-control" id="minOrderValue" name="minOrderValue" min="0" required>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <label for="usageLimit" class="form-label">Giới hạn sử dụng</label>
+                                                <input type="number" class="form-control" id="usageLimit" name="usageLimit" min="1" >
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <label for="usagePerUser" class="form-label">Lượt dùng mỗi người</label>
+                                                <input type="number" class="form-control" id="usagePerUser" name="usagePerUser" min="1" required>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <label for="status" class="form-label">Trạng thái</label>
+                                                <select class="form-select" id="status" name="status" required>
+                                                    <option value="1">Đang áp dụng</option>
+                                                    <option value="0">Không áp dụng</option>
+                                                </select>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <label for="startDate" class="form-label">Ngày bắt đầu</label>
+                                                <input type="date" class="form-control" id="startDate" name="startDate" required>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <label for="endDate" class="form-label">Ngày kết thúc</label>
+                                                <input type="date" class="form-control" id="endDate" name="endDate" required>
+                                            </div>
+
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="submit" form="addVoucherForm" class="btn btn-primary w-100 text-center">Thêm</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </section>
