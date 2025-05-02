@@ -517,10 +517,10 @@ function loadUserData() {
                 const row = `
                     <tr>
                         <td>${user.id}</td>
-                        <td style="min-width: 100px;">${avatar}</td>
+                        <td style="min-width: 90px;">${avatar}</td>
                         <td style="min-width: 100px;">${user.username}</td>
                         <td>${user.fullname || ''}</td>
-                        <td style="min-width: 150px;">${user.email || ''}</td>
+                        <td style="min-width: 145px;">${user.email || ''}</td>
                         <td>${user.phone || ''}</td>
                         <td style="min-width: 70px;">${user.address || ''}</td>
                         <td>${permission}</td>
@@ -674,11 +674,13 @@ $(document).off('click', '.user-delete-btn').on('click', '.user-delete-btn', fun
         });
     }
 });
+
 // voucher
 function loadVoucherData() {
     const tableSelector = '#voucherTable';
     const table = $(tableSelector);
 
+    // Kiểm tra xem DataTable đã tồn tại chưa và nếu có thì hủy nó trước khi khởi tạo lại
     if ($.fn.DataTable.isDataTable(tableSelector)) {
         table.DataTable().clear().destroy();
     }
@@ -696,39 +698,63 @@ function loadVoucherData() {
                 0: 'Không hoạt động'
             };
 
-            // function formatDate(dateString) {
-            //     if (!dateString) return ''; // Trả về chuỗi trống nếu không có ngày
-            //     const date = new Date(dateString);
-            //     if (isNaN(date)) return ''; // Nếu không phải ngày hợp lệ
-            //     return date.toLocaleDateString('vi-VN');
-            // }
+            // Hàm formatDate để định dạng ngày tháng
+            function formatDate(dateString) {
+                if (!dateString) return ''; // Trả về chuỗi trống nếu không có ngày
+                const date = new Date(dateString);
+                if (isNaN(date)) return ''; // Nếu không phải ngày hợp lệ
+                // Định dạng ngày theo kiểu Việt Nam (dd/MM/yyyy)
+                return date.toLocaleDateString('vi-VN');
+            }
 
+            // Duyệt qua dữ liệu voucher và hiển thị lên bảng
             data.forEach(function (voucher) {
                 const statusName = statuses[voucher.status] || 'Không xác định';
+                const startDate = formatDate(voucher.startDate);
+                const endDate = formatDate(voucher.endDate);
+
+                // Kiểm tra nếu giá trị discountValue là phần trăm (giá trị nhỏ hơn 100)
+                let discountDisplay = '';
+                const discountValue = parseFloat(voucher.discountValue);
+
+// Nếu <= 100 → chắc chắn là phần trăm
+                if (discountValue <= 100) {
+                    discountDisplay = `${discountValue}%`;
+                }
+// Nếu >= 1000 → chắc chắn là tiền VND
+                else if (discountValue >= 1000) {
+                    discountDisplay = `${discountValue.toLocaleString('vi-VN')} VND`;
+                }
+// Nếu trong khoảng 100 < value < 1000 → hiển thị cảnh báo hoặc giả định là phần trăm
+                else {
+                    discountDisplay = `${discountValue}%`; // hoặc cảnh báo người nhập
+                    console.warn(`Giá trị ${discountValue} không rõ đơn vị, đang hiển thị là %`);
+                }
+
 
                 const row = `
-                    <tr>
-                        <td>${voucher.id}</td>
-                        <td style="min-width: 100px;">${voucher.code}</td>
-                        <td>${voucher.discountValue}</td>
-                        <td>${voucher.minOrderValue.toLocaleString('vi-VN')} VND</td>
-                        <td>${voucher.usageLimit !== null ? voucher.usageLimit : 'Không giới hạn'}</td>
-                        <td>${voucher.usedCount}</td>
-                        <td>${voucher.maxUsagePerUser}</td>
-                        <td>${(voucher.startDate)}</td>
-                        <td>${(voucher.endDate)}</td>
-                        <td>${statusName}</td>
-                        <td>
-                            <div class="d-flex gap-2 justify-content-center">
-                                <button class="btn btn-sm btn-primary voucher-edit-btn" data-id="${voucher.id}">Sửa</button>
-                                <button class="btn btn-sm btn-danger voucher-delete-btn" data-id="${voucher.id}">Xóa</button>
-                            </div>
-                        </td>
-                    </tr>
-                `;
+        <tr>
+            <td>${voucher.id}</td>
+            <td style="min-width: 100px;">${voucher.code}</td>
+             <td>${discountDisplay}</td>
+            <td>${voucher.minOrderValue.toLocaleString('vi-VN')} VND</td>
+            <td>${voucher.usageLimit !== null ? voucher.usageLimit : 'Không giới hạn'}</td>
+            <td>${voucher.usedCount}</td>
+            <td>${voucher.maxUsagePerUser}</td>
+            <td>${startDate} - ${endDate}</td>
+            <td>${statusName}</td>
+            <td>
+                <div class="d-flex gap-2 justify-content-center">
+                    <button class="btn btn-sm btn-primary voucher-edit-btn" data-id="${voucher.id}">Sửa</button>
+                    <button class="btn btn-sm btn-danger voucher-delete-btn" data-id="${voucher.id}">Xóa</button>
+                </div>
+            </td>
+        </tr>
+    `;
                 tableBody.append(row);
             });
 
+            // Khởi tạo DataTable sau khi đã thêm dữ liệu vào bảng
             table.DataTable({
                 destroy: true,
                 paging: true,
@@ -757,54 +783,61 @@ function loadVoucherData() {
     });
 }
 
-
 document.addEventListener('DOMContentLoaded', loadVoucherData);
+
 
 // thêm voucher
 
-
-
-
-
 $(document).ready(function () {
     $('#addVoucherForm').off('submit').on('submit', function (e) {
-        e.preventDefault(); // Ngăn form reload trang
+        e.preventDefault();
 
-        // Lấy ngày bắt đầu và kết thúc từ input
-        const startDate = $('#startDate').val();
-        const endDate = $('#endDate').val();
+        const startDateRaw = $('#voucherStartDate').val();
+        const endDateRaw = $('#voucherEndDate').val();
+        // console.log("Voucher Start Date:", $('#voucherStartDate').val());
+        // console.log("Voucher End Date:", $('#voucherEndDate').val());
 
-        // Kiểm tra xem ngày bắt đầu và ngày kết thúc có hợp lệ không
-        if (!startDate || !endDate) {
+        if (!startDateRaw || !endDateRaw) {
             alert("Ngày bắt đầu và ngày kết thúc không được để trống!");
-            return; // Dừng nếu có lỗi
+            return;
         }
 
-        // Kiểm tra ngày kết thúc phải sau ngày bắt đầu
-        if (new Date(endDate) <= new Date(startDate)) {
+        const startDate = new Date(startDateRaw);
+        const endDate = new Date(endDateRaw);
+
+        if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
+            alert("Định dạng ngày không hợp lệ!");
+            return;
+        }
+
+        if (endDate < startDate) {
             alert("Ngày kết thúc phải sau ngày bắt đầu!");
-            return; // Dừng nếu có lỗi
+            return;
         }
 
-        // Tạo object dữ liệu từ form
+        const discountValue = parseFloat($('#discountValue').val());
+        const minOrderValue = parseFloat($('#minOrderValue').val());
+        const usageLimit = $('#usageLimit').val() ? parseInt($('#usageLimit').val()) : null;
+        const maxUsagePerUser = parseInt($('#maxUsagePerUser').val());
+        const status = parseInt($('#status').val());
+        const code = $('#voucherCode').val().trim();
+
+        if (!code || isNaN(discountValue) || isNaN(minOrderValue) || isNaN(maxUsagePerUser)) {
+            alert("Vui lòng điền đúng các trường bắt buộc!");
+            return;
+        }
+
         const voucherData = {
-            code: $('#voucherCode').val().trim(), // Loại bỏ khoảng trắng thừa
-            discountValue: $('#discountValue').val().trim(),
-            minOrderValue: parseFloat($('#minOrderValue').val()),
-            usageLimit: $('#usageLimit').val() ? parseInt($('#usageLimit').val()) : null,
-            maxUsagePerUser: parseInt($('#usagePerUser').val()),
-            status: parseInt($('#status').val()),
-            startDate: startDate, // Ngày bắt đầu dạng 'yyyy-MM-dd'
-            endDate: endDate // Ngày kết thúc dạng 'yyyy-MM-dd'
+            code: code,
+            discountValue: discountValue,
+            minOrderValue: minOrderValue,
+            usageLimit: usageLimit,
+            maxUsagePerUser: maxUsagePerUser,
+            status: status,
+            startDate: startDateRaw, // 'yyyy-MM-dd'
+            endDate: endDateRaw
         };
 
-        // Kiểm tra xem discountValue có phải là một số hợp lệ không
-        if (isNaN(voucherData.discountValue) || voucherData.discountValue.trim() === "") {
-            alert("Giá trị giảm giá không hợp lệ!");
-            return; // Dừng nếu không hợp lệ
-        }
-
-        // Gửi dữ liệu lên server
         $.ajax({
             url: 'http://localhost:8080/DoAnLTWeb/VoucherController',
             type: 'POST',
@@ -814,15 +847,160 @@ $(document).ready(function () {
                 alert("Thêm voucher thành công!");
                 $('#addVoucherForm')[0].reset();
                 $('#addVoucherModal').modal('hide');
-                loadVoucherData(); // Gọi lại để refresh bảng
+                loadVoucherData();
             },
-            error: function (xhr, status, error) {
-                console.error("Lỗi khi thêm voucher:", error);
-                alert("Thêm voucher thất bại!");
+            error: function (xhr) {
+                const msg = xhr.responseJSON?.error || "Thêm voucher thất bại!";
+                alert(msg);
+                console.error("Lỗi:", xhr.responseText);
             }
         });
     });
 });
+
+
+// Mở modal và điền dữ liệu của voucher vào form khi người dùng nhấn nút "Sửa"
+$(document).off('click', '.voucher-edit-btn').on('click', '.voucher-edit-btn', function (event) {
+    event.stopPropagation();
+    const row = $(this).closest('tr');
+    const id = $(this).data('id');
+
+    // Lấy dữ liệu từng cột
+    const code = row.find('td:eq(1)').text().trim();
+    const discountValue = row.find('td:eq(2)').text().trim();
+    const minOrderValue = row.find('td:eq(3)').text().trim();
+    const usageLimit = row.find('td:eq(4)').text().trim();
+    const usedCount = row.find('td:eq(5)').text().trim();
+    const maxUsagePerUser = row.find('td:eq(6)').text().trim(); // Lượt dùng mỗi người
+    const dateRange = row.find('td:eq(7)').text().trim(); // startDate - endDate
+    const status = row.find('td:eq(8)').text().trim();
+
+    // Kiểm tra xem có phân tách ngày không
+    const dateParts = dateRange.split(" - ");
+    const startDate = dateParts[0] ? dateParts[0].trim() : '';
+    const endDate = dateParts[1] ? dateParts[1].trim() : '';
+
+    // Kiểm tra status và chuyển sang số
+    const statusValue = (status === 'Đang hoạt động') ? 1 : 0;
+
+    // Điền dữ liệu vào form modal
+    $('#editVoucherId').val(id);
+    $('#editVoucherCode').val(code);
+    // $('#editDiscountValue').val(discountValue.replace('%', '').trim());  // Xóa ký tự % nếu có
+    $('#editDiscountValue').val(
+        discountValue
+            .replace('%', '')
+            .replace(' VND', '')
+            .replace(/\./g, '') // Xóa dấu chấm ngăn cách nghìn
+            .trim()
+    );
+
+    $('#editMinOrderValue').val(
+        minOrderValue
+            .replace(' VND', '')
+            .replace(/\./g, '') // Xóa dấu chấm ngăn cách nghìn
+            .replace(',', '')   // Dự phòng nếu có dấu phẩy
+            .trim()
+    );
+
+    $('#editUsageLimit').val(usageLimit === 'Không giới hạn' ? '' : usageLimit); // Nếu không giới hạn thì bỏ trống
+    $('#editUsedCount').val(usedCount);
+    $('#editMaxUsagePerUser').val(maxUsagePerUser);  // Cập nhật Lượt dùng mỗi người
+    $('#editVoucherStatus').val(statusValue);
+
+    // $('#editVoucherStartDate').val(startDate); // Đảm bảo gán ngày bắt đầu đúng
+    // $('#editVoucherEndDate').val(endDate); // Đảm bảo gán ngày kết thúc đúng
+    function convertToDateInputFormat(dateStr) {
+        // Giả sử dateStr là "01/05/2025" hoặc "1/5/2025"
+        const parts = dateStr.split('/');
+        if (parts.length === 3) {
+            const day = parts[0].padStart(2, '0');
+            const month = parts[1].padStart(2, '0');
+            const year = parts[2];
+            return `${year}-${month}-${day}`;
+        }
+        return '';
+    }
+
+    $('#editVoucherStartDate').val(convertToDateInputFormat(startDate));
+    $('#editVoucherEndDate').val(convertToDateInputFormat(endDate));
+
+    // Hiển thị modal
+    $('#editVoucherModal').modal('show');
+});
+
+// Xử lý sự kiện submit form sửa voucher
+$('#editVoucherForm').off('submit').on('submit', function (e) {
+    e.preventDefault();
+
+    const startDateRaw = $('#editVoucherStartDate').val();
+    const endDateRaw = $('#editVoucherEndDate').val();
+
+    // Kiểm tra ngày bắt đầu và ngày kết thúc không để trống
+    if (!startDateRaw || !endDateRaw) {
+        alert("Ngày bắt đầu và ngày kết thúc không được để trống!");
+        return;
+    }
+
+    const startDate = new Date(startDateRaw + "T00:00:00");
+    const endDate = new Date(endDateRaw + "T23:59:59");
+
+    // Kiểm tra định dạng ngày
+    if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
+        alert("Định dạng ngày không hợp lệ!");
+        return;
+    }
+
+    // Kiểm tra ngày kết thúc phải sau ngày bắt đầu
+    if (endDate < startDate) {
+        alert("Ngày kết thúc phải sau ngày bắt đầu!");
+        return;
+    }
+
+    // Lấy các giá trị từ form
+    const id = parseInt($('#editVoucherId').val());
+    const code = $('#editVoucherCode').val().trim();
+    const discountValue = parseFloat($('#editDiscountValue').val());
+    const minOrderValue = parseFloat($('#editMinOrderValue').val());
+    const usageLimit = $('#editUsageLimit').val() ? parseInt($('#editUsageLimit').val()) : null;
+    const usedCount = parseInt($('#editUsedCount').val());
+    const maxUsagePerUser = parseInt($('#editMaxUsagePerUser').val());
+    const status = parseInt($('#editVoucherStatus').val());
+
+    // Tạo đối tượng voucher với dữ liệu đã nhập
+    const updatedVoucher = {
+        id: id,
+        code: code,
+        discountValue: discountValue,
+        minOrderValue: minOrderValue,
+        usageLimit: usageLimit,
+        usedCount: usedCount,
+        maxUsagePerUser: maxUsagePerUser,
+        status: status,
+        startDate: startDateRaw, // 'yyyy-MM-dd'
+        endDate: endDateRaw
+    };
+
+    // Gửi dữ liệu sửa voucher lên server
+    $.ajax({
+        url: 'http://localhost:8080/DoAnLTWeb/VoucherController', // URL tới controller sửa voucher
+        type: 'PUT',
+        contentType: 'application/json',
+        data: JSON.stringify(updatedVoucher),
+        success: function (response) {
+            alert("Cập nhật voucher thành công!");
+            $('#editVoucherModal').modal('hide'); // Đóng modal
+            loadVoucherData(); // Tải lại danh sách voucher sau khi cập nhật
+        },
+        error: function (xhr) {
+            const msg = xhr.responseJSON?.error || "Cập nhật voucher thất bại!";
+            alert(msg);
+            console.error("Lỗi:", xhr.responseText);
+        }
+    });
+});
+
+
 
 
 

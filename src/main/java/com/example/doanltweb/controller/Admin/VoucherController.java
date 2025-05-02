@@ -59,74 +59,130 @@ public class VoucherController extends HttpServlet {
         objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
 
         try {
-            // Đọc JSON từ request body
             BufferedReader reader = request.getReader();
             Voucher newVoucher = objectMapper.readValue(reader, Voucher.class);
 
-            // Debug: In ra đối tượng Voucher nhận được
+            // Debug
             System.out.println("Voucher received: " + newVoucher);
             System.out.println("Start date: " + newVoucher.getStartDate());
             System.out.println("End date: " + newVoucher.getEndDate());
 
-            // Kiểm tra ngày bắt đầu và ngày kết thúc
             if (newVoucher.getStartDate() == null || newVoucher.getEndDate() == null) {
-                Map<String, String> error = new HashMap<>();
-                error.put("error", "Ngày bắt đầu và ngày kết thúc không được để trống hoặc sai định dạng (yyyy-MM-dd)!");
-                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-                response.getWriter().write(objectMapper.writeValueAsString(error));
+                sendError(response, objectMapper, "Ngày bắt đầu và ngày kết thúc không được để trống!");
                 return;
             }
 
             if (newVoucher.getStartDate().isAfter(newVoucher.getEndDate())) {
-                Map<String, String> error = new HashMap<>();
-                error.put("error", "Ngày bắt đầu phải trước ngày kết thúc!");
-                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-                response.getWriter().write(objectMapper.writeValueAsString(error));
+                sendError(response, objectMapper, "Ngày bắt đầu phải trước hoặc bằng ngày kết thúc!");
                 return;
             }
 
-            // Gọi DAO để thêm voucher
             boolean success = voucherDao.addVoucher(newVoucher);
-
             if (!success) {
-                Map<String, String> error = new HashMap<>();
-                error.put("error", "Thêm voucher thất bại. Vui lòng thử lại.");
-                response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                response.getWriter().write(objectMapper.writeValueAsString(error));
+                sendError(response, objectMapper, "Thêm voucher thất bại. Vui lòng thử lại.");
                 return;
             }
 
-            // Phản hồi thành công
-            Map<String, Object> responseMap = new HashMap<>();
-            responseMap.put("success", true);
-            responseMap.put("message", "Thêm voucher thành công!");
-            response.getWriter().write(objectMapper.writeValueAsString(responseMap));
+            Map<String, Object> result = new HashMap<>();
+            result.put("success", true);
+            result.put("message", "Thêm voucher thành công!");
+            response.getWriter().write(objectMapper.writeValueAsString(result));
 
         } catch (JsonProcessingException e) {
             e.printStackTrace();
-
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            Map<String, String> error = new HashMap<>();
-            error.put("error", "Định dạng JSON không hợp lệ hoặc ngày sai định dạng (yyyy-MM-dd).");
-            response.getWriter().write(objectMapper.writeValueAsString(error));
-
-        } catch (IOException e) {
-            e.printStackTrace();
-
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            Map<String, String> error = new HashMap<>();
-            error.put("error", "Dữ liệu không hợp lệ hoặc lỗi khi xử lý yêu cầu.");
-            response.getWriter().write(objectMapper.writeValueAsString(error));
+            sendError(response, objectMapper, "Dữ liệu JSON không hợp lệ hoặc sai định dạng ngày (yyyy-MM-dd).");
 
         } catch (Exception e) {
             e.printStackTrace();
-
-            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            Map<String, String> error = new HashMap<>();
-            error.put("error", "Lỗi máy chủ, vui lòng thử lại.");
-            response.getWriter().write(objectMapper.writeValueAsString(error));
+            sendError(response, objectMapper, "Lỗi máy chủ, vui lòng thử lại.");
         }
     }
+
+    private void sendError(HttpServletResponse response, ObjectMapper mapper, String message) throws IOException {
+        response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+        Map<String, String> error = new HashMap<>();
+        error.put("error", message);
+        response.getWriter().write(mapper.writeValueAsString(error));
+    }
+    @Override
+    protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
+        objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+
+        try {
+            BufferedReader reader = request.getReader();
+            Voucher updatedVoucher = objectMapper.readValue(reader, Voucher.class);
+
+            // Debug log
+            System.out.println("Voucher received for update: " + updatedVoucher);
+
+            if (updatedVoucher.getId() <= 0) {
+                // Trả về lỗi nếu ID voucher không hợp lệ
+                Map<String, Object> errorResult = new HashMap<>();
+                errorResult.put("success", false);
+                errorResult.put("message", "ID của voucher không hợp lệ.");
+                response.getWriter().write(objectMapper.writeValueAsString(errorResult));
+                return;
+            }
+
+            if (updatedVoucher.getStartDate() == null || updatedVoucher.getEndDate() == null) {
+                // Trả về lỗi nếu ngày bắt đầu hoặc ngày kết thúc thiếu
+                Map<String, Object> errorResult = new HashMap<>();
+                errorResult.put("success", false);
+                errorResult.put("message", "Ngày bắt đầu và ngày kết thúc không được để trống.");
+                response.getWriter().write(objectMapper.writeValueAsString(errorResult));
+                return;
+            }
+
+            if (updatedVoucher.getStartDate().isAfter(updatedVoucher.getEndDate())) {
+                // Trả về lỗi nếu ngày bắt đầu sau ngày kết thúc
+                Map<String, Object> errorResult = new HashMap<>();
+                errorResult.put("success", false);
+                errorResult.put("message", "Ngày bắt đầu phải trước hoặc bằng ngày kết thúc.");
+                response.getWriter().write(objectMapper.writeValueAsString(errorResult));
+                return;
+            }
+
+            // Gọi phương thức updateVoucher từ VoucherDao
+            boolean success = voucherDao.updateVoucher(updatedVoucher);
+            if (!success) {
+                // Trả về lỗi nếu cập nhật thất bại
+                Map<String, Object> errorResult = new HashMap<>();
+                errorResult.put("success", false);
+                errorResult.put("message", "Cập nhật voucher thất bại. Vui lòng thử lại.");
+                response.getWriter().write(objectMapper.writeValueAsString(errorResult));
+                return;
+            }
+
+            // Trả về kết quả thành công
+            Map<String, Object> result = new HashMap<>();
+            result.put("success", true);
+            result.put("message", "Cập nhật voucher thành công!");
+            response.getWriter().write(objectMapper.writeValueAsString(result));
+
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            // Trả về lỗi nếu dữ liệu JSON không hợp lệ
+            Map<String, Object> errorResult = new HashMap<>();
+            errorResult.put("success", false);
+            errorResult.put("message", "Dữ liệu JSON không hợp lệ hoặc sai định dạng ngày (yyyy-MM-dd).");
+            response.getWriter().write(objectMapper.writeValueAsString(errorResult));
+        } catch (Exception e) {
+            e.printStackTrace();
+            // Trả về lỗi máy chủ
+            Map<String, Object> errorResult = new HashMap<>();
+            errorResult.put("success", false);
+            errorResult.put("message", "Lỗi máy chủ, vui lòng thử lại.");
+            response.getWriter().write(objectMapper.writeValueAsString(errorResult));
+        }
+    }
+
+
+
 
 
 

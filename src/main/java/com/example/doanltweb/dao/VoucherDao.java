@@ -34,37 +34,55 @@ public class VoucherDao {
                         .bind("status", voucher.getStatus())
                         .execute() > 0);
     }
+    // Cập nhật thông tin Voucher
+    public boolean updateVoucher(Voucher voucher) {
+        return jdbi.withHandle(handle ->
+                handle.createUpdate("UPDATE vouchers SET " +
+                                "code = :code, " +
+                                "discountValue = :discountValue, " +
+                                "minOrderValue = :minOrderValue, " +
+                                "usageLimit = :usageLimit, " +
+                                "usedCount = :usedCount, " +
+                                "maxUsagePerUser = :maxUsagePerUser, " +
+                                "startDate = :startDate, " +
+                                "endDate = :endDate, " +
+                                "status = :status " +
+                                "WHERE id = :id")
+                        .bindBean(voucher)  // Sử dụng bindBean để tự động ánh xạ các thuộc tính
+                        .execute() > 0);
+    }
+    public Voucher getVoucherById(int id) {
+        return jdbi.withHandle(handle ->
+                handle.createQuery("SELECT * FROM vouchers WHERE id = :id")
+                        .bind("id", id)
+                        .mapToBean(Voucher.class)
+                        .findOnly());
+    }
+
 
     public static void main(String[] args) {
         VoucherDao voucherDao = new VoucherDao();
 
-        // Tạo mới một voucher
-        Voucher newVoucher = new Voucher();
-        newVoucher.setCode("NEWYEAR2027");
-        newVoucher.setDiscountValue("20%");
-        newVoucher.setMinOrderValue(500000.00);
-        newVoucher.setUsageLimit(100);
-        newVoucher.setUsedCount(0);
-        newVoucher.setMaxUsagePerUser(1);
+        Voucher updatedVoucher = new Voucher();
+        updatedVoucher.setId(1);  // Đảm bảo có id của voucher cần sửa
+        updatedVoucher.setCode("NEWYEAR2029");
+        updatedVoucher.setDiscountValue("25");
+        updatedVoucher.setMinOrderValue(600000.00);
+        updatedVoucher.setUsageLimit(200);
+        updatedVoucher.setUsedCount(10);
+        updatedVoucher.setMaxUsagePerUser(2);
+        updatedVoucher.setStartDate(LocalDate.of(2025, 1, 1));
+        updatedVoucher.setEndDate(LocalDate.of(2025, 1, 31));
+        updatedVoucher.setStatus(1);
 
-        // Parse từ chuỗi validRange -> LocalDate
-        String validRange = "2025-01-01T00:00:00 to 2025-01-31T23:59:59";
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
-        String[] parts = validRange.split(" to ");
-        LocalDate start = LocalDate.parse(parts[0], formatter);
-        LocalDate end = LocalDate.parse(parts[1], formatter);
-        newVoucher.setStartDate(start);
-        newVoucher.setEndDate(end);
-
-        newVoucher.setStatus(1);
-
-        // Thêm vào DB
-        boolean success = voucherDao.addVoucher(newVoucher);
+// Gọi hàm cập nhật
+        boolean success = voucherDao.updateVoucher(updatedVoucher);
         if (success) {
-            System.out.println("Voucher added successfully!");
+            System.out.println("Voucher updated successfully!");
         } else {
-            System.out.println("Failed to add voucher.");
+            System.out.println("Failed to update voucher.");
         }
+
     }
 
 }
