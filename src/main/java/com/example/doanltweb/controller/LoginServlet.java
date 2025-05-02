@@ -39,7 +39,7 @@ public class LoginServlet extends HttpServlet {
         // Kiểm tra kết quả đăng nhập
         if (user != null) {
             session.setAttribute("auth", user); // Lưu thông tin người dùng vào session
-//            LogDao.saveLog(user.getId(), "INFO", ip, "LOGIN", "username=" + username, "SUCCESS");
+            LogDao.saveLog(user.getId(), "INFO", ip, "LOGIN", "username=" + username, "SUCCESS");
             
             // Nếu người dùng là Admin (role == 1)
             if (user.getIdPermission() == 1 ) {
@@ -47,20 +47,20 @@ public class LoginServlet extends HttpServlet {
                 response.sendRedirect("admin");
             } else {
             	CartUtils.mergeSessionCartToDb(user.getId(),session);
-            	response.sendRedirect("/DoAnLTWeb/trangchu");
+            	response.sendRedirect("/DoAnLTWeb_war/trangchu");
             }
         } else {
-            // Nếu đăng nhập không thành công, hiển thị thông báo lỗi
+
 
         	count++; // Tăng số lần thất bại
             session.setAttribute("loginFail", count); // Lưu lại số lần thất bại vào session
-//        	LogDao.saveLog(0, "WARN", ip, "LOGIN", "username=" + username,"Login fail: " + count +"times");
+        	LogDao.saveLog(0, "WARN", ip, "LOGIN", "username=" + username,"Login fail: " + count +"times");
             request.setAttribute("error", "Đăng nhập không thành công. Vui lòng kiểm tra lại thông tin.");
             request.setAttribute("username", username);
-            request.getRequestDispatcher("index.jsp").forward(request, response);
+            request.getRequestDispatcher("login.jsp").forward(request, response);
             if (userDao.checkLockUserByUsername(username) == true ) {
                 request.setAttribute("error", "tài khoản của bạn đã bị khóa vui lòng quên mật khẩu để mở khóa.");
-                request.getRequestDispatcher("dangnhap.jsp").forward(request, response);
+                request.getRequestDispatcher("login.jsp").forward(request, response);
             }
             if (count <= 3) {
                 count++;// Tăng số lần thất bại
@@ -68,11 +68,11 @@ public class LoginServlet extends HttpServlet {
                 LogDao.saveLog(0, "WARN", ip, "LOGIN", "username=" + username, "Login fail: " + count + "times");
                 request.setAttribute("error", "Đăng nhập không thành công. Vui lòng kiểm tra lại thông tin.");
                 request.setAttribute("username", username);
-                request.getRequestDispatcher("dangnhap.jsp").forward(request, response);
+                request.getRequestDispatcher("login.jsp").forward(request, response);
             }
             userDao.lockUserByUsername(username);
             request.setAttribute("error", "tài khoản của bạn đã bị khóa vui lòng quên mật khẩu để mở khóa.");
-            request.getRequestDispatcher("dangnhap.jsp").forward(request, response);
+            request.getRequestDispatcher("login.jsp").forward(request, response);
         }
     }
     

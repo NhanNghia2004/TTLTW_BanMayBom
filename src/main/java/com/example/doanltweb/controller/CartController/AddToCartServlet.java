@@ -41,7 +41,6 @@ public class AddToCartServlet extends HttpServlet {
         }else {
         	for (CartItem cartItem : cart) {
         		if(cartItem.getProduct().getId()== productId) {
-        			System.out.println(cartItem);
         			cartItem.setQuantity(cartItem.getQuantity()+ quantity);
         			updated = true;
         		}
@@ -51,7 +50,18 @@ public class AddToCartServlet extends HttpServlet {
         if(!updated) {
         	cart.add(new CartItem(0, product, quantity));
         }
-        
+        // Tính toán tổng số lượng và tổng giá trị
+        int totalQuantity = 0;
+        double totalPrice = 0.0;
+
+        for (CartItem cartItem : cart) {
+            totalQuantity += cartItem.getQuantity();
+            totalPrice += cartItem.getQuantity() * cartItem.getProduct().getPriceProduct();
+        }
+
+        // Lưu tổng số lượng và tổng giá trị vào session
+        session.setAttribute("TotalAmount", totalQuantity);
+        session.setAttribute("TotalPrice", totalPrice);
 
         session.setAttribute("cart", cart);
 

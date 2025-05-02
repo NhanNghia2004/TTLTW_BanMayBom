@@ -97,7 +97,7 @@
          DAOToken.updateStatus(tokenForgetPassword);
  
          //save user in session and redirect to home
-         request.getRequestDispatcher("home.jsp").forward(request, response);
+         request.getRequestDispatcher("index.jsp").forward(request, response);
      }
  }
  
