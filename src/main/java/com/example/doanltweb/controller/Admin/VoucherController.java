@@ -180,14 +180,40 @@ public class VoucherController extends HttpServlet {
             response.getWriter().write(objectMapper.writeValueAsString(errorResult));
         }
     }
+    @Override
+    protected void doDelete(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
 
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
 
+        ObjectMapper objectMapper = new ObjectMapper();
 
+        try {
+            String idParam = request.getParameter("id");
+            if (idParam == null) {
+                sendError(response, objectMapper, "Thiếu ID voucher để xóa.");
+                return;
+            }
 
+            int id = Integer.parseInt(idParam);
 
+            boolean deleted = voucherDao.deleteVoucher(id);
+            if (deleted) {
+                Map<String, Object> result = new HashMap<>();
+                result.put("success", true);
+                result.put("message", "Xóa voucher thành công!");
+                response.getWriter().write(objectMapper.writeValueAsString(result));
+            } else {
+                sendError(response, objectMapper, "Không tìm thấy hoặc xóa voucher thất bại.");
+            }
 
-
-
-
+        } catch (NumberFormatException e) {
+            sendError(response, objectMapper, "ID không hợp lệ.");
+        } catch (Exception e) {
+            e.printStackTrace();
+            sendError(response, objectMapper, "Lỗi máy chủ khi xóa voucher.");
+        }
+    }
 
 }

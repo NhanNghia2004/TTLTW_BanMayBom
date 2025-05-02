@@ -776,7 +776,7 @@
 
                 <!-- Nút thêm voucher -->
                 <div class="d-flex justify-content-center align-items-center m-4">
-                    <button type="button" class="btn btn-primary w-100 btn-lg" data-bs-toggle="modal"
+                    <button type="button" class="btn btn-success w-100 btn-lg" data-bs-toggle="modal"
                             data-bs-target="#addVoucherModal">
                         Thêm voucher
                     </button>
@@ -790,16 +790,16 @@
                             <table id="voucherTable" class="table table-striped table-bordered text-center bg-white">
                                 <thead class="bg-white text-dark fw-bold">
                                 <tr>
-                                    <th>ID</th>
-                                    <th>Mã code</th>
-                                    <th>Giá trị giảm</th>
-                                    <th>Giá trị đơn tối thiểu</th>
-                                    <th>Giới hạn sử dụng</th>
-                                    <th>Đã sử dụng</th>
-                                    <th>Lượt dùng mỗi người</th>
-                                    <th>Thời gian hiệu lực</th>
-                                    <th>Trạng thái</th>
-                                    <th>Hành động</th>
+                                    <th style="text-align: center">ID</th>
+                                    <th style="text-align: center">Mã code</th>
+                                    <th style="text-align: center">Giá trị giảm</th>
+                                    <th style="text-align: center">Giá trị đơn tối thiểu</th>
+                                    <th style="text-align: center">Giới hạn sử dụng</th>
+                                    <th style="text-align: center">Đã sử dụng</th>
+                                    <th style="text-align: center">Lượt dùng mỗi người</th>
+                                    <th style="text-align: center">Thời gian hiệu lực</th>
+                                    <th style="text-align: center">Trạng thái</th>
+                                    <th style="text-align: center">Hành động</th>
                                 </tr>
                                 </thead>
                                 <tbody id="voucherBody">
@@ -879,7 +879,7 @@
                     <div class="modal fade" id="editVoucherModal" tabindex="-1" aria-labelledby="editVoucherModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-lg"> <!-- modal lớn hơn để dễ nhập -->
                             <div class="modal-content">
-                                <div class="modal-header bg-warning text-white">
+                                <div class="modal-header bg-success text-white">
                                     <h5 class="modal-title w-100 text-center" id="editVoucherModalLabel">Sửa Voucher</h5>
                                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Đóng"></button>
                                 </div>
@@ -934,7 +934,7 @@
                                     </form>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="submit" form="editVoucherForm" class="btn btn-warning w-100 text-center">Lưu thay đổi</button>
+                                    <button type="submit" form="editVoucherForm" class="btn btn-success w-100 text-center">Lưu thay đổi</button>
                                 </div>
                             </div>
                         </div>

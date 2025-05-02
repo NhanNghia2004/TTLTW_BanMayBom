@@ -58,6 +58,12 @@ public class VoucherDao {
                         .mapToBean(Voucher.class)
                         .findOnly());
     }
+    public boolean deleteVoucher(int id) {
+        return jdbi.withHandle(handle ->
+                handle.createUpdate("DELETE FROM vouchers WHERE id = :id")
+                        .bind("id", id)
+                        .execute() > 0);
+    }
 
 
     public static void main(String[] args) {

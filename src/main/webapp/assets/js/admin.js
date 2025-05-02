@@ -570,7 +570,6 @@ function loadUserData() {
 
 document.addEventListener('DOMContentLoaded', loadUserData);
 // sửa
-// Sửa thông tin người dùng
 $(document).on('click', '.user-edit-btn', function (event) {
     event.stopPropagation();
     const row = $(this).closest('tr');
@@ -785,7 +784,6 @@ function loadVoucherData() {
 
 document.addEventListener('DOMContentLoaded', loadVoucherData);
 
-
 // thêm voucher
 
 $(document).ready(function () {
@@ -794,8 +792,6 @@ $(document).ready(function () {
 
         const startDateRaw = $('#voucherStartDate').val();
         const endDateRaw = $('#voucherEndDate').val();
-        // console.log("Voucher Start Date:", $('#voucherStartDate').val());
-        // console.log("Voucher End Date:", $('#voucherEndDate').val());
 
         if (!startDateRaw || !endDateRaw) {
             alert("Ngày bắt đầu và ngày kết thúc không được để trống!");
@@ -886,7 +882,6 @@ $(document).off('click', '.voucher-edit-btn').on('click', '.voucher-edit-btn', f
     // Điền dữ liệu vào form modal
     $('#editVoucherId').val(id);
     $('#editVoucherCode').val(code);
-    // $('#editDiscountValue').val(discountValue.replace('%', '').trim());  // Xóa ký tự % nếu có
     $('#editDiscountValue').val(
         discountValue
             .replace('%', '')
@@ -908,8 +903,6 @@ $(document).off('click', '.voucher-edit-btn').on('click', '.voucher-edit-btn', f
     $('#editMaxUsagePerUser').val(maxUsagePerUser);  // Cập nhật Lượt dùng mỗi người
     $('#editVoucherStatus').val(statusValue);
 
-    // $('#editVoucherStartDate').val(startDate); // Đảm bảo gán ngày bắt đầu đúng
-    // $('#editVoucherEndDate').val(endDate); // Đảm bảo gán ngày kết thúc đúng
     function convertToDateInputFormat(dateStr) {
         // Giả sử dateStr là "01/05/2025" hoặc "1/5/2025"
         const parts = dateStr.split('/');
@@ -1000,7 +993,26 @@ $('#editVoucherForm').off('submit').on('submit', function (e) {
     });
 });
 
+//Xóa voucher
+$(document).off('click', '.voucher-delete-btn').on('click', '.voucher-delete-btn', function () {
+    const id = $(this).data('id'); // Lấy ID của voucher từ data-id
 
+    // Xác nhận xóa
+    if (confirm("Bạn có chắc chắn muốn xóa voucher này không?")) {
+        $.ajax({
+            url: `http://localhost:8080/DoAnLTWeb/VoucherController?id=${id}`,
+            type: 'DELETE', // Gửi yêu cầu DELETE tới VoucherController
+            success: function (response) {
+                alert(response.message || "Xóa voucher thành công!");
+                loadVoucherData(); // Tải lại danh sách voucher sau khi xóa
+            },
+            error: function (xhr, status, error) {
+                console.error("Lỗi khi xóa voucher:", error);
+                alert("Xóa voucher thất bại hoặc không tìm thấy!");
+            }
+        });
+    }
+});
 
 
 
