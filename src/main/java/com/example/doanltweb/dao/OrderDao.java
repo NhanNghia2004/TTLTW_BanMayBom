@@ -43,6 +43,28 @@ public class OrderDao {
 	                    return new Order(orderId, user, totalPrice, orderDate, status, payment, quantity,otp);
 	                }).list());
 	    }
+	    public List<Order> getActiveOrder(int id) {
+	        Jdbi jdbi = JDBIConnect.get();
+	        return jdbi.withHandle(handle -> handle.createQuery(
+	                "SELECT * FROM orders WHERE idUser = :id AND status != 'CANCELLED'")
+	            .bind("id", id)
+	            .map((rs, ctx) -> {
+	                int orderId = rs.getInt("id");
+	                int userId = rs.getInt("idUser");
+	                double totalPrice = rs.getDouble("totalPrice");
+	                String orderDate = rs.getString("orderDate");
+	                String status = rs.getString("status");
+	                int idPayment = rs.getInt("idPayment");
+	                int quantity = rs.getInt("quantity");
+	                String otp = rs.getString("otp");
+	                User user = userDao.getUserbyid(userId);
+	                Payment payment = paymentDao.getPaymentbyid(idPayment);
+	                return new Order(orderId, user, totalPrice, orderDate, status, payment, quantity, otp);
+	            })
+	            .list()
+	        );
+	    }
+
 
 	    public List<OrderDetail> getDetailById(int id) {
 	        Jdbi jdbi = JDBIConnect.get();
@@ -96,13 +118,12 @@ public class OrderDao {
 
 	public Map<Order, List<OrderDetail>> getOrderWithDetails(int userId) {
 		Map<Order, List<OrderDetail>> map = new LinkedHashMap<>();
-		List<Order> orders = getOrderByUserId(userId);
+		List<Order> orders = getActiveOrder(userId);
 
 		for (Order order : orders) {
 			List<OrderDetail> details = getDetailById(order.getId());
 			map.put(order, details);
 		}
-
 		return map;
 	}
 
@@ -186,4 +207,9 @@ public class OrderDao {
 						.execute());
 		return rowsAffected>0;
 	}
+	
+
+
+
+
 }

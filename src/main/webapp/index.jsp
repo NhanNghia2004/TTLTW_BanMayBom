@@ -163,56 +163,8 @@
                     </div>
                 </div>
             </div>
-            <!--tin tức-->
-            <div class="row my-1">
-                <div class="d-flex justify-content-center">
-                    <span class="text-center fs-4 fw-bold border-bottom border-black m-5 pb-2" style="border-bottom-width: 2px !important;">Tin tức nổi bật</span>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-3">
-                    <div class="card">
-                        <img src="assets\imgs\khac\tintuc1.jpg" alt="Máy bơm nước biến tần" class="img-fluid"
-                             style="max-width: 70px;">
-                        <div class="card-body">
-                            <p class="mb-1">Máy bơm nước biến tần.</p>
-                            <a href="#">...xem thêm</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-3">
-                    <div class="card">
-                        <img src="assets\imgs\khac\tintuc2.jpg" alt="Máy bơm nước biến tần" class="img-fluid"
-                             style="max-width: 70px;">
-                        <div class="card-body">
-                            <p class="mb-1">Bơm chống lụt ở thành phố lớn</p>
-                            <a href="#">...xem thêm</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-3">
-                    <div class="card">
-                        <img src="assets\imgs\khac\tintuc3.jpg" alt="Máy bơm nước biến tần" class="img-fluid"
-                             style="max-width: 70px;">
-                        <div class="card-body">
-                            <p class="mb-1">Mẫu máy bơm mới của Sealand</p>
-                            <a href="#">...xem thêm</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-3">
-                    <div class="card">
-                        <img src="assets\imgs\khac\tintuc4.jpg" alt="Máy bơm nước biến tần" class=""
-                             style="max-width: 70px;">
-                        <div class="card-body">
-                            <p class="mb-1">Top máy bơm tháng 11</p>
-                            <a href="#">...xem thêm</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!--het tin tức-->
             <footer id="footer2"></footer>
+            <div id="bought-product"></div>
         </div>
     </div>
 </div>
@@ -225,8 +177,11 @@
     const header2 = document.getElementById("header2");
     const footer2 = document.getElementById("footer2");
     const nav = document.getElementById("nav");
-    const tintuc = document.getElementById("tintuc");
     const chonmaybom = document.getElementById("chonmaybom");
+    const boughtProduct = document.getElementById("bought-product");
+    fetch("./assets/component/boughtProduct.jsp")
+    	.then((response) => response.text())
+    	.then((html) => (boughtProduct.innerHTML = html));
     fetch("./assets/component/header.jsp")
         .then((response) => response.text())
         .then((html) => (header.innerHTML = html));
@@ -239,7 +194,6 @@
     fetch("./assets/component/nav.jsp")
         .then((response) => response.text())
         .then((html) => (nav.innerHTML = html));
-
 
 </script>
 <script>
@@ -273,5 +227,6 @@
     });
 </script>
 <script src="assets/js/nav.js"></script>
+<script src="assets/js/boughtProduct.js"></script>
 </body>
 </html>
