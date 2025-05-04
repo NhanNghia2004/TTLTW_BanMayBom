@@ -62,16 +62,19 @@
             <a href="#id4" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"
                data-bs-toggle="tab" role="tab" aria-controls="home" aria-selected="true"><i
                     class="fas fa-gift me-2"></i>Quản lý khuyến mãi</a>
+            <a href="#id5" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"
+               data-bs-toggle="tab" role="tab" aria-controls="home" aria-selected="true">
+               <i class="fas fa-ticket-alt me-2"></i>Quản lý voucher</a>
             <a href="${pageContext.request.contextPath}/OrderController" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"
                 aria-controls="home" aria-selected="true">
                 <i class="bi bi-box-seam me-2"></i>Quản lý đơn hàng</a>
             <a href="${pageContext.request.contextPath}/StockInController" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"
                aria-controls="home" aria-selected="true">
                <i class="bi bi-box-arrow-in-down me-2"></i>Quản lý kho</a>
-            <a href="#id5" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"
+            <a href="#id6" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"
                data-bs-toggle="tab" role="tab" aria-controls="home" aria-selected="true"><i
                     class="fas fa-paperclip me-2"></i>Báo Cáo</a>
-            <a href="#id6" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"
+            <a href="#id7" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"
                data-bs-toggle="tab" role="tab" aria-controls="home" aria-selected="true"><i
                     class="fa-solid fa-gift"></i> Bảo Hành </a>
             <a href="index.jsp" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"
@@ -763,8 +766,186 @@
             </div>
 
 
-            <%--            -----------------------------------------%>
+            <%-- Voucher           -----------------------------------------%>
+
             <div class="tab-pane fade" id="id5">
+                <div class="d-flex align-items-center m-4">
+                    <i class="fas fa-ticket-alt primary-text fs-4 me-3"></i>
+                    <h2 class="fs-2 m-0">Quản lý Voucher</h2>
+                </div>
+
+                <!-- Nút thêm voucher -->
+                <div class="d-flex justify-content-center align-items-center m-4">
+                    <button type="button" class="btn btn-success w-100 btn-lg" data-bs-toggle="modal"
+                            data-bs-target="#addVoucherModal">
+                        Thêm voucher
+                    </button>
+                </div>
+
+                <!-- Danh sách voucher -->
+                <section id="voucher-management" class="py-4">
+                    <div class="px-4">
+                        <h3 class="mb-3">Danh sách voucher</h3>
+                        <div class="table-responsive">
+                            <table id="voucherTable" class="table table-striped table-bordered text-center bg-white">
+                                <thead class="bg-white text-dark fw-bold">
+                                <tr>
+                                    <th style="text-align: center">ID</th>
+                                    <th style="text-align: center">Mã code</th>
+                                    <th style="text-align: center">Giá trị giảm</th>
+                                    <th style="text-align: center">Giá trị đơn tối thiểu</th>
+                                    <th style="text-align: center">Giới hạn sử dụng</th>
+                                    <th style="text-align: center">Đã sử dụng</th>
+                                    <th style="text-align: center">Lượt dùng mỗi người</th>
+                                    <th style="text-align: center">Thời gian hiệu lực</th>
+                                    <th style="text-align: center">Trạng thái</th>
+                                    <th style="text-align: center">Hành động</th>
+                                </tr>
+                                </thead>
+                                <tbody id="voucherBody">
+                                <!-- Dữ liệu sẽ được chèn vào đây bằng JavaScript hoặc AJAX -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Modal thêm voucher -->
+
+                    <div class="modal fade" id="addVoucherModal" tabindex="-1"
+                         aria-labelledby="addVoucherModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg"> <!-- modal lớn hơn để dễ nhập -->
+                            <div class="modal-content">
+                                <div class="modal-header bg-primary text-white">
+                                    <h5 class="modal-title w-100 text-center" id="addVoucherModalLabel">Thêm Voucher</h5>
+                                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Đóng"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form id="addVoucherForm">
+                                        <div class="row g-3">
+                                            <div class="col-md-6">
+                                                <label for="voucherCode" class="form-label">Mã code</label>
+                                                <input type="text" class="form-control" id="voucherCode" name="code" required>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <label for="discountValue" class="form-label">Giá trị giảm</label>
+                                                <input type="number" class="form-control" id="discountValue" name="discountValue" min="0" required>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <label for="minOrderValue" class="form-label">Giá trị đơn tối thiểu</label>
+                                                <input type="number" class="form-control" id="minOrderValue" name="minOrderValue" min="1000" required>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <label for="usageLimit" class="form-label">Giới hạn sử dụng</label>
+                                                <input type="number" class="form-control" id="usageLimit" name="usageLimit" min="1" >
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <label for="maxUsagePerUser" class="form-label">Lượt dùng mỗi người</label>
+                                                <input type="number" class="form-control" id="maxUsagePerUser" name="maxUsagePerUser" min="1" required>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <label for="status" class="form-label">Trạng thái</label>
+                                                <select class="form-select" id="status" name="status" required>
+                                                    <option value="1">Đang áp dụng</option>
+                                                    <option value="0">Không áp dụng</option>
+                                                </select>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <label for="startDate" class="form-label">Ngày bắt đầu</label>
+                                                <input type="date" class="form-control" id="voucherStartDate" name="startDate" required>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <label for="endDate" class="form-label">Ngày kết thúc</label>
+                                                <input type="date" class="form-control" id="voucherEndDate" name="endDate" required>
+                                            </div>
+
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="submit" form="addVoucherForm" class="btn btn-primary w-100 text-center">Thêm</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Modal sửa voucher -->
+                    <div class="modal fade" id="editVoucherModal" tabindex="-1" aria-labelledby="editVoucherModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg"> <!-- modal lớn hơn để dễ nhập -->
+                            <div class="modal-content">
+                                <div class="modal-header bg-success text-white">
+                                    <h5 class="modal-title w-100 text-center" id="editVoucherModalLabel">Sửa Voucher</h5>
+                                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Đóng"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form id="editVoucherForm">
+                                        <input type="hidden" id="editVoucherId" name="id">
+
+                                        <div class="row g-3">
+                                            <div class="col-md-6">
+                                                <label for="editVoucherCode" class="form-label">Mã code</label>
+                                                <input type="text" class="form-control" id="editVoucherCode" name="code" required>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <label for="editDiscountValue" class="form-label">Giá trị giảm</label>
+                                                <input type="number" class="form-control" id="editDiscountValue" name="discountValue" min="0" required>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <label for="editMinOrderValue" class="form-label">Giá trị đơn tối thiểu</label>
+                                                <input type="number" class="form-control" id="editMinOrderValue" name="minOrderValue" min="0" required>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <label for="editUsageLimit" class="form-label">Giới hạn sử dụng</label>
+                                                <input type="number" class="form-control" id="editUsageLimit" name="usageLimit" min="1">
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <label for="editMaxUsagePerUser" class="form-label">Lượt dùng mỗi người</label>
+                                                <input type="number" class="form-control" id="editMaxUsagePerUser" name="maxUsagePerUser" min="1" required>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <label for="editVoucherStatus" class="form-label">Trạng thái</label>
+                                                <select class="form-select" id="editVoucherStatus" name="status" required>
+                                                    <option value="1">Đang áp dụng</option>
+                                                    <option value="0">Không áp dụng</option>
+                                                </select>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <label for="editVoucherStartDate" class="form-label">Ngày bắt đầu</label>
+                                                <input type="date" class="form-control" id="editVoucherStartDate" name="startDate" required>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <label for="editVoucherEndDate" class="form-label">Ngày kết thúc</label>
+                                                <input type="date" class="form-control" id="editVoucherEndDate" name="endDate" required>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="submit" form="editVoucherForm" class="btn btn-success w-100 text-center">Lưu thay đổi</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </section>
+            </div>
+
+
+              <%--            -----------------------------------------%>
+            <div class="tab-pane fade" id="id6">
                 <div class="m-4">
                     <div class="d-flex align-items-center">
                         <i class="fas fa-align-left primary-text fs-4 me-3"></i>
@@ -835,7 +1016,7 @@
             </div>
 
             <%--            -----------------------------%>
-            <div class="tab-pane fade" id="id6">
+            <div class="tab-pane fade" id="id7">
                 <div class="m-4">
                     <div class="d-flex align-items-center">
                         <i class="fas fa-align-left primary-text fs-4 me-3"></i>

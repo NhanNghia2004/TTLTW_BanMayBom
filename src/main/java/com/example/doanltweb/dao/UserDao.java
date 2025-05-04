@@ -291,6 +291,9 @@ public class UserDao {
     }
 
 
+//        userDao.lockUserByUsername("admin");
+
+
     public static void main(String[] args) {
     }
 }

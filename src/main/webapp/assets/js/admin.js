@@ -29,7 +29,7 @@ function loadProductData() {
         10: 'Công ty J'
     };
     $.ajax({
-        url: 'http://localhost:8080/DoAnLTWeb_war/productController', // API của bạn
+        url: 'http://localhost:8080/DoAnLTWeb/productController', // API của bạn
         type: 'GET',
         dataType: 'json',
         success: function (data) {
@@ -46,7 +46,7 @@ function loadProductData() {
                 var row = `<tr>
                         <td>${product.id}</td>
                         <td style="min-width: 70px;">${product.nameProduct}</td>
-                        <td><img src="/assets/imgs/maybom/${product.image}" alt="Product Image" style="width: 60px; height: 60px;"></td>
+                        <td><img src="${product.image}" alt="Product Image" style="width: 60px; height: 60px;"></td>
                         <td>${product.priceProduct}</td>
                         <td style="min-width: 150px;">${product.description}</td>
                         <td style="min-width: 90px;">${product.manufactureDate}</td>
@@ -136,7 +136,7 @@ function addProduct(event) {
 
     // Gửi AJAX
     $.ajax({
-        url: 'http://localhost:8080/DoAnLTWeb_war/productController',
+        url: 'http://localhost:8080/DoAnLTWeb/productController',
         type: 'POST',
         data: JSON.stringify(productData),
         contentType: 'application/json',
@@ -219,7 +219,7 @@ function editProduct(event) {
     // Gửi yêu cầu PUT để cập nhật sản phẩm
 
     $.ajax({
-        url: 'http://localhost:8080/DoAnLTWeb_war/productController?id=' + pid,  // API xử lý PUT sửa sản phẩm
+        url: 'http://localhost:8080/DoAnLTWeb/productController?id=' + pid,  // API xử lý PUT sửa sản phẩm
         type: 'PUT',
         data: JSON.stringify(productData),
         contentType: 'application/json',
@@ -243,7 +243,7 @@ $(document).off('click', '.product-delete-btn').on('click', '.product-delete-btn
 
     if (confirm('Bạn có chắc chắn muốn xóa sản phẩm này?')) {
         $.ajax({
-            url: 'http://localhost:8080/DoAnLTWeb_war/productController?id=' + productId,
+            url: 'http://localhost:8080/DoAnLTWeb/productController?id=' + productId,
             type: 'DELETE',
             success: function (response) {
                 alert(response.message);
@@ -276,7 +276,7 @@ function loadSaleData() {
     };
 
     $.ajax({
-        url: 'http://localhost:8080/DoAnLTWeb_war/SaleController', // API của bạn
+        url: 'http://localhost:8080/DoAnLTWeb/SaleController', // API của bạn
         type: 'GET',
         dataType: 'json',
         success: function (data) {
@@ -369,7 +369,7 @@ $(document).ready(function () {
 
         // Gửi dữ liệu lên servlet qua POST
         $.ajax({
-            url: 'http://localhost:8080/DoAnLTWeb_war/SaleController',
+            url: 'http://localhost:8080/DoAnLTWeb/SaleController',
             type: 'POST',
             contentType: 'application/json',
             data: JSON.stringify(saleData),
@@ -451,7 +451,7 @@ $('#editPromotionForm').off('submit').on('submit', function (e) {
     };
 
     $.ajax({
-        url: 'http://localhost:8080/DoAnLTWeb_war/SaleController',
+        url: 'http://localhost:8080/DoAnLTWeb/SaleController',
         type: 'PUT',
         contentType: 'application/json',
         data: JSON.stringify(updatedSale),
@@ -472,7 +472,7 @@ $(document).off('click', '.promotion-delete-btn').on('click', '.promotion-delete
 
     if (confirm("Bạn có chắc chắn muốn xóa khuyến mãi này không?")) {
         $.ajax({
-            url: `http://localhost:8080/DoAnLTWeb_war/SaleController?id=${id}`,
+            url: `http://localhost:8080/DoAnLTWeb/SaleController?id=${id}`,
             type: 'DELETE',
             success: function (response) {
                 alert(response.message || "Xóa thành công!");
@@ -500,7 +500,7 @@ function loadUserData() {
     };
 
     $.ajax({
-        url: 'http://localhost:8080/DoAnLTWeb_war/UserManagerController',
+        url: 'http://localhost:8080/DoAnLTWeb/UserManagerController',
         type: 'GET',
         dataType: 'json',
         success: function (data) {
@@ -517,10 +517,10 @@ function loadUserData() {
                 const row = `
                     <tr>
                         <td>${user.id}</td>
-                        <td style="min-width: 100px;">${avatar}</td>
+                        <td style="min-width: 90px;">${avatar}</td>
                         <td style="min-width: 100px;">${user.username}</td>
                         <td>${user.fullname || ''}</td>
-                        <td style="min-width: 150px;">${user.email || ''}</td>
+                        <td style="min-width: 145px;">${user.email || ''}</td>
                         <td>${user.phone || ''}</td>
                         <td style="min-width: 70px;">${user.address || ''}</td>
                         <td>${permission}</td>
@@ -570,7 +570,6 @@ function loadUserData() {
 
 document.addEventListener('DOMContentLoaded', loadUserData);
 // sửa
-// Sửa thông tin người dùng
 $(document).on('click', '.user-edit-btn', function (event) {
     event.stopPropagation();
     const row = $(this).closest('tr');
@@ -637,7 +636,7 @@ $('#editUserForm').off('submit').on('submit', function (e) {
 
     // Gửi yêu cầu PUT để cập nhật người dùng
     $.ajax({
-        url: 'http://localhost:8080/DoAnLTWeb_war/UserManagerController',
+        url: 'http://localhost:8080/DoAnLTWeb/UserManagerController',
         type: 'PUT',
         contentType: 'application/json',
         data: JSON.stringify(updatedUser),
@@ -659,7 +658,7 @@ $(document).off('click', '.user-delete-btn').on('click', '.user-delete-btn', fun
 
     if (confirm("Bạn có chắc chắn muốn xóa?")) {
         $.ajax({
-            url: 'http://localhost:8080/DoAnLTWeb_war/UserManagerController',
+            url: 'http://localhost:8080/DoAnLTWeb/UserManagerController',
             type: 'DELETE',
             contentType: 'application/json',
             data: JSON.stringify({ id: userId }),
@@ -674,5 +673,357 @@ $(document).off('click', '.user-delete-btn').on('click', '.user-delete-btn', fun
         });
     }
 });
+
+// voucher
+function loadVoucherData() {
+    const tableSelector = '#voucherTable';
+    const table = $(tableSelector);
+
+    // Kiểm tra xem DataTable đã tồn tại chưa và nếu có thì hủy nó trước khi khởi tạo lại
+    if ($.fn.DataTable.isDataTable(tableSelector)) {
+        table.DataTable().clear().destroy();
+    }
+
+    $.ajax({
+        url: 'http://localhost:8080/DoAnLTWeb/VoucherController',
+        type: 'GET',
+        dataType: 'json',
+        success: function (data) {
+            const tableBody = $('#voucherBody');
+            tableBody.empty();
+
+            const statuses = {
+                1: 'Đang hoạt động',
+                0: 'Không hoạt động'
+            };
+
+            // Hàm formatDate để định dạng ngày tháng
+            function formatDate(dateString) {
+                if (!dateString) return ''; // Trả về chuỗi trống nếu không có ngày
+                const date = new Date(dateString);
+                if (isNaN(date)) return ''; // Nếu không phải ngày hợp lệ
+                // Định dạng ngày theo kiểu Việt Nam (dd/MM/yyyy)
+                return date.toLocaleDateString('vi-VN');
+            }
+
+            // Duyệt qua dữ liệu voucher và hiển thị lên bảng
+            data.forEach(function (voucher) {
+                const statusName = statuses[voucher.status] || 'Không xác định';
+                const startDate = formatDate(voucher.startDate);
+                const endDate = formatDate(voucher.endDate);
+
+                // Kiểm tra nếu giá trị discountValue là phần trăm (giá trị nhỏ hơn 100)
+                let discountDisplay = '';
+                const discountValue = parseFloat(voucher.discountValue);
+
+// Nếu <= 100 → chắc chắn là phần trăm
+                if (discountValue <= 100) {
+                    discountDisplay = `${discountValue}%`;
+                }
+// Nếu >= 1000 → chắc chắn là tiền VND
+                else if (discountValue >= 1000) {
+                    discountDisplay = `${discountValue.toLocaleString('vi-VN')} VND`;
+                }
+// Nếu trong khoảng 100 < value < 1000 → hiển thị cảnh báo hoặc giả định là phần trăm
+                else {
+                    discountDisplay = `${discountValue}%`; // hoặc cảnh báo người nhập
+                    console.warn(`Giá trị ${discountValue} không rõ đơn vị, đang hiển thị là %`);
+                }
+
+
+                const row = `
+        <tr>
+            <td>${voucher.id}</td>
+            <td style="min-width: 100px;">${voucher.code}</td>
+             <td>${discountDisplay}</td>
+            <td>${voucher.minOrderValue.toLocaleString('vi-VN')} VND</td>
+            <td>${voucher.usageLimit !== null ? voucher.usageLimit : 'Không giới hạn'}</td>
+            <td>${voucher.usedCount}</td>
+            <td>${voucher.maxUsagePerUser}</td>
+            <td>${startDate} - ${endDate}</td>
+            <td>${statusName}</td>
+            <td>
+                <div class="d-flex gap-2 justify-content-center">
+                    <button class="btn btn-sm btn-primary voucher-edit-btn" data-id="${voucher.id}">Sửa</button>
+                    <button class="btn btn-sm btn-danger voucher-delete-btn" data-id="${voucher.id}">Xóa</button>
+                </div>
+            </td>
+        </tr>
+    `;
+                tableBody.append(row);
+            });
+
+            // Khởi tạo DataTable sau khi đã thêm dữ liệu vào bảng
+            table.DataTable({
+                destroy: true,
+                paging: true,
+                searching: true,
+                ordering: true,
+                lengthChange: true,
+                language: {
+                    lengthMenu: "Hiển thị _MENU_ voucher mỗi trang",
+                    zeroRecords: "Không tìm thấy voucher nào",
+                    info: "Hiển thị _START_ đến _END_ của _TOTAL_ voucher",
+                    infoEmpty: "Không có voucher nào",
+                    infoFiltered: "(lọc từ _MAX_ voucher)",
+                    search: "Tìm kiếm:",
+                    paginate: {
+                        first: "Đầu",
+                        last: "Cuối",
+                        next: "Sau",
+                        previous: "Trước"
+                    },
+                }
+            });
+        },
+        error: function (xhr, status, error) {
+            console.error("Lỗi khi lấy dữ liệu voucher:", error);
+        }
+    });
+}
+
+document.addEventListener('DOMContentLoaded', loadVoucherData);
+
+// thêm voucher
+
+$(document).ready(function () {
+    $('#addVoucherForm').off('submit').on('submit', function (e) {
+        e.preventDefault();
+
+        const startDateRaw = $('#voucherStartDate').val();
+        const endDateRaw = $('#voucherEndDate').val();
+
+        if (!startDateRaw || !endDateRaw) {
+            alert("Ngày bắt đầu và ngày kết thúc không được để trống!");
+            return;
+        }
+
+        const startDate = new Date(startDateRaw);
+        const endDate = new Date(endDateRaw);
+
+        if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
+            alert("Định dạng ngày không hợp lệ!");
+            return;
+        }
+
+        if (endDate < startDate) {
+            alert("Ngày kết thúc phải sau ngày bắt đầu!");
+            return;
+        }
+
+        const discountValue = parseFloat($('#discountValue').val());
+        const minOrderValue = parseFloat($('#minOrderValue').val());
+        const usageLimit = $('#usageLimit').val() ? parseInt($('#usageLimit').val()) : null;
+        const maxUsagePerUser = parseInt($('#maxUsagePerUser').val());
+        const status = parseInt($('#status').val());
+        const code = $('#voucherCode').val().trim();
+
+        if (!code || isNaN(discountValue) || isNaN(minOrderValue) || isNaN(maxUsagePerUser)) {
+            alert("Vui lòng điền đúng các trường bắt buộc!");
+            return;
+        }
+
+        const voucherData = {
+            code: code,
+            discountValue: discountValue,
+            minOrderValue: minOrderValue,
+            usageLimit: usageLimit,
+            maxUsagePerUser: maxUsagePerUser,
+            status: status,
+            startDate: startDateRaw, // 'yyyy-MM-dd'
+            endDate: endDateRaw
+        };
+
+        $.ajax({
+            url: 'http://localhost:8080/DoAnLTWeb/VoucherController',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(voucherData),
+            success: function (response) {
+                alert("Thêm voucher thành công!");
+                $('#addVoucherForm')[0].reset();
+                $('#addVoucherModal').modal('hide');
+                loadVoucherData();
+            },
+            error: function (xhr) {
+                const msg = xhr.responseJSON?.error || "Thêm voucher thất bại!";
+                alert(msg);
+                console.error("Lỗi:", xhr.responseText);
+            }
+        });
+    });
+});
+
+
+// Mở modal và điền dữ liệu của voucher vào form khi người dùng nhấn nút "Sửa"
+$(document).off('click', '.voucher-edit-btn').on('click', '.voucher-edit-btn', function (event) {
+    event.stopPropagation();
+    const row = $(this).closest('tr');
+    const id = $(this).data('id');
+
+    // Lấy dữ liệu từng cột
+    const code = row.find('td:eq(1)').text().trim();
+    const discountValue = row.find('td:eq(2)').text().trim();
+    const minOrderValue = row.find('td:eq(3)').text().trim();
+    const usageLimit = row.find('td:eq(4)').text().trim();
+    const usedCount = row.find('td:eq(5)').text().trim();
+    const maxUsagePerUser = row.find('td:eq(6)').text().trim(); // Lượt dùng mỗi người
+    const dateRange = row.find('td:eq(7)').text().trim(); // startDate - endDate
+    const status = row.find('td:eq(8)').text().trim();
+
+    // Kiểm tra xem có phân tách ngày không
+    const dateParts = dateRange.split(" - ");
+    const startDate = dateParts[0] ? dateParts[0].trim() : '';
+    const endDate = dateParts[1] ? dateParts[1].trim() : '';
+
+    // Kiểm tra status và chuyển sang số
+    const statusValue = (status === 'Đang hoạt động') ? 1 : 0;
+
+    // Điền dữ liệu vào form modal
+    $('#editVoucherId').val(id);
+    $('#editVoucherCode').val(code);
+    $('#editDiscountValue').val(
+        discountValue
+            .replace('%', '')
+            .replace(' VND', '')
+            .replace(/\./g, '') // Xóa dấu chấm ngăn cách nghìn
+            .trim()
+    );
+
+    $('#editMinOrderValue').val(
+        minOrderValue
+            .replace(' VND', '')
+            .replace(/\./g, '') // Xóa dấu chấm ngăn cách nghìn
+            .replace(',', '')   // Dự phòng nếu có dấu phẩy
+            .trim()
+    );
+
+    $('#editUsageLimit').val(usageLimit === 'Không giới hạn' ? '' : usageLimit); // Nếu không giới hạn thì bỏ trống
+    $('#editUsedCount').val(usedCount);
+    $('#editMaxUsagePerUser').val(maxUsagePerUser);  // Cập nhật Lượt dùng mỗi người
+    $('#editVoucherStatus').val(statusValue);
+
+    function convertToDateInputFormat(dateStr) {
+        // Giả sử dateStr là "01/05/2025" hoặc "1/5/2025"
+        const parts = dateStr.split('/');
+        if (parts.length === 3) {
+            const day = parts[0].padStart(2, '0');
+            const month = parts[1].padStart(2, '0');
+            const year = parts[2];
+            return `${year}-${month}-${day}`;
+        }
+        return '';
+    }
+
+    $('#editVoucherStartDate').val(convertToDateInputFormat(startDate));
+    $('#editVoucherEndDate').val(convertToDateInputFormat(endDate));
+
+    // Hiển thị modal
+    $('#editVoucherModal').modal('show');
+});
+
+// Xử lý sự kiện submit form sửa voucher
+$('#editVoucherForm').off('submit').on('submit', function (e) {
+    e.preventDefault();
+
+    const startDateRaw = $('#editVoucherStartDate').val();
+    const endDateRaw = $('#editVoucherEndDate').val();
+
+    // Kiểm tra ngày bắt đầu và ngày kết thúc không để trống
+    if (!startDateRaw || !endDateRaw) {
+        alert("Ngày bắt đầu và ngày kết thúc không được để trống!");
+        return;
+    }
+
+    const startDate = new Date(startDateRaw + "T00:00:00");
+    const endDate = new Date(endDateRaw + "T23:59:59");
+
+    // Kiểm tra định dạng ngày
+    if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
+        alert("Định dạng ngày không hợp lệ!");
+        return;
+    }
+
+    // Kiểm tra ngày kết thúc phải sau ngày bắt đầu
+    if (endDate < startDate) {
+        alert("Ngày kết thúc phải sau ngày bắt đầu!");
+        return;
+    }
+
+    // Lấy các giá trị từ form
+    const id = parseInt($('#editVoucherId').val());
+    const code = $('#editVoucherCode').val().trim();
+    const discountValue = parseFloat($('#editDiscountValue').val());
+    const minOrderValue = parseFloat($('#editMinOrderValue').val());
+    const usageLimit = $('#editUsageLimit').val() ? parseInt($('#editUsageLimit').val()) : null;
+    const usedCount = parseInt($('#editUsedCount').val());
+    const maxUsagePerUser = parseInt($('#editMaxUsagePerUser').val());
+    const status = parseInt($('#editVoucherStatus').val());
+
+    // Tạo đối tượng voucher với dữ liệu đã nhập
+    const updatedVoucher = {
+        id: id,
+        code: code,
+        discountValue: discountValue,
+        minOrderValue: minOrderValue,
+        usageLimit: usageLimit,
+        usedCount: usedCount,
+        maxUsagePerUser: maxUsagePerUser,
+        status: status,
+        startDate: startDateRaw, // 'yyyy-MM-dd'
+        endDate: endDateRaw
+    };
+
+    // Gửi dữ liệu sửa voucher lên server
+    $.ajax({
+        url: 'http://localhost:8080/DoAnLTWeb/VoucherController', // URL tới controller sửa voucher
+        type: 'PUT',
+        contentType: 'application/json',
+        data: JSON.stringify(updatedVoucher),
+        success: function (response) {
+            alert("Cập nhật voucher thành công!");
+            $('#editVoucherModal').modal('hide'); // Đóng modal
+            loadVoucherData(); // Tải lại danh sách voucher sau khi cập nhật
+        },
+        error: function (xhr) {
+            const msg = xhr.responseJSON?.error || "Cập nhật voucher thất bại!";
+            alert(msg);
+            console.error("Lỗi:", xhr.responseText);
+        }
+    });
+});
+
+//Xóa voucher
+$(document).off('click', '.voucher-delete-btn').on('click', '.voucher-delete-btn', function () {
+    const id = $(this).data('id'); // Lấy ID của voucher từ data-id
+
+    // Xác nhận xóa
+    if (confirm("Bạn có chắc chắn muốn xóa voucher này không?")) {
+        $.ajax({
+            url: `http://localhost:8080/DoAnLTWeb/VoucherController?id=${id}`,
+            type: 'DELETE', // Gửi yêu cầu DELETE tới VoucherController
+            success: function (response) {
+                alert(response.message || "Xóa voucher thành công!");
+                loadVoucherData(); // Tải lại danh sách voucher sau khi xóa
+            },
+            error: function (xhr, status, error) {
+                console.error("Lỗi khi xóa voucher:", error);
+                alert("Xóa voucher thất bại hoặc không tìm thấy!");
+            }
+        });
+    }
+});
+
+
+
+
+
+
+
+
+
+
+
+
 
 
