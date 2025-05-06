@@ -214,7 +214,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const formData = new FormData(form);
 
         // Gửi dữ liệu qua AJAX
-        fetch("http://localhost:8080/DoAnLTWeb_war/UserProfileServlet", {
+        fetch("http://localhost:8080/DoAnLTWeb/UserProfileServlet", {
             method: "POST",
             body: formData
         })
@@ -249,7 +249,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                     const formData = new FormData(changePasswordForm);
 
-                    fetch("http://localhost:8080/DoAnLTWeb_war/UserProfileServlet?action=changePassword", {
+                    fetch("http://localhost:8080/DoAnLTWeb/UserProfileServlet?action=changePassword", {
                         method: "POST",
                         body: formData
                     })
