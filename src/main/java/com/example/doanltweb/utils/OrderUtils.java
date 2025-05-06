@@ -3,12 +3,19 @@ package com.example.doanltweb.utils;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.example.doanltweb.dao.OrderDao;
 import com.example.doanltweb.dao.model.Order;
+import com.example.doanltweb.dao.model.OrderDetail;
+import com.example.doanltweb.dao.model.Product;
+import com.example.doanltweb.dao.model.StockIn;
 
 public class OrderUtils {
+	OrderDao orderDao = new OrderDao();
+
 	public String genOTP() {
 		return"";
 	}
@@ -36,5 +43,16 @@ public class OrderUtils {
 
 		    }
 		}
+	}
+
+	public Map<Product,Integer> orderRecord(){
+		List<OrderDetail> details = orderDao.getAllDetail();
+		Map<Product,Integer> orderRecord = new HashMap<Product,Integer>();
+		for (OrderDetail detail : details) {
+			Product product = detail.getProduct();
+			int currentQty = orderRecord.getOrDefault(product, 0);
+			orderRecord.put(product, currentQty + detail.getQuantity());
+		}
+		return orderRecord;
 	}
 }
