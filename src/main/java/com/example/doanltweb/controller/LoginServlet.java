@@ -40,9 +40,10 @@ public class LoginServlet extends HttpServlet {
         if (user != null) {
             session.setAttribute("auth", user); // Lưu thông tin người dùng vào session
             LogDao.saveLog(user.getId(), "INFO", ip, "LOGIN", "username=" + username, "SUCCESS");
-            
+
             // Nếu người dùng là Admin (role == 1)
-            if (user.getIdPermission() == 1 ) {
+            int role = user.getIdPermission();
+            if (role == 1 || role == 2 || role == 4 ) {
                 System.out.println("lỗi");
                 response.sendRedirect("admin");
             } else {

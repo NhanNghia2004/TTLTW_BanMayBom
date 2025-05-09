@@ -28,9 +28,9 @@ public class AdminFilter implements Filter {
         if (user != null) {
             // Giả sử đối tượng User có thuộc tính role
             User authUser = (User) user;
-
+            int role = authUser.getIdPermission();
             // Kiểm tra xem role của user có phải là 1 không
-            if (authUser.getIdPermission() == 1) {
+            if (role == 1 || role == 2 || role == 4) {
                 // Nếu role là 1, cho phép truy cập vào admin.jsp
                 chain.doFilter(request, response);
             } else {

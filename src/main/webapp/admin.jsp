@@ -1,6 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<c:set var="role" value="${sessionScope.auth.idPermission}" />
 
 
 <!DOCTYPE html>
@@ -50,27 +51,48 @@
                 class="fas fa-user-secret me-2"></i>Quản Lý
         </div>
         <div class="list-group list-group-flush my-3">
+<!-- Quản lý mua bán: chỉ Admin và Nhân viên -->
+<c:if test="${role == 1 || role == 2}">
             <a href="#id1" class="list-group-item list-group-item-action bg-transparent second-text active"
                data-bs-toggle="tab" role="tab" aria-controls="home" aria-selected="true"><i
                     class="fas fa-tachometer-alt me-2"></i>Quản lý mua bán</a>
+</c:if>
+            <!-- Quản lý sản phẩm: tất cả (1, 2, 4) -->
+            <c:if test="${role == 1 || role == 2 || role == 4}">
             <a href="#id2" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"
                data-bs-toggle="tab" role="tab" aria-controls="home" aria-selected="true"><i
                     class="fas fa-project-diagram me-2"></i>Quản lý sản phẩm</a>
+            </c:if>
+            <!-- Quản lý người dùng: chỉ Admin -->
+            <c:if test="${role == 1}">
             <a href="#id3" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"
                data-bs-toggle="tab" role="tab" aria-controls="home" aria-selected="true"><i
                     class="fas fa-chart-line me-2"></i>Quản lý người dùng</a>
+            </c:if>
+            <!-- Quản lý khuyến mãi: Admin + Nhân viên -->
+            <c:if test="${role == 1 || role == 2}">
             <a href="#id4" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"
                data-bs-toggle="tab" role="tab" aria-controls="home" aria-selected="true"><i
                     class="fas fa-gift me-2"></i>Quản lý khuyến mãi</a>
+            </c:if>
+            <!-- Quản lý voucher: chỉ Admin -->
+            <c:if test="${role == 1}">
             <a href="#id5" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"
                data-bs-toggle="tab" role="tab" aria-controls="home" aria-selected="true">
                <i class="fas fa-ticket-alt me-2"></i>Quản lý voucher</a>
+            </c:if>
+            <!-- Quản lý đơn hàng: tất cả (1, 2, 4) -->
+            <c:if test="${role == 1 || role == 2 || role == 4}">
             <a href="${pageContext.request.contextPath}/OrderController" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"
                 aria-controls="home" aria-selected="true">
                 <i class="bi bi-box-seam me-2"></i>Quản lý đơn hàng</a>
+            </c:if>
+            <!-- Quản lý kho: Admin + Nhân viên -->
+            <c:if test="${role == 1 || role == 2}">
             <a href="${pageContext.request.contextPath}/StockInController" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"
                aria-controls="home" aria-selected="true">
                <i class="bi bi-box-arrow-in-down me-2"></i>Quản lý kho</a>
+            </c:if>
             <a href="#id6" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"
                data-bs-toggle="tab" role="tab" aria-controls="home" aria-selected="true"><i
                     class="fas fa-paperclip me-2"></i>Báo Cáo</a>
