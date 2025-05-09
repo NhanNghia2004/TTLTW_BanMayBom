@@ -693,7 +693,7 @@ function loadVoucherData() {
             tableBody.empty();
 
             const statuses = {
-                1: 'Đang hoạt động',
+                1: 'Hoạt động',
                 0: 'Không hoạt động'
             };
 
@@ -708,7 +708,10 @@ function loadVoucherData() {
 
             // Duyệt qua dữ liệu voucher và hiển thị lên bảng
             data.forEach(function (voucher) {
-                const statusName = statuses[voucher.status] || 'Không xác định';
+                // const statusName = statuses[voucher.status] || 'Không xác định';
+                let status = voucher.status;
+                let statusName = statuses[status] || 'Không xác định';
+
                 const startDate = formatDate(voucher.startDate);
                 const endDate = formatDate(voucher.endDate);
 
@@ -726,8 +729,11 @@ function loadVoucherData() {
                 }
 // Nếu trong khoảng 100 < value < 1000 → hiển thị cảnh báo hoặc giả định là phần trăm
                 else {
-                    discountDisplay = `${discountValue}%`; // hoặc cảnh báo người nhập
-                    console.warn(`Giá trị ${discountValue} không rõ đơn vị, đang hiển thị là %`);
+                    discountDisplay = `<span class="text-danger">Không hợp lệ</span>`;
+                    status = 0; // Chuyển trạng thái thành "Không hoạt động"
+                    statusName = statuses[status];
+
+                    console.warn(`Giá trị ${discountValue} không hợp lệ. Phải <= 100 (phần trăm) hoặc >= 1000 (VND).`);
                 }
 
 

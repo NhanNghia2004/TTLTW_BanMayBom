@@ -815,7 +815,7 @@
                          aria-labelledby="addVoucherModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-lg"> <!-- modal lớn hơn để dễ nhập -->
                             <div class="modal-content">
-                                <div class="modal-header bg-primary text-white">
+                                <div class="modal-header bg-success text-white">
                                     <h5 class="modal-title w-100 text-center" id="addVoucherModalLabel">Thêm Voucher</h5>
                                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Đóng"></button>
                                 </div>
@@ -850,8 +850,8 @@
                                             <div class="col-md-6">
                                                 <label for="status" class="form-label">Trạng thái</label>
                                                 <select class="form-select" id="status" name="status" required>
-                                                    <option value="1">Đang áp dụng</option>
-                                                    <option value="0">Không áp dụng</option>
+                                                    <option value="1">Hoạt động</option>
+                                                    <option value="0">Không hoạt động</option>
                                                 </select>
                                             </div>
 
@@ -869,7 +869,7 @@
                                     </form>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="submit" form="addVoucherForm" class="btn btn-primary w-100 text-center">Thêm</button>
+                                    <button type="submit" form="addVoucherForm" class="btn btn-success w-100 text-center">Thêm</button>
                                 </div>
                             </div>
                         </div>
@@ -916,8 +916,8 @@
                                             <div class="col-md-6">
                                                 <label for="editVoucherStatus" class="form-label">Trạng thái</label>
                                                 <select class="form-select" id="editVoucherStatus" name="status" required>
-                                                    <option value="1">Đang áp dụng</option>
-                                                    <option value="0">Không áp dụng</option>
+                                                    <option value="1">Hoạt động</option>
+                                                    <option value="0">Không Hoạt động</option>
                                                 </select>
                                             </div>
 
