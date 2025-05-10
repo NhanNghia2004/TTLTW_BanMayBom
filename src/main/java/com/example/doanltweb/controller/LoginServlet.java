@@ -48,7 +48,11 @@ public class LoginServlet extends HttpServlet {
                 response.sendRedirect("admin");
             } else {
             	CartUtils.mergeSessionCartToDb(user.getId(),session);
+
             	response.sendRedirect("/DoAnLTWeb/trangchu");
+
+            	response.sendRedirect("/DoAnLTWeb/index.jsp");
+
             }
         } else {
 

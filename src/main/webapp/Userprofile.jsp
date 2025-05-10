@@ -233,6 +233,89 @@
           .then((html) => (nav.innerHTML = html));
 </script>
 
+<script >
+document.addEventListener("DOMContentLoaded", function () {
+    const editBtn = document.getElementById("editBtn");
+    const submitBtn = document.getElementById("submitBtn");
+    const formInputs = document.querySelectorAll("#userForm input");
+    const messageDiv = document.getElementById("message");
+    const form = document.getElementById("userForm");
+
+    // Khi nhấn "Edit"
+    editBtn.addEventListener("click", function () {
+        formInputs.forEach(input => input.removeAttribute("readonly"));
+        editBtn.style.display = "none";   // Ẩn nút Edit
+        submitBtn.style.display = "block"; // Hiện nút Submit
+    });
+
+    // Khi nhấn "Submit"
+    form.addEventListener("submit", function (event) {
+        event.preventDefault(); // Ngăn chặn reload trang
+
+        // Lấy dữ liệu từ form
+        const formData = new FormData(form);
+
+        // Gửi dữ liệu qua AJAX
+        fetch("http://localhost:8080/DoAnLTWeb/UserProfileServlet", {
+            method: "POST",
+            body: formData
+        })
+        .then(response => response.json()) // Đọc phản hồi JSON từ server
+        .then(data => {
+            if (data.success) {
+                messageDiv.innerHTML = '<div class="alert alert-success">'+data.message+'</div>';
+                
+                // Chuyển form về trạng thái chỉ đọc
+                formInputs.forEach(input => input.setAttribute("readonly", "true"));
+                editBtn.style.display = "block";
+                submitBtn.style.display = "none";
+            } else {
+                messageDiv.innerHTML = '<div class="alert alert-danger">'+data.message+'</div>';
+            }
+        })
+        .catch(error => {
+            console.error("Lỗi khi gửi AJAX:", error);
+            messageDiv.innerHTML = `<div class="alert alert-danger">Có lỗi xảy ra!</div>`;
+        });
+    });
+});
+</script>
+<script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const changePasswordForm = document.getElementById("changePasswordForm");
+            const changePasswordMessage = document.getElementById("changePasswordMessage");
+			const messageDiv = document.getElementById("changePasswordMessage");
+            if (changePasswordForm) {
+                changePasswordForm.addEventListener("submit", function (event) {
+                    event.preventDefault();
+
+                    const formData = new FormData(changePasswordForm);
+
+                    fetch("http://localhost:8080/DoAnLTWeb/UserProfileServlet?action=changePassword", {
+                        method: "POST",
+                        body: formData
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+							console.log("DATA:", data);
+							if (data.success) {
+								messageDiv.innerHTML = '<div class="alert alert-success">'+data.message+'</div>';
+
+							} else {
+								messageDiv.innerHTML = '<div class="alert alert-danger">'+data.message+'</div>';
+							}
+							changePasswordForm.reset();
+						})
+                        .catch(error => {
+                            console.error("Lỗi:", error);
+                            changePasswordMessage.innerHTML = `<div class="alert alert-danger">Có lỗi xảy ra!</div>`;
+                        });
+                });
+            }
+        });
+    </script>
+=======
+
 	<script src="assets/js/nav.js"></script>
 	<script src="assets/js/userProfile.js"></script>
 	<script>
@@ -306,8 +389,5 @@
 	});
 
 	</script>
-
-
-
 </body>
 </html>
