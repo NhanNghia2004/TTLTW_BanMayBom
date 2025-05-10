@@ -16,6 +16,7 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
       crossorigin="anonymous"
     />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
      <link rel="stylesheet" href="assets/css/headerAndFooter.css">
   </head>
@@ -35,7 +36,7 @@
               <div class="col-md-12">
                 <div class="text-primary">
                    <h2 style="color: #162e5c !important;">Thông Tin Đơn Hàng và Vận Chuyển</h2>
-                   <form id="orderForm" action="CheckoutServlet" method="post" style="color: #162e5c !important;">
+                   <form id="orderForm"  method="post" style="color: #162e5c !important;">
                     <div class="mb-3">
                        <label class="form-label">Họ và Tên</label>
                        <input type="text" class="form-control" id="fullName" value="${auth.fullname}" required>
@@ -67,6 +68,7 @@
             </div>
 
             <footer id="footer2"></footer>
+            <div id="bought-product"></div>
           </div>
         </div>
       </div>
@@ -80,6 +82,10 @@
       const nav = document.getElementById("nav");
       const tintuc = document.getElementById("tintuc");
       const chonmaybom = document.getElementById("chonmaybom");
+      const boughtProduct = document.getElementById("bought-product");
+      fetch("./assets/component/boughtProduct.jsp")
+      	.then((response) => response.text())
+      	.then((html) => (boughtProduct.innerHTML = html));
       fetch("./assets/component/header.jsp")
               .then((response) => response.text())
               .then((html) => (header.innerHTML = html));
@@ -96,34 +102,37 @@
      
     </script>
     <script>
-    document.getElementById("orderForm").addEventListener("submit", async function(event) {
-        event.preventDefault();
+        $(document).ready(function () {
+            $("#orderForm").on("submit", function (event) {
+                event.preventDefault();
+                const messageDiv = document.getElementById("orderMessage");
+                let formData = new FormData(this);
 
-        let formData = new FormData(this);
-        try {
-            let response = await fetch("CheckoutServlet", {
-                method: "POST",
-                body: formData
+                $.ajax({
+                    url: "CheckoutServlet",
+                    method: "POST",
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    dataType: 'json',
+                    success: function (data) {
+                        console.log(data);
+                        console.log(messageDiv);
+                        if (data.success) {
+                            messageDiv.innerHTML = '<div class="alert alert-success">' + data.message + '</div>';
+                        } else {
+                            messageDiv.innerHTML = '<div class="alert alert-danger">' + data.message + '</div>';
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("Error:", error);
+                        messageDiv.innerHTML = '<div class="alert alert-danger">' + error + '</div>';
+                    }
+                });
             });
-
-            if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
-
-            let data = await response.json();
-            console.log("Data received:", data);
-            console.log("Success value:", data.success, typeof data.success); // Kiểm tra kiểu dữ liệu
-
-            let messageBox = document.getElementById("orderMessage");
-            messageBox.innerHTML = '<div class="alert ' + (data.success ? 'alert-success' : 'alert-danger') + '">' + data.message + '</div>';
-
-
-
-        } catch (error) {
-            console.error("Error:", error);
-            document.getElementById("orderMessage").innerHTML = `<div class="alert alert-danger">Lỗi khi đặt hàng!</div>`;
-        }
-    });
-
-
-</script>
+        });
+    </script>
+    <script src="assets/js/nav.js"></script>
+	<script src="assets/js/boughtProduct.js"></script>
   </body>
 </html>

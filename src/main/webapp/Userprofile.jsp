@@ -19,6 +19,7 @@
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
 	crossorigin="anonymous" />
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <link rel="stylesheet"
 	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 <link rel="stylesheet" href="assets/css/Userprofilestyle.css">
@@ -50,7 +51,7 @@
 											<p class="text-muted">${auth.email}</p>
 										</div>
 
-									<!-- Form chi tiết người dùng -->
+										<!-- Form chi tiết người dùng -->
 										<form id="userForm" action="DetailUserController"
 											method="post">
 											<div class="mb-3">
@@ -139,28 +140,72 @@
 										</tr>
 									</thead>
 									<tbody>
-										<c:forEach items="${orders}" var="order">
-											<tr>
-												<td>
-													<p class="mb-0">${order.orderDate }</p>
+
+										<c:forEach var="entry" items="${orderMap}">
+											<c:set var="order" value="${entry.key}" />
+											<c:set var="details" value="${entry.value}" />
+
+											<tr style="cursor: pointer;" class="table-row-main">
+												<td>${order.orderDate}</td>
+												<td onclick="toggleDetails(${order.id})">${order.user.fullname}</td>
+												<td onclick="toggleDetails(${order.id})">${order.quantity}</td>
+												<td onclick="toggleDetails(${order.id})">${order.totalPrice}</td>
+												<td onclick="toggleDetails(${order.id})"
+													data-order-id="${order.id}"><span
+													id="status-${order.id}" class="badge text-dark">${order.status}</span>
+
 												</td>
-												<td>${order.quantity }</td>
-												<td>${order.totalPrice }</td>
-												<td>${order.status }</td>
 												<td>
-													<button class="btn btn-danger btn-sm">Hủy đơn hàng</button>
-													<a href="#" class="btn  bg-dark-blue btn-sm text-light"> 
-														Xem chi tiết
-													</a>
+													<c:if
+														test="${order.status == 'PENDING' || order.status == 'VERIFIED'}">
+														<button id="btn-${order.id}" class="btn btn-danger btn-sm"
+															onclick="cancelOrder(${order.id})">Hủy đơn</button>
+													</c:if> <c:if test="${order.status == 'PENDING'}">
+														<button id="btn-confirm-${order.id}"
+															onclick="showOtpModal(${order.id})"
+															class="btn btn-success btn-sm">Xác nhận</button>
+													</c:if>
 												</td>
 											</tr>
 										</c:forEach>
+										<!-- Modal dùng chung cho tất cả đơn hàng -->
+										<div class="modal fade" id="otpModal" tabindex="-1"
+											aria-labelledby="otpModalLabel" aria-hidden="true">
+											<div class="modal-dialog">
+												<div class="modal-content">
+													<div class="modal-header">
+														<h5 class="modal-title" id="otpModalLabel">Xác nhận
+															đơn hàng</h5>
+														<button type="button" class="btn-close"
+															data-bs-dismiss="modal" aria-label="Đóng"></button>
+													</div>
+													<div class="modal-body">
+														<form id="verifyOtpForm">
+															<input type="hidden" class="form-control" name="orderId"
+																id="orderId">
+															<div class="mb-3">
+																<label for="otp" class="form-label">Nhập OTP:</label> <input
+																	type="text" class="form-control" id="otp" name="otp"
+																	required>
+															</div>
+															<div id="verifyMessage" class="mt-2"></div>
+															<div class="d-grid gap-2 mt-3">
+																<button type="submit" class="btn btn-primary">Xác
+																	nhận</button>
+															</div>
+														</form>
+													</div>
+												</div>
+											</div>
+										</div>
+
 									</tbody>
 								</table>
 							</div>
 						</div>
-				
+
 					</div>
+
 					<footer id="footer2"></footer>
 
 				</div>
@@ -172,7 +217,6 @@
 	<script>
   const header = document.getElementById("header");
   const footer = document.getElementById("footer");
-  const header2 = document.getElementById("header2");
   const footer2 = document.getElementById("footer2");
   const nav = document.getElementById("nav");
   fetch("./assets/component/header.jsp")
@@ -184,13 +228,11 @@
   fetch("./assets/component/footer2.jsp")
           .then((response) => response.text())
           .then((html) => (footer2.innerHTML = html));
-  fetch("./assets/component/header2.jsp")
-          .then((response) => response.text())
-          .then((html) => (header2.innerHTML = html));
   fetch("./assets/component/nav.jsp")
           .then((response) => response.text())
           .then((html) => (nav.innerHTML = html));
 </script>
+
 <script >
 document.addEventListener("DOMContentLoaded", function () {
     const editBtn = document.getElementById("editBtn");
@@ -238,7 +280,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 </script>
-    <script>
+<script>
         document.addEventListener("DOMContentLoaded", function () {
             const changePasswordForm = document.getElementById("changePasswordForm");
             const changePasswordMessage = document.getElementById("changePasswordMessage");
@@ -272,6 +314,80 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         });
     </script>
+=======
 
+	<script src="assets/js/nav.js"></script>
+	<script src="assets/js/userProfile.js"></script>
+	<script>
+	function toggleDetails(orderId) {
+		let detailsRow = document.getElementById("orderDetails-" + orderId);
+		if (detailsRow) {
+			detailsRow.classList.toggle("show");
+		} else {
+			console.error("Không tìm thấy phần tử orderDetails" + orderId);
+		}
+	}
+
+	function showOtpModal(orderId) {
+	    $('#otpModal').modal('show');
+	    $('#otpModalLabel').text('Xác nhận đơn hàng #' + orderId); // Đổi title cho đẹp
+	    $('#orderId').val(orderId); // Gán orderId vào hidden input
+	}
+
+
+	function closeForm(orderId) {
+	    // Đóng modal OTP tương ứng với mỗi đơn hàng
+	    $('#otpModal-' + orderId).modal('hide');
+	}
+
+	</script>
+	<script>
+	$(document).ready(function () {
+	    $('#verifyOtpForm').submit(function (event) {
+	        event.preventDefault();
+
+	        var orderId = $('#orderId').val();
+	        var otp = $('#otp').val();
+	        var messageDiv = $('#verifyMessage');
+
+	        $.ajax({
+	            url: '/DoAnLTWeb/VerifyOrderServlet',
+	            type: 'POST',
+	            data: {
+	                orderId: orderId,
+	                otp: otp
+	            },
+	            success: function (data) {
+	                if (typeof data === 'string') {
+	                    data = JSON.parse(data);
+	                }
+	                if (data.success) {
+	                    messageDiv.html('<div class="alert alert-success">' + data.message + '</div>');
+	                    setTimeout(function () {
+	                        $('#otpModal').modal('hide');
+	                        messageDiv.html('');
+	                    }, 1000);
+	                 // Cập nhật trạng thái đơn hàng
+	    				const elementId = 'status-' + orderId;
+	    				const statusCell = document.getElementById(elementId);
+
+	    				if (statusCell) {
+	    					statusCell.textContent = "VERIFIED";
+	    					$('#btn-confirm-' + orderId).hide();
+	    				} else {
+	    					console.warn(`Không tìm thấy phần tử với id: ${elementId}`);
+	    				}
+	                } else {
+	                    messageDiv.html('<div class="alert alert-danger">' + data.message + '</div>');
+	                }
+	            },
+	            error: function () {
+	                messageDiv.html('<div class="alert alert-danger">Lỗi kết nối server!</div>');
+	            }
+	        });
+	    });
+	});
+
+	</script>
 </body>
 </html>

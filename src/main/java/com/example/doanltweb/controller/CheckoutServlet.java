@@ -1,5 +1,6 @@
 package com.example.doanltweb.controller;
 
+import com.example.doanltweb.service.EmailService;
 import jakarta.mail.Authenticator;
 import jakarta.mail.Message;
 import jakarta.mail.MessagingException;
@@ -23,6 +24,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
+import java.util.Random;
 
 import com.example.doanltweb.dao.CartDao;
 import com.example.doanltweb.dao.OrderDao;
@@ -38,7 +40,19 @@ import com.google.gson.JsonObject;
 @MultipartConfig
 public class CheckoutServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+
+	// Hàm tạo OTP 6 chữ số
+	public static String generateOTP() {
+		Random random = new Random();
+		StringBuilder otp = new StringBuilder();
+
+		// Tạo 6 chữ số ngẫu nhiên
+		for (int i = 0; i < 6; i++) {
+			otp.append(random.nextInt(10)); // Chọn ngẫu nhiên 1 số từ 0 đến 9
+		}
+
+		return otp.toString();
+	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
@@ -52,28 +66,30 @@ public class CheckoutServlet extends HttpServlet {
 	    HttpSession session = request.getSession();
 	    User user = (User) session.getAttribute("auth");
 	    Cart cart = cartDao.getCartByUserId(user.getId());
-
+		String otp = generateOTP();
 
 	    int paymentMethod = Integer.parseInt(request.getParameter("paymentMethod"));
 
 	    CartUtils.mergeSessionCartToDb(user.getId(),session);
-	    boolean order = orderDao.createOrder(user.getId(), cart.getTotalPrice(), paymentMethod, cart.getTotalAmount(), cart.getId());
+	    boolean order = orderDao.createOrder(user.getId(), cart.getTotalPrice(), paymentMethod, cart.getTotalAmount(), cart.getId(),otp);
 	    if(order) {
 	    	cartDao.clearCart(cart.getId());
 	    	session.setAttribute("cart", new ArrayList<CartItem>());
+			// Gửi email trong thread riêng
+			new Thread(() -> {
+				EmailService.sendOTP(user.getEmail(), otp);
+			}).start();
 	    }
-	    // Chuẩn bị response JSON
-	    JsonObject jsonResponse = new JsonObject();
-	    jsonResponse.addProperty("success", order);
-	    jsonResponse.addProperty("message", order ? "Đơn hàng đã tạo thành công!" : "Đặt hàng thất bại");
+		response.setCharacterEncoding("UTF-8");
+		response.setContentType("application/json");
 
-	    response.setContentType("application/json");
-	    response.setCharacterEncoding("UTF-8");
+		JsonObject jsonResponse = new JsonObject();
+		jsonResponse.addProperty("success", order);
+		jsonResponse.addProperty("message", order ? "Đơn hàng đã tạo thành công!" : "Đặt hàng thất bại");
 
-	    try (PrintWriter out = response.getWriter()) {
-	        out.print(jsonResponse);
-	        out.flush();
-	    }
+		PrintWriter out = response.getWriter();
+		out.print(jsonResponse.toString());
+		out.flush();
 
 	}
 

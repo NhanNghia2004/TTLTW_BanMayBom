@@ -37,12 +37,34 @@ public class OrderDao {
 	                    String status = rs.getString("status");
 	                    int idPayment = rs.getInt("idPayment");
 	                    int quantity = rs.getInt("quantity");
-
+						String otp = rs.getString("otp");
 	                    User user = userDao.getUserbyid(userId);
 	                    Payment payment = paymentDao.getPaymentbyid(idPayment);
-	                    return new Order(orderId, user, totalPrice, orderDate, status, payment, quantity);
+	                    return new Order(orderId, user, totalPrice, orderDate, status, payment, quantity,otp);
 	                }).list());
 	    }
+	    public List<Order> getActiveOrder(int id) {
+	        Jdbi jdbi = JDBIConnect.get();
+	        return jdbi.withHandle(handle -> handle.createQuery(
+	                "SELECT * FROM orders WHERE idUser = :id AND status != 'CANCELLED'")
+	            .bind("id", id)
+	            .map((rs, ctx) -> {
+	                int orderId = rs.getInt("id");
+	                int userId = rs.getInt("idUser");
+	                double totalPrice = rs.getDouble("totalPrice");
+	                String orderDate = rs.getString("orderDate");
+	                String status = rs.getString("status");
+	                int idPayment = rs.getInt("idPayment");
+	                int quantity = rs.getInt("quantity");
+	                String otp = rs.getString("otp");
+	                User user = userDao.getUserbyid(userId);
+	                Payment payment = paymentDao.getPaymentbyid(idPayment);
+	                return new Order(orderId, user, totalPrice, orderDate, status, payment, quantity, otp);
+	            })
+	            .list()
+	        );
+	    }
+
 
 	    public List<OrderDetail> getDetailById(int id) {
 	        Jdbi jdbi = JDBIConnect.get();
@@ -72,10 +94,10 @@ public class OrderDao {
 	                      String status = rs.getString("status");
 	                      int idPayment = rs.getInt("idPayment");
 	                      int quantity = rs.getInt("quantity");
-
+						  String otp = rs.getString("otp");
 	                      User user = userDao.getUserbyid(userId);  // Lấy thông tin người dùng
 	                      Payment payment = paymentDao.getPaymentbyid(idPayment);  // Lấy thông tin thanh toán
-	                      return new Order(orderId, user, totalPrice, orderDate, status, payment, quantity);
+	                      return new Order(orderId, user, totalPrice, orderDate, status, payment, quantity,otp);
 	                  })
 	                  .list()  // Trả về danh sách đơn hàng
 	        );
@@ -93,19 +115,32 @@ public class OrderDao {
 
 	        return map;
 	    }
-	    public boolean createOrder(int userId, double totalPrice, int idPayment, int quantity, int cartId) {
+
+	public Map<Order, List<OrderDetail>> getOrderWithDetails(int userId) {
+		Map<Order, List<OrderDetail>> map = new LinkedHashMap<>();
+		List<Order> orders = getActiveOrder(userId);
+
+		for (Order order : orders) {
+			List<OrderDetail> details = getDetailById(order.getId());
+			map.put(order, details);
+		}
+		return map;
+	}
+
+	    public boolean createOrder(int userId, double totalPrice, int idPayment, int quantity, int cartId,String otp) {
 	        Jdbi jdbi = JDBIConnect.get();
 
 	        try {
 	            return jdbi.inTransaction(handle -> {
 	                // 1️⃣ Chèn đơn hàng mới và lấy ID đơn hàng
 	                int orderId = handle.createUpdate(
-	                        "INSERT INTO orders (idUser, totalPrice, orderDate, status, idPayment,quantity) " +
-	                        "VALUES (:userId, :totalPrice, NOW(), 'pending',:idPayment,:quantity)")
+	                        "INSERT INTO orders (idUser, totalPrice, orderDate, status, idPayment,quantity,otp) " +
+	                        "VALUES (:userId, :totalPrice, NOW(), 'pending',:idPayment,:quantity,:otp)")
 	                    .bind("userId", userId)
 	                    .bind("totalPrice", totalPrice)
 	                    .bind("idPayment", idPayment)
 	                    .bind("quantity", quantity)
+						.bind("otp",otp)
 	                    .executeAndReturnGeneratedKeys("id")  
 	                    .mapTo(Integer.class)
 	                    .one();
@@ -162,9 +197,19 @@ public class OrderDao {
 
 	}
 
-	  
+
+	public boolean verifyOrder(int orderId, String otp) {
+		Jdbi jdbi = JDBIConnect.get();
+		int rowsAffected = jdbi.withHandle(handle ->
+				handle.createUpdate("UPDATE orders SET status = 'VERIFIED' WHERE id = :id AND otp = :otp AND orderDate > NOW() - INTERVAL 24 HOUR ")
+						.bind("otp", otp)
+						.bind("id", orderId)
+						.execute());
+		return rowsAffected>0;
+	}
+	
 
 
-	     
+
 
 }

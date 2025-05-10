@@ -20,39 +20,33 @@ public class RemoveFromCartServlet extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 
     }
-    public void doPost(HttpServletRequest request, HttpServletResponse response) 
-            throws IOException, ServletException {
-        HttpSession session = request.getSession();
 
-        int productId = Integer.parseInt(request.getParameter("productId"));
-        ProductDao productDao = new ProductDao();
+	public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+		try {
 
-        Product product = productDao.getById(productId);
-        
-        // Kiểm tra giỏ hàng đã tồn tại chưa
-		List<CartItem> cart =  (List<CartItem>) session.getAttribute("cart");
+			HttpSession session = request.getSession();
+			int productId = Integer.parseInt(request.getParameter("productId"));
+			ProductDao productDao = new ProductDao();
 
-        if (cart == null) {
-        	cart = new ArrayList<>(); // 🔥 Khởi tạo giỏ hàng
-        	session.setAttribute("cart", cart); // Lưu vào session
-        }else {
-             for (CartItem cartItem : cart) {
-     			if(cartItem.getProduct().getId()== productId) {
-     				cart.remove(cartItem);
-     				break;
-     			}
-     		}           
+			// Kiểm tra giỏ hàng đã tồn tại chưa
+			List<CartItem> cart = (List<CartItem>) session.getAttribute("cart");
+			for (CartItem cartItem : cart) {
+				if (cartItem.getProduct().getId() == productId) {
+					cart.remove(cartItem);
+					break;
+				}
+			}
+
+			session.setAttribute("cart", cart);
+
+			response.setStatus(HttpServletResponse.SC_OK); // 200
+			response.getWriter().write("Thành công");
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST); // 400
+			response.getWriter().write(e.getMessage());
 		}
-        
-       
-
-        session.setAttribute("cart", cart);
-
-        // Trả về JSON
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
-        String jsonResponse = "{\"status\":\"success\", \"message\":\"Cập nhật giỏ hàng thành công!\" }";
-        response.getWriter().write(jsonResponse);
-    }
+	}
 
 }
