@@ -185,7 +185,48 @@ public class ProductDao {
                         .list()
         );
     }
+    public List<Product> getProductsByPageAndSort(int offset, int pageSize, String sort) {
+        Jdbi jdbi = JDBIConnect.get();
 
+        String orderByClause;
+        if ("priceHighToLow".equals(sort)) {
+            orderByClause = "ORDER BY priceProduct DESC";
+        } else if ("priceLowToHigh".equals(sort)) {
+            orderByClause = "ORDER BY priceProduct ASC";
+        } else if ("newest".equals(sort)) {
+            orderByClause = "ORDER BY manufactureDate DESC"; // Vì bảng bạn chưa có createdDate
+        } else {
+            orderByClause = "ORDER BY id ASC"; // Mặc định
+        }
+
+        String sql = "SELECT id, nameProduct, priceProduct, image AS imageProduct FROM product "
+                + orderByClause + " LIMIT :limit OFFSET :offset";
+
+        return jdbi.withHandle(handle ->
+                handle.createQuery(sql)
+                        .bind("limit", pageSize)
+                        .bind("offset", offset)
+                        .map((rs, ctx) -> {
+                            Product p = new Product();
+                            p.setId(rs.getInt("id"));
+                            p.setNameProduct(rs.getString("nameProduct"));
+                            p.setPriceProduct(rs.getDouble("priceProduct"));
+                            p.setImage(rs.getString("imageProduct"));
+                            return p;
+                        })
+                        .list()
+        );
+    }
+    public int getTotalProducts() {
+        Jdbi jdbi = JDBIConnect.get();
+        String sql = "SELECT COUNT(*) FROM product";
+
+        return jdbi.withHandle(handle ->
+                handle.createQuery(sql)
+                        .mapTo(Integer.class)
+                        .one()
+        );
+    }
 
 //    public boolean deleteById(String id) {
 //        Jdbi jdbi = JDBIConnect.get();
@@ -228,9 +269,12 @@ public class ProductDao {
 //                System.out.println("Có lỗi xảy ra khi thêm sản phẩm.");
 //            }
 //        }
+
+
+
     public static void main(String[] args) {
         ProductDao productDao = new ProductDao();
-        System.out.println(productDao.getAll());
+        System.out.println(productDao.getTotalProducts());
 
     }
 

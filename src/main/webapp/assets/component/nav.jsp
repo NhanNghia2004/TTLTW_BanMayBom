@@ -8,7 +8,7 @@
 <div id="header">
 	<div
 		class="container d-flex justify-content-between align-items-center py-4">
-		<a href="/DoAnLTWeb/trangchu" class="head-title">AquaTech</a>
+		<a href="/DoAnLTWeb/index.jsp" class="head-title">AquaTech</a>
 		<form action="Search" method="get" class="d-flex">
 			<input name="search" type="search" class="form-control me-2 "
 				placeholder="Search..." style="width: 300px"> <input
@@ -23,7 +23,7 @@
 		class=" d-flex justify-content-between align-items-center bg-dark-blue ">
 		<div class="container list-display-none  text-light">
 			<ul class="list-head2 mb-0 d-flex justify-content-between px-0">
-				<li class="list-item-head2 "><a href="trangchu"
+				<li class="list-item-head2 "><a href="index.jsp"
 					class="nav-link text-light">Trang chủ</a></li>
 
 				<li class="list-item-head2 shop-active position-relative"><a
@@ -55,11 +55,11 @@
 						</c:when>
 						<c:otherwise>
 							<li class="list-item-head2"><a
-								href="/DoAnLTWeb_war/UserProfileServlet"
+								href="/DoAnLTWeb/UserProfileServlet"
 								class="nav-link text-light"> ${sessionScope.auth.username} </a></li>
 						</c:otherwise>
 					</c:choose>
-					<li class="list-item-head2"><a href="/DoAnLTWeb_war/LogoutController"
+					<li class="list-item-head2"><a href="/DoAnLTWeb/LogoutController"
 						class="nav-link text-light">Đăng xuất</a></li>
 				</c:if>
 
