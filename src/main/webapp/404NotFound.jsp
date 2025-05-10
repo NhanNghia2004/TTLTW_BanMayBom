@@ -12,6 +12,6 @@
 
 </head>
 <body>
-
+<div>Không có quyền truy cập </div>
 </body>
 </html>
