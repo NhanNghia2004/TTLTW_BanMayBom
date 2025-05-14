@@ -21,6 +21,8 @@ function loadProducts(page, sort) {
                                 <div class="card-body themaybom" style="height: 200px">
                                     <h6 class="card-title">${p.nameProduct}</h6>
                                     <p class="new-price">${p.priceProduct.toLocaleString()}đ</p>
+                                    <div class="btn btn-primary btn-sm">Xem ngay</div>
+                                    <div class="btn btn-danger btn-sm ms-4">Mua ngay</div>
                                 </div>
                             </div>
                         </a>
