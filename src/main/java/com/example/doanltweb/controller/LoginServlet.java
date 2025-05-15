@@ -49,7 +49,7 @@ public class LoginServlet extends HttpServlet {
             } else {
             	CartUtils.mergeSessionCartToDb(user.getId(),session);
 
-            	response.sendRedirect("/DoAnLTWeb/trangchu");
+//            	response.sendRedirect("/DoAnLTWeb/trangchu");
 
             	response.sendRedirect("/DoAnLTWeb/index.jsp");
 

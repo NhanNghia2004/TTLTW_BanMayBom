@@ -165,55 +165,27 @@
               <div class="row">
                     <div class="col border-top">
                         <h5 class="text-bold mt-2"> Đánh giá và bình luận</h5>
-                        <div class="container border rating">
-                            <p class="p-comment">Đánh giá và bình luận về máy bơm tăng áp Mini PAMTEX 10</p>
+                        <form action="comment" method="post" class="container border rating">
+                            <p class="p-comment">Đánh giá và bình luận về máy bơm tăng áp Mini ${product.nameProduct}</p>
                             <div class="star-rating">
-                                <input type="radio" id="5-stars" name="rating" value="5" />
+                                <input type="radio" id="5-stars" name="star" value="5" />
                                 <label for="5-stars" class="star">&#9733;</label>
-                                <input type="radio" id="4-stars" name="rating" value="4" />
+                                <input type="radio" id="4-stars" name="star" value="4" />
                                 <label for="4-stars" class="star">&#9733;</label>
-                                <input type="radio" id="3-stars" name="rating" value="3" />
+                                <input type="radio" id="3-stars" name="star" value="3" />
                                 <label for="3-stars" class="star">&#9733;</label>
-                                <input type="radio" id="2-stars" name="rating" value="2" />
+                                <input type="radio" id="2-stars" name="star" value="2" />
                                 <label for="2-stars" class="star">&#9733;</label>
-                                <input type="radio" id="1-star" name="rating" value="1" />
+                                <input type="radio" id="1-star" name="star" value="1" />
                                 <label for="1-star" class="star">&#9733;</label>
-                              </div>
-                            <textarea class="form-control comment-area" rows="5" placeholder="Vui lòng nhập tiếng Việt có dấu. Nhập tối đa 255 kí tự"></textarea>
-                            <button class="form-control btn-right com-btn justify-content-center"> Gửi đánh giá</button>
-                        </div>
-                      <div>
-                            <h1>Bình luận</h1>
-                                    <div class="mt-4 text-justify border border-top rounded" style="background-color: rgb(242 244 247)">
-                                        <div class="m-2">
-                                            <div class="d-flex float-left">
-                                                <img src="assets/imgs/khac/anhdaidien.png" alt="" class="rounded-circle" width="40" height="40">
-                                                <h4 class="m-2">User1</h4>
-                                            </div>
-                                            <span class="fa fa-star checked"></span>
-                                            <span class="fa fa-star checked"></span>
-                                            <span class="fa fa-star checked"></span>
-                                            <span class="fa fa-star checked"></span>
-                                            <span class="fa fa-star"></span>
-                                            <p>Máy bơm rất tốt</p>
-                                        </div>
-                                    </div>
-                                    <div class="mt-4 text-justify border border-top rounded" style="background-color: rgb(242 244 247)">
-                                <div class="m-2">
-                                    <div class="d-flex float-left">
-                                        <img src="assets/imgs/khac/anhdaidien.png" alt="" class="rounded-circle" width="40" height="40">
-                                        <h4 class="m-2">User2</h4>
-                                    </div>
-                                    <span class="fa fa-star checked"></span>
-                                    <span class="fa fa-star checked"></span>
-                                    <span class="fa fa-star checked"></span>
-                                    <span class="fa fa-star checked"></span>
-                                    <span class="fa fa-star"></span>
-                                    <p>Máy bơm tốt</p>
-                                    <p>Nhân viên tư vấn nhiệt tình</p>
-                                </div>
                             </div>
-                        </div>
+                            <textarea class="form-control comment-area" rows="5" name="content"
+                                      placeholder="Vui lòng nhập tiếng Việt có dấu. Nhập tối đa 255 kí tự"></textarea>
+                            <input type="hidden" name="idProduct" value="${product.id}" />
+                            <input type="hidden" name="idUser" value="${sessionScope.loginUser.id}" />
+                            <button type="submit" class="form-control btn-right com-btn justify-content-center"> Gửi đánh giá</button>
+                        </form>
+
                     </div>
                     <div class="col-3">
                     <div id="tintuc"></div>
