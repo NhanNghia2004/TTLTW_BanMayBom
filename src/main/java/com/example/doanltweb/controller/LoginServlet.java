@@ -48,6 +48,7 @@ public class LoginServlet extends HttpServlet {
             } else {
             	CartUtils.mergeSessionCartToDb(user.getId(),session);
 
+
 // Lấy lại productId nếu có
                 String productId = (String) session.getAttribute("currentProductId");
                 if (productId != null) {
@@ -56,7 +57,7 @@ public class LoginServlet extends HttpServlet {
                     return;
                 }
 
-            	response.sendRedirect("/DoAnLTWeb/index.jsp");
+            	response.sendRedirect("/DoAnLTWeb/trangchu");
 
             }
         } else {
