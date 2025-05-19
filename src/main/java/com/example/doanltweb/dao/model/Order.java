@@ -14,7 +14,7 @@ public class Order {
 	private int quantity;
 	private String otp;
 	private boolean verified;
-
+	
 	public int getId() {
 		return id;
 	}
@@ -86,7 +86,7 @@ public class Order {
 
 	@Override
 	public String toString() {
-	    return "Order{id=" + id + ",user=" + user.getFullname() +", orderDate=" + orderDate + ", status=" + status + ", totalPrice=" + totalPrice + "}";
+	    return "Order{id=" + id + ",user=" + user.getFullname() +", orderDate=" + orderDate + ", status=" + status + ", totalPrice=" + totalPrice + ",payment=" + paymentMethod.getName()+ "}";
 	}
 
 	

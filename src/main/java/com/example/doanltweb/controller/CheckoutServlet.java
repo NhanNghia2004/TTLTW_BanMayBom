@@ -65,12 +65,12 @@ public class CheckoutServlet extends HttpServlet {
 	    CartDao cartDao = new CartDao();
 	    HttpSession session = request.getSession();
 	    User user = (User) session.getAttribute("auth");
+	    CartUtils.mergeSessionCartToDb(user.getId(),session);
 	    Cart cart = cartDao.getCartByUserId(user.getId());
 		String otp = generateOTP();
 
 	    int paymentMethod = Integer.parseInt(request.getParameter("paymentMethod"));
 
-	    CartUtils.mergeSessionCartToDb(user.getId(),session);
 	    boolean order = orderDao.createOrder(user.getId(), cart.getTotalPrice(), paymentMethod, cart.getTotalAmount(), cart.getId(),otp);
 	    if(order) {
 	    	cartDao.clearCart(cart.getId());
