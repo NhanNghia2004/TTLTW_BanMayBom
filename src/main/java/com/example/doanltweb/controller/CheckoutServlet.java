@@ -61,36 +61,45 @@ public class CheckoutServlet extends HttpServlet {
 
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	    OrderDao orderDao = new OrderDao();
-	    CartDao cartDao = new CartDao();
-	    HttpSession session = request.getSession();
-	    User user = (User) session.getAttribute("auth");
-	    Cart cart = cartDao.getCartByUserId(user.getId());
+		response.setCharacterEncoding("UTF-8");
+		response.setContentType("application/json");
+		PrintWriter out = response.getWriter();
+
+		HttpSession session = request.getSession();
+		User user = (User) session.getAttribute("auth");
+
+		JsonObject jsonResponse = new JsonObject();
+
+		// ✅ Kiểm tra user null trước khi dùng
+		if(user == null){
+			jsonResponse.addProperty("success", false);
+			jsonResponse.addProperty("message",  "Vui lòng đăng nhập");
+			out.print(jsonResponse.toString());
+			out.flush();
+			return; // kết thúc xử lý
+		}
+
+		OrderDao orderDao = new OrderDao();
+		CartDao cartDao = new CartDao();
+		Cart cart = cartDao.getCartByUserId(user.getId());
 		String otp = generateOTP();
 
-	    int paymentMethod = Integer.parseInt(request.getParameter("paymentMethod"));
+		int paymentMethod = Integer.parseInt(request.getParameter("paymentMethod"));
+		CartUtils.mergeSessionCartToDb(user.getId(),session);
 
-	    CartUtils.mergeSessionCartToDb(user.getId(),session);
-	    boolean order = orderDao.createOrder(user.getId(), cart.getTotalPrice(), paymentMethod, cart.getTotalAmount(), cart.getId(),otp);
-	    if(order) {
-	    	cartDao.clearCart(cart.getId());
-	    	session.setAttribute("cart", new ArrayList<CartItem>());
-			// Gửi email trong thread riêng
+		boolean order = orderDao.createOrder(user.getId(), cart.getTotalPrice(), paymentMethod, cart.getTotalAmount(), cart.getId(), otp);
+		if(order) {
+			cartDao.clearCart(cart.getId());
+			session.setAttribute("cart", new ArrayList<CartItem>());
 			new Thread(() -> {
 				EmailService.sendOTP(user.getEmail(), otp);
 			}).start();
-	    }
-		response.setCharacterEncoding("UTF-8");
-		response.setContentType("application/json");
+		}
 
-		JsonObject jsonResponse = new JsonObject();
 		jsonResponse.addProperty("success", order);
 		jsonResponse.addProperty("message", order ? "Đơn hàng đã tạo thành công!" : "Đặt hàng thất bại");
-
-		PrintWriter out = response.getWriter();
 		out.print(jsonResponse.toString());
 		out.flush();
-
 	}
 
 

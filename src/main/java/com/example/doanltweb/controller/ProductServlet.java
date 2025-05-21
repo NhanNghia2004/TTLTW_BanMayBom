@@ -26,17 +26,19 @@ public class ProductServlet extends HttpServlet {
         for (int i = 0; i < limit; i++) {
             Product p = all.get(i);
             out.println("<div class='col-md-3'>");
-            out.println("<a href='chitietsanpham?id=" + p.getId() + "' style='text-decoration: none'>");
+
             out.println("<div class='card position-relative'>");
             out.println("<div class='discount-badge'>-10%</div>");
+            out.println("<a href='chitietsanpham?id=" + p.getId() + "' style='text-decoration: none'>");
             out.println("<img src='assets/imgs/maybom/" + p.getImage() + "' class='card-img-top' alt='" + p.getNameProduct() + "' />");
+            out.println("</a>");
             out.println("<div class='card-body themaybom' style='height: 200px'>");
             out.println("<h6 class='card-title'>" + p.getNameProduct() + "</h6>");
             out.println("<p class='old-price'>Giá cũ: 720.000đ</p>");
             out.println("<p class='new-price'>Giá mới: 650.000đ</p>");
-            out.println("<button class='btn btn-primary btn-sm' >Xem ngay</button>");
-            out.println("<button class='btn btn-danger btn-sm ms-4' >Mua ngay</button>");
-            out.println("</div></div></a></div>");
+            out.println("<a href='chitietsanpham?id=${p.id}' class='btn btn-primary btn-sm'>Xem ngay</a>");
+            out.println("<button class='btn btn-danger btn-sm ms-4' onclick='addToCart(" + p.getId() + ")'>Mua ngay</button>");
+            out.println("</div></div></div>");
         }
     }
 

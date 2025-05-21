@@ -109,7 +109,7 @@
                 let formData = new FormData(this);
 
                 $.ajax({
-                    url: "CheckoutServlet",
+                    url: "http://localhost:8080/DoAnLTWeb/CheckoutServlet",
                     method: "POST",
                     data: formData,
                     processData: false,
