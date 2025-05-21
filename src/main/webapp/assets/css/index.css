@@ -48,6 +48,12 @@ html,body{
     border-radius: 50%;
     border: none;
 }
+.head-title {
+    text-decoration: none;
+    color: darkblue;
+    font-size: x-large;
+    font-weight: bolder;
+}
 
 
 

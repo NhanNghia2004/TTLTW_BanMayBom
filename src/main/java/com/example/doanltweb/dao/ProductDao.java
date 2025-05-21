@@ -2,10 +2,13 @@ package com.example.doanltweb.dao;
 
 import com.example.doanltweb.dao.db.JDBIConnect;
 import com.example.doanltweb.dao.model.Product;
+import org.jdbi.v3.core.Handle;
 import org.jdbi.v3.core.Jdbi;
+import org.jdbi.v3.core.mapper.reflect.BeanMapper;
 import org.jdbi.v3.core.statement.Query;
 
 import java.sql.SQLException;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -227,6 +230,26 @@ public class ProductDao {
                         .one()
         );
     }
+    public List<String> searchProductsstr(String query) {
+        Jdbi jdbi = JDBIConnect.get(); // dùng kết nối có sẵn
+        return jdbi.withHandle(handle ->
+                handle.createQuery("SELECT nameProduct FROM product WHERE nameProduct LIKE :query LIMIT 5")
+                        .bind("query", "%" + query + "%")
+                        .mapTo(String.class)
+                        .list()
+        );
+    }
+    public List<Product> searchProducts(String keyword) {
+        Jdbi jdbi = JDBIConnect.get();
+        return jdbi.withHandle(handle ->
+                handle.createQuery("SELECT * FROM product WHERE nameProduct LIKE :keyword")
+                        .bind("keyword", "%" + keyword + "%")
+                        .mapToBean(Product.class)
+                        .list()
+        );
+    }
+
+
 
 //    public boolean deleteById(String id) {
 //        Jdbi jdbi = JDBIConnect.get();
