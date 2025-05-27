@@ -21,7 +21,7 @@ function loadProducts(page, sort) {
                                 </a>
                                 <div class="card-body themaybom" style="height: 200px">
                                     <h6 class="card-title">${p.nameProduct}</h6>
-                                    <p class="new-price">${p.priceProduct.toLocaleString()}đ</p>
+                                    <p class="new-price">${p.priceProduct}đ</p>
                                     <a href="chitietsanpham?id=${p.id}" class="btn btn-primary btn-sm">Xem ngay</a>
                                     <button class="btn btn-danger btn-sm ms-4" onclick="addToCart(${p.id})">Mua ngay</button>
                                 </div>

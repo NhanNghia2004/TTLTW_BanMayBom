@@ -171,6 +171,49 @@ public class OrderDao {
 	            return false; // ❌ Trả về false nếu có lỗi xảy ra
 	        }
 	    }
+	public int createOrderNoOtp(int userId, double totalPrice, int idPayment, int quantity, int cartId) {
+		Jdbi jdbi = JDBIConnect.get();
+
+		try {
+			return jdbi.inTransaction(handle -> {
+				// 1️⃣ Chèn đơn hàng mới (KHÔNG có cột OTP)
+				int orderId = handle.createUpdate(
+								"INSERT INTO orders (idUser, totalPrice, orderDate, status, idPayment, quantity) " +
+										"VALUES (:userId, :totalPrice, NOW(), 'pending', :idPayment, :quantity)")
+						.bind("userId", userId)
+						.bind("totalPrice", totalPrice)
+						.bind("idPayment", idPayment)
+						.bind("quantity", quantity)
+						.executeAndReturnGeneratedKeys("id")
+						.mapTo(Integer.class)
+						.one();
+
+				// 2️⃣ Thêm các mục vào order_details
+				List<CartItem> cartItems = cartDao.getListCartItemByCartId(cartId); // Lấy giỏ hàng của user
+
+				for (CartItem item : cartItems) {
+					handle.createUpdate(
+									"INSERT INTO detailorder (idOrder, idProduct, quantity, price) " +
+											"VALUES (:orderId, :productId, :quantity, :price)")
+							.bind("orderId", orderId)
+							.bind("productId", item.getProduct().getId())
+							.bind("quantity", item.getQuantity())
+							.bind("price", item.getProduct().getPriceProduct())
+							.execute();
+				}
+
+				// 3️⃣ Xóa giỏ hàng sau khi đặt hàng thành công
+				handle.createUpdate("DELETE FROM cart WHERE user_id = :userId")
+						.bind("userId", userId)
+						.execute();
+
+				return orderId; // ✅ Trả về ID đơn hàng nếu đặt hàng thành công
+			});
+		} catch (Exception e) {
+			e.printStackTrace();
+			return -1; // ❌ Trả về -1 nếu có lỗi xảy ra
+		}
+	}
 
 		public boolean updateStatus(int id, String status) {
 			Jdbi jdbi = JDBIConnect.get();
@@ -181,6 +224,7 @@ public class OrderDao {
 		    .execute());
 			return rowsAffected>0;
 		}
+
 
 		public List<OrderDetail> getAllDetail() {
 		Jdbi jdbi = JDBIConnect.get();
@@ -207,9 +251,5 @@ public class OrderDao {
 						.execute());
 		return rowsAffected>0;
 	}
-	
-
-
-
 
 }
