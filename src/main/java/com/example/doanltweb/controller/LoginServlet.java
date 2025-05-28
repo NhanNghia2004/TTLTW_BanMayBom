@@ -56,7 +56,7 @@ public class LoginServlet extends HttpServlet {
                     response.sendRedirect("/DoAnLTWeb/chitietsanpham?id=" + productId);
                     return;
                 }
-            	response.sendRedirect("/DoAnLTWeb/trangchu");
+            	response.sendRedirect("/DoAnLTWeb/index.jsp");
 
             }
         } else {
