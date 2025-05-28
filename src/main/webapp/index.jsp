@@ -132,34 +132,34 @@
 
 </script>
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        document.querySelectorAll(".addToCartForm").forEach(form => {
-            form.addEventListener("submit", function (event) {
-                event.preventDefault(); // Ngăn reload
+     function addToCart(productId) {
+         $.ajax({
+             url: 'http://localhost:8080/DoAnLTWeb/AddToCartServlet',
+             method: 'POST',
+             data: {
+                 productId: productId,
+                 quantity: 1
+             },
+             success: function(response) {
+                 // response đã là object JSON vì jQuery tự parse nếu content-type là application/json
+                 if (response.status === "success") {
+                     alert(response.message);
 
-                var formData = new FormData(form); // Lấy dữ liệu từ form
+                     // Nếu bạn có phần hiển thị tổng số lượng giỏ hàng, ví dụ id="cart-count"
+                     if (response.totalQuantity !== undefined) {
+                         $('#cart-count').text(response.totalQuantity);
+                     }
+                     // Bạn có thể cập nhật thêm UI khác tùy ý
+                 } else {
+                     alert('Lỗi: ' + response.message);
+                 }
+             },
+             error: function() {
+                 alert('Lỗi kết nối, vui lòng thử lại!');
+             }
+         });
+     }
 
-                $.ajax({
-                    url: "/DoAnLTWeb/AddToCartServlet",
-                    method: "POST",
-                    data: formData,
-                    processData: false, // Bắt buộc khi dùng FormData
-                    contentType: false, // Bắt buộc khi dùng FormData
-                    success: function (data) {
-                        if (data.status === "success") {
-                            alert(data.message);
-                        } else {
-                            alert(data.message);
-                        }
-                    },
-                    error: function (xhr, status, error) {
-                        alert("Có lỗi xảy ra, vui lòng thử lại!");
-                        console.error("Lỗi:", error);
-                    }
-                });
-            });
-        });
-    });
 </script>
 <style>
     .pagination {

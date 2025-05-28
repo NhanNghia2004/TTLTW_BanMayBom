@@ -14,18 +14,18 @@ function loadProducts(page, sort) {
             response.products.forEach(p => {
                 $('#product-container').append(`
                     <div class="col-md-3">
-                        <a href="chitietsanpham?id=${p.id}" style="text-decoration: none">
                             <div class="card position-relative">
                                 <div class="discount-badge">-10%</div>
+                                <a href="chitietsanpham?id=${p.id}" style="text-decoration: none">
                                 <img src="assets/imgs/maybom/${p.image}" class="card-img-top" alt="${p.nameProduct}" />
+                                </a>
                                 <div class="card-body themaybom" style="height: 200px">
                                     <h6 class="card-title">${p.nameProduct}</h6>
-                                    <p class="new-price">${p.priceProduct.toLocaleString()}đ</p>
-                                    <div class="btn btn-primary btn-sm">Xem ngay</div>
-                                    <div class="btn btn-danger btn-sm ms-4">Mua ngay</div>
+                                    <p class="new-price">${p.priceProduct}đ</p>
+                                    <a href="chitietsanpham?id=${p.id}" class="btn btn-primary btn-sm">Xem ngay</a>
+                                    <button class="btn btn-danger btn-sm ms-4" onclick="addToCart(${p.id})">Mua ngay</button>
                                 </div>
                             </div>
-                        </a>
                     </div>
                 `);
             });
