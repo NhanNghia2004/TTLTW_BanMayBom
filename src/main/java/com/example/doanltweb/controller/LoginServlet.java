@@ -57,7 +57,7 @@ public class LoginServlet extends HttpServlet {
                     return;
                 }
 
-            	response.sendRedirect("/DoAnLTWeb/trangchu");
+            	response.sendRedirect("/DoAnLTWeb/index.jsp");
 
             }
         } else {

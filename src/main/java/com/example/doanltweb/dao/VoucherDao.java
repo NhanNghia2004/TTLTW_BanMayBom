@@ -64,6 +64,15 @@ public class VoucherDao {
                         .bind("id", id)
                         .execute() > 0);
     }
+    public Voucher getVoucherByCode(String code) {
+        return jdbi.withHandle(handle ->
+                handle.createQuery("SELECT * FROM vouchers WHERE code = :code")
+                        .bind("code", code)
+                        .mapToBean(Voucher.class)
+                        .findOne()
+                        .orElse(null)
+        );
+    }
 
 
     public static void main(String[] args) {

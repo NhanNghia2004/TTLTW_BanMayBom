@@ -111,6 +111,28 @@ public class Voucher {
         this.status = status;
     }
 
+    public boolean isValidForUser(int userId, double totalPrice, int userUsageCount) {
+        LocalDate today = LocalDate.now();
+
+        if (status != 1) return false;
+        if (today.isBefore(startDate) || today.isAfter(endDate)) return false;
+        if (totalPrice < minOrderValue) return false;
+        if (usageLimit != null && usedCount >= usageLimit) return false;
+        if (userUsageCount >= maxUsagePerUser) return false;
+
+        return true;
+    }
+
+    public double calculateDiscount(double totalPrice) {
+        if (discountValue.endsWith("%")) {
+            double percent = Double.parseDouble(discountValue.replace("%", ""));
+            return totalPrice * percent / 100;
+        } else {
+            return Double.parseDouble(discountValue);
+        }
+    }
+
+
     @Override
     public String toString() {
         return "Voucher{" +

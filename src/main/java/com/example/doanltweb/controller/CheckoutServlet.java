@@ -58,8 +58,9 @@ public class CheckoutServlet extends HttpServlet {
 	    Cart cart = cartDao.getCartByUserId(user.getId());
 		String otp = generateOTP();
 
-	    int paymentMethod = Integer.parseInt(request.getParameter("paymentMethod"));
-
+//	    int paymentMethod = Integer.parseInt(request.getParameter("paymentMethod"));
+		String paymentMethodParam = request.getParameter("paymentMethod");
+		int paymentMethod = (paymentMethodParam != null) ? Integer.parseInt(paymentMethodParam) : 1;
 	    boolean order = orderDao.createOrder(user.getId(), cart.getTotalPrice(), paymentMethod, cart.getTotalAmount(), cart.getId(),otp);
 	    if(order) {
 	    	cartDao.clearCart(cart.getId());
@@ -73,8 +74,8 @@ public class CheckoutServlet extends HttpServlet {
 		response.setContentType("application/json");
 		PrintWriter out = response.getWriter();
 
-		HttpSession session = request.getSession();
-		User user = (User) session.getAttribute("auth");
+//		HttpSession session = request.getSession();
+//		User user = (User) session.getAttribute("auth");
 		JsonObject jsonResponse = new JsonObject();
 
 		if (user == null) {
@@ -86,18 +87,18 @@ public class CheckoutServlet extends HttpServlet {
 		}
 
 		int userId = user.getId();
-		String paymentMethodParam = request.getParameter("paymentMethod");
-		int paymentMethod = (paymentMethodParam != null) ? Integer.parseInt(paymentMethodParam) : 1;
+//		String paymentMethodParam = request.getParameter("paymentMethod");
+//		int paymentMethod = (paymentMethodParam != null) ? Integer.parseInt(paymentMethodParam) : 1;
 		String bankCode = request.getParameter("bankCode");
 
-		CartDao cartDao = new CartDao();
-		Cart cart = cartDao.getCartByUserId(userId);
+//		CartDao cartDao = new CartDao();
+//		Cart cart = cartDao.getCartByUserId(userId);
 		CartUtils.mergeSessionCartToDb(userId, session);
 		double amountDouble = cart.getTotalPrice();
 		int totalAmount = cart.getTotalAmount();
 		int cartId = cart.getId();
 
-		OrderDao orderDao = new OrderDao();
+//		OrderDao orderDao = new OrderDao();
 
 		if (paymentMethod == 2) { // VNPAY
 			int orderId = orderDao.createOrderNoOtp(userId, amountDouble, paymentMethod, totalAmount, cartId);
@@ -164,8 +165,8 @@ public class CheckoutServlet extends HttpServlet {
 
 		} else {
 			// Thanh toán COD hoặc khác
-			String otp = generateOTP();
-			boolean order = orderDao.createOrder(user.getId(), cart.getTotalPrice(), paymentMethod, cart.getTotalAmount(), cart.getId(), otp);
+//			String otp = generateOTP();
+//			boolean order = orderDao.createOrder(user.getId(), cart.getTotalPrice(), paymentMethod, cart.getTotalAmount(), cart.getId(), otp);
 			if (order) {
 				cartDao.clearCart(cart.getId());
 				session.setAttribute("cart", new ArrayList<CartItem>());
