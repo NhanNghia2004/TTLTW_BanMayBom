@@ -20,6 +20,7 @@ import jakarta.servlet.annotation.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -31,11 +32,29 @@ public class OrderController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	OrderDao orderDao = new OrderDao();
-    	Map<Order,List<OrderDetail>> order = orderDao.getOrderWithDetails();
-        request.setAttribute("orderMap", order);
-         // quản lý báo cáo
+    	int page = 1;
+    	int limit = 5;
+    	if (request.getParameter("page") != null) {
+    	    page = Integer.parseInt(request.getParameter("page"));   
+    	}
+    	if (request.getParameter("limit") != null) {
+    	    limit = Integer.parseInt(request.getParameter("limit"));
+    	}
 
-        System.out.println(order);
+    	List<Order> orders = orderDao.getOrdersWithPagination((page - 1) * limit, limit);
+    	Map<Order, List<OrderDetail>> orderMap = new HashMap<Order, List<OrderDetail>>();
+    	for (Order order : orders) {
+			orderMap.put(order, orderDao.getDetailById(order.getId()));
+		}
+
+    	int totalOrders = orderDao.getAllOrder().size();
+    	int totalPages = (int) Math.ceil(totalOrders * 1.0 / limit);
+
+    	request.setAttribute("orders", orders);
+    	request.setAttribute("orderMap", orderMap);
+    	request.setAttribute("currentPage", page);
+    	request.setAttribute("totalPages", totalPages);
+    	request.setAttribute("limit", limit);
         request.getRequestDispatcher("orders.jsp").forward(request, response);
     }
     
@@ -46,6 +65,7 @@ public class OrderController extends HttpServlet {
     	response.setContentType("application/json");
     	OrderDao orderDao = new OrderDao();
         String orderIdStr = request.getParameter("orderId");
+        String orderStatus = request.getParameter("newStatus");
         System.out.println("Received orderId: " + orderIdStr); // Kiểm tra giá trị orderIdStr
 	    PrintWriter out = response.getWriter();
 	    JsonObject jsonResponse = new JsonObject();
@@ -57,15 +77,17 @@ public class OrderController extends HttpServlet {
                 int orderId = Integer.parseInt(orderIdStr);
 
                 // Giả sử bạn có phương thức hủy đơn hàng
-                boolean success = orderDao.updateStatus(orderId, "CANCELLED");
+                boolean success = orderDao.updateStatus(orderId, orderStatus);
 
                 if (success) {
                     jsonResponse.addProperty("status", "success");
-                    jsonResponse.addProperty("message", "Đơn hàng đã được hủy thành công!");
+                    jsonResponse.addProperty("message", "Xử lý thành công!");
                     jsonResponse.addProperty("orderId", orderId);
+                    jsonResponse.addProperty("newStatus", orderStatus);
+
                 } else {
                     jsonResponse.addProperty("status", "error");
-                    jsonResponse.addProperty("message", "Đã xảy ra lỗi khi hủy đơn hàng!");
+                    jsonResponse.addProperty("message", "Đã xảy ra lỗi! ");
                 }
 
 

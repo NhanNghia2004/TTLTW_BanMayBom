@@ -25,13 +25,12 @@ public class LoginServlet extends HttpServlet {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         HttpSession session = request.getSession();
-        
         String ip = request.getRemoteAddr();
         Integer count = (Integer) session.getAttribute("loginFail"); // Lấy số lần đăng nhập thất bại
         if (count == null) {
             count = 0; // Nếu chưa có, gán mặc định là 0
-        }	
-        
+        }
+
         // Khởi tạo UserDao để kiểm tra đăng nhập
         UserDao userDao = new UserDao();
         User user = userDao.login(username, password);  // Phương thức checkUser đã kiểm tra mật khẩu mã hóa
@@ -40,17 +39,28 @@ public class LoginServlet extends HttpServlet {
         if (user != null) {
             session.setAttribute("auth", user); // Lưu thông tin người dùng vào session
             LogDao.saveLog(user.getId(), "INFO", ip, "LOGIN", "username=" + username, "SUCCESS");
-            
+
             // Nếu người dùng là Admin (role == 1)
-            if (user.getIdPermission() == 1 ) {
+            int role = user.getIdPermission();
+            if (role == 1 || role == 2 || role == 4 ) {
                 System.out.println("lỗi");
                 response.sendRedirect("admin");
             } else {
             	CartUtils.mergeSessionCartToDb(user.getId(),session);
-            	response.sendRedirect("/DoAnLTWeb/index.jsp");
+
+
+// Lấy lại productId nếu có
+                String productId = (String) session.getAttribute("currentProductId");
+                if (productId != null) {
+                    session.removeAttribute("currentProductId");
+                    response.sendRedirect("/DoAnLTWeb/chitietsanpham?id=" + productId);
+                    return;
+                }
+
+            	response.sendRedirect("/DoAnLTWeb/trangchu");
+
             }
         } else {
-
 
         	count++; // Tăng số lần thất bại
             session.setAttribute("loginFail", count); // Lưu lại số lần thất bại vào session
@@ -75,7 +85,7 @@ public class LoginServlet extends HttpServlet {
             request.getRequestDispatcher("login.jsp").forward(request, response);
         }
     }
-    
-   
+
+
 
 }

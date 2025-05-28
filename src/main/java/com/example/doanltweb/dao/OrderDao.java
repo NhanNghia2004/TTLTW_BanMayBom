@@ -1,5 +1,6 @@
 package com.example.doanltweb.dao;
 
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -96,7 +97,7 @@ public class OrderDao {
 	                      int quantity = rs.getInt("quantity");
 						  String otp = rs.getString("otp");
 	                      User user = userDao.getUserbyid(userId);  // Lấy thông tin người dùng
-	                      Payment payment = paymentDao.getPaymentbyid(idPayment);  // Lấy thông tin thanh toán
+	                      Payment payment = paymentDao.getPaymentbyid(idPayment);                     
 	                      return new Order(orderId, user, totalPrice, orderDate, status, payment, quantity,otp);
 	                  })
 	                  .list()  // Trả về danh sách đơn hàng
@@ -251,5 +252,94 @@ public class OrderDao {
 						.execute());
 		return rowsAffected>0;
 	}
+	public List<Order> getOrdersWithPagination(int offset, int limit) {
+	    Jdbi jdbi = JDBIConnect.get();
+	    return jdbi.withHandle(handle ->
+	        handle.createQuery("SELECT * FROM orders ORDER BY orderDate DESC LIMIT :limit OFFSET :offset")
+	              .bind("limit", limit)
+	              .bind("offset", offset)
+	              .map((rs, ctx) -> {
+	                  Order order = new Order();
+	                  order.setId(rs.getInt("id"));
+	                  order.setOrderDate((rs.getString("orderDate")));   
+	                  order.setQuantity(rs.getInt("quantity"));
+	                  order.setTotalPrice(rs.getDouble("totalPrice"));
+	                  order.setStatus(rs.getString("status"));
+	                  User user = userDao.getUserbyid(rs.getInt("idUser"));  // Lấy thông tin người dùng
+                      Payment payment = paymentDao.getPaymentbyid(rs.getInt("idPayment"));
+	                  order.setUser(user);
+	                  order.setPaymentMethod(payment);
+
+	                  return order;
+	              })
+	              .list()
+	    );
+	}
+	public Map<Order, List<OrderDetail>> getFilteredOrders(String status, String fromDateStr, String toDateStr, Integer paymentMethod) {
+	    Jdbi jdbi = JDBIConnect.get();
+	    Map<Order, List<OrderDetail>> map = new LinkedHashMap<>();
+
+	    StringBuilder queryBuilder = new StringBuilder("SELECT * FROM orders WHERE 1=1");
+
+	    if (status != null && !status.isEmpty()) {
+	        queryBuilder.append(" AND status = :status");
+	    }
+	    if (fromDateStr != null && !fromDateStr.isEmpty()) {
+	        queryBuilder.append(" AND orderDate >= :fromDate");
+	    }
+	    if (toDateStr != null && !toDateStr.isEmpty()) {
+	        queryBuilder.append(" AND orderDate <= :toDate");
+	    }
+	    if (paymentMethod != null) {
+	        queryBuilder.append(" AND idPayment = :paymentMethod");
+	    }
+
+	    List<Order> orders = jdbi.withHandle(handle -> {
+	        var query = handle.createQuery(queryBuilder.toString());
+
+	        if (status != null && !status.isEmpty()) {
+	            query.bind("status", status);
+	        }
+	        if (fromDateStr != null && !fromDateStr.isEmpty()) {
+	            query.bind("fromDate", fromDateStr);
+	        }
+	        if (toDateStr != null && !toDateStr.isEmpty()) {
+	            query.bind("toDate", toDateStr);
+	        }
+	        if (paymentMethod != null) {
+	            query.bind("paymentMethod", paymentMethod);
+	        }
+
+	        return query.map((rs, ctx) -> {
+	            int orderId = rs.getInt("id");
+	            int userId = rs.getInt("idUser");
+	            double totalPrice = rs.getDouble("totalPrice");
+	            String orderDate = rs.getString("orderDate");
+	            String orderStatus = rs.getString("status");  // đổi tên biến để không trùng tên method
+	            int idPayment = rs.getInt("idPayment");
+	            int quantity = rs.getInt("quantity");
+	            String otp = rs.getString("otp");
+
+	            User user = userDao.getUserbyid(userId);
+	            Payment payment = paymentDao.getPaymentbyid(idPayment);
+
+	            return new Order(orderId, user, totalPrice, orderDate, orderStatus, payment, quantity, otp);
+	        }).list();
+	    });
+
+	    for (Order order : orders) {
+	        List<OrderDetail> details = getDetailById(order.getId());
+	        map.put(order, details);
+	    }
+
+	    return map;
+	}
+
+
+	
+
+
+
+
 
 }
