@@ -50,6 +50,25 @@ public class CheckoutServlet extends HttpServlet {
 
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	    OrderDao orderDao = new OrderDao();
+	    CartDao cartDao = new CartDao();
+	    HttpSession session = request.getSession();
+	    User user = (User) session.getAttribute("auth");
+	    CartUtils.mergeSessionCartToDb(user.getId(),session);
+	    Cart cart = cartDao.getCartByUserId(user.getId());
+		String otp = generateOTP();
+
+	    int paymentMethod = Integer.parseInt(request.getParameter("paymentMethod"));
+
+	    boolean order = orderDao.createOrder(user.getId(), cart.getTotalPrice(), paymentMethod, cart.getTotalAmount(), cart.getId(),otp);
+	    if(order) {
+	    	cartDao.clearCart(cart.getId());
+	    	session.setAttribute("cart", new ArrayList<CartItem>());
+			// Gửi email trong thread riêng
+			new Thread(() -> {
+				EmailService.sendOTP(user.getEmail(), otp);
+			}).start();
+	    }
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("application/json");
 		PrintWriter out = response.getWriter();
