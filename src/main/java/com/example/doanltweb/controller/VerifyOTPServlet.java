@@ -18,25 +18,30 @@ public class VerifyOTPServlet extends HttpServlet {
         UserDao userDAO = new UserDao();
         OTPDAO otpDAO = new OTPDAO();
         String userIdParam = request.getParameter("user_id");
+
+        String message;
         if (userIdParam == null || userIdParam.isEmpty()) {
-            response.getWriter().write("Error: Missing user_id parameter.");
-            return;
-        }
-
-        int userId = Integer.parseInt(userIdParam);
-        String enteredOTP = request.getParameter("otp");
-
-        if (enteredOTP == null || enteredOTP.isEmpty()) {
-            response.getWriter().write("Error: Missing OTP.");
-            return;
-        }
-
-        String correctOTP = otpDAO.getOTPByUserId(userId);
-        if (correctOTP != null && correctOTP.equals(enteredOTP)) {
-            userDAO.updateUserVerifiedById(userId);
-            response.getWriter().write("Verification successful! Your account is now activated.");
+            message = "Lỗi: Thiếu user_id!";
         } else {
-            response.getWriter().write("Invalid OTP. Please try again.");
+            int userId = Integer.parseInt(userIdParam);
+            String enteredOTP = request.getParameter("otp");
+
+            if (enteredOTP == null || enteredOTP.isEmpty()) {
+                message = "Lỗi: Bạn chưa nhập OTP!";
+            } else {
+                String correctOTP = otpDAO.getOTPByUserId(userId);
+                if (correctOTP != null && correctOTP.equals(enteredOTP)) {
+                    userDAO.updateUserVerifiedById(userId);
+                    message = "Xác minh thành công! Tài khoản của bạn đã được kích hoạt.";
+                } else {
+                    message = "OTP không hợp lệ. Vui lòng thử lại.";
+                }
+            }
         }
+
+        // Truyền message và userId lại về JSP
+        request.setAttribute("message", message);
+        request.setAttribute("userId", userIdParam);
+        request.getRequestDispatcher("verify-otp.jsp").forward(request, response);
     }
 }

@@ -7,6 +7,7 @@ import com.example.doanltweb.dao.model.User;
 import org.jdbi.v3.core.Handle;
 import org.jdbi.v3.core.Jdbi;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.mindrot.jbcrypt.BCrypt;
 
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -75,32 +76,48 @@ public class UserDao {
                 .mapToBean(User.class).findOne().orElse(null));
     }
 
-    public User login(String username, String password) {
+    public User login(String username, String rawPassword) {
         Jdbi jdbi = JDBIConnect.get();
         try {
-            return jdbi.withHandle(handle -> handle.createQuery("SELECT * FROM user WHERE username = :username AND password = :password")
-                    .bind("username", username)
-                    .bind("password", password)
-                    .mapToBean(User.class)
-                    .findOne()
-                    .orElse(null));
+            User user = jdbi.withHandle(handle ->
+                    handle.createQuery("SELECT * FROM user WHERE username = :username")
+                            .bind("username", username)
+                            .mapToBean(User.class)
+                            .findOne()
+                            .orElse(null)
+            );
+            if (user == null) {
+                return null;
+            }
+            // So sánh mật khẩu nhập vào với hash trong db
+            if (BCrypt.checkpw(rawPassword, user.getPassword())) {
+                return user;
+            } else {
+                return null; // Mật khẩu sai
+            }
         } catch (Exception e) {
-            e.printStackTrace();  // Hoặc log vào một logger riêng
+            e.printStackTrace();
             return null;
         }
     }
 
     public void insert(String username,
-                       String password,
+                       String rawPassword,
                        String fullname,
                        String email,
                        String phone,
                        String address,
                        int idPermission) {
         Jdbi jdbi = JDBIConnect.get();
-        jdbi.useHandle(handle -> handle.createUpdate("INSERT INTO user (username, password, fullname, email, phone, address, idPermission) VALUES (:username, :password, :fullname, :email, :phone, :address, :idPermission)")
+
+        // Hash mật khẩu trước khi lưu
+        String hashedPassword = BCrypt.hashpw(rawPassword, BCrypt.gensalt());
+
+        jdbi.useHandle(handle -> handle.createUpdate(
+                        "INSERT INTO user (username, password, fullname, email, phone, address, idPermission) " +
+                                "VALUES (:username, :password, :fullname, :email, :phone, :address, :idPermission)")
                 .bind("username", username)
-                .bind("password", password) // Ensure password is properly hashed/salted
+                .bind("password", hashedPassword)  // Lưu mật khẩu đã hash
                 .bind("fullname", fullname)
                 .bind("email", email)
                 .bind("phone", phone)
@@ -108,6 +125,7 @@ public class UserDao {
                 .bind("idPermission", idPermission)
                 .execute());
     }
+
 
     public boolean delete(int id) {
         Jdbi jdbi = JDBIConnect.get();
@@ -158,23 +176,32 @@ public class UserDao {
                         .orElse(null) // Nếu không tìm thấy, trả về null
         );
     }
+    public void updatePassword(String email, String rawPassword) {
+        Jdbi jdbi = new JDBIConnect().get();
 
-    public void updatePassword(String email, String password) {
-        Jdbi jdbi = new JDBIConnect().get(); // Kết nối Jdbi
+        // Hash mật khẩu mới
+        String hashedPassword = BCrypt.hashpw(rawPassword, BCrypt.gensalt());
+
         jdbi.useHandle(handle ->
                 handle.createUpdate("UPDATE user SET password = :password WHERE email = :email")
-                        .bind("password", password) // Gán giá trị password
-                        .bind("email", email) // Gán giá trị email
-                        .execute() // Thực thi lệnh SQL
+                        .bind("password", hashedPassword)
+                        .bind("email", email)
+                        .execute()
         );
     }
-    public void addUser(String username, String password, String email, String fullname, String phone, String address) {
-        Jdbi jdbi = new JDBIConnect().get(); // Kết nối Jdbi
+    public void addUser(String username, String rawPassword, String email, String fullname, String phone, String address) {
+        Jdbi jdbi = new JDBIConnect().get();
+
+        // Hash mật khẩu
+        String hashedPassword = BCrypt.hashpw(rawPassword, BCrypt.gensalt());
+
         jdbi.useHandle(handle ->
-                handle.execute("INSERT INTO user (username, password, email, fullname, phone, address, is_verified, idPermission) VALUES (?, ?, ?, ?, ?, ?, 0, 2)",
-                        username, password, email, fullname, phone, address)
+                handle.execute("INSERT INTO user (username, password, email, fullname, phone, address, is_verified, idPermission) " +
+                                "VALUES (?, ?, ?, ?, ?, ?, 0, 2)",
+                        username, hashedPassword, email, fullname, phone, address)
         );
     }
+
 
     public boolean isUserExists(String email) {
         Jdbi jdbi = new JDBIConnect().get(); // Kết nối Jdbi
@@ -207,18 +234,22 @@ public class UserDao {
         String sql = "INSERT INTO user (username, fullname, email, password, idPermission, is_verified) " +
                 "VALUES (:username, :fullname, :email, :password, :idPermission, :isVerified)";
 
+        // Hash mật khẩu mặc định "default123"
+        String defaultPassword = "default123";
+        String hashedPassword = BCrypt.hashpw(defaultPassword, BCrypt.gensalt());
+
         jdbi.useHandle(handle ->
                 handle.createUpdate(sql)
                         .bind("username", username)
                         .bind("fullname", fullname)
                         .bind("email", email)
-                        .bind("password", "default123")  // Cung cấp mật khẩu mặc định
-                        .bind("idPermission", 2) // Mặc định là 2
-                        .bind("isVerified", 1)   // Mặc định là 1
+                        .bind("password", hashedPassword)  // Lưu mật khẩu đã hash
+                        .bind("idPermission", 2)  // Mặc định quyền user
+                        .bind("isVerified", 1)    // Mặc định đã verified
                         .execute()
         );
-
     }
+
     public User findByEmail(String email) {
         Jdbi jdbi = new JDBIConnect().get();
         try (Handle handle = jdbi.open()) {
