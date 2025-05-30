@@ -1,7 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt" %>
-
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -11,6 +10,7 @@
     <title>Document</title>
     <link rel="stylesheet" href="assets/css/style.css"/>
     <link rel="stylesheet" href="assets/css/chitietsanpham.css">
+    <link rel="stylesheet" href="assets/css/headerAndFooter.css">
     <link
             href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
             rel="stylesheet"
@@ -49,7 +49,9 @@
                             <div class="col-md-6">
                                 <h1 class="product-title">${product.nameProduct}</h1>
                                 <p>
-                                    <span class="price">8.500.000 vnđ</span>
+                                    <span class="price">
+                                      <f:formatNumber value="${product.priceProduct}" type="number" groupingUsed="true" maxFractionDigits="0" /> vnđ
+                                    </span>
                                     <span class="original-price">9.500.00 vnđ</span>
                                 </p>
                                 <div class="mb-2">

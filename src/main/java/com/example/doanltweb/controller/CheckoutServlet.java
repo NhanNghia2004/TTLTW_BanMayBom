@@ -97,6 +97,9 @@ public class CheckoutServlet extends HttpServlet {
 				return;
 			}
 
+			cartDao.clearCart(cartId);
+			session.setAttribute("cart", new ArrayList<CartItem>());
+
 			String vnp_Version = "2.1.0";
 			String vnp_Command = "pay";
 			String orderType = "other";

@@ -56,13 +56,15 @@
 												<tr id="cart-item-${item.product.id}" class="cart-item"
 													data-price="${item.product.priceProduct}"
 													data-product-id="${item.product.id}">
-													<td><img src="${item.product.image }"
+													<td><img src="assets/imgs/maybom/${item.product.image }"
 														class="img-fluid anhhang"
 														style="width: 80px; height: auto;"></td>
 													<td>
 														<h5 class="mb-1">${item.product.nameProduct}</h5>
 													</td>
-													<td class="price-cell">${item.product.priceProduct}</td>
+													<td class="price-cell">
+                                                      <f:formatNumber value="${item.product.priceProduct}" type="number" groupingUsed="true" maxFractionDigits="0" />
+                                                    </td>
 													<!-- Số lượng sản phẩm -->
 													<td class="product-quantity">
 														<div class="quantity-wrapper">
