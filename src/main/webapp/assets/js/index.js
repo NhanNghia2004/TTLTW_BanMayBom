@@ -57,7 +57,7 @@ $(document).ready(function() {
 });
 $(document).ready(function(){
     $.ajax({
-        url: "trangchu",
+        url: "http://localhost:8080/DoAnLTWeb/trangchu",
         method: "GET",
         success: function(data){
             $("#productList").html(data);

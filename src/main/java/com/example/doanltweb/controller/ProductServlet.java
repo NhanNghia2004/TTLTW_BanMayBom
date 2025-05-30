@@ -37,8 +37,10 @@ public class ProductServlet extends HttpServlet {
             out.println("</a>");
             out.println("<div class='card-body themaybom' style='height: 200px'>");
             out.println("<h6 class='card-title'>" + p.getNameProduct() + "</h6>");
+
             out.println("<p class='new-price'>Giá bán: " + NumberFormat.getInstance(new Locale("vi", "VN")).format((long)p.getPriceProduct()) + " vnđ</p>");
             out.println("<a href='chitietsanpham?id=" + p.getId() + "' class='btn btn-primary btn-sm'>Xem ngay</a>");
+
             out.println("<button class='btn btn-danger btn-sm ms-4' onclick='addToCart(" + p.getId() + ")'>Mua ngay</button>");
             out.println("</div></div></div>");
         }
