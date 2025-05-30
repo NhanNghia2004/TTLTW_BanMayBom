@@ -30,6 +30,7 @@
 <header id="header"></header>
 <nav id="nav"></nav>
 
+
 <div class="container-fluid mt-3">
     <div class="mx-auto" style="max-width: 1300px;">
         <h2 class="mb-3">🛒 Giỏ hàng của bạn</h2>
@@ -77,6 +78,7 @@
                         </c:forEach>
                         </tbody>
                     </table>
+
                 </div>
             </div>
 
