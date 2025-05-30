@@ -56,13 +56,42 @@ public class CheckoutServlet extends HttpServlet {
 	    User user = (User) session.getAttribute("auth");
 	    CartUtils.mergeSessionCartToDb(user.getId(),session);
 	    Cart cart = cartDao.getCartByUserId(user.getId());
+
+		// 🛠️ Lấy thông tin mã giảm giá từ request nếu có
+		String voucherType = request.getParameter("voucherType");
+		String voucherValueStr = request.getParameter("voucherValue");
+
 		String otp = generateOTP();
+
+		// 🛠️ Tính lại tổng tiền sau giảm giá (nếu có mã giảm giá)
+		double totalPrice = cart.getTotalPrice();
+
+		if (voucherType != null && voucherValueStr != null) {
+			try {
+				double voucherValue = Double.parseDouble(voucherValueStr);
+				if ("percent".equals(voucherType)) {
+					totalPrice -= totalPrice * voucherValue / 100;
+				} else if ("amount".equals(voucherType)) {
+					totalPrice -= voucherValue;
+				}
+
+				// Không cho tổng tiền âm
+				if (totalPrice < 0) {
+					totalPrice = 0;
+				}
+			} catch (NumberFormatException e) {
+				e.printStackTrace(); // có thể log lỗi ra file thật
+			}
+		}
+
 
 //	    int paymentMethod = Integer.parseInt(request.getParameter("paymentMethod"));
 		String paymentMethodParam = request.getParameter("paymentMethod");
 		int paymentMethod = (paymentMethodParam != null) ? Integer.parseInt(paymentMethodParam) : 1;
-	    boolean order = orderDao.createOrder(user.getId(), cart.getTotalPrice(), paymentMethod, cart.getTotalAmount(), cart.getId(),otp);
-	    if(order) {
+//	    boolean order = orderDao.createOrder(user.getId(), cart.getTotalPrice(), paymentMethod, cart.getTotalAmount(), cart.getId(),otp);
+		// 🛠️ Truyền totalPrice đã tính lại sau giảm giá
+		boolean order = orderDao.createOrder(user.getId(), totalPrice, paymentMethod, cart.getTotalAmount(), cart.getId(), otp);
+		if(order) {
 	    	cartDao.clearCart(cart.getId());
 	    	session.setAttribute("cart", new ArrayList<CartItem>());
 			// Gửi email trong thread riêng
@@ -94,7 +123,9 @@ public class CheckoutServlet extends HttpServlet {
 //		CartDao cartDao = new CartDao();
 //		Cart cart = cartDao.getCartByUserId(userId);
 		CartUtils.mergeSessionCartToDb(userId, session);
-		double amountDouble = cart.getTotalPrice();
+//		double amountDouble = cart.getTotalPrice();
+		// 🛠️ Dùng lại totalPrice đã tính giảm giá
+		double amountDouble = totalPrice;
 		int totalAmount = cart.getTotalAmount();
 		int cartId = cart.getId();
 
@@ -106,6 +137,9 @@ public class CheckoutServlet extends HttpServlet {
 				response.sendRedirect("cart");
 				return;
 			}
+// 🛠️ XÓA voucher đã dùng
+			session.removeAttribute("VoucherApplied");
+			session.removeAttribute("TotalPrice");
 
 			String vnp_Version = "2.1.0";
 			String vnp_Command = "pay";
@@ -170,6 +204,10 @@ public class CheckoutServlet extends HttpServlet {
 			if (order) {
 				cartDao.clearCart(cart.getId());
 				session.setAttribute("cart", new ArrayList<CartItem>());
+				// 🛠️ XÓA voucher đã dùng sau khi thanh toán
+				session.removeAttribute("VoucherApplied");
+				session.removeAttribute("TotalPrice");
+
 				new Thread(() -> EmailService.sendOTP(user.getEmail(), otp)).start();
 				response.sendRedirect("vnpay_result.jsp");
 			}

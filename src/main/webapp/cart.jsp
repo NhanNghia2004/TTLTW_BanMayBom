@@ -116,8 +116,16 @@
                     <form action="/DoAnLTWeb/CheckoutServlet" method="get" class="text-center mt-3">
                         <input type="hidden" name="total-quantity" value="${TotalAmount}">
                         <input type="hidden" name="total-price" value="${TotalPrice}">
+
+                        <c:if test="${not empty VoucherApplied}">
+                            <input type="hidden" name="voucherType"
+                                   value="${VoucherApplied.discountValue <= 100 ? 'percent' : 'amount'}">
+                            <input type="hidden" name="voucherValue" value="${VoucherApplied.discountValue}">
+                        </c:if>
+
                         <button type="submit" class="btn btn-success w-100">Tiến hành thanh toán</button>
                     </form>
+
                 </div>
             </div>
 
