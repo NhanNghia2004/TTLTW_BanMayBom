@@ -50,6 +50,7 @@ public class CheckoutServlet extends HttpServlet {
 
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
 	    OrderDao orderDao = new OrderDao();
 	    CartDao cartDao = new CartDao();
 	    HttpSession session = request.getSession();
@@ -105,6 +106,17 @@ public class CheckoutServlet extends HttpServlet {
 
 //		HttpSession session = request.getSession();
 //		User user = (User) session.getAttribute("auth");
+
+		OrderDao orderDao = new OrderDao();
+		CartDao cartDao = new CartDao();
+		HttpSession session = request.getSession();
+		User user = (User) session.getAttribute("auth");
+
+// Đảm bảo người dùng đã đăng nhập
+		response.setCharacterEncoding("UTF-8");
+		response.setContentType("application/json");
+		PrintWriter out = response.getWriter();
+
 		JsonObject jsonResponse = new JsonObject();
 
 		if (user == null) {
@@ -120,6 +132,7 @@ public class CheckoutServlet extends HttpServlet {
 //		int paymentMethod = (paymentMethodParam != null) ? Integer.parseInt(paymentMethodParam) : 1;
 		String bankCode = request.getParameter("bankCode");
 
+
 //		CartDao cartDao = new CartDao();
 //		Cart cart = cartDao.getCartByUserId(userId);
 		CartUtils.mergeSessionCartToDb(userId, session);
@@ -132,6 +145,25 @@ public class CheckoutServlet extends HttpServlet {
 //		OrderDao orderDao = new OrderDao();
 
 		if (paymentMethod == 2) { // VNPAY
+
+// Merge session cart với DB
+		CartUtils.mergeSessionCartToDb(userId, session);
+		Cart cart = cartDao.getCartByUserId(userId);
+		if (cart == null || cart.getTotalAmount() == 0) {
+			jsonResponse.addProperty("success", false);
+			jsonResponse.addProperty("message", "Giỏ hàng của bạn đang trống");
+			out.print(jsonResponse.toString());
+			out.flush();
+			return;
+		}
+
+		double amountDouble = cart.getTotalPrice();
+		int totalAmount = cart.getTotalAmount();
+		int cartId = cart.getId();
+
+		if (paymentMethod == 2) {
+			// Thanh toán VNPAY
+
 			int orderId = orderDao.createOrderNoOtp(userId, amountDouble, paymentMethod, totalAmount, cartId);
 			if (orderId < 1) {
 				response.sendRedirect("cart");
@@ -156,12 +188,11 @@ public class CheckoutServlet extends HttpServlet {
 			vnp_Params.put("vnp_Amount", String.valueOf(amount));
 			vnp_Params.put("vnp_CurrCode", "VND");
 			vnp_Params.put("vnp_TxnRef", vnp_TxnRef);
-			vnp_Params.put("vnp_OrderInfo", "Thanh toan don hang:" + vnp_TxnRef);
+			vnp_Params.put("vnp_OrderInfo", "Thanh toán đơn hàng: " + vnp_TxnRef);
 			vnp_Params.put("vnp_OrderType", orderType);
 			vnp_Params.put("vnp_Locale", request.getParameter("language") != null ? request.getParameter("language") : "vn");
 			vnp_Params.put("vnp_ReturnUrl", Config.vnp_ReturnUrl);
 			vnp_Params.put("vnp_IpAddr", vnp_IpAddr);
-
 			if (bankCode != null && !bankCode.isEmpty()) {
 				vnp_Params.put("vnp_BankCode", bankCode);
 			}
@@ -196,23 +227,32 @@ public class CheckoutServlet extends HttpServlet {
 
 			response.sendRedirect(paymentUrl);
 			return;
-
 		} else {
 			// Thanh toán COD hoặc khác
+
 //			String otp = generateOTP();
 //			boolean order = orderDao.createOrder(user.getId(), cart.getTotalPrice(), paymentMethod, cart.getTotalAmount(), cart.getId(), otp);
 			if (order) {
 				cartDao.clearCart(cart.getId());
+
+			String otp = generateOTP();
+			boolean orderCreated = orderDao.createOrder(userId, amountDouble, paymentMethod, totalAmount, cartId, otp);
+			if (orderCreated) {
+				cartDao.clearCart(cartId);
+
 				session.setAttribute("cart", new ArrayList<CartItem>());
 				// 🛠️ XÓA voucher đã dùng sau khi thanh toán
 				session.removeAttribute("VoucherApplied");
 				session.removeAttribute("TotalPrice");
 
 				new Thread(() -> EmailService.sendOTP(user.getEmail(), otp)).start();
-				response.sendRedirect("vnpay_result.jsp");
+
+				jsonResponse.addProperty("success", true);
+				jsonResponse.addProperty("message", "Đơn hàng đã được tạo thành công!");
+			} else {
+				jsonResponse.addProperty("success", false);
+				jsonResponse.addProperty("message", "Đặt hàng thất bại");
 			}
-			jsonResponse.addProperty("success", order);
-			jsonResponse.addProperty("message", order ? "Đơn hàng đã tạo thành công!" : "Đặt hàng thất bại");
 			out.print(jsonResponse.toString());
 			out.flush();
 		}
