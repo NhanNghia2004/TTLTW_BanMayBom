@@ -97,7 +97,7 @@ public class OrderDao {
 	                      int quantity = rs.getInt("quantity");
 						  String otp = rs.getString("otp");
 	                      User user = userDao.getUserbyid(userId);  // Lấy thông tin người dùng
-	                      Payment payment = paymentDao.getPaymentbyid(idPayment);                     
+	                      Payment payment = paymentDao.getPaymentbyid(idPayment);  // Lấy thông tin thanh toán
 	                      return new Order(orderId, user, totalPrice, orderDate, status, payment, quantity,otp);
 	                  })
 	                  .list()  // Trả về danh sách đơn hàng
@@ -226,7 +226,6 @@ public class OrderDao {
 			return rowsAffected>0;
 		}
 
-
 		public List<OrderDetail> getAllDetail() {
 		Jdbi jdbi = JDBIConnect.get();
 		return jdbi.withHandle(handle -> handle.createQuery("SELECT * FROM detailorder")
@@ -261,7 +260,7 @@ public class OrderDao {
 	              .map((rs, ctx) -> {
 	                  Order order = new Order();
 	                  order.setId(rs.getInt("id"));
-	                  order.setOrderDate((rs.getString("orderDate")));   
+	                  order.setOrderDate((rs.getString("orderDate")));
 	                  order.setQuantity(rs.getInt("quantity"));
 	                  order.setTotalPrice(rs.getDouble("totalPrice"));
 	                  order.setStatus(rs.getString("status"));
@@ -336,7 +335,7 @@ public class OrderDao {
 	}
 
 
-	
+
 
 
 
