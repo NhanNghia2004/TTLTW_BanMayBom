@@ -1,5 +1,7 @@
 package com.example.doanltweb.controller.Admin;
 
+import com.example.doanltweb.controller.CancelOrderServlet;
+import com.example.doanltweb.dao.model.User;
 import com.example.doanltweb.utils.OrderUtils;
 import com.example.doanltweb.utils.StockInUtils;
 import jakarta.servlet.ServletException;
@@ -18,6 +20,10 @@ import com.example.doanltweb.dao.ProductDao;
 import com.example.doanltweb.dao.StockInDao;
 import com.example.doanltweb.dao.model.Product;
 import com.example.doanltweb.dao.model.StockIn;
+import jakarta.servlet.http.HttpSession;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.ThreadContext;
 
 @MultipartConfig
 @WebServlet("/StockInController")
@@ -27,6 +33,8 @@ public class StockInController extends HttpServlet {
     ProductDao productDao = new ProductDao();   
 	StockInUtils stockInUtils = new StockInUtils();
 	OrderUtils orderUtils = new OrderUtils();
+	private static final Logger logger = LogManager.getLogger(StockInController.class);
+
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
@@ -66,7 +74,17 @@ public class StockInController extends HttpServlet {
 
 	        response.setStatus(HttpServletResponse.SC_OK); // 200
 	        response.getWriter().write("Thành công");
+			//log
+			String ip = request.getRemoteAddr();
+			HttpSession session = request.getSession();
+			User user = (User) session.getAttribute("auth");
+			ThreadContext.put("user_id", String.valueOf(user.getId()));
+			ThreadContext.put("ip", ip);
+			ThreadContext.put("resource", "Stock in");
+			ThreadContext.put("data_in", "username=" + user.getUsername());
+			ThreadContext.put("data_out", "SUCCESS");
 
+			logger.info("Stock in successful");
 	    } catch (Exception e) {
 	    	 e.printStackTrace();
 	    	 response.setStatus(HttpServletResponse.SC_BAD_REQUEST); // 400

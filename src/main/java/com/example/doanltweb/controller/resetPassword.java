@@ -17,12 +17,15 @@
  import jakarta.servlet.http.HttpServletRequest;
  import jakarta.servlet.http.HttpServletResponse;
  import jakarta.servlet.http.HttpSession;
- 
- @WebServlet(name="resetPassword", urlPatterns={"/resetPassword"})
+ import org.apache.logging.log4j.LogManager;
+ import org.apache.logging.log4j.Logger;
+ import org.apache.logging.log4j.ThreadContext;
+
+@WebServlet(name="resetPassword", urlPatterns={"/resetPassword"})
  public class resetPassword extends HttpServlet {
      DAOTokenForget DAOToken = new DAOTokenForget();
      UserDao DAOUser = new UserDao();
- 
+    private static final Logger logger = LogManager.getLogger(resetPassword.class);
      @Override
      protected void doGet(HttpServletRequest request, HttpServletResponse response)
      throws ServletException, IOException {
@@ -95,6 +98,17 @@
  
          DAOUser.updatePassword(email, password);
          DAOToken.updateStatus(tokenForgetPassword);
+
+         //log
+         String ip = request.getRemoteAddr();
+         User user = (User) session.getAttribute("auth");
+         ThreadContext.put("user_id", String.valueOf(user.getId()));
+         ThreadContext.put("ip", ip);
+         ThreadContext.put("resource", "Reset password");
+         ThreadContext.put("data_in", "username=" + user.getUsername());
+         ThreadContext.put("data_out", "SUCCESS");
+
+         logger.info("User reset password successful");
  
          //save user in session and redirect to home
          request.getRequestDispatcher("index.jsp").forward(request, response);

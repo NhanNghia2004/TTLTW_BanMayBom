@@ -149,14 +149,23 @@
 			<artifactId>google-api-services-oauth2</artifactId>
 			<version>v2-rev157-1.25.0</version>
 		</dependency>
+
+		<!-- Log4j2 Core & API -->
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-api</artifactId>
+			<version>2.20.0</version>
+		</dependency>
 		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>
 			<artifactId>log4j-core</artifactId>
 			<version>2.20.0</version>
 		</dependency>
+
+		<!-- ✚ Thêm Log4j2 JDBC Appender -->
 		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>
-			<artifactId>log4j-api</artifactId>
+			<artifactId>log4j-jdbc-dbcp2</artifactId>
 			<version>2.20.0</version>
 		</dependency>
 
