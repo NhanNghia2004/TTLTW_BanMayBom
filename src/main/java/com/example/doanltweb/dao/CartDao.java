@@ -125,16 +125,17 @@ public class CartDao {
 	    
 	    try {
 	        return jdbi.inTransaction(handle -> {
-	            // 1️⃣ Xóa tất cả cart items liên quan đến cartId
+	            // Xóa tất cả cart items liên quan đến cartId
 	            handle.createUpdate("DELETE FROM cart_item WHERE cart_id = :cartId")
 	                  .bind("cartId", cartId)
 	                  .execute();
 
-	            // 2️⃣ Xóa cart tương ứng sau khi xóa cart items
-	            int rowsAffected = handle.createUpdate("DELETE FROM cart WHERE id = :cartId")
-	                                     .bind("cartId", cartId)
-	                                     .execute();
-	            
+	            // Cập nhật cart: đặt total_price và total_amount về 0
+	            int rowsAffected = handle.createUpdate(
+	                    "UPDATE cart SET total_price = 0, total_amount = 0 WHERE id = :cartId")
+	                    .bind("cartId", cartId)
+	                    .execute();
+
 	            return rowsAffected > 0;
 	        });
 	    } catch (Exception e) {

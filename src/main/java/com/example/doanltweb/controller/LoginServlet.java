@@ -1,4 +1,5 @@
-package com.example.doanltweb.controller;import java.io.*;
+package com.example.doanltweb.controller;
+import java.io.*;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,9 +14,12 @@ import com.example.doanltweb.dao.model.CartItem;
 import jakarta.servlet.http.*;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 @WebServlet(name = "LoginServlet", value = "/LoginController")
 public class LoginServlet extends HttpServlet {
+	private static final Logger logger = LogManager.getLogger(LoginServlet.class);
     private UserDao userDao = new UserDao();
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 
@@ -40,14 +44,14 @@ public class LoginServlet extends HttpServlet {
         if (user != null) {
             session.setAttribute("auth", user); // Lưu thông tin người dùng vào session
             LogDao.saveLog(user.getId(), "INFO", ip, "LOGIN", "username=" + username, "SUCCESS");
-            
+            logger.info("UserID={} IP={} Action=LOGIN Username={} Result=SUCCESS", user.getId(), ip, username);
             // Nếu người dùng là Admin (role == 1)
             if (user.getIdPermission() == 1 ) {
                 System.out.println("lỗi");
                 response.sendRedirect("admin");
             } else {
             	CartUtils.mergeSessionCartToDb(user.getId(),session);
-            	response.sendRedirect("/DoAnLTWeb_war/trangchu");
+            	response.sendRedirect("/DoAnLTWeb/trangchu");
             }
         } else {
 
@@ -64,8 +68,9 @@ public class LoginServlet extends HttpServlet {
             }
             if (count <= 3) {
                 count++;// Tăng số lần thất bại
-                session.setAttribute("loginFail", count); // Lưu lại số lần thất bại vào session
+                session.setAttribute("loginFail", count); // Lưu lại số lần thất bại vào session           
                 LogDao.saveLog(0, "WARN", ip, "LOGIN", "username=" + username, "Login fail: " + count + "times");
+                logger.warn("UserID=0 IP={} Action=LOCK Username={} Reason=Too many failed attempts", ip, username);
                 request.setAttribute("error", "Đăng nhập không thành công. Vui lòng kiểm tra lại thông tin.");
                 request.setAttribute("username", username);
                 request.getRequestDispatcher("login.jsp").forward(request, response);
