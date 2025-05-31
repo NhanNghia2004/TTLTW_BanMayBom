@@ -2,10 +2,13 @@ package com.example.doanltweb.dao;
 
 import com.example.doanltweb.dao.db.JDBIConnect;
 import com.example.doanltweb.dao.model.Product;
+import org.jdbi.v3.core.Handle;
 import org.jdbi.v3.core.Jdbi;
+import org.jdbi.v3.core.mapper.reflect.BeanMapper;
 import org.jdbi.v3.core.statement.Query;
 
 import java.sql.SQLException;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -185,6 +188,67 @@ public class ProductDao {
                         .list()
         );
     }
+    public List<Product> getProductsByPageAndSort(int offset, int pageSize, String sort) {
+        Jdbi jdbi = JDBIConnect.get();
+
+        String orderByClause;
+        if ("priceHighToLow".equals(sort)) {
+            orderByClause = "ORDER BY priceProduct DESC";
+        } else if ("priceLowToHigh".equals(sort)) {
+            orderByClause = "ORDER BY priceProduct ASC";
+        } else if ("newest".equals(sort)) {
+            orderByClause = "ORDER BY manufactureDate DESC"; // Vì bảng bạn chưa có createdDate
+        } else {
+            orderByClause = "ORDER BY id ASC"; // Mặc định
+        }
+
+        String sql = "SELECT id, nameProduct, priceProduct, image AS imageProduct FROM product "
+                + orderByClause + " LIMIT :limit OFFSET :offset";
+
+        return jdbi.withHandle(handle ->
+                handle.createQuery(sql)
+                        .bind("limit", pageSize)
+                        .bind("offset", offset)
+                        .map((rs, ctx) -> {
+                            Product p = new Product();
+                            p.setId(rs.getInt("id"));
+                            p.setNameProduct(rs.getString("nameProduct"));
+                            p.setPriceProduct(rs.getDouble("priceProduct"));
+                            p.setImage(rs.getString("imageProduct"));
+                            return p;
+                        })
+                        .list()
+        );
+    }
+    public int getTotalProducts() {
+        Jdbi jdbi = JDBIConnect.get();
+        String sql = "SELECT COUNT(*) FROM product";
+
+        return jdbi.withHandle(handle ->
+                handle.createQuery(sql)
+                        .mapTo(Integer.class)
+                        .one()
+        );
+    }
+    public List<String> searchProductsstr(String query) {
+        Jdbi jdbi = JDBIConnect.get(); // dùng kết nối có sẵn
+        return jdbi.withHandle(handle ->
+                handle.createQuery("SELECT nameProduct FROM product WHERE nameProduct LIKE :query LIMIT 5")
+                        .bind("query", "%" + query + "%")
+                        .mapTo(String.class)
+                        .list()
+        );
+    }
+    public List<Product> searchProducts(String keyword) {
+        Jdbi jdbi = JDBIConnect.get();
+        return jdbi.withHandle(handle ->
+                handle.createQuery("SELECT * FROM product WHERE nameProduct LIKE :keyword")
+                        .bind("keyword", "%" + keyword + "%")
+                        .mapToBean(Product.class)
+                        .list()
+        );
+    }
+
 
 
 //    public boolean deleteById(String id) {
@@ -228,9 +292,12 @@ public class ProductDao {
 //                System.out.println("Có lỗi xảy ra khi thêm sản phẩm.");
 //            }
 //        }
+
+
+
     public static void main(String[] args) {
         ProductDao productDao = new ProductDao();
-        System.out.println(productDao.getAll());
+        System.out.println(productDao.getTotalProducts());
 
     }
 

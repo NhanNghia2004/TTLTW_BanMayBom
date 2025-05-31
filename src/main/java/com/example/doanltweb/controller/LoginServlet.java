@@ -1,5 +1,4 @@
-package com.example.doanltweb.controller;
-import java.io.*;
+package com.example.doanltweb.controller;import java.io.*;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,7 +19,8 @@ import org.apache.logging.log4j.ThreadContext;
 
 @WebServlet(name = "LoginServlet", value = "/LoginController")
 public class LoginServlet extends HttpServlet {
-	private static final Logger logger = LogManager.getLogger(LoginServlet.class);
+    private UserDao userDao = new UserDao();
+    private static final Logger logger = LogManager.getLogger(LoginServlet.class);
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 
     }
@@ -29,7 +29,6 @@ public class LoginServlet extends HttpServlet {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         HttpSession session = request.getSession();
-        
         String ip = request.getRemoteAddr();
         Integer count = (Integer) session.getAttribute("loginFail"); // Lấy số lần đăng nhập thất bại
         if (count == null) {
@@ -43,8 +42,6 @@ public class LoginServlet extends HttpServlet {
         // Kiểm tra kết quả đăng nhập
         if (user != null) {
             session.setAttribute("auth", user); // Lưu thông tin người dùng vào session
-//            LogDao.saveLog(user.getId(), "INFO", ip, "LOGIN", "username=" + username, "SUCCESS");
-//            logger.info("UserID={} IP={} Action=LOGIN Username={} Result=SUCCESS", user.getId(), ip, username);
             ThreadContext.put("user_id", String.valueOf(user.getId()));
             ThreadContext.put("ip", ip);
             ThreadContext.put("resource", "LOGIN");
@@ -54,14 +51,28 @@ public class LoginServlet extends HttpServlet {
             logger.info("User login successful");
 
             // Nếu người dùng là Admin (role == 1)
-            if (user.getIdPermission() == 1 ) {
+            int role = user.getIdPermission();
+            if (role == 1 || role == 2 || role == 4 ) {
                 System.out.println("lỗi");
                 response.sendRedirect("admin");
             } else {
             	CartUtils.mergeSessionCartToDb(user.getId(),session);
             	response.sendRedirect("/DoAnLTWeb/trangchu");
+
+
+// Lấy lại productId nếu có
+                String productId = (String) session.getAttribute("currentProductId");
+                if (productId != null) {
+                    session.removeAttribute("currentProductId");
+                    response.sendRedirect("/DoAnLTWeb/chitietsanpham?id=" + productId);
+                    return;
+                }
+
+            	response.sendRedirect("/DoAnLTWeb/index.jsp");
+
             }
         } else {
+
         	count++; // Tăng số lần thất bại
             session.setAttribute("loginFail", count); // Lưu lại số lần thất bại vào session
 //        	LogDao.saveLog(0, "WARN", ip, "LOGIN", "username=" + username,"Login fail: " + count +"times");
@@ -75,7 +86,7 @@ public class LoginServlet extends HttpServlet {
             request.setAttribute("error", "Đăng nhập không thành công. Vui lòng kiểm tra lại thông tin.");
             request.setAttribute("username", username);
             request.getRequestDispatcher("login.jsp").forward(request, response);
-            if (userDao.checkLockUserByUsername(username)) {
+            if (userDao.checkLockUserByUsername(username) == true ) {
                 request.setAttribute("error", "tài khoản của bạn đã bị khóa vui lòng quên mật khẩu để mở khóa.");
                 request.getRequestDispatcher("login.jsp").forward(request, response);
             }
@@ -91,7 +102,7 @@ public class LoginServlet extends HttpServlet {
             request.getRequestDispatcher("login.jsp").forward(request, response);
         }
     }
-    
-   
+
+
 
 }

@@ -23,10 +23,22 @@
     />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="assets/css/index.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="assets/js/index.js"></script>
+
     <link rel="stylesheet" href="assets/css/headerAndFooter.css">
 </head>
 <body style="background-color: rgb(242 244 247)">
 <header id="header"></header>
+<div
+        class="container d-flex justify-content-between align-items-center py-4">
+    <a href="/DoAnLTWeb/index.jsp" class="head-title">AquaTech</a>
+    <form action="Search" method="get" class="d-flex position-relative">
+        <input id="searchInput" name="search" type="search" class="form-control me-2" placeholder="Search..." style="width: 300px">
+        <input type="submit" value="Search" class="btn bg-dark-blue text-light">
+        <div id="suggestions" class="position-absolute bg-white border rounded" style="top: 100%; width: 300px; z-index: 1000;"></div>
+    </form>
+</div>
 <nav id="nav"></nav>
 <div class="container">
     <div class="row">
@@ -55,45 +67,10 @@
                                 </div>
                             </div>
                             <br>
-                            <div class="row g-4">
-									<c:forEach items="${pall}" var="p" end="3">
-										<div class="col-md-3">
-											<div id="isReload"></div>
-											<a href="chitietsanpham?id=${p.id}"
-												style="text-decoration: none">
-												<div class="card position-relative">
-													<div class="discount-badge">-10%</div>
-													<img src="assets/imgs/maybom/${p.image}"
-														class="card-img-top" alt="Bơm tăng áp mini Pamtex 10" />
-													<div class="card-body themaybom" style="height: 200px">
-														<h6 class="card-title">${p.nameProduct}</h6>
-														<p class="old-price">Giá cũ: 720.000đ</p>
-														<p class="new-price">Giá mới: 650.000đ</p>
-														<c:if test="${p.stock != 0}">
-															<div class="option">
-																<div class="wrap-option">
-																	<%-- <form class="addToCartForm">
-																		<input type="hidden" name="productId" value="${ p.getId()}"/>
-																		<input type="hidden" name="quantity" value=1 />
-																		<button type="submit" class="icon-cart">
-																			<i class="bi-cart4"></i>
-																		</button>
-																	</form> --%>
-
-																	<a href="#" class="icon-like"> <i
-																		class="bi bi-cash-stack"></i>
-																	</a>
-
-																</div>
-															</div>
-														</c:if>
-													</div>
-												</div>
-											</a>
-										</div>
-									</c:forEach>
-									<!-- Add more products as needed -->
+                            <div class="row g-4" id="productList">
+                                <!-- Sản phẩm sẽ được load ở đây -->
                             </div>
+
                         </div>
                         <!-- may bom khuyen mai  -->
                         <div class="container my-4">
@@ -105,60 +82,18 @@
                                     <p>Sắp xếp theo</p>
                                 </div>
                                 <div class="col-2">
-                                    <select class="form-control form-select-sm">
-                                        <option selected>Mặc định</option>
-                                        <option>Giá cao đến thấp</option>
-                                        <option>Giá thấp đến cao</option>
-                                        <option>Mới nhất</option>
+                                    <select class="form-control form-select-sm" id="sortSelect">
+                                        <option value="default" selected>Mặc định</option>
+                                        <option value="priceHighToLow">Giá cao đến thấp</option>
+                                        <option value="priceLowToHigh">Giá thấp đến cao</option>
+                                        <option value="newest">Mới nhất</option>
                                     </select>
                                 </div>
                             </div>
-                            <div class="row g-4">
-                               <c:forEach items="${pall}" var="p" end="7">
-										<div class="col-md-3 ">
-											<div id="isReload"></div>
-											<a href="chitietsanpham?id=${p.id}"
-												style="text-decoration: none">
-												<div class="card position-relative">
-													<div class="discount-badge">-10%</div>
-													<img src="assets/imgs/maybom/${p.image}"
-														class="card-img-top" alt="Bơm tăng áp mini Pamtex 10" />
-													<div class="card-body themaybom" style="height: 200px">
-														<h6 class="card-title">${p.nameProduct}</h6>
-														<p class="old-price">Giá cũ: 720.000đ</p>
-														<p class="new-price">Giá mới: 650.000đ</p>
-														<c:if test="${p.stock != 0}">
-															<div class="option">
-																<div class="wrap-option">
-																	<form class="addToCartForm">
-																		<input type="hidden" name="productId" value="${ p.getId()}"/>
-																		<input type="hidden" name="quantity" value=1 />
-																		<button type="submit" class="icon-cart">
-																			<i class="bi-cart4"></i>
-																		</button>
-																	</form>
 
-																	<a href="#" class="icon-like"> <i
-																		class="bi bi-cash-stack"></i>
-																	</a>
+                            <div class="row g-4" id="product-container"></div>
 
-																</div>
-															</div>
-														</c:if>
-													</div>
-												</div>
-											</a>
-										</div>
-									</c:forEach>
-
-                                <!-- Add more products as needed -->
-                            </div>
-                            <br>
-                            <div class="row justify-content-center">
-                                <div class="col-4 ">
-                                    <button class="form-control hover-shadow">Xem thêm</button>
-                                </div>
-                            </div>
+                            <div id="pagination-container" class="pagination mt-4"></div>
                         </div>
                     </div>
                 </div>
@@ -197,36 +132,55 @@
 
 </script>
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        document.querySelectorAll(".addToCartForm").forEach(form => {
-            form.addEventListener("submit", function (event) {
-                event.preventDefault(); // Ngăn reload
+     function addToCart(productId) {
+         $.ajax({
+             url: 'http://localhost:8080/DoAnLTWeb/AddToCartServlet',
+             method: 'POST',
+             data: {
+                 productId: productId,
+                 quantity: 1
+             },
+             success: function(response) {
+                 // response đã là object JSON vì jQuery tự parse nếu content-type là application/json
+                 if (response.status === "success") {
+                     alert(response.message);
 
-                var formData = new FormData(form); // Lấy dữ liệu từ form
+                     // Nếu bạn có phần hiển thị tổng số lượng giỏ hàng, ví dụ id="cart-count"
+                     if (response.totalQuantity !== undefined) {
+                         $('#cart-count').text(response.totalQuantity);
+                     }
+                     // Bạn có thể cập nhật thêm UI khác tùy ý
+                 } else {
+                     alert('Lỗi: ' + response.message);
+                 }
+             },
+             error: function() {
+                 alert('Lỗi kết nối, vui lòng thử lại!');
+             }
+         });
+     }
 
-                $.ajax({
-                    url: "/DoAnLTWeb/AddToCartServlet",
-                    method: "POST",
-                    data: formData,
-                    processData: false, // Bắt buộc khi dùng FormData
-                    contentType: false, // Bắt buộc khi dùng FormData
-                    success: function (data) {
-                        if (data.status === "success") {
-                            alert(data.message);
-                        } else {
-                            alert(data.message);
-                        }
-                    },
-                    error: function (xhr, status, error) {
-                        alert("Có lỗi xảy ra, vui lòng thử lại!");
-                        console.error("Lỗi:", error);
-                    }
-                });
-            });
-        });
-    });
 </script>
+<style>
+    .pagination {
+        display: flex;           /* Dùng flexbox */
+        justify-content: center; /* Căn giữa theo chiều ngang */
+        align-items: center;     /* Căn giữa theo chiều dọc nếu cần */
+        min-height: 100px;       /* Chiều cao tối thiểu, bạn chỉnh bao nhiêu tùy */
+    }
+
+    .pagination button {
+        margin: 5px;
+        padding: 8px 12px;
+    }
+
+    .pagination button.active {
+        background-color: orange;
+        color: white;
+    }
+</style>
 <script src="assets/js/nav.js"></script>
+<script src="assets/js/find.js"></script>
 <script src="assets/js/boughtProduct.js"></script>
 </body>
 </html>

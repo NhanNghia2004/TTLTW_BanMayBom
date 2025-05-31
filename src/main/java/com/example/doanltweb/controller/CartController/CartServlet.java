@@ -27,7 +27,7 @@ public class CartServlet extends HttpServlet {
     	double price = 0;
 
     	if (cart == null) {
-    	    cart = new ArrayList<>(); // 🔥 Khởi tạo giỏ hàng
+    	    cart = new ArrayList<CartItem>(); // Khởi tạo giỏ hàng
     	    session.setAttribute("cart", cart); // Lưu vào session
     	} else {
     	    for (CartItem cartItem : cart) {

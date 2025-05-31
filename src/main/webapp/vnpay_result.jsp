@@ -31,24 +31,7 @@
               <div class="col-md-12">
                 <div class="container-fluid d-flex justify-content-center">
                     <div class="forgot-password-container">
-                      <%
-                                          String userId = (String) request.getAttribute("userId");
-                                          String message = (String) request.getAttribute("message");
-                                          if (userId == null || userId.isEmpty()) {
-                                              userId = request.getParameter("user_id"); // fallback
-                                          }
-                                      %>
-                                      <form action="verify-otp" method="post" class="d-flex align-items-center">
-                                          <input type="hidden" name="user_id" value="<%= userId %>">
-                                          <label for="otp" class="me-2">OTP:</label>
-                                          <input type="text" name="otp" id="otp" required class="form-control w-auto me-2" style="width: 200px;">
-                                          <button type="submit" class="btn btn-primary">Verify OTP</button>
-                                      </form>
-                                      <% if (message != null) { %>
-                                          <p style="color: <%= message.contains("thành công") ? "green" : "red" %>;">
-                                              <%= message %>
-                                          </p>
-                                      <% } %>
+                      <h2><i class="fa-solid fa-key px-2" style="color: #680a8a;"></i><h1>🎉 Đặt Hàng Thành Công 🎉</h1></h2>
                       <a href="index.jsp" class="text-muted">← Quay về trang chủ</a>
                     </div>
                   </div>

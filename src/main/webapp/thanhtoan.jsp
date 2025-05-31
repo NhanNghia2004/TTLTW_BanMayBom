@@ -55,7 +55,8 @@
                      </div>
                      <div class="mb-3">
                        <label class="form-label">Phương Thức Thanh Toán</label>
-                      <select class="form-select" name="paymentMethod" id="paymentMethod">                        <option value="1">Thanh toán khi nhận hàng</option>
+                      <select class="form-select" name="paymentMethod" id="paymentMethod">
+                         <option value="1">Thanh toán khi nhận hàng</option>
                          <option value="2">Chuyển khoản ngân hàng</option>
                        </select>
                      </div>
@@ -98,40 +99,6 @@
       fetch("./assets/component/nav.jsp")
               .then((response) => response.text())
               .then((html) => (nav.innerHTML = html));
-      
-     
-    </script>
-    <script>
-        $(document).ready(function () {
-            $("#orderForm").on("submit", function (event) {
-                event.preventDefault();
-                const messageDiv = document.getElementById("orderMessage");
-                let formData = new FormData(this);
-
-                $.ajax({
-                    url: "CheckoutServlet",
-                    method: "POST",
-                    data: formData,
-                    processData: false,
-                    contentType: false,
-                    dataType: 'json',
-                    success: function (data) {
-                        console.log(data);
-                        console.log(messageDiv);
-                        if (data.success) {
-                            messageDiv.innerHTML = '<div class="alert alert-success">' + data.message + '</div>';
-                        } else {
-                            messageDiv.innerHTML = '<div class="alert alert-danger">' + data.message + '</div>';
-                        }
-                    },
-                    error: function (xhr, status, error) {
-                        console.error("Error:", error);
-                        messageDiv.innerHTML = '<div class="alert alert-danger">' + error + '</div>';
-                    }
-                });
-            });
-        });
-    </script>
     <script src="assets/js/nav.js"></script>
 	<script src="assets/js/boughtProduct.js"></script>
   </body>
