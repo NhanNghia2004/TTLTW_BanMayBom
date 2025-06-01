@@ -53,14 +53,12 @@ public class LoginServlet extends HttpServlet {
             // Nếu người dùng là Admin (role == 1)
             int role = user.getIdPermission();
             if (role == 1 || role == 2 || role == 4 ) {
-                System.out.println("lỗi");
                 response.sendRedirect("admin");
+                return;
             } else {
-            	CartUtils.mergeSessionCartToDb(user.getId(),session);
-            	response.sendRedirect("/DoAnLTWeb/trangchu");
+                CartUtils.mergeSessionCartToDb(user.getId(), session);
 
-
-// Lấy lại productId nếu có
+                // Kiểm tra nếu có sản phẩm cần chuyển hướng
                 String productId = (String) session.getAttribute("currentProductId");
                 if (productId != null) {
                     session.removeAttribute("currentProductId");
@@ -68,9 +66,10 @@ public class LoginServlet extends HttpServlet {
                     return;
                 }
 
-            	response.sendRedirect("/DoAnLTWeb/index.jsp");
-
+                response.sendRedirect("/DoAnLTWeb/index.jsp");
+                return;
             }
+
         } else {
 
         	count++; // Tăng số lần thất bại

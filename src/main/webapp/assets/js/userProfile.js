@@ -84,3 +84,39 @@ function cancelOrder(orderId) {
 		       }
 	});
 }
+function completeOrder(orderId) {
+	$.ajax({
+		url: '/DoAnLTWeb/OrderController',
+		type: 'POST',
+		contentType: "application/x-www-form-urlencoded",
+		data: {
+			orderId: orderId,
+			newStatus:"COMPLETED"
+		},
+		success: function(response) {
+	
+				// Cập nhật trạng thái đơn hàng
+				const elementId = 'status-' + orderId;
+				const statusCell = document.getElementById(elementId);
+
+				if (statusCell) {
+					statusCell.textContent = "COMPLETED";
+				} else {
+					console.warn(`Không tìm thấy phần tử với id: ${elementId}`);
+				}
+
+				// Ẩn nút hủy
+				const completeBtnId = 'btn-complete-' + orderId;
+				const completeButton = document.getElementById(completeBtnId);
+
+				if (completeButton) {
+					completeButton.style.display = 'none';
+				}
+
+				alert(response.status);
+		},
+		error: function(response) {
+		           alert(response.status);
+		       }
+	});
+}

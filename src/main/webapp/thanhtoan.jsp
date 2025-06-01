@@ -99,6 +99,7 @@
       fetch("./assets/component/nav.jsp")
               .then((response) => response.text())
               .then((html) => (nav.innerHTML = html));
+    </script>
     <script src="assets/js/nav.js"></script>
 	<script src="assets/js/boughtProduct.js"></script>
   </body>
