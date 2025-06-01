@@ -41,6 +41,12 @@ public class LoginServlet extends HttpServlet {
 
         // Kiểm tra kết quả đăng nhập
         if (user != null) {
+            if (user.getIsVerified() == 0) {
+                request.setAttribute("error", "Tài khoản của bạn đã bị vô hiệu hóa. Vui lòng liên hệ quản trị viên.");
+                request.setAttribute("username", username);
+                request.getRequestDispatcher("login.jsp").forward(request, response);
+                return;
+            }
             session.setAttribute("auth", user); // Lưu thông tin người dùng vào session
             ThreadContext.put("user_id", String.valueOf(user.getId()));
             ThreadContext.put("ip", ip);
@@ -52,12 +58,11 @@ public class LoginServlet extends HttpServlet {
 
             // Nếu người dùng là Admin (role == 1)
             int role = user.getIdPermission();
-            if (role == 1 || role == 2 || role == 4 ) {
+            if (role == 1 || role == 3 || role == 4 ) {
                 System.out.println("lỗi");
                 response.sendRedirect("admin");
             } else {
             	CartUtils.mergeSessionCartToDb(user.getId(),session);
-            	response.sendRedirect("/DoAnLTWeb/trangchu");
 
 
 // Lấy lại productId nếu có
