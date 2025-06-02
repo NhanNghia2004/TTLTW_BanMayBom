@@ -494,8 +494,8 @@ function loadUserData() {
     // Mapping quyền (idPermission)
     const permissionMap = {
         1: "Admin",
-        2: "Nhân viên",
-        3: "Khách hàng",
+        2: "Khách hàng",
+        3: "Nhân viên",
         4: "Cộng tác viên" // Thêm quyền mới
     };
 
@@ -588,13 +588,13 @@ $(document).on('click', '.user-edit-btn', function (event) {
     // Mapping quyền (idPermission)
     const permissionMap = {
         "Admin": 1,
-        "Nhân viên": 2,
-        "Khách hàng": 3,
+        "Khách hàng": 2,
+        "Nhân viên": 3,
         "Cộng tác viên": 4
     };
 
     // Chuyển quyền và trạng thái xác thực từ text sang số
-    const idPermission = permissionMap[permissionText] || 3;  // Mặc định là "Khách hàng"
+    const idPermission = permissionMap[permissionText] || 2;  // Mặc định là "Khách hàng"
     const isVerified = (verifiedText === 'Đã xác thực') ? 1 : 0;
 
     // Gán dữ liệu vào form
@@ -712,8 +712,18 @@ function loadVoucherData() {
                 let status = voucher.status;
                 let statusName = statuses[status] || 'Không xác định';
 
+                // const startDateObj = new Date(voucher.startDate);
+                const endDateObj = new Date(voucher.endDate);
+
                 const startDate = formatDate(voucher.startDate);
                 const endDate = formatDate(voucher.endDate);
+
+                // Nếu voucher đã hết hạn thì cập nhật trạng thái thành Không hoạt động
+                const today = new Date();
+                if (endDateObj < today) {
+                    status = 0;
+                    statusName = statuses[status];
+                }
 
                 // Kiểm tra nếu giá trị discountValue là phần trăm (giá trị nhỏ hơn 100)
                 let discountDisplay = '';

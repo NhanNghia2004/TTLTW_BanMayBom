@@ -1,6 +1,8 @@
 package com.example.doanltweb.controller;
 
 import java.io.*;
+import java.sql.Date;
+import java.time.LocalDate;
 
 import com.example.doanltweb.dao.VoucherDao;
 import com.example.doanltweb.dao.VoucherUsageDao;
@@ -48,6 +50,8 @@ public class ApplyVoucherServlet extends HttpServlet {
 
         if (voucher == null) {
             request.setAttribute("voucherError", "Mã giảm giá không tồn tại.");
+        } else if (voucher.getStatus() == 0 || voucher.getEndDate().isBefore(LocalDate.now())) {
+            request.setAttribute("voucherError", "Voucher đã hết hạn hoặc không còn hoạt động.");
         } else {
             int userUsageCount = usageDao.countUsageByUser(userId, voucher.getId());
 

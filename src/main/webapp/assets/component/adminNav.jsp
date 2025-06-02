@@ -12,10 +12,10 @@
                     class="fas fa-project-diagram me-2"></i>Quản lý sản phẩm</a>
             <a href="${pageContext.request.contextPath}/OrderController" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"
                 aria-controls="home" aria-selected="true">
-               <i class="bi bi-box-seam me-2"></i>Quản lý đơn hàng</a>   
+               <i class="bi bi-box-seam me-2"></i>Quản lý đơn hàng</a>
             <a href="${pageContext.request.contextPath}/StockInController" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"
                 aria-controls="home" aria-selected="true">
-               <i class="bi bi-box-arrow-in-down me-2"></i>Quản lý kho</a>     
+               <i class="bi bi-box-arrow-in-down me-2"></i>Quản lý kho</a>
             <a href="#id3" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"
                 aria-controls="home" aria-selected="true"><i
                     class="fas fa-chart-line me-2"></i>Quản lý người dùng</a>
@@ -25,7 +25,7 @@
             <a href="#id5" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"
                aria-controls="home" aria-selected="true"><i
                     class="fa-solid fa-gift"></i> Bảo Hành </a>
-            <a href="index.jsp" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"
+            <a href="/DoAnLTWeb/LogoutController" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"
                aria-selected="true"><i class="fa-solid fa-power-off"></i> Thoát</a>
         </div>
     </div>
