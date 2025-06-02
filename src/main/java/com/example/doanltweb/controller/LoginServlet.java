@@ -67,15 +67,6 @@ public class LoginServlet extends HttpServlet {
             } else {
 
             	CartUtils.mergeSessionCartToDb(user.getId(),session);
-
-                // Kiểm tra nếu có sản phẩm cần chuyển hướng
-                String productId = (String) session.getAttribute("currentProductId");
-                if (productId != null) {
-                    session.removeAttribute("currentProductId");
-                    response.sendRedirect("/DoAnLTWeb/chitietsanpham?id=" + productId);
-                    return;
-                }
-
                 response.sendRedirect("/DoAnLTWeb/index.jsp");
                 return;
             }

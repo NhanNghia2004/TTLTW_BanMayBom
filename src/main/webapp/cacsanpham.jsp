@@ -41,38 +41,19 @@
 					<div class="row g-4">
 						<c:forEach items="${products}" var="p" end="3">
 							<div class="col-md-3">
-								<a href="chitietsanpham?id=${p.getId()}"
-									style="text-decoration: none">
-									<div class="card position-relative">
-										<div class="discount-badge">-10%</div>
-										<img src="${p.image}" class="card-img-top"
-											alt="Bơm tăng áp mini Pamtex 10" />
-										<div class="card-body themaybom" style="height: 200px">
-											<h6 class="card-title">${p.nameProduct}</h6>
-											<p class="new-price"></p>
-											<p class="new-price">Giá: ${p.priceProduct} Đ</p>
-											<c:if test="${p.stock != 0}">
-												<div class="option">
-													<div class="wrap-option">
-														<form class="addToCartForm">
-															<input type="hidden" name="productId"
-																value="${ p.getId()}" /> <input type="hidden"
-																name="quantity" value=1 />
-															<button type="submit" class="icon-cart">
-																<i class="bi-cart4"></i>
-															</button>
-														</form>
-
-														<a href="#" class="icon-like"> <i
-															class="bi bi-cash-stack"></i>
-														</a>
-													</div>
-												</div>
-											</c:if>
-										</div>
-									</div>
-								</a>
-							</div>
+                                                        <div class="card position-relative">
+                                                            <div class="discount-badge">-10%</div>
+                                                            <a href="chitietsanpham?id=${p.id}" style="text-decoration: none">
+                                                            <img src="assets/imgs/maybom/${p.image}" class="card-img-top" alt="${p.nameProduct}" />
+                                                            </a>
+                                                            <div class="card-body themaybom" style="height: 200px">
+                                                                <h6 class="card-title">${p.nameProduct}</h6>
+                                                                <p class="new-price">Giá bán:  ${p.priceProduct} vnđ</p>
+                                                                <a href="chitietsanpham?id=${p.id}" class="btn btn-primary btn-sm">Xem ngay</a>
+                                                                <button class="btn btn-danger btn-sm ms-4" onclick="addToCart(${p.id})">Mua ngay</button>
+                                                            </div>
+                                                        </div>
+                                                </div>
 						</c:forEach>
 						<!-- Add more products as needed -->
 					</div>
