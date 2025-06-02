@@ -1,7 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<c:set var="role" value="${sessionScope.auth.idPermission}" />
+<c:set var="role" value="${sessionScope.auth.idPermission}"/>
 
 
 <!DOCTYPE html>
@@ -33,6 +33,8 @@
 
     <!-- DataTables JS -->
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
 
     <!-- Custom JS -->
     <script src="assets/js/admin.js"></script>
@@ -51,55 +53,58 @@
                 class="fas fa-user-secret me-2"></i>Quản Lý
         </div>
         <div class="list-group list-group-flush my-3">
-<!-- Quản lý mua bán: chỉ Admin và Nhân viên -->
-<c:if test="${role == 1 || role == 2}">
-            <a href="#id1" class="list-group-item list-group-item-action bg-transparent second-text active"
-               data-bs-toggle="tab" role="tab" aria-controls="home" aria-selected="true"><i
-                    class="fas fa-tachometer-alt me-2"></i>Quản lý mua bán</a>
-</c:if>
+            <!-- Quản lý mua bán: chỉ Admin và Nhân viên -->
+            <c:if test="${role == 1 || role == 3}">
+                <a href="#id1" class="list-group-item list-group-item-action bg-transparent second-text active"
+                   data-bs-toggle="tab" role="tab" aria-controls="home" aria-selected="true"><i
+                        class="fas fa-tachometer-alt me-2"></i>Quản lý mua bán</a>
+            </c:if>
             <!-- Quản lý sản phẩm: tất cả (1, 2, 4) -->
-            <c:if test="${role == 1 || role == 2 || role == 4}">
-            <a href="#id2" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"
-               data-bs-toggle="tab" role="tab" aria-controls="home" aria-selected="true"><i
-                    class="fas fa-project-diagram me-2"></i>Quản lý sản phẩm</a>
+            <c:if test="${role == 1 || role == 3 || role == 4}">
+                <a href="#id2" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"
+                   data-bs-toggle="tab" role="tab" aria-controls="home" aria-selected="true"><i
+                        class="fas fa-project-diagram me-2"></i>Quản lý sản phẩm</a>
             </c:if>
             <!-- Quản lý người dùng: chỉ Admin -->
             <c:if test="${role == 1}">
-            <a href="#id3" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"
-               data-bs-toggle="tab" role="tab" aria-controls="home" aria-selected="true"><i
-                    class="fas fa-chart-line me-2"></i>Quản lý người dùng</a>
+                <a href="#id3" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"
+                   data-bs-toggle="tab" role="tab" aria-controls="home" aria-selected="true"><i
+                        class="fas fa-chart-line me-2"></i>Quản lý người dùng</a>
             </c:if>
             <!-- Quản lý khuyến mãi: Admin + Nhân viên -->
-            <c:if test="${role == 1 || role == 2}">
-            <a href="#id4" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"
-               data-bs-toggle="tab" role="tab" aria-controls="home" aria-selected="true"><i
-                    class="fas fa-gift me-2"></i>Quản lý khuyến mãi</a>
+            <c:if test="${role == 1 || role == 3}">
+                <a href="#id4" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"
+                   data-bs-toggle="tab" role="tab" aria-controls="home" aria-selected="true"><i
+                        class="fas fa-gift me-2"></i>Quản lý khuyến mãi</a>
             </c:if>
             <!-- Quản lý voucher: chỉ Admin -->
             <c:if test="${role == 1}">
-            <a href="#id5" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"
-               data-bs-toggle="tab" role="tab" aria-controls="home" aria-selected="true">
-               <i class="fas fa-ticket-alt me-2"></i>Quản lý voucher</a>
+                <a href="#id5" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"
+                   data-bs-toggle="tab" role="tab" aria-controls="home" aria-selected="true">
+                    <i class="fas fa-ticket-alt me-2"></i>Quản lý voucher</a>
             </c:if>
             <!-- Quản lý đơn hàng: tất cả (1, 2, 4) -->
-            <c:if test="${role == 1 || role == 2 || role == 4}">
-            <a href="${pageContext.request.contextPath}/OrderController" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"
-                aria-controls="home" aria-selected="true">
-                <i class="bi bi-box-seam me-2"></i>Quản lý đơn hàng</a>
+            <c:if test="${role == 1 || role == 3 || role == 4}">
+                <a href="${pageContext.request.contextPath}/OrderController"
+                   class="list-group-item list-group-item-action bg-transparent second-text fw-bold"
+                   aria-controls="home" aria-selected="true">
+                    <i class="bi bi-box-seam me-2"></i>Quản lý đơn hàng</a>
             </c:if>
             <!-- Quản lý kho: Admin + Nhân viên -->
-            <c:if test="${role == 1 || role == 2}">
-            <a href="${pageContext.request.contextPath}/StockInController" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"
-               aria-controls="home" aria-selected="true">
-               <i class="bi bi-box-arrow-in-down me-2"></i>Quản lý kho</a>
+            <c:if test="${role == 1 || role == 3}">
+                <a href="${pageContext.request.contextPath}/StockInController"
+                   class="list-group-item list-group-item-action bg-transparent second-text fw-bold"
+                   aria-controls="home" aria-selected="true">
+                    <i class="bi bi-box-arrow-in-down me-2"></i>Quản lý kho</a>
             </c:if>
-            <a href="#id6" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"
-               data-bs-toggle="tab" role="tab" aria-controls="home" aria-selected="true"><i
-                    class="fas fa-paperclip me-2"></i>Báo Cáo</a>
-            <a href="#id7" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"
-               data-bs-toggle="tab" role="tab" aria-controls="home" aria-selected="true"><i
-                    class="fa-solid fa-gift"></i> Bảo Hành </a>
-            <a href="index.jsp" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"
+            <%--            <a href="#id6" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"--%>
+            <%--               data-bs-toggle="tab" role="tab" aria-controls="home" aria-selected="true"><i--%>
+            <%--                    class="fas fa-paperclip me-2"></i>Báo Cáo</a>--%>
+            <%--            <a href="#id7" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"--%>
+            <%--               data-bs-toggle="tab" role="tab" aria-controls="home" aria-selected="true"><i--%>
+            <%--                    class="fa-solid fa-gift"></i> Bảo Hành </a>--%>
+            <a href="/DoAnLTWeb/LogoutController"
+               class="list-group-item list-group-item-action bg-transparent second-text fw-bold"
                aria-selected="true"><i class="fa-solid fa-power-off"></i> Thoát</a>
         </div>
     </div>
@@ -547,11 +552,13 @@
                     </div>
 
                     <!-- Modal sửa người dùng -->
-                    <div class="modal fade" id="editUserModal" tabindex="-1" aria-labelledby="editUserModalLabel" aria-hidden="true">
+                    <div class="modal fade" id="editUserModal" tabindex="-1" aria-labelledby="editUserModalLabel"
+                         aria-hidden="true">
                         <div class="modal-dialog modal-lg">
                             <div class="modal-content">
                                 <div class="modal-header bg-primary text-white">
-                                    <h5 class="modal-title w-100 text-center" id="editUserModalLabel">Sửa Thông Tin Người Dùng</h5>
+                                    <h5 class="modal-title w-100 text-center" id="editUserModalLabel">Sửa Thông Tin
+                                        Người Dùng</h5>
                                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
                                             aria-label="Đóng"></button>
                                 </div>
@@ -561,11 +568,13 @@
                                         <div class="row g-3">
                                             <div class="col-md-6">
                                                 <label for="editUsername" class="form-label">Tên đăng nhập</label>
-                                                <input type="text" class="form-control" id="editUsername" name="username" required>
+                                                <input type="text" class="form-control" id="editUsername"
+                                                       name="username" required>
                                             </div>
                                             <div class="col-md-6">
                                                 <label for="editFullname" class="form-label">Họ tên</label>
-                                                <input type="text" class="form-control" id="editFullname" name="fullname">
+                                                <input type="text" class="form-control" id="editFullname"
+                                                       name="fullname">
                                             </div>
                                             <div class="col-md-6">
                                                 <label for="editEmail" class="form-label">Email</label>
@@ -583,8 +592,8 @@
                                                 <label for="editPermission" class="form-label">Vai trò</label>
                                                 <select class="form-select" id="editPermission" name="idPermission">
                                                     <option value="1">Admin</option>
-                                                    <option value="2">Nhân viên</option>
-                                                    <option value="3">Khách hàng</option>
+                                                    <option value="2">Khách hàng</option>
+                                                    <option value="3">Nhân viên</option>
                                                     <option value="4">Cộng tác viên</option>
                                                 </select>
                                             </div>
@@ -603,7 +612,9 @@
                                     </form>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="submit" form="editUserForm" class="btn btn-primary w-100 text-center">Lưu thay đổi</button>
+                                    <button type="submit" form="editUserForm" class="btn btn-primary w-100 text-center">
+                                        Lưu thay đổi
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -838,35 +849,44 @@
                         <div class="modal-dialog modal-lg"> <!-- modal lớn hơn để dễ nhập -->
                             <div class="modal-content">
                                 <div class="modal-header bg-success text-white">
-                                    <h5 class="modal-title w-100 text-center" id="addVoucherModalLabel">Thêm Voucher</h5>
-                                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Đóng"></button>
+                                    <h5 class="modal-title w-100 text-center" id="addVoucherModalLabel">Thêm
+                                        Voucher</h5>
+                                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                                            aria-label="Đóng"></button>
                                 </div>
                                 <div class="modal-body">
                                     <form id="addVoucherForm">
                                         <div class="row g-3">
                                             <div class="col-md-6">
                                                 <label for="voucherCode" class="form-label">Mã code</label>
-                                                <input type="text" class="form-control" id="voucherCode" name="code" required>
+                                                <input type="text" class="form-control" id="voucherCode" name="code"
+                                                       required>
                                             </div>
 
                                             <div class="col-md-6">
                                                 <label for="discountValue" class="form-label">Giá trị giảm</label>
-                                                <input type="number" class="form-control" id="discountValue" name="discountValue" min="0" required>
+                                                <input type="number" class="form-control" id="discountValue"
+                                                       name="discountValue" min="0" required>
                                             </div>
 
                                             <div class="col-md-6">
-                                                <label for="minOrderValue" class="form-label">Giá trị đơn tối thiểu</label>
-                                                <input type="number" class="form-control" id="minOrderValue" name="minOrderValue" min="1000" required>
+                                                <label for="minOrderValue" class="form-label">Giá trị đơn tối
+                                                    thiểu</label>
+                                                <input type="number" class="form-control" id="minOrderValue"
+                                                       name="minOrderValue" min="1000" required>
                                             </div>
 
                                             <div class="col-md-6">
                                                 <label for="usageLimit" class="form-label">Giới hạn sử dụng</label>
-                                                <input type="number" class="form-control" id="usageLimit" name="usageLimit" min="1" >
+                                                <input type="number" class="form-control" id="usageLimit"
+                                                       name="usageLimit" min="1">
                                             </div>
 
                                             <div class="col-md-6">
-                                                <label for="maxUsagePerUser" class="form-label">Lượt dùng mỗi người</label>
-                                                <input type="number" class="form-control" id="maxUsagePerUser" name="maxUsagePerUser" min="1" required>
+                                                <label for="maxUsagePerUser" class="form-label">Lượt dùng mỗi
+                                                    người</label>
+                                                <input type="number" class="form-control" id="maxUsagePerUser"
+                                                       name="maxUsagePerUser" min="1" required>
                                             </div>
 
                                             <div class="col-md-6">
@@ -879,31 +899,38 @@
 
                                             <div class="col-md-6">
                                                 <label for="startDate" class="form-label">Ngày bắt đầu</label>
-                                                <input type="date" class="form-control" id="voucherStartDate" name="startDate" required>
+                                                <input type="date" class="form-control" id="voucherStartDate"
+                                                       name="startDate" required>
                                             </div>
 
                                             <div class="col-md-6">
                                                 <label for="endDate" class="form-label">Ngày kết thúc</label>
-                                                <input type="date" class="form-control" id="voucherEndDate" name="endDate" required>
+                                                <input type="date" class="form-control" id="voucherEndDate"
+                                                       name="endDate" required>
                                             </div>
 
                                         </div>
                                     </form>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="submit" form="addVoucherForm" class="btn btn-success w-100 text-center">Thêm</button>
+                                    <button type="submit" form="addVoucherForm"
+                                            class="btn btn-success w-100 text-center">Thêm
+                                    </button>
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     <!-- Modal sửa voucher -->
-                    <div class="modal fade" id="editVoucherModal" tabindex="-1" aria-labelledby="editVoucherModalLabel" aria-hidden="true">
+                    <div class="modal fade" id="editVoucherModal" tabindex="-1" aria-labelledby="editVoucherModalLabel"
+                         aria-hidden="true">
                         <div class="modal-dialog modal-lg"> <!-- modal lớn hơn để dễ nhập -->
                             <div class="modal-content">
                                 <div class="modal-header bg-success text-white">
-                                    <h5 class="modal-title w-100 text-center" id="editVoucherModalLabel">Sửa Voucher</h5>
-                                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Đóng"></button>
+                                    <h5 class="modal-title w-100 text-center" id="editVoucherModalLabel">Sửa
+                                        Voucher</h5>
+                                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                                            aria-label="Đóng"></button>
                                 </div>
                                 <div class="modal-body">
                                     <form id="editVoucherForm">
@@ -912,51 +939,64 @@
                                         <div class="row g-3">
                                             <div class="col-md-6">
                                                 <label for="editVoucherCode" class="form-label">Mã code</label>
-                                                <input type="text" class="form-control" id="editVoucherCode" name="code" required>
+                                                <input type="text" class="form-control" id="editVoucherCode" name="code"
+                                                       required>
                                             </div>
 
                                             <div class="col-md-6">
                                                 <label for="editDiscountValue" class="form-label">Giá trị giảm</label>
-                                                <input type="number" class="form-control" id="editDiscountValue" name="discountValue" min="0" required>
+                                                <input type="number" class="form-control" id="editDiscountValue"
+                                                       name="discountValue" min="0" required>
                                             </div>
 
                                             <div class="col-md-6">
-                                                <label for="editMinOrderValue" class="form-label">Giá trị đơn tối thiểu</label>
-                                                <input type="number" class="form-control" id="editMinOrderValue" name="minOrderValue" min="0" required>
+                                                <label for="editMinOrderValue" class="form-label">Giá trị đơn tối
+                                                    thiểu</label>
+                                                <input type="number" class="form-control" id="editMinOrderValue"
+                                                       name="minOrderValue" min="0" required>
                                             </div>
 
                                             <div class="col-md-6">
                                                 <label for="editUsageLimit" class="form-label">Giới hạn sử dụng</label>
-                                                <input type="number" class="form-control" id="editUsageLimit" name="usageLimit" min="1">
+                                                <input type="number" class="form-control" id="editUsageLimit"
+                                                       name="usageLimit" min="1">
                                             </div>
 
                                             <div class="col-md-6">
-                                                <label for="editMaxUsagePerUser" class="form-label">Lượt dùng mỗi người</label>
-                                                <input type="number" class="form-control" id="editMaxUsagePerUser" name="maxUsagePerUser" min="1" required>
+                                                <label for="editMaxUsagePerUser" class="form-label">Lượt dùng mỗi
+                                                    người</label>
+                                                <input type="number" class="form-control" id="editMaxUsagePerUser"
+                                                       name="maxUsagePerUser" min="1" required>
                                             </div>
 
                                             <div class="col-md-6">
                                                 <label for="editVoucherStatus" class="form-label">Trạng thái</label>
-                                                <select class="form-select" id="editVoucherStatus" name="status" required>
+                                                <select class="form-select" id="editVoucherStatus" name="status"
+                                                        required>
                                                     <option value="1">Hoạt động</option>
                                                     <option value="0">Không Hoạt động</option>
                                                 </select>
                                             </div>
 
                                             <div class="col-md-6">
-                                                <label for="editVoucherStartDate" class="form-label">Ngày bắt đầu</label>
-                                                <input type="date" class="form-control" id="editVoucherStartDate" name="startDate" required>
+                                                <label for="editVoucherStartDate" class="form-label">Ngày bắt
+                                                    đầu</label>
+                                                <input type="date" class="form-control" id="editVoucherStartDate"
+                                                       name="startDate" required>
                                             </div>
 
                                             <div class="col-md-6">
                                                 <label for="editVoucherEndDate" class="form-label">Ngày kết thúc</label>
-                                                <input type="date" class="form-control" id="editVoucherEndDate" name="endDate" required>
+                                                <input type="date" class="form-control" id="editVoucherEndDate"
+                                                       name="endDate" required>
                                             </div>
                                         </div>
                                     </form>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="submit" form="editVoucherForm" class="btn btn-success w-100 text-center">Lưu thay đổi</button>
+                                    <button type="submit" form="editVoucherForm"
+                                            class="btn btn-success w-100 text-center">Lưu thay đổi
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -966,7 +1006,7 @@
             </div>
 
 
-              <%--            -----------------------------------------%>
+            <%--            -----------------------------------------%>
             <div class="tab-pane fade" id="id6">
                 <div class="m-4">
                     <div class="d-flex align-items-center">
