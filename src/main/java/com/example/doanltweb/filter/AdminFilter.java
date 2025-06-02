@@ -30,7 +30,7 @@ public class AdminFilter implements Filter {
             User authUser = (User) user;
             int role = authUser.getIdPermission();
             // Kiểm tra xem role của user có phải là 1 không
-            if (role == 1 || role == 2 || role == 4) {
+            if (role == 1 || role == 3 || role == 4) {
                 // Nếu role là 1, cho phép truy cập vào admin.jsp
                 chain.doFilter(request, response);
             } else {
