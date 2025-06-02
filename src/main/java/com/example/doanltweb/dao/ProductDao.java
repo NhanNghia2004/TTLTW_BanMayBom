@@ -247,8 +247,25 @@ public class ProductDao {
                         .mapToBean(Product.class)
                         .list()
         );
+        
     }
 
+    public List<Product> getProductByCategory(int categoryId) {
+        Jdbi jdbi = JDBIConnect.get();
+        return jdbi.withHandle(handle ->
+        handle.createQuery("SELECT id, nameProduct, priceProduct, image AS imageProduct FROM product WHERE idCategory = :categoryId")
+                .bind("categoryId", categoryId)
+                .map((rs, ctx) -> {
+                    Product p = new Product();
+                    p.setId(rs.getInt("id"));
+                    p.setNameProduct(rs.getString("nameProduct"));
+                    p.setPriceProduct(rs.getDouble("priceProduct"));
+                    p.setImage(rs.getString("imageProduct"));
+                    return p;
+                })
+                .list()
+);
+    }
 
 
 //    public boolean deleteById(String id) {

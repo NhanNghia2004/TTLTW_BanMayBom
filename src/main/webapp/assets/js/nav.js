@@ -1,4 +1,3 @@
-
 document.addEventListener("DOMContentLoaded", function () {
     $.ajax({
         url: "/DoAnLTWeb/CategoryServlet",
@@ -18,7 +17,7 @@ document.addEventListener("DOMContentLoaded", function () {
             data.forEach(category => {
                 let li = document.createElement("li");
                 li.className = "shop-list";
-                li.innerHTML = '<a href="ShopController?categoryId=' + category.id + '" class="text-light">' +
+                li.innerHTML = '<a href="/DoAnLTWeb/ProductByCategory?categoryId=' + category.id + '" class="text-light">' +
                     category.categoryName +
                     '</a>';
                 categoryList.appendChild(li);
@@ -31,5 +30,3 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 });
-
-

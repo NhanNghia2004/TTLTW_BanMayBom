@@ -1012,7 +1012,7 @@ $('#editVoucherForm').off('submit').on('submit', function (e) {
 //Xóa voucher
 $(document).off('click', '.voucher-delete-btn').on('click', '.voucher-delete-btn', function () {
     const id = $(this).data('id'); // Lấy ID của voucher từ data-id
-
+	
     // Xác nhận xóa
     if (confirm("Bạn có chắc chắn muốn xóa voucher này không?")) {
         $.ajax({

@@ -1,157 +1,167 @@
-<%@ page contentType="text/html; charset=UTF-8" language="java" %>
+<%@ page contentType="text/html; charset=UTF-8" language="java"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt"%>
+
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
-    <link rel="stylesheet" href="assets/css/admin.css" />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
-      crossorigin="anonymous"
-    />
-    <title>admin</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Document</title>
+<link rel="stylesheet" href="assets/css/style.css" />
+<link rel="stylesheet" href="assets/css/card.css" />
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+	crossorigin="anonymous">
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+	integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+	crossorigin="anonymous"></script>
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+	crossorigin="anonymous" />
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link rel="stylesheet" href="assets/css/index.css">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="assets/js/index.js"></script>
+
+<link rel="stylesheet" href="assets/css/headerAndFooter.css">
 </head>
+<body style="background-color: rgb(242, 244, 247)">
+	<header id="header"></header>
+	<nav id="nav"></nav>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="border p-3">
+					<div class="row g-4">
+						<c:forEach items="${products}" var="p" end="3">
+							<div class="col-md-3">
+								<a href="chitietsanpham?id=${p.getId()}"
+									style="text-decoration: none">
+									<div class="card position-relative">
+										<div class="discount-badge">-10%</div>
+										<img src="${p.image}" class="card-img-top"
+											alt="Bơm tăng áp mini Pamtex 10" />
+										<div class="card-body themaybom" style="height: 200px">
+											<h6 class="card-title">${p.nameProduct}</h6>
+											<p class="new-price"></p>
+											<p class="new-price">Giá: ${p.priceProduct} Đ</p>
+											<c:if test="${p.stock != 0}">
+												<div class="option">
+													<div class="wrap-option">
+														<form class="addToCartForm">
+															<input type="hidden" name="productId"
+																value="${ p.getId()}" /> <input type="hidden"
+																name="quantity" value=1 />
+															<button type="submit" class="icon-cart">
+																<i class="bi-cart4"></i>
+															</button>
+														</form>
 
-<body>
-    <div class="d-flex" id="wrapper">
-        <!-- Sidebar -->
-        <div class="bg-white" id="sidebar-wrapper">
-            <div class="sidebar-heading text-center py-4 primary-text fs-4 fw-bold text-uppercase border-bottom"><i
-                    class="fas fa-user-secret me-2"></i>Quản Lý</div>
-            <div class="list-group list-group-flush my-3">
-                <a href="admin.jsp" class="list-group-item list-group-item-action bg-transparent second-text fw-bold "><i
-                        class="fas fa-tachometer-alt me-2"></i>Trang tổng quan</a>
-                <a href="cacsanpham.html" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
-                        class="fas fa-project-diagram me-2"></i>Dự án</a>
-                <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
-                        class="fas fa-chart-line me-2"></i>Phân tích</a>
-                <a href="baocao.jsp" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
-                        class="fas fa-paperclip me-2"></i>Báo cáo</a>
-                <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
-                        class="fas fa-shopping-cart me-2"></i>Quản lý cửa hàng</a>
-                <a href="cacsanpham.html" class="list-group-item list-group-item-action bg-transparent second-text active"><i
-                        class="fas fa-gift me-2"></i>Các sản phẩm</a>
-                <a href="#" class="list-group-item list-group-item-action bg-transparent text-danger fw-bold"><i
-                        class="fas fa-power-off me-2"></i>Đăng xuất</a>
-            </div>
-        </div>
-        <!-- /#sidebar-wrapper -->
+														<a href="#" class="icon-like"> <i
+															class="bi bi-cash-stack"></i>
+														</a>
+													</div>
+												</div>
+											</c:if>
+										</div>
+									</div>
+								</a>
+							</div>
+						</c:forEach>
+						<!-- Add more products as needed -->
+					</div>
+				</div>
+				<footer id="footer2"></footer>
+				<div id="bought-product"></div>
+			</div>
+		</div>
+	</div>
 
-        <!-- Page Content -->
-        <div id="page-content-wrapper">
-            <nav class="navbar navbar-expand-lg navbar-light bg-transparent py-4 px-4">
-                <div class="d-flex align-items-center">
-                    <i class="fas fa-align-left primary-text fs-4 me-3" id="menu-toggle"></i>
-                    <h2 class="fs-2 m-0">Trang các sản phẩm</h2>
-                </div>
+	<footer id="footer"></footer>
 
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+	<script>
+    const header = document.getElementById("header");
+    const footer = document.getElementById("footer");
+    const header2 = document.getElementById("header2");
+    const footer2 = document.getElementById("footer2");
+    const nav = document.getElementById("nav");
+    const chonmaybom = document.getElementById("chonmaybom");
+    const boughtProduct = document.getElementById("bought-product");
+    fetch("./assets/component/boughtProduct.jsp")
+        .then((response) => response.text())
+        .then((html) => (boughtProduct.innerHTML = html));
+    fetch("./assets/component/header.jsp")
+        .then((response) => response.text())
+        .then((html) => (header.innerHTML = html));
+    fetch("./assets/component/footer.jsp")
+        .then((response) => response.text())
+        .then((html) => (footer.innerHTML = html));
+    fetch("./assets/component/footer2.jsp")
+        .then((response) => response.text())
+        .then((html) => (footer2.innerHTML = html));
+    fetch("./assets/component/nav.jsp")
+        .then((response) => response.text())
+        .then((html) => (nav.innerHTML = html));
+    fetch("./assets/component/header2.jsp")
+        .then((response) => response.text())
+        .then((html) => (header2.innerHTML = html));
+</script>
+	<script>
+    function addToCart(productId) {
+        $.ajax({
+            url: 'http://localhost:8080/DoAnLTWeb/AddToCartServlet',
+            method: 'POST',
+            data: {
+                productId: productId,
+                quantity: 1
+            },
+            success: function(response) {
+                // response đã là object JSON vì jQuery tự parse nếu content-type là application/json
+                if (response.status === "success") {
+                    alert(response.message);
 
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle second-text fw-bold" href="#" id="navbarDropdown"
-                                role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="fas fa-user me-2"></i>Nghĩa dz
-                            </a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="#">Thông tin cá nhân</a></li>
-                                <li><a class="dropdown-item" href="#">Các cài đặt</a></li>
-                                <li><a class="dropdown-item" href="#">Đăng xuất</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </div>    
-            </nav>
-            <div class="container-fluid px-4 bg-white m-3">
-                <div class="row my-5">
-                    <div class="container my-4">
-                        <!-- Tìm kiếm -->
-                         <div class="row pb-3">
-                            <div class="input-group w-25 col">
-                                <input type="text" class="form-control " placeholder="Tìm kiếm sản phẩm...">
-                                <button class="btn btn-primary" type="button">
-                                    <i class="fa-solid fa-magnifying-glass"></i>
-                                </button>
-                            </div>
-                            <div class="text-end col">
-                                <button class="btn btn-primary" type="button">
-                                    <i class="fa-solid fa-filter"></i>
-                                </button>
-                                <button class="btn btn-primary" type="button">
-                                    <i class="fa-solid fa-plus"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <!-- Bảng danh sách sản phẩm -->
-                        <table class="table table-bordered">
-                          <thead class="table-light">
-                            <tr>
-                              <th>Ảnh</th>
-                              <th>Sản phẩm</th>
-                              <th>giá bán</th>
-                              <th></th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr>
-                              <td><img src="assets\imgs\maybom\panasonic1.jpg" alt="Máy bơm Shirai SK 101" class="product-image w-25"></td>
-                              <td>Máy bơm Shirai SK 101</td>
-                              <td>810.000đ</td>
-                              <td><button class="bg-danger">Xóa sản phẩm</button> <button>sửa giá</button></td>
-                            </tr>
-                            <tr>
-                                <td><img src="assets\imgs\maybom\panasonic1.jpg" alt="Máy bơm Shirai SK 101" class="product-image w-25"></td>
-                                <td>Máy bơm Shirai SK 101</td>
-                                <td>810.000đ</td>
-                                <td><button class="bg-danger">Xóa sản phẩm</button> <button>sửa giá</button></td>
-                            </tr>
-                            <tr>
-                                <td><img src="assets\imgs\maybom\panasonic1.jpg" alt="Máy bơm Shirai SK 101" class="product-image w-25"></td>
-                                <td>Máy bơm Shirai SK 101</td>
-                                <td>810.000đ</td>
-                                <td><button class="bg-danger">Xóa sản phẩm</button> <button>sửa giá</button></td>
-                            </tr>
-                            <tr>
-                                <td><img src="assets\imgs\maybom\panasonic1.jpg" alt="Máy bơm Shirai SK 101" class="product-image w-25"></td>
-                                <td>Máy bơm Shirai SK 101</td>
-                                <td>810.000đ</td>
-                                <td><button class="bg-danger">Xóa sản phẩm</button> <button>sửa giá</button></td>
-                            </tr>
-                            <tr>
-                                <td><img src="assets\imgs\maybom\panasonic1.jpg" alt="Máy bơm Shirai SK 101" class="product-image w-25"></td>
-                                <td>Máy bơm Shirai SK 101</td>
-                                <td>810.000đ</td>
-                                <td><button class="bg-danger">Xóa sản phẩm</button> <button>sửa giá</button></td>
-                            </tr>
-                            <tr>
-                                <td><img src="assets\imgs\maybom\panasonic1.jpg" alt="Máy bơm Shirai SK 101" class="product-image w-25"></td>
-                                <td>Máy bơm Shirai SK 101</td>
-                                <td>810.000đ</td>
-                                <td><button class="bg-danger">Xóa sản phẩm</button> <button>sửa giá</button></td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                </div>
+                    // Nếu bạn có phần hiển thị tổng số lượng giỏ hàng, ví dụ id="cart-count"
+                    if (response.totalQuantity !== undefined) {
+                        $('#cart-count').text(response.totalQuantity);
+                    }
+                    // Bạn có thể cập nhật thêm UI khác tùy ý
+                } else {
+                    alert('Lỗi: ' + response.message);
+                }
+            },
+            error: function() {
+                alert('Lỗi kết nối, vui lòng thử lại!');
+            }
+        });
+    }
 
-            </div>
-        </div>
+</script>
+	<style>
+.pagination {
+	display: flex; /* Dùng flexbox */
+	justify-content: center; /* Căn giữa theo chiều ngang */
+	align-items: center; /* Căn giữa theo chiều dọc nếu cần */
+	min-height: 100px; /* Chiều cao tối thiểu, bạn chỉnh bao nhiêu tùy */
+}
 
-    </div>
-    <!-- /#page-content-wrapper -->
-    </div>
+.pagination button {
+	margin: 5px;
+	padding: 8px 12px;
+}
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"></script>
+.pagination button.active {
+	background-color: orange;
+	color: white;
+}
+</style>
+	<script src="assets/js/nav.js"></script>
+	<script src="assets/js/find.js"></script>
+	<script src="assets/js/boughtProduct.js"></script>
 </body>
-
 </html>
