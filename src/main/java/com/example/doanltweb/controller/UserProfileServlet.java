@@ -71,9 +71,11 @@ public class UserProfileServlet extends HttpServlet {
 				String email = request.getParameter("email");
 				String address = request.getParameter("address");
 				String phone = request.getParameter("phone");
+				String avatar = request.getParameter("avatar");
 
 				// Kiểm tra nếu có tham số bị thiếu
-				if (fullname == null || email == null || address == null || phone == null) {
+
+				if (fullname == null || email == null || address == null || phone == null || avatar == null) {
 					jsonResponse.addProperty("success", false);
 					jsonResponse.addProperty("message", "Các trường thông tin không thể để trống!");
 					out.print(gson.toJson(jsonResponse));
@@ -82,7 +84,17 @@ public class UserProfileServlet extends HttpServlet {
 
 				// Cập nhật thông tin người dùng
 				UserDao userDao = new UserDao();
-				boolean isUpdated = userDao.updateUser(fullname, email, address, phone, user.getId());
+				boolean isUpdated = userDao.updateUser(fullname, email, address, phone, avatar, user.getId());
+
+				if (isUpdated) {
+					// Cập nhật lại đối tượng user trong session
+					user.setFullname(fullname);
+					user.setEmail(email);
+					user.setAddress(address);
+					user.setPhone(phone);
+					user.setAvatar(avatar);
+					session.setAttribute("auth", user); // Cập nhật lại session
+				}
 
 				// Trả về kết quả
 				jsonResponse.addProperty("success", isUpdated);

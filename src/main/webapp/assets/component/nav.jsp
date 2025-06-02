@@ -17,7 +17,7 @@
 					class="nav-link shop text-light">Các dòng máy <i
 						class="bi-caret-down-fill"></i></a>
 					<ul id="categoryList" class="wrap-shop-list bg-dark-blue">
-						
+
 					</ul>
 				</li>
 				<li class="list-item-head2"><a href="gioithieu.jsp"

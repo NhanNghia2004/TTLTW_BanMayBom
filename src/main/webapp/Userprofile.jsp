@@ -59,13 +59,24 @@
                                 <input type="hidden" id="userId" name="userId" value="${auth.id}">
                                 <div class="text-center mb-4">
                                     <div class="avatar mx-auto mb-3">
-                                        <img src="data:image/jpeg;base64," alt="User Avatar" class="profile-img">
+                                    <img id="avatarImg" src="${auth.avatar}" alt="User Avatar" class="profile-img" width="120" height="120">
+
                                     </div>
+
                                 </div>
                                 <div class="card-body">
                                     <!-- Form chi tiết người dùng -->
-                                    <form id="userForm" action="DetailUserController"
+                                    <form id="userForm" action="UserProfileServlet"
                                           method="post">
+                                        <!-- Input ẩn userId -->
+                                        <input type="hidden" id="userId" name="userId" value="${auth.id}">
+
+                                        <!-- Input URL avatar nằm trong form -->
+                                        <div class="mb-3" id="avatarInputWrapper" style="display: none;">
+                                            <label class="form-label fw-bold">URL ảnh đại diện</label>
+                                            <input type="text" class="form-control" name="avatar" id="avatarUrl" value="${auth.avatar}">
+                                        </div>
+
                                         <div class="mb-3">
                                             <label class="form-label fw-bold">Họ và tên</label> <input
                                                 type="text" class="form-control" name="fullname"
@@ -264,6 +275,38 @@
         } else {
             formContainer.style.display = "none";
             this.textContent = "Đổi mật khẩu";
+        }
+    });
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const editBtn = document.getElementById("editBtn");
+        const submitBtn = document.getElementById("submitBtn");
+        const avatarInputWrapper = document.getElementById("avatarInputWrapper");
+        const avatarUrlInput = document.getElementById("avatarUrl");
+        const avatarImg = document.getElementById("avatarImg");
+
+        if (editBtn) {
+            editBtn.addEventListener("click", function () {
+                // Hiển thị nút Submit
+                if (submitBtn) submitBtn.style.display = "inline-block";
+
+                // Bật các input
+                ["fullname", "email", "address", "phone"].forEach(function (id) {
+                    const input = document.getElementById(id);
+                    if (input) input.removeAttribute("readonly");
+                });
+
+                // Hiển thị input URL avatar
+                if (avatarInputWrapper) avatarInputWrapper.style.display = "block";
+            });
+        }
+
+        // Xem trước ảnh đại diện khi thay đổi URL
+        if (avatarUrlInput && avatarImg) {
+            avatarUrlInput.addEventListener("input", function () {
+                avatarImg.src = this.value;
+            });
         }
     });
 </script>
