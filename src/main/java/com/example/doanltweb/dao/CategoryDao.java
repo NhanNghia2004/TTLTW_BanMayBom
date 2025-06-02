@@ -20,4 +20,13 @@ public class CategoryDao {
         return jdbi.withHandle(handle -> handle.createQuery("SELECT * FROM category WHERE id = id\n").bind("id", id)
                 .mapToBean(Category.class).findOne().orElse(null));
     }
+    public List<Product> getProductByCategory(int categoryId) {
+        Jdbi jdbi = JDBIConnect.get();
+        return jdbi.withHandle(handle ->
+                handle.createQuery("SELECT * FROM product WHERE idCategory = :categoryId")
+                        .bind("categoryId",categoryId)
+                        .mapToBean(Product.class)
+                        .list()
+        );
+    }
 }

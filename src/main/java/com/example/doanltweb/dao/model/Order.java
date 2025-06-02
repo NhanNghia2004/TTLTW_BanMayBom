@@ -51,6 +51,14 @@ public class Order {
 		return verified;
 	}
 
+	public void setVerified(boolean verified) {
+		this.verified = verified;
+	}
+
+	public void setOtp(String otp) {
+		this.otp = otp;
+	}
+
 	public String getOtp() {
 		return otp;
 	}
@@ -86,8 +94,28 @@ public class Order {
 
 	@Override
 	public String toString() {
-	    return "Order{id=" + id + ",user=" + user.getFullname() +", orderDate=" + orderDate + ", status=" + status + ", totalPrice=" + totalPrice + ",payment=" + paymentMethod.getName()+ "}";
+		return "Order{" +
+				"id=" + id +
+				", user=" + user +
+				", totalPrice=" + totalPrice +
+				", orderDate='" + orderDate + '\'' +
+				", status='" + status + '\'' +
+				", paymentMethod=" + paymentMethod +
+				", quantity=" + quantity +
+				", otp='" + otp + '\'' +
+				", verified=" + verified +
+				'}';
 	}
 
-	
-}	
+	public Order(int id, User user, double totalPrice, String orderDate, String status, Payment paymentMethod, int quantity, String otp, boolean verified) {
+		this.id = id;
+		this.user = user;
+		this.totalPrice = totalPrice;
+		this.orderDate = orderDate;
+		this.status = status;
+		this.paymentMethod = paymentMethod;
+		this.quantity = quantity;
+		this.otp = otp;
+		this.verified = verified;
+	}
+}
