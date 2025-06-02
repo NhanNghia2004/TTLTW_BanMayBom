@@ -86,10 +86,10 @@ public class CheckoutServlet extends HttpServlet {
 		}
 
 
-//	    int paymentMethod = Integer.parseInt(request.getParameter("paymentMethod"));
+
 		String paymentMethodParam = request.getParameter("paymentMethod");
 		int paymentMethod = (paymentMethodParam != null) ? Integer.parseInt(paymentMethodParam) : 1;
-//	    boolean order = orderDao.createOrder(user.getId(), cart.getTotalPrice(), paymentMethod, cart.getTotalAmount(), cart.getId(),otp);
+
 		// 🛠️ Truyền totalPrice đã tính lại sau giảm giá
 		boolean order = orderDao.createOrder(user.getId(), totalPrice, paymentMethod, cart.getTotalAmount(), cart.getId(), otp);
 		if (order) {
