@@ -19,6 +19,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
      <link rel="stylesheet" href="assets/css/headerAndFooter.css">
+     <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
   </head>
 
   <body>
@@ -65,7 +66,11 @@
  						<a href="CartServlet" class="btn btn-secondary">Trở về giỏ hàng</a>
 					</div>
                    </form>
-                   <div id="orderMessage" class="mt-3"></div>
+                  <c:if test="${not empty message}">
+                      <div style="color: red; font-weight: bold; margin: 10px 0;">
+                          ${message}
+                      </div>
+                  </c:if>
             </div>
 
             <footer id="footer2"></footer>

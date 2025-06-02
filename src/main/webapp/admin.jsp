@@ -119,7 +119,7 @@
                 <nav class="navbar navbar-expand-lg navbar-light bg-transparent py-4 px-4">
                     <div class="d-flex align-items-center">
                         <i class="fas fa-align-left primary-text fs-4 me-3"></i>
-                        <h2 class="fs-2 m-0">Quản lý mua hàng</h2>
+                        <h2 class="fs-2 m-0">Quản lý mua bán</h2>
                     </div>
 
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
@@ -136,9 +136,7 @@
                                     <i class="fas fa-user me-2"></i>Nghĩa dz
                                 </a>
                                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <li><a class="dropdown-item" href="#">Thông tin cá nhân</a></li>
-                                    <li><a class="dropdown-item" href="#">Các cài đặt</a></li>
-                                    <li><a class="dropdown-item" href="#">Đăng xuất</a></li>
+                                    <li><a class="dropdown-item" href="/DoAnLTWeb/LogoutController">Đăng xuất</a></li>
                                 </ul>
                             </li>
                         </ul>
@@ -150,7 +148,7 @@
                         <div class="col">
                             <div class="p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rounded">
                                 <div>
-                                    <h3 class="fs-2">120</h3>
+                                    <h3 class="fs-2"><span id="totalPumps"></h3>
                                     <p class="fs-5">Số máy bơm</p>
                                 </div>
                                 <i class="fas fa-gift fs-1 primary-text border rounded-full secondary-bg p-3"></i>
@@ -160,8 +158,8 @@
                         <div class="col">
                             <div class="p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rounded">
                                 <div>
-                                    <h3 class="fs-2">500.000.000 VND</h3>
-                                    <p class="fs-5">Tổng giá trị máy bơm </p>
+                                    <h3 class="fs-2"><span id="totalSales"> VND</h3>
+                                    <p class="fs-5">Tổng giá trị máy bơm đã bán tháng này</p>
                                 </div>
                                 <i class="fas fa-hand-holding-usd fs-1 primary-text border rounded-full secondary-bg p-3"></i>
                             </div>
@@ -169,38 +167,25 @@
                     </div>
 
                     <div class="row my-5">
-                        <h3 class="fs-4 mb-3">Đơn đặt hàng gần đây <span>
-                            <div class="input-group w-25 my-2">
-                                   <input type="text" class="form-control " placeholder="Tìm theo tên người mua...">
-                            </div>
-                        </span></h3>
-
+                        <h3 class="fs-4 mb-3">Đơn đặt hàng gần đây</h3>
                         <div class="col">
-                            <table class="table bg-white rounded shadow-sm  table-hover">
+                            <table class="table bg-white rounded shadow-sm  table-hover" id="orderTable">
                                 <thead>
-                                <tr>
-                                    <th scope="col" width="50">#</th>
-                                    <th scope="col">Sản Phẩm</th>
-                                    <th scope="col">Khách Hàng</th>
-                                    <th scope="col" class="text-center">Số lượng</th>
-                                    <th scope="col">Giá</th>
-                                    <th class="text-center">Hủy</th>
-                                </tr>
+                                    <tr>
+                                        <th scope="col" width="50">#</th>
+                                        <th scope="col">Sản Phẩm</th>
+                                        <th scope="col">Khách Hàng</th>
+                                        <th scope="col" class="text-center">Số lượng</th>
+                                        <th scope="col">Giá</th>
+                                    </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                    <th scope="row">1</th>
-                                    <td>Máy bơm kangoroo</td>
-                                    <td>Jonny</td>
-                                    <td class="text-center">2</td>
-                                    <td>1.200.000 vnd</td>
-                                    <td class="text-center"><input type="checkbox"></td>
-                                </tr>
 
                                 </tbody>
                             </table>
                         </div>
                     </div>
+
                 </div>
             </div>
             <%-------------------quan li san pham-------------------------%>

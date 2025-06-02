@@ -1029,6 +1029,36 @@ $(document).off('click', '.voucher-delete-btn').on('click', '.voucher-delete-btn
         });
     }
 });
+//---------------------- trang quản lý mua bán-----------------------
+$(document).ready(function(){
+    $.ajax({
+        url: 'http://localhost:8080/DoAnLTWeb/dashboard-data', // nhớ thay đổi cho phù hợp
+        method: 'GET',
+        dataType: 'json',
+        success: function(data) {
+            console.log("Dữ liệu nhận được:", data);
+            $('#totalPumps').text(data.totalPumps);
+            $('#totalSales').text(data.totalSales.toLocaleString());
+
+            var tbody = $('#orderTable tbody');
+            tbody.empty();
+            $.each(data.orders, function(index, order){
+                var row = `<tr>
+                    <td>${order.id}</td>
+                    <td>${order.idUser}</td>
+                    <td>${order.orderDate}</td>
+                    <td>${order.quantity}</td>
+                    <td>${order.totalPrice.toLocaleString()} VND</td>
+                    <td>${order.status}</td>
+                </tr>`;
+                tbody.append(row);
+            });
+        },
+        error: function(xhr, status, error){
+            console.error("Lỗi khi tải dữ liệu: ", error);
+        }
+    });
+});
 
 
 
