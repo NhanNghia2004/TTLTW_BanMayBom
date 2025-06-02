@@ -139,22 +139,23 @@ public class UserDao {
             return false; // Xóa thất bại
         }
     }
-    
-    public boolean updateUser(String firstName, String email, String address, String phone,int id) {
-        String sql = "UPDATE `user` SET fullname = :fullname, address = :address, phone = :phone , email = :email WHERE id =:id";
-        Jdbi jdbi = JDBIConnect.get();
-        int updatedRows = jdbi.withHandle(handle ->
+
+public boolean updateUser(String fullname, String email, String address, String phone, String avatar, int id) {
+    String sql = "UPDATE `user` SET fullname = :fullname, address = :address, phone = :phone, email = :email, avatar = :avatar WHERE id = :id";
+    Jdbi jdbi = JDBIConnect.get();
+    int updatedRows = jdbi.withHandle(handle ->
             handle.createUpdate(sql)
-                .bind("fullname", firstName)
-                .bind("address", address)
-                .bind("phone", phone)
-                .bind("email", email)
-                .bind("id", id)
-                .execute()
-        );
-        return updatedRows > 0;
-    }
-    
+                    .bind("fullname", fullname)
+                    .bind("address", address)
+                    .bind("phone", phone)
+                    .bind("email", email)
+                    .bind("avatar", avatar)
+                    .bind("id", id)
+                    .execute()
+    );
+    return updatedRows > 0;
+}
+
     public User getUserByEmail(String email) {
         Jdbi jdbi = new JDBIConnect().get(); // Kết nối Jdbi
         return jdbi.withHandle(handle ->
