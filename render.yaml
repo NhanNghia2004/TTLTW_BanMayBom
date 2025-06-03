@@ -1,11 +1,7 @@
 services:
   - type: web
     name: maybom-javaweb
-    env: java
+    env: docker
     plan: free
-    buildCommand: ./mvnw clean install
-    startCommand: java -jar target/*.war
-    buildFilter:
-      paths:
-        - "**/*"
+    region: oregon
     autoDeploy: true
