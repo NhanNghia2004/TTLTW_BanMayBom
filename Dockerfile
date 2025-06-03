@@ -10,8 +10,7 @@ FROM tomcat:10.1.5-jdk17
 # Xóa ứng dụng mặc định
 RUN rm -rf /usr/local/tomcat/webapps/*
 
-# Copy file WAR vào thư mục webapps
-COPY ./target/yourapp.war /usr/local/tomcat/webapps/ROOT.war
+# ✅ Copy WAR từ stage "build"
+COPY --from=build /app/target/*.war /usr/local/tomcat/webapps/ROOT.war
 
-# Mở cổng 8080
 EXPOSE 8080
