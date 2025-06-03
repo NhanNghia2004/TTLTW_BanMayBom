@@ -1,7 +1,11 @@
 services:
   - type: web
-    name: maybom-javaweb
-    env: docker
+    name: banmaybom-web
     plan: free
-    region: oregon
-    autoDeploy: true
+    runtime: docker
+    build:
+      cache:
+        enabled: true
+    env:
+      - key: JAVA_OPTS
+        value: -Xmx512m -Xms256m
