@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: maybom-javaweb
+    env: java
+    plan: free
+    buildCommand: ./mvnw clean install
+    startCommand: java -jar target/*.war
+    buildFilter:
+      paths:
+        - "**/*"
+    autoDeploy: true
