@@ -1,27 +1,17 @@
-# Stage 1: Build với Maven
-FROM maven:3.9.6-eclipse-temurin-17 AS builder
-
+# Bước 1: Dùng Maven để build WAR
+FROM maven:3.8.5-openjdk-17 AS build
 WORKDIR /app
 COPY . .
-RUN mvn clean package -DskipTests
+RUN mvn clean package
 
 # Stage 2: Chạy với Tomcat ổn định hơn
 FROM tomcat:10.1.5-jdk17
 
-# Vô hiệu hóa cổng shutdown
-RUN sed -i 's/<Server port="8005" shutdown="SHUTDOWN">/<Server port="-1" shutdown="SHUTDOWN">/' /usr/local/tomcat/conf/server.xml
-
-# Xóa apps mặc định và cấu hình
+# Xóa ứng dụng mặc định
 RUN rm -rf /usr/local/tomcat/webapps/*
 
-# Copy file WAR vào Tomcat
-COPY --from=builder /app/target/*.war /usr/local/tomcat/webapps/ROOT.war
+# Copy file WAR vào thư mục webapps
+COPY ./target/yourapp.war /usr/local/tomcat/webapps/ROOT.war
 
-# Cấu hình thời gian khởi động Tomcat
-ENV CATALINA_OPTS="-Djava.security.egd=file:/dev/./urandom -Dorg.apache.catalina.startup.ContextConfig.jarsToSkip=* -Dorg.apache.catalina.startup.TldConfig.jarsToSkip=* -XX:+UseContainerSupport -XX:MaxRAMPercentage=75.0 -Dfile.encoding=UTF-8"
-
-# Port ứng dụng sẽ chạy (Render sẽ ánh xạ port 10000 vào 8080)
+# Mở cổng 8080
 EXPOSE 8080
-
-# Command khởi động rõ ràng
-CMD ["catalina.sh", "run"]

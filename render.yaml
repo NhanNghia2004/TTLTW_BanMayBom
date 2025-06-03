@@ -1,12 +1,6 @@
 services:
   - type: web
-    name: banmaybom-web
-    healthCheckPath: /
+    name: java-webapp
+    env: docker
     plan: free
-    runtime: docker
-    build:
-      cache:
-        enabled: true
-    env:
-      - key: JAVA_OPTS
-        value: -Xmx512m -Xms256m
+    autoDeploy: true
