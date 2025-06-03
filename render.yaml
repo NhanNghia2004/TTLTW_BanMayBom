@@ -1,6 +1,7 @@
 services:
   - type: web
     name: banmaybom-web
+    healthCheckPath: /
     plan: free
     runtime: docker
     build:

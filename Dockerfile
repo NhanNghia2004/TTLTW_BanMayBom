@@ -8,6 +8,9 @@ RUN mvn clean package -DskipTests
 # Stage 2: Chạy với Tomcat ổn định hơn
 FROM tomcat:10.1.5-jdk17
 
+# Vô hiệu hóa cổng shutdown
+RUN sed -i 's/<Server port="8005" shutdown="SHUTDOWN">/<Server port="-1" shutdown="SHUTDOWN">/' /usr/local/tomcat/conf/server.xml
+
 # Xóa apps mặc định và cấu hình
 RUN rm -rf /usr/local/tomcat/webapps/*
 
