@@ -56,7 +56,7 @@
                                             class="fa-solid fa-eye"></i></a>
                                 </div>
                                 <div class="mb-3 text-end">
-                                    <a href="laylaimatkhau.jsp" class="text-decoration-none">Quên mật khẩu?</a>
+                                    <a href="requestPassword.jsp" class="text-decoration-none">Quên mật khẩu?</a>
                                 </div>
                                 <button type="submit" class="btn bg-dark-blue w-100 mb-3 text-light">Đăng nhập</button>
                             </form>

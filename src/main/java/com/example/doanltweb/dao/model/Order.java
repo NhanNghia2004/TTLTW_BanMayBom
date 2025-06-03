@@ -14,7 +14,16 @@ public class Order {
 	private int quantity;
 	private String otp;
 	private boolean verified;
-	
+	private int idUser;
+
+	public int getIdUser() {
+		return idUser;
+	}
+
+	public void setIdUser(int idUser) {
+		this.idUser = idUser;
+	}
+
 	public int getId() {
 		return id;
 	}

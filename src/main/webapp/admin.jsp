@@ -172,9 +172,9 @@
                             <table class="table bg-white rounded shadow-sm  table-hover" id="orderTable">
                                 <thead>
                                     <tr>
-                                        <th scope="col" width="50">#</th>
-                                        <th scope="col">Sản Phẩm</th>
-                                        <th scope="col">Khách Hàng</th>
+                                        <th scope="col" width="50">Stt</th>
+                                        <th scope="col">ID Người Dùng</th>
+                                        <th scope="col">Thời Gian</th>
                                         <th scope="col" class="text-center">Số lượng</th>
                                         <th scope="col">Giá</th>
                                     </tr>
