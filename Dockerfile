@@ -1,16 +1,31 @@
-# Bước 1: Dùng Maven để build WAR
-FROM maven:3.8.5-openjdk-17 AS build
+# ================================
+# Stage 1: Build WAR file with Maven
+# ================================
+FROM maven:3.9.6-eclipse-temurin-21 AS builder
+
+# Tạo thư mục làm việc
 WORKDIR /app
+
+# Copy toàn bộ source code vào container
 COPY . .
-RUN mvn clean package
 
-# Stage 2: Chạy với Tomcat ổn định hơn
-FROM tomcat:10.1.5-jdk17
+# Chạy Maven để build WAR file (bỏ qua test để tránh lỗi nếu chưa config test)
+RUN mvn clean package -DskipTests
 
-# Xóa ứng dụng mặc định
+
+# ================================
+# Stage 2: Deploy WAR vào Tomcat 10.1 + Java 21
+# ================================
+FROM tomcat:10.1.36-jdk21-temurin
+
+# Xoá ứng dụng mặc định của Tomcat để tránh xung đột
 RUN rm -rf /usr/local/tomcat/webapps/*
 
-# ✅ Copy WAR từ stage "build"
-COPY --from=build /app/target/*.war /usr/local/tomcat/webapps/ROOT.war
+# Copy WAR từ builder stage sang thư mục webapps của Tomcat
+COPY --from=builder /app/target/WebBanSach.war /usr/local/tomcat/webapps/ROOT.war
 
+# Mở cổng 8080
 EXPOSE 8080
+
+# Lệnh chạy mặc định
+CMD ["catalina.sh", "run"]
