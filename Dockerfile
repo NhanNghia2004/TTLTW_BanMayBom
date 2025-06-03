@@ -6,7 +6,7 @@ COPY . .
 RUN mvn clean package -DskipTests
 
 # Stage 2: Chạy với Tomcat ổn định hơn
-FROM tomcat:10.0.27-jdk17-openjdk
+FROM tomcat:10.1.5-jdk17
 
 # Xóa apps mặc định và cấu hình
 RUN rm -rf /usr/local/tomcat/webapps/*
