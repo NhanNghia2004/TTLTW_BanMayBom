@@ -1,5 +1,5 @@
 # Sử dụng image Java và Tomcat
-FROM tomcat:9.0-jdk17
+FROM tomcat:10.0.2-jdk17
 
 # Xóa webapps mặc định
 RUN rm -rf /usr/local/tomcat/webapps/*
