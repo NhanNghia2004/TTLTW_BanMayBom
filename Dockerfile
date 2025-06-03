@@ -1,13 +1,24 @@
-# Sử dụng image Java và Tomcat
+# Stage 1: Build Maven project
+FROM maven:3.9.6-eclipse-temurin-17 AS builder
+
+WORKDIR /app
+
+# Copy toàn bộ project vào container
+COPY . .
+
+# Build file WAR
+RUN mvn clean package -DskipTests
+
+# Stage 2: Run on Tomcat
 FROM tomcat:10.0.2-jdk17
 
-# Xóa webapps mặc định
+# Xóa app mặc định
 RUN rm -rf /usr/local/tomcat/webapps/*
 
-# Copy file .war vào Tomcat
-COPY target/*.war /usr/local/tomcat/webapps/ROOT.war
+# Copy file .war từ Maven build vào Tomcat
+COPY --from=builder /app/target/*.war /usr/local/tomcat/webapps/ROOT.war
 
-# Expose port 8080
+# Mở port
 EXPOSE 8080
 
-# Mặc định Tomcat sẽ start
+# Tomcat sẽ tự start
